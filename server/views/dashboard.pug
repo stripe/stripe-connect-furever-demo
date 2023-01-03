@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    section.embedded 
+        h4 Payments 
+        div.enable-border.stripe-connect-notification-banner-container
+            stripe-connect-notification-banner
+        div.enable-border
+            stripe-connect-payments
+        div.loading-error-message 
+
+block footer
+    if onboardingComplete
+        .annotation.card
+            .card-title
+                h4 Simulate a grooming session to create a payment for this salon.
+                i(class="fa fa-chevron-up")
+            .description
+                p #[strong Create a test payment] uses the Stripe API to #[a(href="https://stripe.com/docs/payments/payment-intents" target="_blank") create a payment intent] using a test-mode payment method.
+            form.right(id='create-payments' autocomplete='off')
+                fieldset
+                    .row(label='Count')
+                        input(type='number' name='count' placeholder='Number of charges' min="1" max="10" pattern="\d*" value="1" required)
+                    .row(label='Amount')
+                        input(type='number' name='amount' placeholder='If blank, a random amount is used' min="1" max="1000" pattern="\d*" value="")
+                    .row(label='Status')
+                        select(name='status')
+                            option(value="successful") Successful
+                            option(value="successful_intl") Successful (International)
+                            option(value="disputed_fraudulent") Disputed (fraudulent)
+                            option(value="disputed_product_not_received") Disputed (product not received)
+                            option(value="disputed_inquiry") Disputed (inquiry)
+                div
+                    input(type='submit' name="test_payments" value='Create test payments' class='primary-action')
+                div.checkout-link-container
+                    p Alternatively, use 
+                        a(href='https://stripe.com/docs/testing#cards' target="_blank") Stripe test cards 
+                        span to 
+                        a(onclick='createCheckoutSession(event)' style="cursor: pointer") create a payment with checkout
+                div.create-payments-status
+                    p 
+                        span Payments successfully created! 
+                        a(href='/dashboard') Reload the page 
+                        span to see the new payments.
+        script(src='/javascripts/createPayments.js')

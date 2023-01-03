@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    section.embedded 
+        h4 Payouts 
+        div.stripe-connect-notification-banner-container
+            stripe-connect-notification-banner
+        div.enable-border
+            stripe-connect-payouts
+        div.loading-error-message 
+
+block footer
+    if onboardingComplete
+        .annotation.card
+            .card-title
+                h4 Simulate a payout from your Stripe balance to your bank account
+                i(class="fa fa-chevron-up")
+            .description
+                ol
+                    li Connect embedded UIs etc etc etc
+                    li #[strong View payouts on Connect embedded UIs] etc etc etc
+                    li #[strong Pay out now] uses the Stripe API to #[a(href="https://stripe.com/docs/connect/payouts" target="_blank") generate a payout] of the total balance.
+            form.right(id='create-payouts' autocomplete='off')
+                input(type='submit' name="immediate_balance" value='Create test payout' class='primary-action')
+                div.create-payout-status
+                    p 
+
+        script(src='/javascripts/createPayouts.js')

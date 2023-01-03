@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    .user
+        .block.profile
+            .photo
+            .profile
+                p Salon since #{moment(user.created).format('DD MMM YYYY')}
+                h1 #{user.displayName()}
+
+        .profile-details
+            .profile-details-row 
+                span Email
+                span #{user.email || '--'}
+            .profile-details-row 
+                span Name 
+                span #{user.firstName + ' ' + user.lastName}
+            .profile-details-row 
+                span Stripe account
+                span #{user.stripeAccountId || '--'}
+            .profile-details-row 
+                span Business name 
+                span #{user.salon.name || '--'}
+            .profile-details-row 
+                span License
+                span #{user.salon.license || '--'}
+            .profile-details-row 
+                span Specialty
+                span #{user.salon.specialty || '--'}
+
+    section.embedded 
+        h4 Stripe settings 
+        div.enable-border
+            stripe-connect-account-management
+        div.loading-error-message 
