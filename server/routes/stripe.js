@@ -175,8 +175,9 @@ router.get('/create-account-session', async (req, res, next) => {
       client_secret: accountSession.client_secret,
       publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.log('Failed to create an account session')
+    console.error(error);
     res.status(500);
     res.send({error: error.message});
   }
