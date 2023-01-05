@@ -479,15 +479,10 @@ footer {
   color: #51586d;
 }
 
-.annotation.card input[type='submit'],
-.annotation.card button {
+.annotation.card input[type='submit'].primary-action {
   margin: 0;
   width: auto;
   display: inline-block;
-  margin-right: 10px;
-}
-.annotation.card input[type='submit'].primary-action,
-.annotation.card button.primary-action {
   background: #228403;
   color: #fff;
 }
@@ -548,7 +543,8 @@ footer {
 
 .create-account-status,
 .annotation.card .create-payout-status,
-.annotation.card .create-payments-status {
+.annotation.card .create-payments-status p.success,
+.annotation.card .create-payments-status p.error {
   display: none;
 }
 
@@ -784,7 +780,8 @@ input[type='submit'].primary:hover {
 
 button.primary:disabled,
 .button.primary:disabled,
-input[type='submit'].primary:disabled {
+input[type='submit'].primary:disabled,
+.annotation.card input[type='submit'].primary-action:disabled {
   background: #e6ebf1;
   color: #aab7c4;
   cursor: default;

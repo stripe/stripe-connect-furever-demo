@@ -70,6 +70,7 @@ html
       hr
       stripe-debug-utils
 
-    script(src='/javascripts/connect.js' type="module")
+    if user && user.stripeAccountId
+      script(src='/javascripts/connect.js' type="module")
     script(src='/javascripts/furever.js')
     script(src='/javascripts/toggleBorder.js')

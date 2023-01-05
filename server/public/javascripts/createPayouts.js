@@ -5,31 +5,30 @@ const payoutMessageStatus = document.querySelector('div.create-payout-status');
 payoutForm.addEventListener('submit', async function (event) {
   payoutFormButton.setAttribute('disabled', '');
   payoutFormButton.value = 'Creating...';
+  payoutMessageStatus.style.display = 'none';
 
   event.preventDefault();
 
+  function handleError(errorMsg) {
+    payoutFormButton.removeAttribute('disabled');
+    payoutFormButton.value = 'Create test payout';
+    payoutMessageStatus.style.display = 'block';
+    payoutMessageStatus.querySelector(
+      'p'
+    ).innerText = `An error occurred while creating payouts: ${errorMsg}`;
+  }
+
   try {
-    payoutMessageStatus.querySelector('p').innerText = '';
     const response = await fetch('/stripe/payout', {
       method: 'POST',
     });
-
-    payoutMessageStatus.style.display = 'block';
     if (!response.ok) {
       const json = await response.json();
-      payoutMessageStatus.querySelector(
-        'p'
-      ).innerText = `An error occurred while creating payouts: ${json.error}`;
+      handleError(json.error);
     } else {
       window.location.reload();
     }
   } catch (err) {
-    payoutMessageStatus.style.display = 'block';
-    payoutMessageStatus.querySelector(
-      'p'
-    ).innerText = `An error occurred while creating payouts: ${err.message}`;
+    handleError(err.message);
   }
-
-  payoutFormButton.removeAttribute('disabled');
-  payoutFormButton.value = 'Create test payout';
 });

@@ -5,13 +5,22 @@ const accountFormStatus = document.querySelector('div.create-account-status');
 accountForm.addEventListener('submit', async function (event) {
   accountFormButton.setAttribute('disabled', '');
   accountFormButton.value = 'Creating...';
+  accountFormStatus.style.display = 'none';
 
   event.preventDefault();
 
   const formData = new FormData(accountForm);
 
+  function handleError(errorMsg) {
+    accountFormButton.removeAttribute('disabled');
+    accountFormButton.value = 'Create account';
+    accountFormStatus.style.display = 'block';
+    accountFormStatus.querySelector(
+      'p'
+    ).innerText = `An error occurred while creating an account: ${errorMsg}`;
+  }
+
   try {
-    accountFormStatus.querySelector('p').innerText = '';
     const response = await fetch('/stripe/create-account', {
       method: 'POST',
       headers: {
@@ -30,19 +39,13 @@ accountForm.addEventListener('submit', async function (event) {
       }),
     });
 
-    accountFormStatus.style.display = 'block';
     if (!response.ok) {
       const json = await response.json();
-      accountFormStatus.querySelector(
-        'p'
-      ).innerText = `An error occurred while creating an account: ${json.error}`;
+      handleError(json.error);
     } else {
       window.location.reload();
     }
   } catch (err) {
-    accountFormStatus.style.display = 'block';
-    accountFormStatus.querySelector(
-      'p'
-    ).innerText = `An error occurred while creating an account: ${err.message}`;
+    handleError(err.message);
   }
 });
