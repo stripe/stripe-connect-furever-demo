@@ -38,8 +38,9 @@ block footer
                         span to 
                         a(onclick='createCheckoutSession(event)' style="cursor: pointer") create a payment with checkout
                 div.create-payments-status
-                    p 
+                    p.success 
                         span Payments successfully created! 
                         a(href='/dashboard') Reload the page 
                         span to see the new payments.
+                    p.error
         script(src='/javascripts/createPayments.js')

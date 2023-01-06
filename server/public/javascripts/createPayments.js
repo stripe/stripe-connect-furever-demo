@@ -7,10 +7,22 @@ const paymentMessageStatus = document.querySelector(
 paymentForm.addEventListener('submit', async function (event) {
   paymentFormButton.setAttribute('disabled', '');
   paymentFormButton.value = 'Creating...';
+  paymentMessageStatus.querySelector('p.success').style.display = 'none';
+  paymentMessageStatus.querySelector('p.error').style.display = 'none';
 
   event.preventDefault();
 
   const formData = new FormData(paymentForm);
+
+  function handleError(errorMsg) {
+    paymentFormButton.removeAttribute('disabled');
+    paymentFormButton.value = 'Create test payments';
+    paymentMessageStatus.querySelector('p.success').style.display = 'none';
+    paymentMessageStatus.querySelector('p.error').style.display = 'block';
+    paymentMessageStatus.querySelector(
+      'p.error'
+    ).innerText = `An error occurred while creating payments: ${errorMsg}`;
+  }
 
   try {
     const response = await fetch('/stripe/payments', {
@@ -25,45 +37,44 @@ paymentForm.addEventListener('submit', async function (event) {
       }),
     });
 
-    paymentMessageStatus.style.display = 'block';
     if (!response.ok) {
       const json = await response.json();
-      paymentMessageStatus.querySelector(
-        'p'
-      ).innerText = `An error occurred while creating payments: ${json.error}`;
+      handleError(json.error);
+    } else {
+      paymentFormButton.removeAttribute('disabled');
+      paymentFormButton.value = 'Create test payments';
+      paymentMessageStatus.querySelector('p.success').style.display = 'block';
+      paymentMessageStatus.querySelector('p.error').style.display = 'none';
     }
   } catch (err) {
-    paymentMessageStatus.style.display = 'block';
-    paymentMessageStatus.querySelector(
-      'p'
-    ).innerText = `An error occurred while creating payments: ${err.message}`;
+    handleError(err.message);
   }
-
-  paymentFormButton.removeAttribute('disabled');
-  paymentFormButton.value = 'Create test payments';
 });
 
 const createCheckoutSession = async (event) => {
+  paymentMessageStatus.querySelector('p.error').style.display = 'none';
+
   event.preventDefault();
+
+  function handleError(errorMsg) {
+    paymentMessageStatus.querySelector('p.error').style.display = 'block';
+    paymentMessageStatus.querySelector(
+      'p.error'
+    ).innerText = `An error occurred while creating a checkout session: ${errorMsg}`;
+  }
 
   try {
     const response = await fetch('/stripe/checkout', {
       method: 'GET',
     });
-    paymentMessageStatus.style.display = 'block';
     const json = await response.json();
     if (!response.ok) {
-      paymentMessageStatus.querySelector(
-        'p'
-      ).innerText = `An error occurred while creating a checkout session: ${json.error}`;
+      handleError(json.error);
     } else {
       const {checkoutSession} = json;
       window.location.href = checkoutSession;
     }
   } catch (err) {
-    paymentMessageStatus.style.display = 'block';
-    paymentMessageStatus.querySelector(
-      'p'
-    ).innerText = `An error occurred while creating a checkout session: ${err.message}`;
+    handleError(err.message);
   }
 };

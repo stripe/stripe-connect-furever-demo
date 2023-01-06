@@ -204,7 +204,6 @@ const customer_emails = [
   'argente_rabbit@stripe.com',
 ];
 router.post('/payments', stripeAccountRequired, async (req, res, next) => {
-  const salon = req.user;
   try {
     const account = await stripe.account.retrieve(req.user.stripeAccountId);
     const {count: inputCount, amount: inputAmount, status} = req.body;

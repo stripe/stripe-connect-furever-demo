@@ -14,11 +14,11 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 
 - Basic user authentication system.
 - Connect embedded UIs:
-    - `<stripe-connect-account-onboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
-    - `<stripe-connect-payments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
-    - `<stripe-connect-payouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
-    - `<stripe-connect-account-management />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
-    - `<stripe-connect-notification-banner />` displays a list of current and future risk requirements an account needs to resolve.
+    - `<stripe-connect-account-onboarding></stripe-connect-account-onboarding>` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
+    - `<stripe-connect-payments></stripe-connect-payments>` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
+    - `<stripe-connect-payouts></stripe-connect-payouts>` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
+    - `<stripe-connect-account-management></stripe-connect-account-management>` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
+    - `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
 The web application is implemented as as full-stack application powered by Express.js, with a Pug template engine for the frontend, and a Node.js REST API.
