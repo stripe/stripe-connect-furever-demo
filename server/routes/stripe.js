@@ -472,7 +472,7 @@ router.post('/payout', stripeAccountRequired, async (req, res) => {
       );
     } else {
       throw new Error(
-        'You do not have any available balance to payout. Try creating a test payment in the "Dashboard" tab first.'
+        'You do not have any available balance to payout. Create a test payment in the "Dashboard" tab first with the "Successful" status to immediately add funds to your account.'
       );
     }
     res.status(200);
