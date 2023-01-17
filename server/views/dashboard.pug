@@ -26,12 +26,26 @@ block footer
                     .row(label='Status')
                         select(name='status')
                             option(value="card_successful") Successful
-                            option(value="card_successful_intl") Successful (International)
+                            option(value="card_successful_intl") Successful (Non-US country)
                             option(value="card_disputed_fraudulent") Disputed (fraudulent)
                             option(value="card_disputed_product_not_received") Disputed (product not received)
                             option(value="card_disputed_inquiry") Disputed (inquiry)
                             option(value="ach_direct_debit") ACH Direct Debit
                             option(value="sepa_debit") SEPA Direct Debit
+                    .row(label='Currency*')
+                        select(name='currency')
+                            option(value="" selected) Default
+                            option(value="aed") AED
+                            option(value="aud") AUD
+                            option(value="cad") CAD
+                            option(value="cny") CNY
+                            option(value="eur") EUR
+                            option(value="gbp") GBP
+                            option(value="inr") INR
+                            option(value="jpy") JPY
+                            option(value="sgd") SGD
+                            option(value="usd") USD
+                    span.currency-note *Selecting a currency only applies to the "Successful" status
                 div
                     input(type='submit' name="test_payments" value='Create test payments' class='primary-action')
                 div.checkout-link-container

@@ -328,7 +328,7 @@ const customers = [
 router.post('/payments', stripeAccountRequired, async (req, res, next) => {
   try {
     const account = await stripe.account.retrieve(req.user.stripeAccountId);
-    const {count: inputCount, amount: inputAmount, status} = req.body;
+    const {count: inputCount, amount: inputAmount, status, currency} = req.body;
     const count = Number(inputCount) || 1;
 
     await Promise.all(
@@ -350,7 +350,10 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
             amount: inputAmount
               ? Math.round(inputAmount) * 100
               : getRandomInt(1000, 10000), // Use a random amount if input is not provided,
-            currency: account.default_currency,
+            currency:
+              status.startsWith('card_successful') && currency
+                ? currency
+                : account.default_currency,
             name,
             email,
             customerId: customer.id,
@@ -362,8 +365,7 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
             await stripe.paymentIntents.create(
               {
                 amount: metadata.amount,
-                currency:
-                  status === 'card_successful_intl' ? 'eur' : metadata.currency,
+                currency: metadata.currency,
                 payment_method: getPaymentMethod(status),
                 description,
                 customer: metadata.customerId,

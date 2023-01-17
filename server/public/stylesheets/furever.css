@@ -525,6 +525,14 @@ footer {
   display: block;
 }
 
+/* Currency selector note */
+.annotation.card span.currency-note {
+  margin-left: 12px;
+  display: flex;
+  font-weight: 400;
+  color: #8798ab;
+}
+
 @media screen and (max-width: 500px) {
   .annotation,
   .annotation.card {
