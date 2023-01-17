@@ -16,18 +16,126 @@ const router = express.Router();
 // Use a static token based on a test card: https://stripe.com/docs/testing#cards
 const getPaymentMethod = (status) => {
   switch (status) {
-    case 'successful':
+    case 'card_successful':
       return 'pm_card_bypassPending';
-    case 'successful_intl':
+    case 'card_successful_intl':
       return 'pm_card_bypassPendingInternational';
-    case 'disputed_fraudulent':
+    case 'card_disputed_fraudulent':
       return 'pm_card_createDispute';
-    case 'disputed_product_not_received':
+    case 'card_disputed_product_not_received':
       return 'pm_card_createDisputeProductNotReceived';
-    case 'disputed_inquiry':
+    case 'card_disputed_inquiry':
       return 'pm_card_createDisputeInquiry';
     default:
       return 'pm_card_bypassPending';
+  }
+};
+
+// This function references https://stripe.com/docs/testing#non-card-payments and is only for testing non-card payments.
+// This is NOT how you would create real payments!
+const createPaymentIntentForNonCardPayments = async (
+  status,
+  {amount, currency, name, email, customerId, description, connectedAccountId}
+) => {
+  let paymentMethod;
+  let paymentIntent;
+  switch (status) {
+    case 'ach_direct_debit':
+      paymentMethod = await stripe.paymentMethods.create(
+        {
+          type: 'us_bank_account',
+          billing_details: {
+            address: {
+              line1: '354 Oyster Point Boulevard',
+              city: 'South San Francisco',
+              postal_code: '94080',
+              state: 'CA',
+              country: 'US',
+            },
+            name,
+            email,
+          },
+          us_bank_account: {
+            account_holder_type: 'individual',
+            account_number: '000123456789',
+            routing_number: '110000000',
+          },
+        },
+        {stripeAccount: connectedAccountId}
+      );
+
+      paymentIntent = await stripe.paymentIntents.create(
+        {
+          amount,
+          currency,
+          payment_method: paymentMethod.id,
+          description,
+          customer: customerId,
+          statement_descriptor: process.env.APP_NAME,
+          confirmation_method: 'manual',
+          confirm: true,
+          payment_method_types: ['us_bank_account'],
+          mandate_data: {
+            customer_acceptance: {
+              type: 'offline',
+            },
+          },
+        },
+        {stripeAccount: connectedAccountId}
+      );
+
+      await stripe.paymentIntents.verifyMicrodeposits(
+        paymentIntent.id,
+        {
+          descriptor_code: 'SM11AA',
+        },
+        {stripeAccount: connectedAccountId}
+      );
+      return;
+
+    case 'sepa_debit':
+      paymentMethod = await stripe.paymentMethods.create(
+        {
+          type: 'sepa_debit',
+          billing_details: {
+            address: {
+              line1: '1 Grand Canal Street Lower, Grand Canal Dock',
+              city: 'Dublin',
+              postal_code: 'D02 H210',
+              country: 'IE',
+            },
+            name,
+            email,
+          },
+          sepa_debit: {
+            iban: 'IE29AIBK93115212345678',
+          },
+        },
+        {stripeAccount: connectedAccountId}
+      );
+
+      paymentIntent = await stripe.paymentIntents.create(
+        {
+          amount,
+          currency: 'eur',
+          payment_method: paymentMethod.id,
+          description,
+          customer: customerId,
+          statement_descriptor: process.env.APP_NAME,
+          confirmation_method: 'manual',
+          confirm: true,
+          payment_method_types: ['sepa_debit'],
+          mandate_data: {
+            customer_acceptance: {
+              type: 'offline',
+            },
+          },
+        },
+        {stripeAccount: connectedAccountId}
+      );
+      return;
+    default:
+      return;
   }
 };
 
@@ -176,7 +284,7 @@ router.get('/create-account-session', async (req, res, next) => {
       publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
     });
   } catch (error) {
-    console.log('Failed to create an account session')
+    console.log('Failed to create an account session');
     console.error(error);
     res.status(500);
     res.send({error: error.message});
@@ -189,19 +297,33 @@ router.get('/create-account-session', async (req, res, next) => {
  * Generates test payments for the logged-in salon
  * using POST /v1/payment_intents and POST /v1/payment_intents/:id/confirm.
  */
-const descriptions = [
-  'Full grooming package for large Labradoodle',
-  'Nail trimming for toy Poodle',
-  'Hydro surge warm water shampoo & conditioner for Golden Retriever',
-  'Flea and tick treatments for Siamese cat',
-  'Fur brushing and trimming for Argente Rabbit',
-];
-const customer_emails = [
-  'labradoodle@stripe.com',
-  'poodle@stripe.com',
-  'golden_retriever@stripe.com',
-  'siamese_cat@stripe.com',
-  'argente_rabbit@stripe.com',
+const customers = [
+  {
+    email: 'labradoodle@stripe.com',
+    name: 'Odie',
+    description: 'Full grooming package for large Labradoodle',
+  },
+  {
+    email: 'poodle@stripe.com',
+    name: 'Snoopy ',
+    description: 'Nail trimming for toy Poodle',
+  },
+  {
+    email: 'golden_retriever@stripe.com',
+    name: 'Dug',
+    description:
+      'Hydro surge warm water shampoo & conditioner for Golden Retriever',
+  },
+  {
+    email: 'siamese_cat@stripe.com',
+    name: 'Garfield',
+    description: 'Flea and tick treatments for Siamese cat',
+  },
+  {
+    email: 'argente_rabbit@stripe.com',
+    name: 'Bugs Bunny',
+    description: 'Fur brushing and trimming for Argente Rabbit',
+  },
 ];
 router.post('/payments', stripeAccountRequired, async (req, res, next) => {
   try {
@@ -212,36 +334,50 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
     await Promise.all(
       Array.from(Array(count)).map(() =>
         (async () => {
+          const {name, email, description} =
+            customers[Math.floor(Math.random() * customers.length)];
           // Note: normally, you won't create a separate customer per payment - this is only done for the purposes of this demo
           const customer = await stripe.customers.create(
             {
-              email:
-                customer_emails[
-                  Math.floor(Math.random() * customer_emails.length)
-                ],
+              email,
             },
             {
               stripeAccount: account.id,
             }
           );
-          await stripe.paymentIntents.create(
-            {
-              amount: inputAmount
-                ? Math.round(inputAmount) * 100
-                : getRandomInt(1000, 10000), // Use a random amount if input is not provided,
-              currency: account.default_currency,
-              payment_method: getPaymentMethod(status),
-              description:
-                descriptions[Math.floor(Math.random() * descriptions.length)],
-              customer: customer.id,
-              statement_descriptor: process.env.APP_NAME,
-              confirmation_method: 'manual',
-              confirm: true,
-            },
-            {
-              stripeAccount: account.id,
-            }
-          );
+
+          const metadata = {
+            amount: inputAmount
+              ? Math.round(inputAmount) * 100
+              : getRandomInt(1000, 10000), // Use a random amount if input is not provided,
+            currency: account.default_currency,
+            name,
+            email,
+            customerId: customer.id,
+            description,
+            connectedAccountId: account.id,
+          };
+
+          if (status.startsWith('card_')) {
+            await stripe.paymentIntents.create(
+              {
+                amount: metadata.amount,
+                currency:
+                  status === 'card_successful_intl' ? 'eur' : metadata.currency,
+                payment_method: getPaymentMethod(status),
+                description,
+                customer: metadata.customerId,
+                statement_descriptor: process.env.APP_NAME,
+                confirmation_method: 'manual',
+                confirm: true,
+              },
+              {
+                stripeAccount: account.id,
+              }
+            );
+          } else {
+            await createPaymentIntentForNonCardPayments(status, metadata);
+          }
         })()
       )
     );
@@ -336,7 +472,7 @@ router.post('/payout', stripeAccountRequired, async (req, res) => {
       );
     } else {
       throw new Error(
-        'You do not have any available balance to payout. Try creating a test payment in the "Dashboard" tab first.'
+        'You do not have any available balance to payout. Create a test payment in the "Dashboard" tab first with the "Successful" status to immediately add funds to your account.'
       );
     }
     res.status(200);

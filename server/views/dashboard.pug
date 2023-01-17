@@ -25,11 +25,13 @@ block footer
                         input(type='number' name='amount' placeholder='If blank, a random amount is used' min="1" max="1000" pattern="\d*" value="")
                     .row(label='Status')
                         select(name='status')
-                            option(value="successful") Successful
-                            option(value="successful_intl") Successful (International)
-                            option(value="disputed_fraudulent") Disputed (fraudulent)
-                            option(value="disputed_product_not_received") Disputed (product not received)
-                            option(value="disputed_inquiry") Disputed (inquiry)
+                            option(value="card_successful") Successful
+                            option(value="card_successful_intl") Successful (International)
+                            option(value="card_disputed_fraudulent") Disputed (fraudulent)
+                            option(value="card_disputed_product_not_received") Disputed (product not received)
+                            option(value="card_disputed_inquiry") Disputed (inquiry)
+                            option(value="ach_direct_debit") ACH Direct Debit
+                            option(value="sepa_debit") SEPA Direct Debit
                 div
                     input(type='submit' name="test_payments" value='Create test payments' class='primary-action')
                 div.checkout-link-container
