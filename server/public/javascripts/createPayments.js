@@ -34,6 +34,7 @@ paymentForm.addEventListener('submit', async function (event) {
         count: formData.get('count'),
         amount: formData.get('amount'),
         status: formData.get('status'),
+        currency: formData.get('currency'),
       }),
     });
 
