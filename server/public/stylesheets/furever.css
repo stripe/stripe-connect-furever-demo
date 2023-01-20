@@ -70,6 +70,7 @@ a:hover {
 
 a:visited {
   text-decoration: none;
+  color: #219f72;
 }
 
 a.arrow {
@@ -571,6 +572,23 @@ footer {
 
 .form.profile {
   margin-bottom: 100px; /** Account for the annotation */
+}
+
+.form.profile .prefill-account label {
+  display: block;
+  padding-left: 22px;
+  text-indent: -22px;
+}
+
+.form.profile .prefill-account input,
+.form.profile .prefill-account span {
+  font-size: 14px;
+  color: #525f7f;
+  vertical-align: middle;
+}
+
+.form.profile .prefill-account span {
+  margin-left: 8px;
 }
 
 .form h2 {

@@ -2,6 +2,19 @@ const accountForm = document.querySelector('form#create-account');
 const accountFormButton = accountForm.querySelector('input[type="submit"]');
 const accountFormStatus = document.querySelector('div.create-account-status');
 
+// Disables the prefill checkbox when country is not US
+accountForm
+  .querySelector('select[name="country"]')
+  .addEventListener('change', async function (event) {
+    event.preventDefault();
+    const {value} = event.target;
+    if (value === 'US') {
+      accountForm.querySelector('.prefill-account').style.display = 'block';
+    } else {
+      accountForm.querySelector('.prefill-account').style.display = 'none';
+    }
+  });
+
 accountForm.addEventListener('submit', async function (event) {
   accountFormButton.setAttribute('disabled', '');
   accountFormButton.value = 'Creating...';
@@ -31,6 +44,7 @@ accountForm.addEventListener('submit', async function (event) {
         lastName: formData.get('lastName'),
         country: formData.get('country'),
         type: formData.get('salon-type'),
+        prefill: !!formData.get('prefill'),
         salon: {
           name: formData.get('salon[name]'),
           license: formData.get('salon[license]'),
