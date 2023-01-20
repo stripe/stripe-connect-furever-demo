@@ -404,18 +404,18 @@ footer {
 .annotation.info {
   border-radius: 50px;
   padding: 1em 2em;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .annotation h4 {
   color: #525f7f;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   width: 100%;
 }
 
 .annotation p {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: #6a7c94;
 }
@@ -488,7 +488,7 @@ footer {
 
 /* Annotation card form */
 .annotation.card {
-  font-size: 12px;
+  font-size: 14px;
 }
 .annotation.card form {
   display: none;
@@ -496,12 +496,12 @@ footer {
   transition: all 0.2s ease-in-out;
 }
 .annotation.card form.right {
-  font-size: 12px;
+  font-size: 14px;
   text-align: right;
 }
 .annotation.card form.right input,
 .annotation.card form.right select {
-  font-size: 12px;
+  font-size: 14px;
 }
 .annotation.card form.right fieldset {
   margin-bottom: 20px;
