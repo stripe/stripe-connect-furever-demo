@@ -187,7 +187,7 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
         country: req.user.country || undefined,
         email: req.user.email || undefined,
         // Prefill bank account information
-        ...(shouldPrefill
+        ...(bankAccount
           ? {
               external_account: bankAccount.id,
             }
@@ -275,7 +275,7 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
 
       // Prefill Person object
       if (shouldPrefill && businessType === 'company') {
-        person = await stripe.accounts.createPerson(accountId, {
+        await stripe.accounts.createPerson(accountId, {
           first_name: req.user.firstName,
           last_name: req.user.lastName,
           address: {
