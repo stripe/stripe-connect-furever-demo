@@ -414,13 +414,6 @@ footer {
   width: 100%;
 }
 
-.annotation ol {
-  font-weight: 400;
-  font-size: 12px;
-  color: #525f7f;
-  margin-left: 16px;
-}
-
 .annotation p {
   font-size: 12px;
   font-weight: 400;
@@ -490,6 +483,7 @@ footer {
 .annotation.card .description {
   display: none;
   transition: all 0.2s ease-in-out;
+  width: 100%;
 }
 
 /* Annotation card form */
@@ -523,14 +517,6 @@ footer {
 .annotation.card form.expanded,
 .annotation.card .description.expanded {
   display: block;
-}
-
-/* Currency selector note */
-.annotation.card span.currency-note {
-  margin-left: 12px;
-  display: flex;
-  font-weight: 400;
-  color: #8798ab;
 }
 
 @media screen and (max-width: 500px) {
