@@ -404,25 +404,18 @@ footer {
 .annotation.info {
   border-radius: 50px;
   padding: 1em 2em;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .annotation h4 {
   color: #525f7f;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   width: 100%;
 }
 
-.annotation ol {
-  font-weight: 400;
-  font-size: 12px;
-  color: #525f7f;
-  margin-left: 16px;
-}
-
 .annotation p {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: #6a7c94;
 }
@@ -490,11 +483,12 @@ footer {
 .annotation.card .description {
   display: none;
   transition: all 0.2s ease-in-out;
+  width: 100%;
 }
 
 /* Annotation card form */
 .annotation.card {
-  font-size: 12px;
+  font-size: 14px;
 }
 .annotation.card form {
   display: none;
@@ -502,12 +496,12 @@ footer {
   transition: all 0.2s ease-in-out;
 }
 .annotation.card form.right {
-  font-size: 12px;
+  font-size: 14px;
   text-align: right;
 }
 .annotation.card form.right input,
 .annotation.card form.right select {
-  font-size: 12px;
+  font-size: 14px;
 }
 .annotation.card form.right fieldset {
   margin-bottom: 20px;
@@ -523,14 +517,6 @@ footer {
 .annotation.card form.expanded,
 .annotation.card .description.expanded {
   display: block;
-}
-
-/* Currency selector note */
-.annotation.card span.currency-note {
-  margin-left: 12px;
-  display: flex;
-  font-weight: 400;
-  color: #8798ab;
 }
 
 @media screen and (max-width: 500px) {

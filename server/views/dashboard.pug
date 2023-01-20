@@ -13,10 +13,10 @@ block footer
     if onboardingComplete
         .annotation.card
             .card-title
-                h4 Simulate a grooming session to create a payment for this salon.
+                h4 Create a test payment
                 i(class="fa fa-chevron-up")
             .description
-                p #[strong Create a test payment] uses the Stripe API to #[a(href="https://stripe.com/docs/payments/payment-intents" target="_blank") create a payment intent] using a test-mode payment method.
+                p Simulate a grooming session by using a testmode payment method to #[a(href="https://stripe.com/docs/payments/payment-intents" target="_blank") create a payment intent].
             form.right(id='create-payments' autocomplete='off')
                 fieldset
                     .row(label='Count')
@@ -32,7 +32,7 @@ block footer
                             option(value="card_disputed_inquiry") Disputed (inquiry)
                             option(value="ach_direct_debit") ACH Direct Debit
                             option(value="sepa_debit") SEPA Direct Debit
-                    .row(label='Currency*')
+                    .row(label='Currency')
                         select(name='currency')
                             option(value="" selected) Default
                             option(value="aed") AED
@@ -45,7 +45,6 @@ block footer
                             option(value="jpy") JPY
                             option(value="sgd") SGD
                             option(value="usd") USD
-                    span.currency-note *Selecting a currency only applies to the "Successful" status
                 div
                     input(type='submit' name="test_payments" value='Create test payments' class='primary-action')
                 div.checkout-link-container

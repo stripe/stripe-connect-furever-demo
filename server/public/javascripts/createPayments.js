@@ -4,6 +4,21 @@ const paymentMessageStatus = document.querySelector(
   'div.create-payments-status'
 );
 
+// Disables the currency selector when not using a successful payment status
+paymentForm
+  .querySelector('select[name="status"]')
+  .addEventListener('change', async function (event) {
+    event.preventDefault();
+    const {value} = event.target;
+    if (value.startsWith('card_successful')) {
+      paymentForm.querySelector('select[name="currency"]').style.display =
+        'block';
+    } else {
+      paymentForm.querySelector('select[name="currency"]').style.display =
+        'none';
+    }
+  });
+
 paymentForm.addEventListener('submit', async function (event) {
   paymentFormButton.setAttribute('disabled', '');
   paymentFormButton.value = 'Creating...';
