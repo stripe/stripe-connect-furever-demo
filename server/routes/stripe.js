@@ -155,8 +155,25 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
 
     let accountId = req.user.stripeAccountId;
 
+    const businessType = req.user.type || 'individual';
+    const shouldPrefill = req.body.prefill && req.user.country === 'US';
+
     // Create a Stripe account for this user if one does not exist already
     if (accountId == undefined) {
+      let bankAccount;
+      if (shouldPrefill) {
+        bankAccount = await stripe.tokens.create({
+          bank_account: {
+            country: 'US',
+            currency: 'usd',
+            account_holder_name: `${req.user.firstName} ${req.user.lastName}`,
+            account_holder_type: businessType,
+            routing_number: '110000000',
+            account_number: '000123456789',
+          },
+        });
+      }
+
       // Define the parameters to create a new Stripe account with
       let accountParams = {
         capabilities: {
@@ -169,10 +186,23 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
         },
         country: req.user.country || undefined,
         email: req.user.email || undefined,
+        // Prefill bank account information
+        ...(bankAccount
+          ? {
+              external_account: bankAccount.id,
+            }
+          : {}),
         business_profile: {
           name: req.user.salon.name,
+          // Prefill business profile
+          ...(shouldPrefill
+            ? {
+                mcc: '7299',
+                url: 'https://furever.dev',
+              }
+            : {}),
         },
-        business_type: req.user.type || 'individual',
+        business_type: businessType,
         // Specify parameters to indicate an account with no dashboard, where Stripe owns loss liability and onboarding and the platform owns pricing
         controller: {
           application: {
@@ -185,10 +215,27 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
           },
         },
       };
-      if (accountParams.business_type === 'company') {
+      if (businessType === 'company') {
         accountParams = Object.assign(accountParams, {
           company: {
             name: req.user.salon.name || undefined,
+            // Prefill company information
+            ...(shouldPrefill
+              ? {
+                  address: {
+                    line1: 'address_full_match',
+                    city: 'South San Francisco',
+                    country: 'US',
+                    state: 'CA',
+                    postal_code: '94080',
+                  },
+                  directors_provided: true,
+                  executives_provided: true,
+                  owners_provided: true,
+                  phone: '0000000000',
+                  tax_id: '000000000',
+                }
+              : {}),
           },
         });
       } else {
@@ -197,6 +244,25 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
             first_name: req.user.firstName || undefined,
             last_name: req.user.lastName || undefined,
             email: req.user.email || undefined,
+            // Prefill individual information
+            ...(shouldPrefill
+              ? {
+                  address: {
+                    line1: 'address_full_match',
+                    city: 'South San Francisco',
+                    country: 'US',
+                    state: 'CA',
+                    postal_code: '94080',
+                  },
+                  dob: {
+                    day: 1,
+                    month: 1,
+                    year: 1901,
+                  },
+                  phone: '0000000000',
+                  ssn_last_4: '0000',
+                }
+              : {}),
           },
         });
       }
@@ -206,6 +272,37 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
       // this Stripe account ID will be used to issue payouts to the salon
       req.user.stripeAccountId = accountId;
       await req.user.save();
+
+      // Prefill Person object
+      if (shouldPrefill && businessType === 'company') {
+        await stripe.accounts.createPerson(accountId, {
+          first_name: req.user.firstName,
+          last_name: req.user.lastName,
+          address: {
+            line1: 'address_full_match',
+            city: 'South San Francisco',
+            country: 'US',
+            state: 'CA',
+            postal_code: '94080',
+          },
+          dob: {
+            day: 1,
+            month: 1,
+            year: 1901,
+          },
+          email: req.user.email,
+          phone: '0000000000',
+          ssn_last_4: '0000',
+          relationship: {
+            director: false,
+            executive: true,
+            owner: true,
+            percent_ownership: 50,
+            representative: true,
+            title: 'CEO',
+          },
+        });
+      }
     }
 
     res.status(200);

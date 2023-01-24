@@ -90,6 +90,12 @@ block content
           .stripe-information
             p We use Stripe to make sure you get paid on time and to keep your personal bank and details secure. Click #[strong Save and continue] to set up your payments on Stripe.
 
+          .prefill-account
+            h4 Prefill account onboarding
+            label
+              input(type="checkbox" name="prefill" value="prefill") 
+              span Check this if you want to simulate prefilling information into the account before Connect onboarding. Prefilled information will not be collected again in the Connect Onboarding flow. When using prefill as an option, you will be prompted to verify the prefilled details. Use the first and last name you entered here, a date of birth of 01/01/1901, and "0000" as the last 4 digits of the SSN.
+
           input.primary(type='submit' value='Create account')
 
           div.create-account-status
