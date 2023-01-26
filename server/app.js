@@ -3,6 +3,7 @@
 require('dotenv').config({path: './.env'});
 const express = require('express');
 const session = require('express-session');
+const compression = require('compression');
 const passport = require('passport');
 const path = require('path');
 const logger = require('morgan');
@@ -56,6 +57,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  compression({
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        // Do not compress these responses
+        return false;
+      }
+
+      // Fall back to the standard filter function
+      return compression.filter(req, res);
+    },
+  })
+);
 
 // Initialize Passport and restore any existing authentication state
 app.use(passport.initialize());
