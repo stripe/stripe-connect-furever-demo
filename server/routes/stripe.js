@@ -199,10 +199,32 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
             ? {
                 mcc: '7299',
                 url: 'https://furever.dev',
+                name: "FurEver company",
+                product_description: "Products for pets",
+                support_address: {
+                  line1: "354 Oyster Point Blvd",
+                  city: "South San Francisco",
+                  state: "CA",
+                  postal_code: "94080",
+                },
+                support_email: req.user.email,
+                support_phone: "0000000000",
+                support_url: "https://furever.dev",
+                url: "https://furever.dev",
               }
             : {}),
         },
         business_type: businessType,
+        ...(shouldPrefill ? {
+          settings: {
+            card_payments: {
+              statement_descriptor_prefix: "FurEver",
+            },
+            payments: {
+              statement_descriptor: "FurEver",
+            },
+          },
+        } : {}),
         // Specify parameters to indicate an account with no dashboard, where Stripe owns loss liability and onboarding and the platform owns pricing
         controller: {
           application: {
