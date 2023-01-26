@@ -1156,6 +1156,12 @@ form a.button {
   }
 }
 
+@media screen and (max-width: 640px) {
+  #content {
+    padding: 0 10px;
+  }
+}
+
 /* CSS Animations */
 @keyframes slide-in-horizontal {
   0% {
