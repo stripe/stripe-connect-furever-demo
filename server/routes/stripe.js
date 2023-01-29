@@ -199,32 +199,34 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
             ? {
                 mcc: '7299',
                 url: 'https://furever.dev',
-                name: "FurEver company",
-                product_description: "Products for pets",
+                name: 'FurEver company',
+                product_description: 'Products for pets',
                 support_address: {
-                  line1: "354 Oyster Point Blvd",
-                  city: "South San Francisco",
-                  state: "CA",
-                  postal_code: "94080",
+                  line1: '354 Oyster Point Blvd',
+                  city: 'South San Francisco',
+                  state: 'CA',
+                  postal_code: '94080',
                 },
                 support_email: req.user.email,
-                support_phone: "0000000000",
-                support_url: "https://furever.dev",
-                url: "https://furever.dev",
+                support_phone: '0000000000',
+                support_url: 'https://furever.dev',
+                url: 'https://furever.dev',
               }
             : {}),
         },
         business_type: businessType,
-        ...(shouldPrefill ? {
-          settings: {
-            card_payments: {
-              statement_descriptor_prefix: "FurEver",
-            },
-            payments: {
-              statement_descriptor: "FurEver",
-            },
-          },
-        } : {}),
+        ...(shouldPrefill
+          ? {
+              settings: {
+                card_payments: {
+                  statement_descriptor_prefix: 'FurEver',
+                },
+                payments: {
+                  statement_descriptor: 'FurEver',
+                },
+              },
+            }
+          : {}),
         // Specify parameters to indicate an account with no dashboard, where Stripe owns loss liability and onboarding and the platform owns pricing
         controller: {
           application: {
@@ -491,6 +493,11 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
                 statement_descriptor: process.env.APP_NAME,
                 confirmation_method: 'manual',
                 confirm: true,
+                ...(status === 'card_uncaptured'
+                  ? {
+                      capture_method: 'manual', // https://stripe.com/docs/payments/place-a-hold-on-a-payment-method
+                    }
+                  : {}),
               },
               {
                 stripeAccount: account.id,
