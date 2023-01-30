@@ -1,0 +1,124 @@
+extends layout
+
+block content
+  h1.title.short-form
+    if step == 'account'
+      | Create your account
+    else if step == 'profile'
+      | Complete your profile
+  section.form(class={'account': step == 'account', 'profile': step == 'profile'})
+    if error
+      p.error= error
+
+    case step
+      when 'account'
+        form(method='POST' autocomplete='off')
+          fieldset
+            .row(label='Email')
+              input(type='email' name='email' placeholder='jane@example.com', required, autofocus)
+            .row(label='Password')
+              input(type='password' name='password' placeholder='••••••••', required)
+          input.primary(type='submit' value='Continue')
+
+      when 'profile'
+        form(id='create-account' autocomplete='off')
+          h4.salon-header Business type
+          .salon-options
+            label.salon-option
+              input(type='radio' name='salon-type' value='individual' id='po-individual', checked=true)
+              span Independent salon
+            label.salon-option
+              input(type='radio' name='salon-type' value='company' id='po-company')
+              span Chain of salons
+
+          h4.salon-header#account-info Personal information
+          fieldset
+            .row.salon-info(label='* First Name')
+              input(type='text' name='firstName' placeholder='Jane', required)
+            .row.salon-info(label='* Last Name')
+              input(type='text' name='lastName' placeholder='Diaz', required)
+            .row.select(label='Country')
+              select(name='country')
+                option(value='AU') Australia
+                option(value='AT') Austria
+                option(value='BE') Belgium
+                option(value='BG') Bulgaria
+                option(value='CA') Canada
+                option(value='CY') Cyprus
+                option(value='CZ') Czech Republic
+                option(value='DK') Denmark
+                option(value='EE') Estonia
+                option(value='FI') Finland
+                option(value='FR') France
+                option(value='DE') Germany
+                option(value='GR') Greece
+                option(value='HK') Hong Kong SAR China
+                option(value='IE') Ireland
+                option(value='IT') Italy
+                option(value='JP') Japan
+                option(value='LV') Latvia
+                option(value='LT') Lithuania
+                option(value='LU') Luxembourg
+                option(value='MT') Malta
+                option(value='NL') Netherlands
+                option(value='NZ') New Zealand
+                option(value='NO') Norway
+                option(value='PL') Poland
+                option(value='PT') Portugal
+                option(value='RO') Romania
+                option(value='SG') Singapore
+                option(value='SK') Slovakia
+                option(value='SI') Slovenia
+                option(value='ES') Spain
+                option(value='SE') Sweden
+                option(value='CH') Switzerland
+                option(value='GB') United Kingdom
+                option(value='US', selected=true) United States
+          aside * Indicates required fields
+          h4 Salon information
+          fieldset
+            .row(label='* Business')
+              input(type='text' name='salon[name]' placeholder='Pawsitively Purrfect Grooming', required)
+            .row(label='License')
+              input(type='text' name='salon[license]' placeholder='LINC123' value='LINC123')
+            .row.select(label='Specialty')
+              select(name='salon[specialty]')
+                option(value='dogs', selected) Dogs 
+                option(value='cats') Cats
+                option(value='hamsters') Hamsters
+          h4 Payment information
+          .stripe-information
+            p We use Stripe to make sure you get paid on time and to keep your personal bank and details secure. Click #[strong Save and continue] to set up your payments on Stripe.
+
+          .prefill-account
+            h4 Prefill account onboarding
+            label
+              input(type="checkbox" name="prefill" value="prefill") 
+              span Check this if you want to simulate prefilling information into the account before Connect onboarding. Prefilled information will not be collected again in the Connect Onboarding flow. When using prefill as an option, you will be prompted to verify the prefilled details. Use the first and last name you entered here, a date of birth of 01/01/1901, and "0000" as the last 4 digits of the SSN.
+
+          input.primary(type='submit' value='Create account')
+
+          div.create-account-status
+            p
+
+        script(src='/javascripts/createAccount.js')
+
+      when 'onboarding'
+        h1.title Connect your account to Stripe
+        div.enable-border(id='onboarding-content-container')
+          stripe-connect-account-onboarding
+
+        script(src='/javascripts/onboarding.js')
+
+block footer
+  .annotation.info
+
+    case step
+      when 'account'
+        p To get started, FurEver will create an account for their salons on their own backend. The platform can use any kind of authentication here, like email or OAuth. A real product would typically have terms of service and a privacy policy linked here as well.
+
+      when 'profile'
+        p The platform can choose to request additional information from the user before it collects any payments details. Here, FurEver asks a few questions about the user's salon. This information will be stored in the platform’s database.
+
+      when 'onboarding'
+        p The <tt>stripe-connect-account-onboarding</tt> UI provides a seamless onboarding experience for connected accounts to onboard with Stripe without having to leave the platform's page.

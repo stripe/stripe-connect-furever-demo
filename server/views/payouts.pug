@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    section.embedded 
+        h4 Payouts 
+        div.stripe-connect-notification-banner-container
+            stripe-connect-notification-banner
+        div.enable-border
+            stripe-connect-payouts
+        div.loading-error-message 
+
+block footer
+    if onboardingComplete
+        .annotation.card
+            .card-title
+                h4 Create a test payout
+                i(class="fa fa-chevron-up")
+            .description
+                p Simulate a #[a(href="https://stripe.com/docs/payments/payment-intents" target="_blank") payout] from your Stripe balance to your bank account.
+            form.right(id='create-payouts' autocomplete='off')
+                input(type='submit' name="immediate_balance" value='Create test payout' class='primary-action')
+                div.create-payout-status
+                    p 
+
+        script(src='/javascripts/createPayouts.js')

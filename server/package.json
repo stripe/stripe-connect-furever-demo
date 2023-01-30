@@ -1,0 +1,35 @@
+{
+  "name": "stripe-connect-furever",
+  "description": "A sample on-demand platform running on top of Stripe Connect.",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Romain Huet",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stripe/stripe-connect-furever.git"
+  },
+  "engines": {
+    "node": ">=12.0"
+  },
+  "scripts": {
+    "start": "node --inspect app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "compression": "^1.7.4",
+    "debug": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.3",
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.3",
+    "moment": "^2.29.2",
+    "mongoose": "^5.11.9",
+    "morgan": "^1.9.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "pug": "^3.0.1",
+    "stripe": "^11.5.0-beta.1"
+  }
+}

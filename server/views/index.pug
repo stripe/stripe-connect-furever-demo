@@ -1,0 +1,17 @@
+extends layout
+
+block pre-content
+  .intro-container
+    .intro
+      h1 Manage your business with ease.
+      h2 FurEver is the world's leading pet grooming platform: join our team of salons and expand your business.
+      if user && user.stripeAccountId && user.onboardingComplete
+        a.button.primary(href='/dashboard') View dashboard
+      else
+        a.button.primary(href='/signup') Start today
+
+block footer
+  .annotation.landing
+    a.stripe(href='https://stripe.com' target="_blank") Stripe
+    p FurEver is a demo for #[a(href='https://stripe.com/connect' target="_blank") Stripe Connect] and #[a(href='https://stripe.com/docs/connect/get-started-connect-embedded-uis' target="_blank") Stripe Connect embedded UIs]. It is not a real product.
+    a.github.arrow(href='https://github.com/stripe/stripe-connect-furever' target="_blank") View on GitHub
