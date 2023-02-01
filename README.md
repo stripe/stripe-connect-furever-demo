@@ -14,6 +14,7 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 - Stripe owns loss liability
 - Platform owns pricing
 - Stripe is onboarding owner
+- The connected account has no access to the Stripe dashboard
 
 The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded UIs will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
 
