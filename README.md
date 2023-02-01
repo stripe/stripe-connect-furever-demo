@@ -10,15 +10,20 @@ FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e 
 <img src="server/public/images/screenshots/furever_dashboard.png" width="440">
 
 ## Features
-FurEver showcases the integration between a platform's website, [Stripe Connect](https://stripe.com/connect), and [Stripe Connect embedded UIs](https://stripe.com/docs/connect/get-started-connect-embedded-uis). Users sign up within the platform's website and through the process, a corresponding UA7 account is created. The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded UIs will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts.
+FurEver showcases the integration between a platform's website, [Stripe Connect](https://stripe.com/connect), and [Stripe Connect embedded UIs](https://stripe.com/docs/connect/get-started-connect-embedded-uis). Users sign up within the platform's website and through the process, a corresponding Stripe unified account is created with the following configuration:
+- Stripe owns loss liability
+- Platform owns pricing
+- Stripe is onboarding owner
+- The connected account has no access to the Stripe dashboard
 
-- Basic user authentication system.
-- Connect embedded UIs:
-    - `<stripe-connect-account-onboarding></stripe-connect-account-onboarding>` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
-    - `<stripe-connect-payments></stripe-connect-payments>` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
-    - `<stripe-connect-payouts></stripe-connect-payouts>` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
-    - `<stripe-connect-account-management></stripe-connect-account-management>` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
-    - `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
+The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded UIs will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
+
+FurEver makes use of the following Connect embedded UIs:
+- `<stripe-connect-account-onboarding></stripe-connect-account-onboarding>` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
+- `<stripe-connect-payments></stripe-connect-payments>` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
+- `<stripe-connect-payouts></stripe-connect-payouts>` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
+- `<stripe-connect-account-management></stripe-connect-account-management>` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
+- `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
 The web application is implemented as as full-stack application powered by Express.js, with a Pug template engine for the frontend, and a Node.js REST API.
