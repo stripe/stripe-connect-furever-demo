@@ -155,8 +155,12 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
 
     let accountId = req.user.stripeAccountId;
 
-    const businessType = req.user.type || 'individual';
-    const shouldPrefill = req.body.prefill && req.user.country === 'US';
+    let businessType = undefined;
+    if (req.user.type === 'company' || req.user.type === 'individual') {
+      businessType = req.user.type;
+    }
+
+    const shouldPrefill = req.body.prefill;
 
     // Create a Stripe account for this user if one does not exist already
     if (accountId == undefined) {
@@ -262,7 +266,7 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
               : {}),
           },
         });
-      } else {
+      } else if (businessType === 'individual') {
         accountParams = Object.assign(accountParams, {
           individual: {
             first_name: req.user.firstName || undefined,
