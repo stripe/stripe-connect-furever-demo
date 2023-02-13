@@ -3,6 +3,7 @@ const paymentFormButton = paymentForm.querySelector('input[type="submit"]');
 const paymentMessageStatus = document.querySelector(
   'div.create-payments-status'
 );
+const currencyRow = document.querySelector('#currency-row');
 
 // Disables the currency selector when not using a successful payment status
 paymentForm
@@ -11,11 +12,9 @@ paymentForm
     event.preventDefault();
     const {value} = event.target;
     if (value.startsWith('card_successful')) {
-      paymentForm.querySelector('select[name="currency"]').style.display =
-        'block';
+      currencyRow.style.display = 'flex';
     } else {
-      paymentForm.querySelector('select[name="currency"]').style.display =
-        'none';
+      currencyRow.style.display = 'none';
     }
   });
 
