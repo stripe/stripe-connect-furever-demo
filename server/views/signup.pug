@@ -25,11 +25,14 @@ block content
           h4.salon-header Business type
           .salon-options
             label.salon-option
-              input(type='radio' name='salon-type' value='individual' id='po-individual', checked=true)
+              input(type='radio' class="business-type-radio" name='salon-type' value='individual' id='po-individual', checked=true)
               span Independent salon
             label.salon-option
-              input(type='radio' name='salon-type' value='company' id='po-company')
+              input(type='radio' class="business-type-radio" name='salon-type' value='company' id='po-company')
               span Chain of salons
+            label.salon-option
+              input(type='radio' class="business-type-radio" name='salon-type' value='other' id='po-other')
+              span Other
 
           h4.salon-header#account-info Personal information
           fieldset

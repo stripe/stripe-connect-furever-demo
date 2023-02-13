@@ -1,6 +1,17 @@
 const accountForm = document.querySelector('form#create-account');
 const accountFormButton = accountForm.querySelector('input[type="submit"]');
 const accountFormStatus = document.querySelector('div.create-account-status');
+const prefillAccountContainer = accountForm.querySelector('.prefill-account');
+const prefillAccountCheckbox = accountForm.querySelector('.prefill-account input[type="checkbox"]');
+
+const enablePrefillAccount = () => {
+  prefillAccountContainer.style.display = 'block';
+}
+
+const disablePrefillAccount = () => {
+  prefillAccountContainer.style.display = 'none';
+  prefillAccountCheckbox.checked = false;
+} 
 
 // Disables the prefill checkbox when country is not US
 accountForm
@@ -9,11 +20,25 @@ accountForm
     event.preventDefault();
     const {value} = event.target;
     if (value === 'US') {
-      accountForm.querySelector('.prefill-account').style.display = 'block';
+      enablePrefillAccount();
     } else {
-      accountForm.querySelector('.prefill-account').style.display = 'none';
+      disablePrefillAccount();
     }
   });
+
+// Disables the prefill checkbox if the salon type is other
+accountForm
+  .querySelectorAll('input.business-type-radio')
+  .forEach((radio => {
+    radio.addEventListener('click', async function (event) {
+      const {value} = event.target;
+      if (value !== 'other') {
+        enablePrefillAccount();
+      } else {
+        disablePrefillAccount();
+      }
+    });
+  }));
 
 accountForm.addEventListener('submit', async function (event) {
   accountFormButton.setAttribute('disabled', '');

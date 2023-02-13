@@ -25,7 +25,7 @@ const SalonSchema = new Schema({
   type: {
     type: String,
     default: 'individual',
-    enum: ['individual', 'company', 'non_profit', 'government_entity'],
+    enum: ['individual', 'company', 'non_profit', 'government_entity', 'other'],
   },
   firstName: String,
   lastName: String,
