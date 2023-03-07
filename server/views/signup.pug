@@ -109,8 +109,8 @@ block content
       when 'onboarding'
         h1.title Connect your account to Stripe
         div
-          input(type="checkbox" name="embedded-onboarding" autocomplete='off')
-          label(name="embedded-onboarding" style="margin-left:8px") Embedded onboarding
+          input(type="checkbox" name="enable-embedded" autocomplete='off')
+          label(name="enable-embedded" style="margin-left:8px") Enable embedded onboarding
         div.enable-border(id='onboarding-content-container')
           stripe-connect-account-onboarding
 

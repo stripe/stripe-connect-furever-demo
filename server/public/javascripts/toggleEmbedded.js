@@ -4,45 +4,26 @@ const ENABLE_EMBEDDED_ONBOARDING = 'enable_embedded_onboarding';
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-// Embedded account management
 const isEmbeddedAccountManagementEnabled =
   urlParams.get(ENABLE_EMBEDDED_ACCOUNT_MANAGEMENT) === 'true';
-
-const embeddedAccountManagementCheckbox = document.querySelector(
-  'input[name="embedded-account-management"]'
-);
-if (embeddedAccountManagementCheckbox) {
-  embeddedAccountManagementCheckbox.checked =
-    isEmbeddedAccountManagementEnabled;
-
-  embeddedAccountManagementCheckbox.addEventListener('change', () => {
-    const currentUrl = new URL(window.location.href);
-    if (isEmbeddedAccountManagementEnabled) {
-      currentUrl.searchParams.delete(ENABLE_EMBEDDED_ACCOUNT_MANAGEMENT);
-    } else {
-      currentUrl.searchParams.set(ENABLE_EMBEDDED_ACCOUNT_MANAGEMENT, 'true');
-    }
-    window.location.href = currentUrl.toString();
-  });
-}
-
-// Embedded onboarding
 const isEmbeddedOnboardingEnabled =
   urlParams.get(ENABLE_EMBEDDED_ONBOARDING) === 'true';
+const isEmbeddedEnabled =
+  isEmbeddedAccountManagementEnabled && isEmbeddedOnboardingEnabled;
 
-const embeddedOnboardingCheckbox = document.querySelector(
-  'input[name="embedded-onboarding"]'
+const enableEmbeddedCheckbox = document.querySelector(
+  'input[name="enable-embedded"]'
 );
-if (embeddedOnboardingCheckbox) {
-  console.log(isEmbeddedOnboardingEnabled);
-  embeddedOnboardingCheckbox.checked = isEmbeddedOnboardingEnabled;
+if (enableEmbeddedCheckbox) {
+  enableEmbeddedCheckbox.checked = isEmbeddedEnabled;
 
-  embeddedOnboardingCheckbox.addEventListener('change', () => {
+  enableEmbeddedCheckbox.addEventListener('change', () => {
     const currentUrl = new URL(window.location.href);
-    console.log('CHANGE');
-    if (isEmbeddedOnboardingEnabled) {
+    if (isEmbeddedEnabled) {
+      currentUrl.searchParams.delete(ENABLE_EMBEDDED_ACCOUNT_MANAGEMENT);
       currentUrl.searchParams.delete(ENABLE_EMBEDDED_ONBOARDING);
     } else {
+      currentUrl.searchParams.set(ENABLE_EMBEDDED_ACCOUNT_MANAGEMENT, 'true');
       currentUrl.searchParams.set(ENABLE_EMBEDDED_ONBOARDING, 'true');
     }
     window.location.href = currentUrl.toString();
