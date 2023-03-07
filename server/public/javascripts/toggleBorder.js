@@ -13,6 +13,7 @@ document.querySelectorAll('div.enable-border').forEach((el) => {
   if (enableBorder) {
     el.style.border = '2px solid #625afa';
     el.style['border-radius'] = '4px';
+    el.style['min-width'] = 'fit-content';
   } else {
     el.style.border = 'none';
     el.style['border-radius'] = '0px';
