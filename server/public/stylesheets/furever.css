@@ -99,7 +99,7 @@ a.arrow {
 
   display: flex;
   flex-wrap: wrap;
-  gap: 34px;
+  gap: 30px;
   align-items: center;
   width: 100%;
   max-width: 1200px;
@@ -112,6 +112,13 @@ a.arrow {
   line-height: 24px;
   font-weight: 600;
   color: #228403;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#top .logo img {
+  height: 40px;
 }
 
 /* Nav links */

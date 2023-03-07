@@ -18,7 +18,8 @@ html
     nav(class={'nav-landing': path === '/'})
       #top
         if user
-          a(class="logo" href='/') FurEver
+          a(class="logo" href='/')
+            img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
           a(href="javascript:void(0);" class="menu-icon" onclick="responsiveNavbar()")
             i(class="fa fa-bars")
           .links
@@ -35,7 +36,8 @@ html
                   a(href='/logout') Log out
                   a(class={'enable-border-text': true} onclick="toggleBorder()")
         else
-          a(class="logo" href='/') FurEver
+          a(class="logo" href='/')
+            img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
           .login-link
             a(class={'active': path === '/signup'} href='/signup') Sign up
             a(class={'active': path === '/login'} href='/login') Log in
