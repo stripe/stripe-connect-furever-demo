@@ -1,6 +1,8 @@
 'use strict';
 
-require('dotenv').config({path: './.env'});
+require('dotenv').config({ path: './.env' });
+const auth = require('http-auth');
+const authConnect = require("http-auth-connect");
 const express = require('express');
 const session = require('express-session');
 const compression = require('compression');
@@ -10,10 +12,23 @@ const logger = require('morgan');
 const flash = require('express-flash');
 const bodyParser = require('body-parser');
 const moment = require('moment');
-const {retrieveStripeAccount} = require('./routes/middleware');
+const { retrieveStripeAccount } = require('./routes/middleware');
 
 const app = express();
 app.set('trust proxy', true);
+
+
+if (process.env.HTTP_AUTH_USERNAME !== undefined && process.env.HTTP_AUTH_PASSWORD !== undefined) {
+  app.use(
+    authConnect(
+      auth.basic(
+        {
+          realm: "prod-furever-instance"
+        }, (username, password, callback) => {
+          callback(username === process.env.HTTP_AUTH_USERNAME && password === process.env.HTTP_AUTH_PASSWORD);
+        }
+      )));
+}
 
 // MongoDB configuration
 const mongoose = require('mongoose');
@@ -43,7 +58,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Enable sessions using encrypted cookies
 app.use(
   session({
-    cookie: {maxAge: 2592000000}, // 60 * 60 * 24 * 30 * 1000 = 1 month
+    cookie: { maxAge: 2592000000 }, // 60 * 60 * 24 * 30 * 1000 = 1 month
     secret: process.env.SECRET,
     signed: true,
     resave: true,
@@ -55,7 +70,7 @@ app.use(flash());
 // Set up useful middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   compression({
