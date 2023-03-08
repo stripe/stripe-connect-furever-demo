@@ -18,14 +18,15 @@ const app = express();
 app.set('trust proxy', true);
 
 
-if (process.env.HTTP_AUTH_USERNAME !== undefined && process.env.HTTP_AUTH_PASSWORD !== undefined) {
+if (process.env.HTTP_AUTH_PASSWORD !== undefined) {
   app.use(
     authConnect(
       auth.basic(
         {
-          realm: "prod-furever-instance"
-        }, (username, password, callback) => {
-          callback(username === process.env.HTTP_AUTH_USERNAME && password === process.env.HTTP_AUTH_PASSWORD);
+          realm: "furever-user",
+          skipUser: true // Do not allow this library to overwrite user, user should be a Salon.js model.
+        }, (_username, password, callback) => {
+          callback(password === process.env.HTTP_AUTH_PASSWORD);
         }
       )));
 }
