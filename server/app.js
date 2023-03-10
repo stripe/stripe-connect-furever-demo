@@ -1,8 +1,8 @@
 'use strict';
 
-require('dotenv').config({ path: './.env' });
+require('dotenv').config({path: './.env'});
 const auth = require('http-auth');
-const authConnect = require("http-auth-connect");
+const authConnect = require('http-auth-connect');
 const express = require('express');
 const session = require('express-session');
 const compression = require('compression');
@@ -12,23 +12,25 @@ const logger = require('morgan');
 const flash = require('express-flash');
 const bodyParser = require('body-parser');
 const moment = require('moment');
-const { retrieveStripeAccount } = require('./routes/middleware');
+const {retrieveStripeAccount} = require('./routes/middleware');
 
 const app = express();
 app.set('trust proxy', true);
-
 
 if (process.env.HTTP_AUTH_PASSWORD !== undefined) {
   app.use(
     authConnect(
       auth.basic(
         {
-          realm: "furever-user",
-          skipUser: true // Do not allow this library to overwrite user, user should be a Salon.js model.
-        }, (_username, password, callback) => {
+          realm: 'furever-user',
+          skipUser: true, // Do not allow this library to overwrite user, user should be a Salon.js model.
+        },
+        (_username, password, callback) => {
           callback(password === process.env.HTTP_AUTH_PASSWORD);
         }
-      )));
+      )
+    )
+  );
 }
 
 // MongoDB configuration
@@ -59,7 +61,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Enable sessions using encrypted cookies
 app.use(
   session({
-    cookie: { maxAge: 2592000000 }, // 60 * 60 * 24 * 30 * 1000 = 1 month
+    cookie: {maxAge: 2592000000}, // 60 * 60 * 24 * 30 * 1000 = 1 month
     secret: process.env.SECRET,
     signed: true,
     resave: true,
@@ -71,7 +73,7 @@ app.use(flash());
 // Set up useful middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   compression({
@@ -94,7 +96,7 @@ app.use(passport.session());
 // Middleware that exposes the salon and stripe account object (if any) to views
 app.use(async (req, res, next) => {
   const [showBanner] = req.flash('showBanner');
-  res.locals.path = req.originalUrl;
+  res.locals.path = req.path;
   if (req.user) {
     res.locals.user = req.user;
     res.locals.showBanner = !!showBanner || req.query.showBanner;
@@ -123,6 +125,7 @@ app.use('/stripe', require('./routes/stripe'));
 
 // Index page for FurEver
 app.get('/', (req, res) => {
+  req.app.locals['query'] = req.query;
   res.render('index');
 });
 
