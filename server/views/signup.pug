@@ -6,13 +6,13 @@ block content
       | Create your account
     else if step == 'profile'
       | Complete your profile
-  section.form(class={'account': step == 'account', 'profile': step == 'profile'})
+  section.authentication
     if error
       p.error= error
 
     case step
       when 'account'
-        form(method='POST' autocomplete='off')
+        form(class="account" method='POST' autocomplete='off')
           fieldset
             .row(label='Email')
               input(type='email' name='email' placeholder='jane@example.com', required, autofocus)
@@ -21,7 +21,7 @@ block content
           input.primary(type='submit' value='Continue')
 
       when 'profile'
-        form(id='create-account' autocomplete='off')
+        form(class="profile" id='create-account' autocomplete='off')
           h4.salon-header Business type
           .salon-options
             label.salon-option
@@ -108,10 +108,14 @@ block content
 
       when 'onboarding'
         h1.title Connect your account to Stripe
+        div
+          input(type="checkbox" name="enable-embedded" autocomplete='off')
+          label(name="enable-embedded" style="margin-left:8px") Enable embedded onboarding
         div.enable-border(id='onboarding-content-container')
           stripe-connect-account-onboarding
 
         script(src='/javascripts/onboarding.js')
+        script(src='/javascripts/toggleEmbedded.js')
 
 block footer
   .annotation.info

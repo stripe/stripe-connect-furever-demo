@@ -553,38 +553,34 @@ footer {
 /************* FOOTER END *************/
 
 /************* FORM START *************/
-.form {
+.authentication {
   width: 540px;
   margin: 15px auto;
-}
-
-.form.login,
-.form.account {
   min-height: 225px;
 }
 
-.form.profile {
+form.profile {
   margin-bottom: 100px; /** Account for the annotation */
 }
 
-.form.profile .prefill-account label {
+form.profile .prefill-account label {
   display: block;
   padding-left: 22px;
   text-indent: -22px;
 }
 
-.form.profile .prefill-account input,
-.form.profile .prefill-account span {
+form.profile .prefill-account input,
+form.profile .prefill-account span {
   font-size: 14px;
   color: #525f7f;
   vertical-align: middle;
 }
 
-.form.profile .prefill-account span {
+form.profile .prefill-account span {
   margin-left: 8px;
 }
 
-.form h2 {
+.authentication h2 {
   margin: 30px 0 15px;
   font-size: 19px;
   font-weight: 500;
@@ -592,7 +588,7 @@ footer {
   text-align: center;
 }
 
-.form p {
+.authentication p {
   margin: 0 0 30px;
   font-size: 17px;
   color: #525f7f;
@@ -600,11 +596,11 @@ footer {
   text-align: center;
 }
 
-.form p.error {
+.authentication p.error {
   color: #fc7455;
 }
 
-.form h4 {
+.authentication h4 {
   margin: 15px 0;
   color: #8798ab;
   font-size: 14px;
@@ -613,13 +609,14 @@ footer {
   letter-spacing: 0.02em;
 }
 
-.form input[type='submit'],
-.form button,
-.form a.button {
+.authentication input[type='submit'],
+.authentication button,
+.authentication a.button {
   text-align: center;
 }
 
-.form label {
+form.profile label,
+form.account label {
   display: block;
   width: 100%;
   margin-top: 10px;
@@ -831,7 +828,7 @@ form a.button {
   margin: 0 0 35px;
 }
 
-.form label.salon-option {
+label.salon-option {
   width: auto;
   padding: 0;
   cursor: pointer;
@@ -1014,7 +1011,7 @@ form a.button {
   line-height: 28px;
   font-weight: 600;
 }
-/************* DASHBOARD START *************/
+/************* DASHBOARD END *************/
 
 /* Media queries */
 @media screen and (max-width: 1200px) {
@@ -1075,21 +1072,21 @@ form a.button {
   }
 
   fieldset .row::before,
-  .form.login fieldset .row::before,
-  .form.account fieldset .row::before {
+  .authentication fieldset .row::before {
     width: 80px;
   }
 
-  .form.profile fieldset .row::before {
+  form.profile fieldset .row::before {
     width: 100px;
   }
 
-  .form {
+  .authentication {
     width: 100%;
     margin: 15px 0;
   }
 
-  .form label {
+  form.profile label,
+  form.account label {
     padding: 0;
   }
 
@@ -1097,8 +1094,7 @@ form a.button {
     display: none;
   }
 
-  .form.login,
-  .form.account {
+  .authentication {
     min-height: 210px;
   }
 
