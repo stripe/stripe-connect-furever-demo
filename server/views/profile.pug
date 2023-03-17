@@ -30,6 +30,10 @@ block content
 
     section.embedded 
         h4 Stripe settings 
+        input(type="checkbox" name="enable-embedded" autocomplete='off')
+        label(name="enable-embedded" style="margin-left:8px") Enable embedded account management 
         div.enable-border
             stripe-connect-account-management
         div.loading-error-message 
+
+        script(src='/javascripts/toggleEmbedded.js')
