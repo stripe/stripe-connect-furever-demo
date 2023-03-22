@@ -387,6 +387,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2147483646; /** Smaller than the embedded overlay */
 }
 
 .annotation {
