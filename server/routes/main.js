@@ -22,7 +22,7 @@ router.get('/signup', (req, res) => {
     } else if (!req.stripeAccount?.details_submitted) {
       step = 'onboarding'; // Missing onboarding to Stripe
     } else {
-      return res.redirect('/dashboard'); // Created account + onboarded to Stripe
+      return res.redirect('/reservations'); // Created account + onboarded to Stripe
     }
   }
   res.render('signup', {step: step});
@@ -70,7 +70,7 @@ router.post('/signup', async (req, res, next) => {
  */
 router.get('/login', (req, res) => {
   if (req.isAuthenticated()) {
-    return res.redirect('/dashboard');
+    return res.redirect('/reservations');
   }
   res.render('login');
 });
@@ -103,15 +103,15 @@ router.get('/logout', (req, res, next) => {
 });
 
 /**
- * GET /dashboard
+ * GET /payments
  *
- * Show the Dashboard page for the logged-in salon
+ * Show the Payments page for the logged-in salon
  *
  * Use the `stripeAccountRequired` middleware to ensure that only registered
  * salons can access this route.
  */
-router.get('/dashboard', stripeAccountRequired, async (req, res) => {
-  res.render('dashboard');
+router.get('/payments', stripeAccountRequired, async (req, res) => {
+  res.render('payments');
 });
 
 /**

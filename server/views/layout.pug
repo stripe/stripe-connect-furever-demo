@@ -24,9 +24,9 @@ html
             i(class="fa fa-bars")
           .links
             if user.stripeAccountId
-              a(class={'active': path === '/dashboard'} href='/dashboard') Dashboard
-              a(class={'active': path === '/payouts'} href='/payouts') Payouts
               a(class={'active': path === '/reservations'} href='/reservations') Reservations
+              a(class={'active': path === '/payments'} href='/payments') Payments
+              a(class={'active': path === '/payouts'} href='/payouts') Payouts
             a(class={'active': path === '/profile', 'icon-links-responsive': true} href='/profile') Profile
             a(class={'icon-links-responsive': true, 'enable-border-text': true} onclick="toggleBorder()") 
             a(class={'icon-links-responsive': true} href='/logout') Log out
@@ -44,7 +44,7 @@ html
             a(class={'active': path === '/login'} href='/login') Log in
 
     block pre-content
-      if user && ['/dashboard', '/reservations', '/locations', '/customers', '/payouts', '/profile'].includes(path)
+      if user && ['/payments', '/reservations', '/locations', '/customers', '/payouts', '/profile'].includes(path)
         .banner.onboarding-required(class={"showing": !onboardingComplete})
           .message 
             strong You need to complete onboarding.
