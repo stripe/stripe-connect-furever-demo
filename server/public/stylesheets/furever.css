@@ -1359,8 +1359,8 @@ section.reservations h2 {
 .calendar td .event {
   background: #f3f4f6;
   color: black;
-  border-radius: 2px;
-  font-size: 0.875rem;
+  border-radius: 3px;
+  font-size: 12px;
   padding: 0.5rem;
   overflow-x: hidden;
   transition: all 0.2s;
@@ -1369,10 +1369,17 @@ section.reservations h2 {
   z-index: 2;
   position: relative;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .calendar td .event:hover {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.calendar td .event p:nth-child(3) {
+  color: #666e7d;
 }
 
 .calendar-header {

@@ -381,7 +381,7 @@ router.get('/onboarded', salonRequired, async (req, res, next) => {
     }
 
     // Redirect to the FurEver dashboard
-    res.redirect('/dashboard');
+    res.redirect('/reservations');
   } catch (err) {
     console.log('Failed to retrieve Stripe account information.');
     console.log(err);
@@ -530,7 +530,7 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
 router.get('/checkout', stripeAccountRequired, async (req, res) => {
   const host = req.get('host');
   const protocol = req.protocol;
-  console.log('url is', `${protocol}://${host}/dashboard`);
+  console.log('url is', `${protocol}://${host}/payments`);
 
   let checkoutSession;
   try {
@@ -556,8 +556,8 @@ router.get('/checkout', stripeAccountRequired, async (req, res) => {
           statement_descriptor: process.env.APP_NAME,
         },
         mode: 'payment',
-        success_url: `${protocol}://${host}/dashboard`,
-        cancel_url: `${protocol}://${host}/dashboard`,
+        success_url: `${protocol}://${host}/payments`,
+        cancel_url: `${protocol}://${host}/payments`,
       },
       {
         stripeAccount: req.user.stripeAccountId,
@@ -604,7 +604,7 @@ router.post('/payout', stripeAccountRequired, async (req, res) => {
       );
     } else {
       throw new Error(
-        'You do not have any available balance to payout. Create a test payment in the "Dashboard" tab first with the "Successful" status to immediately add funds to your account.'
+        'You do not have any available balance to payout. Create a test payment in the "Payments" tab first with the "Successful" status to immediately add funds to your account.'
       );
     }
     res.status(200);
