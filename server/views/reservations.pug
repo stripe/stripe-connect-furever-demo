@@ -1,0 +1,44 @@
+extends layout
+
+block content
+    section.reservations 
+        h2 Upcoming appointments
+
+        .calendar-header 
+            .calendar-date-selector 
+                button ‹
+                div Dec 5, 2022
+                div Today 
+                button ›
+
+            .calendar-settings 
+                .calendar-settings-view 
+                    div Day 
+                    div Week
+                button ﹢ New appointment
+
+        .calendar
+            table
+                thead 
+                    tr 
+                        th.firstcol 
+                        th Mon, 18
+                        th Tue, 19
+                        th.today Wed, 20
+                        th Thu, 21
+                        th Fri, 22
+                        th Sat, 23
+                        th Sun, 24
+            table 
+                tbody 
+                    each time in [0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0,17,0,18,0]
+                        tr
+                            each day, index in reservations
+                                td(class={'firstcol': index === 0}) #{time !== 0 && index === 0 ? `${time}:00` : ''}
+                                    if time in day
+                                        .event(style=`height: ${(day[time].end - time) * 200}%`)
+                                            p #{day[time].title}
+                                            p #{day[time].subtitle}
+                                            p #{day[time].description}
+
+

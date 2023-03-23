@@ -6,6 +6,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Salon = require('../models/salon');
 const {stripeAccountRequired} = require('./middleware');
+const reservations = require('../public/data/reservations.json');
 
 /**
  * GET /signup
@@ -126,15 +127,15 @@ router.get('/payouts', stripeAccountRequired, async (req, res) => {
 });
 
 /**
- * GET /locations
+ * GET /reservations
  *
- * Show the Locations page for the logged-in salon
+ * Show the Reservations page for the logged-in salon
  *
  * Use the `stripeAccountRequired` middleware to ensure that only registered
  * salons can access this route.
  */
-router.get('/locations', stripeAccountRequired, async (req, res) => {
-  res.render('404');
+router.get('/reservations', stripeAccountRequired, async (req, res) => {
+  res.render('reservations', {reservations});
 });
 
 /**
