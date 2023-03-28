@@ -3,7 +3,7 @@
  */
 
 @font-face {
-  font-family: 'Mulish';
+  font-family: 'Sohne';
   src: url('/fonts/Sohne.otf');
 }
 
@@ -40,7 +40,7 @@ body {
   min-height: 100vh;
   color: #292f45;
   background-color: #fff;
-  font-family: 'Mulish', sans-serif;
+  font-family: 'Sohne', sans-serif;
   min-width: 340px;
 }
 
@@ -183,9 +183,9 @@ a.arrow {
 
 #top .icon-links .dropdown {
   position: relative;
+  font-weight: 600;
   font-size: 30px;
   color: #fff;
-  background-color: #05690d;
   cursor: pointer;
 }
 #top .icon-links .dropdown-content {
@@ -228,18 +228,6 @@ a.arrow {
   display: none;
 }
 
-/* Navbar for landing page */
-nav.nav-landing #top .links > a,
-nav.nav-landing #top .login-link > a {
-  color: #fff;
-}
-nav.nav-landing {
-  box-shadow: none;
-}
-nav.nav-landing #top .menu-icon {
-  color: #fff;
-}
-
 @media screen and (max-width: 801px) {
   #top {
     font-size: 14px;
@@ -273,14 +261,10 @@ nav.nav-landing #top .menu-icon {
     display: block;
     width: 100%;
   }
-  #top.responsive > .links a.active {
-    box-shadow: none;
-    background-color: #228403;
-    color: white;
-  }
+  #top.responsive > .links a.active,
   #top.responsive > .links a:hover {
     background-color: #228403;
-    color: white;
+    color: white !important;
     transition: all 0.1s ease-in;
   }
 
@@ -298,48 +282,72 @@ nav.nav-landing #top .menu-icon {
 .intro-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  min-width: 380px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  object-fit: cover;
-  vertical-align: bottom;
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 15%, #000000 100%),
-    url('/images/landing.jpeg') no-repeat;
-  background-size: cover;
-  background-position: center center;
-  z-index: 0;
-}
-
-.intro-container .intro {
-  flex-direction: column;
   width: 100%;
   max-width: 1200px;
-  padding: 60px 0px 80px 0px;
+  padding: 75px 0px 75px 2.5em;
+  overflow-x: hidden;
+  gap: 1em;
 }
 
-.intro-container h1 {
-  color: white;
+.intro-text {
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.intro-text h1 {
+  color: black;
   font-weight: 600;
-  font-size: 42px;
-  line-height: 45px;
+  font-size: 55px;
+  line-height: 70px;
   letter-spacing: 0.01em;
-  width: 70%;
 }
 
-.intro-container h2 {
-  color: #cfd7df;
+.intro-text h2 {
   margin: 15px 0;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 28px;
-  width: 80%;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 40px;
+  color: #414552;
 }
 
-.intro-container .button.primary {
+.intro-text img {
+  width: 45px;
+  position: absolute;
+  left: -1.75em;
+  top: -1em;
+}
+
+.intro-text .button.primary {
   width: fit-content;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.intro-image {
+  width: 50%;
+}
+
+.intro-image img {
+  border-radius: 50%;
+  width: 530px;
+  height: 530px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 1200px) {
+  .intro-text h1 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .intro-text h2 {
+    font-size: 20px;
+    line-height: 30px;
+  }
 }
 
 h1.title {
@@ -370,46 +378,6 @@ section.reservations h2 {
 
 section.reservations img {
   max-width: 80%;
-}
-/************* RESERVATIONS EBD *************/
-
-.intro-container .intro {
-  flex-direction: column;
-  width: 100%;
-  max-width: 1200px;
-  padding: 60px 0px 80px 0px;
-}
-
-.intro-container h1 {
-  color: white;
-  font-weight: 600;
-  font-size: 42px;
-  line-height: 45px;
-  letter-spacing: 0.01em;
-  width: 70%;
-}
-
-.intro-container h2 {
-  color: #cfd7df;
-  margin: 15px 0;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 28px;
-  width: 80%;
-}
-
-.intro-container .button.primary {
-  width: fit-content;
-}
-
-h1.title {
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 25px;
-}
-
-h1.title.short-form {
-  margin-bottom: 0;
 }
 /************* RESERVATIONS END *************/
 
@@ -481,16 +449,15 @@ footer {
 }
 
 .annotation h4 {
-  color: #525f7f;
+  color: #414552;
   font-size: 16px;
-  font-weight: 500;
-  width: 100%;
+  font-weight: 600;
 }
 
 .annotation p {
   font-size: 14px;
   font-weight: 400;
-  color: #6a7c94;
+  color: #414552;
 }
 
 .annotation.info strong {
@@ -498,12 +465,21 @@ footer {
 }
 
 .annotation a {
-  font-weight: 400;
   color: #228403;
+}
+
+.annotation.card a {
+  font-weight: 400;
+}
+
+.annotation.landing a {
+  font-weight: 600;
 }
 
 .annotation a.github {
   background-image: url(/images/arrow-green.svg);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .annotation a.stripe {
@@ -1093,22 +1069,6 @@ label.salon-option {
     margin-top: 0;
   }
 
-  .intro-container .intro {
-    padding: 2em;
-  }
-
-  .intro-container .illustration {
-    display: none;
-  }
-
-  .intro-container h1 {
-    font-size: 34px;
-  }
-
-  .intro-container h2 {
-    font-size: 20px;
-  }
-
   .title {
     margin: 25px 15px;
   }
@@ -1218,7 +1178,7 @@ label.salon-option {
     margin: 10px auto;
   }
 
-  .annotation.landing p,
+  .annotation.landing h4,
   .annotation.info p {
     order: 1;
   }
