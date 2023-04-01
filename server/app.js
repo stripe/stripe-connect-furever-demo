@@ -106,6 +106,7 @@ app.use(async (req, res, next) => {
       req.stripeAccount = await retrieveStripeAccount(req.user.stripeAccountId);
       // The onboardingComplete flag is used to know if the account has completed onboarding
       res.locals.onboardingComplete = !!req.stripeAccount?.details_submitted;
+      res.locals.country = req.stripeAccount.country;
     }
   }
   next();
