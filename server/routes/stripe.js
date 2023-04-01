@@ -1,7 +1,7 @@
 'use strict';
 
 require('dotenv').config({path: '../.env'});
-// We are including the beta headers for Connect embedded UIs and Unified accounts
+// We are including the beta headers for Connect embedded components and Unified accounts
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2022-08-01; embedded_connect_beta=v1;unified_accounts_beta=v1',
 });

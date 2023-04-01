@@ -1,20 +1,20 @@
 extends layout
 
 block pre-content
-  .intro-container
-    .intro-text
-      img(src="/images/landing-icon.png" title="Landing icon" alt="Landing icon")
-      h1 Manage your business with ease.
-      h2 FurEver is the world's leading pet grooming platform: join our team of salons and expand your business.
-      if user && user.stripeAccountId && user.onboardingComplete
-        a.button.primary(href='/reservations') View dashboard
-      else
-        a.button.primary(href='/signup') Start today
-    .intro-image
-      img(src="/images/landing.jpeg" title="Landing image" alt="Landing image")
+    .intro-container
+        .intro-text
+            img(src="/images/landing-icon.png" title="Landing icon" alt="Landing icon")
+            h1 Manage your business with ease.
+            h2 FurEver is the world's leading pet grooming platform: join our team of salons and expand your business.
+            if user && user.stripeAccountId && user.onboardingComplete
+                a.button.primary(href='/reservations') View dashboard
+            else
+                a.button.primary(href='/signup') Start today
+        .intro-image
+            img(src="/images/landing.jpeg" title="Landing image" alt="Landing image")
 
 block footer
-  .annotation.landing
-    a.stripe(href='https://stripe.com' target="_blank") Stripe
-    h4 FurEver is a demo for #[a(href='https://stripe.com/connect' target="_blank") Stripe Connect] and #[a(href='https://stripe.com/docs/connect/get-started-connect-embedded-uis' target="_blank") Stripe Connect embedded UIs]. It is not a real product.
-    a.github.arrow(href='https://github.com/stripe/stripe-connect-furever' target="_blank") View on GitHub
+    .annotation.landing
+        a.stripe(href='https://stripe.com' target="_blank") Stripe
+        h4 FurEver is a demo for #[a(href='https://stripe.com/connect' target="_blank") Stripe Connect] and #[a(href='https://stripe.com/docs/connect/get-started-connect-embedded-components' target="_blank") Stripe Connect embedded components]. It is not a real product.
+        a.github.arrow(href='https://github.com/stripe/stripe-connect-furever' target="_blank") View on GitHub
