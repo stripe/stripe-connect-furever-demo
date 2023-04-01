@@ -108,7 +108,7 @@ a.arrow {
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  z-index: 1;
+  z-index: 3;
 }
 
 /* Nav logo */
@@ -1324,7 +1324,6 @@ section.reservations h2 {
   padding: 0.5rem;
   overflow-x: hidden;
   transition: all 0.2s;
-  cursor: pointer;
   border-left: 2px solid #228403;
   z-index: 2;
   position: relative;
