@@ -1,21 +1,25 @@
 extends layout
 
 block content
+    script.
+        function alertDemoSite() {
+            alert("Woof woof, this is a demo site! This functionality in this website is minimal as this is only a demo, but you can use the payments and payouts tabs, as well as the account page to test Connect Embedded components.")
+        }
     section.reservations 
         h2 Upcoming appointments
 
         .calendar-header 
             .calendar-date-selector 
-                button ‹
+                button(onclick="alertDemoSite()") ‹
                 div Dec 5, 2022
                 div Today 
-                button ›
+                button(onclick="alertDemoSite()") ›
 
             .calendar-settings 
                 .calendar-settings-view 
-                    div Day 
-                    div Week
-                button ﹢ New appointment
+                    div(onclick="alertDemoSite()") Day 
+                    div(onclick="alertDemoSite()") Week
+                button(onclick="alertDemoSite()") ﹢ New appointment
 
         .calendar
             table
