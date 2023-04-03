@@ -1,74 +1,74 @@
 doctype html
 html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no')
-    meta(name='twitter:card' content='summary')
-    meta(name='twitter:site' content='@stripe')
-    meta(name='twitter:title' content='FurEver')
-    meta(name='twitter:description' content='FurEver is a SaaS platform built on top of Stripe Connect embedded UIs.')
-    meta(name='twitter:image' content='/images/favicon.png')
-    title FurEver
-    link(rel='stylesheet' type='text/css' href='/stylesheets/furever.css')
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
-    script(async, src='https://connect-js.stripe.com/v0.1/connect.js')
-    link(rel='icon' type='image/png' sizes='64x64' href='/images/favicon.png')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no')
+        meta(name='twitter:card' content='summary')
+        meta(name='twitter:site' content='@stripe')
+        meta(name='twitter:title' content='FurEver')
+        meta(name='twitter:description' content='FurEver is a SaaS platform built on top of Stripe Connect embedded components.')
+        meta(name='twitter:image' content='/images/favicon.png')
+        title FurEver
+        link(rel='stylesheet' type='text/css' href='/stylesheets/furever.css')
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+        script(async, src='https://connect-js.stripe.com/v0.1/connect.js')
+        link(rel='icon' type='image/png' sizes='64x64' href='/images/favicon.png')
 
-  body
-    nav  
-      #top
-        if user
-          a(class="logo" href='/')
-            img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
-          a(href="javascript:void(0);" class="menu-icon" onclick="responsiveNavbar()")
-            i(class="fa fa-bars")
-          .links
-            if user.stripeAccountId
-              a(class={'active': path === '/reservations'} href='/reservations') Reservations
-              a(class={'active': path === '/payments'} href='/payments') Payments
-              a(class={'active': path === '/payouts'} href='/payouts') Payouts
-            a(class={'active': path === '/profile', 'icon-links-responsive': true} href='/profile') Profile
-            a(class={'icon-links-responsive': true, 'enable-border-text': true} onclick="toggleBorder()") 
-            a(class={'icon-links-responsive': true} href='/logout') Log out
-            .icon-links
-              .dropdown 
-                a(class="account-link" href="/profile") #{user.displayName().charAt(0).toUpperCase()}
-                .dropdown-content
-                  a(href='/logout') Log out
-                  a(class={'enable-border-text': true} onclick="toggleBorder()")
-        else
-          a(class="logo" href='/')
-            img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
-          .login-link
-            a(class={'active': path === '/signup'} href='/signup') Sign up
-            a(class={'active': path === '/login'} href='/login') Log in
+    body
+        nav  
+            #top
+                if user
+                    a(class="logo" href='/')
+                        img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
+                    a(href="javascript:void(0);" class="menu-icon" onclick="responsiveNavbar()")
+                        i(class="fa fa-bars")
+                    .links
+                        if user.stripeAccountId
+                            a(class={'active': path === '/reservations'} href='/reservations') Reservations
+                            a(class={'active': path === '/payments'} href='/payments') Payments
+                            a(class={'active': path === '/payouts'} href='/payouts') Payouts
+                        a(class={'active': path === '/profile', 'icon-links-responsive': true} href='/profile') Profile
+                        a(class={'icon-links-responsive': true, 'enable-border-text': true} onclick="toggleBorder()") 
+                        a(class={'icon-links-responsive': true} href='/logout') Log out
+                        .icon-links
+                            .dropdown 
+                                a(class="account-link" href="/profile") #{user.displayName().charAt(0).toUpperCase()}
+                                .dropdown-content
+                                    a(href='/logout') Log out
+                                    a(class={'enable-border-text': true} onclick="toggleBorder()")
+                else
+                    a(class="logo" href='/')
+                        img(src="/images/favicon.png" title="Furever logo" alt="FurEver")
+                    .login-link
+                        a(class={'active': path === '/signup'} href='/signup') Sign up
+                        a(class={'active': path === '/login'} href='/login') Log in
 
-    block pre-content
-      if user && ['/payments', '/reservations', '/locations', '/customers', '/payouts', '/profile'].includes(path)
-        .banner.onboarding-required(class={"showing": !onboardingComplete})
-          .message 
-            strong You need to complete onboarding.
-            |&nbsp; #[a(href="/signup") Complete now >]
-        .banner.onboarding-complete(class={"showing": showBanner && onboardingComplete})
-          .message
-            strong Your account has been purrfectly onboarded. 
-            | You are pawsitively good to go to take your first customer!
+        block pre-content
+            if user && ['/payments', '/reservations', '/locations', '/customers', '/payouts', '/profile'].includes(path)
+                .banner.onboarding-required(class={"showing": !onboardingComplete})
+                    .message 
+                        strong You need to complete onboarding.
+                        |&nbsp; #[a(href="/signup") Complete now >]
+                .banner.onboarding-complete(class={"showing": showBanner && onboardingComplete})
+                    .message
+                        strong Your account has been purrfectly onboarded. 
+                        | You are pawsitively good to go to take your first customer!
 
 
-    #content
-      block content
+        #content
+            block content
 
-    footer
-      block footer
+        footer
+            block footer
 
-    //- Internal only: debug utils
-    div(id='debug-utils' class='debug-utils')
-      p Internal only - Debug Utils
-      hr
-      stripe-connect-debug-utils
+        //- Internal only: debug utils
+        div(id='debug-utils' class='debug-utils')
+            p Internal only - Debug Utils
+            hr
+            stripe-connect-debug-utils
 
-    if user && user.stripeAccountId
-      script(src='/javascripts/connect.js' type="module")
-    script(src='/javascripts/furever.js')
-    script(src='/javascripts/toggleBorder.js')
-    script(src='/javascripts/persistQueryParams.js')
+        if user && user.stripeAccountId
+            script(src='/javascripts/connect.js' type="module")
+        script(src='/javascripts/furever.js')
+        script(src='/javascripts/toggleBorder.js')
+        script(src='/javascripts/persistQueryParams.js')
