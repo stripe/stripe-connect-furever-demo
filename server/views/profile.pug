@@ -31,8 +31,9 @@ block content
     section.embedded 
         h2 Stripe settings 
         if country != 'US'
-            input(type="checkbox" name="enable-embedded" autocomplete='off')
-            label(name="enable-embedded" style="margin-left:8px") Enable embedded account management 
+            div
+                input(type="checkbox" name="enable-embedded" autocomplete='off')
+                label(name="enable-embedded" style="margin-left:8px") Enable embedded account management 
         div.stripe-connect-notification-banner-container
             stripe-connect-notification-banner
         div.enable-border

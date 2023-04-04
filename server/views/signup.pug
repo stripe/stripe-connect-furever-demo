@@ -108,9 +108,10 @@ block content
 
       when 'onboarding'
         h1.title Connect your account to Stripe
-        div
-          input(type="checkbox" name="enable-embedded" autocomplete='off')
-          label(name="enable-embedded" style="margin-left:8px") Enable embedded onboarding
+        if country != 'US'
+          div
+            input(type="checkbox" name="enable-embedded" autocomplete='off')
+            label(name="enable-embedded" style="margin-left:8px") Enable embedded onboarding
         div.enable-border(id='onboarding-content-container')
           stripe-connect-account-onboarding
 
@@ -128,4 +129,4 @@ block footer
         p The platform can choose to request additional information from the user before it collects any payments details. Here, FurEver asks a few questions about the user's salon. This information will be stored in the platform’s database.
 
       when 'onboarding'
-        p The <tt>stripe-connect-account-onboarding</tt> UI provides a seamless onboarding experience for connected accounts to onboard with Stripe without having to leave the platform's page.
+        p The <tt>stripe-connect-account-onboarding</tt> component provides a seamless onboarding experience for connected accounts to onboard with Stripe without having to leave the platform's page.
