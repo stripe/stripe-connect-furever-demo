@@ -104,6 +104,8 @@ app.use(async (req, res, next) => {
     // Get the stripe account object if available
     if (req.user.stripeAccountId) {
       req.stripeAccount = await retrieveStripeAccount(req.user.stripeAccountId);
+      res.locals.chargesEnabled = !!req.stripeAccount?.charges_enabled;
+      res.locals.payoutsEnabled = !!req.stripeAccount?.payouts_enabled;
       // The onboardingComplete flag is used to know if the account has completed onboarding
       res.locals.onboardingComplete = !!req.stripeAccount?.details_submitted;
       res.locals.country = req.stripeAccount.country;
