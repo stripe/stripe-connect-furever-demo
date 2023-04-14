@@ -25,12 +25,12 @@ const interventionForm = document.querySelector(
   
       function handleError(errorMsg) {
         interventionFormButton.removeAttribute('disabled');
-        interventionFormButton.value = 'Create test payments';
+        interventionFormButton.value = 'Create test notification';
         interventionMessageStatus.querySelector('p.success').style.display = 'none';
         interventionMessageStatus.querySelector('p.error').style.display = 'block';
         interventionMessageStatus.querySelector(
           'p.error'
-        ).innerText = `An error occurred while creating interventions: ${errorMsg}`;
+        ).innerText = `An error occurred while creating notifications: ${errorMsg}`;
       }
   
       if (!response.ok) {
@@ -38,7 +38,7 @@ const interventionForm = document.querySelector(
         handleError(json.error);
       } else {
         interventionFormButton.removeAttribute('disabled');
-        interventionFormButton.value = 'Create test intervention';
+        interventionFormButton.value = 'Create test notification';
         interventionMessageStatus.querySelector('p.success').style.display = 'block';
         interventionMessageStatus.querySelector('p.error').style.display = 'none';
       }
