@@ -1,5 +1,6 @@
 'use strict';
 
+const fetch = require('node-fetch')
 require('dotenv').config({path: '../.env'});
 // We are including the beta headers for Connect embedded components and Unified accounts
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
@@ -413,6 +414,34 @@ router.get('/create-account-session', async (req, res, next) => {
     console.error(error);
     res.status(500);
     res.send({error: error.message});
+  }
+});
+
+/**
+ * POST /stripe/intervention
+ *
+ * Generates test intervention for the logged-in salon
+ */
+router.post('/intervention', stripeAccountRequired, async (req, res, next) => {
+  try {
+    const interventionUrl = `https://${stripe._api.host}/v1/test_helpers/demo/merchant_issue`
+
+    const params = new URLSearchParams();
+    params.append('account', req.user.stripeAccountId);
+    params.append('issue_type', 'additional_info');
+    const response = await fetch(interventionUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: stripe._api.auth,
+      },
+      body: params
+    });
+    const data = await response.json()
+
+    res.send(data)
+  } catch (err) {
+    console.log(err);
+    res.send(err)
   }
 });
 
