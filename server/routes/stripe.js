@@ -420,7 +420,7 @@ router.get('/create-account-session', async (req, res, next) => {
 /**
  * POST /stripe/intervention
  *
- * Generates test intervention for the logged-in salon
+ * Generates test intervention for the logged-in salon. This is only used for testing purposes
  */
 router.post('/intervention', stripeAccountRequired, async (req, res, next) => {
   try {
