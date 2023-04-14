@@ -8,11 +8,6 @@ function responsiveNavbar() {
   }
 }
 
-// Toggle showing details on annotation cards
-const annotationToggles = document.querySelectorAll(
-  '.annotation > .card > .card-title > i'
-);
-
 const annotationCards = document.querySelectorAll('.annotation > .card')
 
 annotationCards.forEach((annotationCard) => {
