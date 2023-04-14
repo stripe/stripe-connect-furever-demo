@@ -423,18 +423,7 @@ footer {
 }
 
 .annotation {
-  position: absolute;
-  left: 25px;
-  bottom: 25px;
-  margin: 0;
-  animation: slide-in-vertical 0.4s cubic-bezier(0.23, 1, 0.32, 1) both 0.2s;
-  max-width: 500px;
-  width: 100%;
-}
-
-.card {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -443,9 +432,10 @@ footer {
   box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
     0 8px 16px -8px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
+  max-width: 1200px;
   margin: 0px auto;
-  margin-bottom: 10px;
-  padding: 20px;
+  margin-bottom: 25px;
+  padding: 10px 22px;
   font-size: 16px;
   font-weight: bold;
   line-height: 22px;
@@ -478,7 +468,7 @@ footer {
   color: #228403;
 }
 
-.annotation .card a {
+.annotation.card a {
   font-weight: 400;
 }
 
@@ -499,11 +489,23 @@ footer {
   text-indent: -9999px;
 }
 
-.annotation .card.hidden {
+.annotation.card {
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 20px;
+  max-width: 500px;
+  animation: slide-in-vertical 0.4s cubic-bezier(0.23, 1, 0.32, 1) both 0.2s;
+}
+.annotation.card.hidden {
   display: none;
 }
 
-.annotation .card .card-title {
+.annotation.card .card-title {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -511,15 +513,15 @@ footer {
   width: 100%;
 }
 
-.annotation .card .card-title i {
+.annotation.card .card-title i {
   cursor: pointer;
 }
 
-.annotation .card p {
+.annotation.card p {
   color: #51586d;
 }
 
-.annotation .card input[type='submit'].primary-action {
+.annotation.card input[type='submit'].primary-action {
   margin: 0;
   width: auto;
   display: inline-block;
@@ -527,68 +529,65 @@ footer {
   color: #fff;
 }
 
-.annotation .card .description {
+.annotation.card .description {
   display: none;
   transition: all 0.2s ease-in-out;
   width: 100%;
 }
 
 /* Annotation card form */
-.annotation .card {
+.annotation.card {
   font-size: 14px;
 }
-.annotation .card form {
+.annotation.card form {
   display: none;
   width: 100%;
   transition: all 0.2s ease-in-out;
 }
-.annotation .card form.right {
+.annotation.card form.right {
   font-size: 14px;
   text-align: right;
 }
-.annotation .card form.right input,
-.annotation .card form.right select {
+.annotation.card form.right input,
+.annotation.card form.right select {
   font-size: 14px;
 }
-.annotation .card form.right fieldset {
+.annotation.card form.right fieldset {
   margin-bottom: 20px;
 }
-.annotation .card form.right fieldset .row {
+.annotation.card form.right fieldset .row {
   padding: 4px;
 }
-.annotation .card form.right fieldset .row::before {
+.annotation.card form.right fieldset .row::before {
   width: 65px;
   padding-right: 20px;
 }
 
-.annotation .card form.expanded,
-.annotation .card .description.expanded {
+.annotation.card form.expanded,
+.annotation.card .description.expanded {
   display: block;
 }
 
 @media screen and (max-width: 500px) {
   .annotation,
-  .annotation.container {
+  .annotation.card {
     position: absolute;
     max-width: 100%;
     left: 0;
     right: 0;
     bottom: 0;
     margin: 0;
+    padding: 17px 15px;
     border-radius: 0;
-  }
-
-  .annotation .card {
-    margin-bottom: 0;
+    box-shadow: 0 13px 27px 2px rgba(50, 50, 93, 0.2),
+      0 8px 16px 7px rgba(0, 0, 0, 0.15);
   }
 }
 
 .create-account-status,
-.annotation .card .create-payout-status,
-.annotation .card .create-payments-status p.success,
-.annotation .card .create-payments-status p.error,
-.annotation .card .create-intervention-status p.success,
-.annotation .card .create-intervention-status p.error {
+.annotation.card .create-payout-status,
+.annotation.card .create-payments-status p.success,
+.annotation.card .create-payments-status p.error {
   display: none;
 }
 
