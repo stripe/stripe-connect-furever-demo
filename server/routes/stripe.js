@@ -596,7 +596,7 @@ router.post('/payout', stripeAccountRequired, async (req, res) => {
       const {amount, currency} = selectedBalance;
       await stripe.payouts.create(
         {
-          amount,
+          amount: Math.min(amount, 1000), // We allow a max of 10 dlls to be paid out in this test app
           currency,
           statement_descriptor: process.env.APP_NAME,
         },
