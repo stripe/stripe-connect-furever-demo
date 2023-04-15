@@ -587,7 +587,9 @@ footer {
 .create-account-status,
 .annotation.card .create-payout-status,
 .annotation.card .create-payments-status p.success,
-.annotation.card .create-payments-status p.error {
+.annotation.card .create-payments-status p.error,
+.annotation.card .create-intervention-status p.success,
+.annotation.card .create-intervention-status p.error {
   display: none;
 }
 

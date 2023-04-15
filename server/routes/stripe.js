@@ -417,6 +417,33 @@ router.get('/create-account-session', async (req, res, next) => {
 });
 
 /**
+ * POST /stripe/intervention
+ *
+ * Generates test intervention for the logged-in salon. This is only used for testing purposes
+ */
+const merchantIssueResource = stripe.StripeResource.extend({
+  create: stripe.StripeResource.method({
+    method: 'POST',
+    path: '/test_helpers/demo/merchant_issue'
+  })
+})
+
+router.post('/intervention', stripeAccountRequired, async (req, res, next) => {
+  try {
+    const interventionResponse = await new merchantIssueResource(stripe)
+    .create({
+      account: req.user.stripeAccountId,
+      issue_type: 'additional_info'
+    })
+
+    res.send(interventionResponse)
+  } catch (err) {
+    console.log(err);
+    res.send(err)
+  }
+});
+
+/**
  * POST /stripe/payments
  *
  * Generates test payments for the logged-in salon
