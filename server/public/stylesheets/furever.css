@@ -1291,12 +1291,8 @@ section.reservations h2 {
   position: relative;
 }
 
-.calendar tr:nth-child(odd) td:not(.firstcol) {
+.calendar td:not(.firstcol) {
   border-bottom: 1px solid #e8e8e8;
-}
-
-.calendar tr:nth-child(even) td:not(.firstcol) {
-  border-bottom: 1px solid #eee;
 }
 
 .calendar tr td {
@@ -1313,8 +1309,7 @@ section.reservations h2 {
   width: auto;
 }
 
-.calendar tr td:nth-child(2),
-.calendar tr td:nth-child(3) {
+.calendar tr td.past {
   background: #fafafa;
 }
 

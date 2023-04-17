@@ -135,7 +135,30 @@ router.get('/payouts', stripeAccountRequired, async (req, res) => {
  * salons can access this route.
  */
 router.get('/reservations', stripeAccountRequired, async (req, res) => {
-  res.render('reservations', {reservations});
+  const currentDate = new Date();
+  const options = {month: 'short', day: 'numeric', year: 'numeric'};
+  const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const currentDayOfWeekIndex = (currentDate.getDay() - 1 + 7) % 7;
+  const datesArray = [];
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date();
+    date.setDate(currentDate.getDate() + i);
+    const dayOfWeekIndex = (currentDayOfWeekIndex + i) % 7;
+    const dayOfWeek = daysOfWeek[dayOfWeekIndex];
+    const dayOfMonth = date.getDate();
+    const dateString = `${dayOfWeek}, ${dayOfMonth}`;
+    datesArray.push(dateString);
+  }
+
+  res.render('reservations', {
+    reservations,
+    formattedDate,
+    currentDayOfWeekIndex,
+    datesArray,
+  });
 });
 
 /**
