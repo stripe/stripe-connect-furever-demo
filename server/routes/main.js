@@ -139,18 +139,20 @@ router.get('/reservations', stripeAccountRequired, async (req, res) => {
   const options = {month: 'short', day: 'numeric', year: 'numeric'};
   const formattedDate = currentDate.toLocaleDateString('en-US', options);
 
-  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const currentDayOfWeekIndex = (currentDate.getDay() - 1 + 7) % 7;
+  const daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
   const datesArray = [];
-
+  const currentDayOfWeekIndex = (currentDate.getDay() - 1 + 7) % 7;
+  // Get the first day of the week (Monday) for the given date
+  const firstDayOfWeek = currentDate;
+  firstDayOfWeek.setDate(firstDayOfWeek.getDate() - currentDayOfWeekIndex);
+  // Add the dates for the current week to the result array
   for (let i = 0; i < 7; i++) {
-    const date = new Date();
-    date.setDate(currentDate.getDate() + i);
-    const dayOfWeekIndex = (currentDayOfWeekIndex + i) % 7;
-    const dayOfWeek = daysOfWeek[dayOfWeekIndex];
-    const dayOfMonth = date.getDate();
-    const dateString = `${dayOfWeek}, ${dayOfMonth}`;
-    datesArray.push(dateString);
+    datesArray.push(
+      `${
+        daysOfWeek[(firstDayOfWeek.getDay() - 1 + 7) % 7]
+      } ${firstDayOfWeek.getDate()}`
+    );
+    firstDayOfWeek.setDate(firstDayOfWeek.getDate() + 1);
   }
 
   res.render('reservations', {

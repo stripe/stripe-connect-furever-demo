@@ -33,7 +33,7 @@ block content
                     each time in [0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0,17,0,18,0]
                         tr
                             each day, index in reservations
-                                td(class={'firstcol': index === 0, 'past': index > 0 && index - 1 <= currentDayOfWeekIndex}) #{time !== 0 && index === 0 ? `${time}:00` : ''}
+                                td(class={'firstcol': index === 0, 'past': index > 0 && index - 1 < currentDayOfWeekIndex}) #{time !== 0 && index === 0 ? `${time}:00` : ''}
                                     if time in day
                                         .event(style=`height: ${(day[time].end - time) * 200}%`)
                                             p #{day[time].title}
