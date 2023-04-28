@@ -31,7 +31,7 @@ The web application is implemented as as full-stack application powered by Expre
 To integrate Stripe Connect in your own app:
 1. [`server/routes/stripe.js`](server/routes/stripe.js) shows how to interact with the Stripe API.
     - [`server/public/javascripts/createAccount.js`](server/public/javascripts/createAccount.js) is the client-side javascript for creating a Stripe connected account.
-    - [`server/public/javascripts/onboarding.js`](server/public/javascripts/onboarding.js) is the client-side javascript for listening to the `onboardingComplete` event in the embedded onboarding UI component.
+    - [`server/public/javascripts/onboarding.js`](server/public/javascripts/onboarding.js) is the client-side javascript for listening to the `onboardingexited` event in the embedded onboarding UI component.
     - [`server/public/javascripts/createPayments.js`](server/public/javascripts/createPayments.js) is the client-side javascript for creating a test payment.
     - [`server/public/javascripts/createPayouts.js`](server/public/javascripts/createPayouts.js) is the client-side javascript for creating a test payout.
 2. [`server/routes/main.js`](server/routes/main.js) shows the basic routing for the application.
