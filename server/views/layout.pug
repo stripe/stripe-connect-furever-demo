@@ -45,11 +45,11 @@ html
 
         block pre-content
             if user && ['/payments', '/reservations', '/locations', '/customers', '/payouts', '/profile'].includes(path)
-                .banner.onboarding-required(class={"showing": !onboardingComplete})
+                .banner.onboarding-required(class={"showing": !onboardingExited})
                     .message 
                         strong You need to complete onboarding.
                         |&nbsp; #[a(href="/signup") Complete now >]
-                .banner.onboarding-complete(class={"showing": showBanner && onboardingComplete})
+                .banner.onboarding-complete(class={"showing": showBanner && onboardingExited})
                     .message
                         strong Your account has been purrfectly onboarded. 
                         |&nbsp; You are pawsitively good to go to take your first customer!
