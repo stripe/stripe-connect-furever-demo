@@ -6,7 +6,7 @@ block pre-content
             img(src="/images/landing-icon.png" title="Landing icon" alt="Landing icon")
             h1 Manage your business with ease.
             h2 FurEver is the world's leading pet grooming platform: join our team of salons and expand your business.
-            if user && user.stripeAccountId && user.onboardingComplete
+            if user && user.stripeAccountId && user.onboardingExited
                 a.button.primary(href='/reservations') View dashboard
             else
                 a.button.primary(href='/signup') Start today
