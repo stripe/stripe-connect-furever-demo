@@ -1,3 +1,5 @@
+import {loadConnect} from '@stripe/connect-js';
+
 const showErrors = () => {
   const error = document.querySelector('div.loading-error-message');
   if (error) {
@@ -52,29 +54,26 @@ const fetchClientSecret = async () => {
   return clientSecret;
 };
 
-// Connect.js initialization
-window.StripeConnect = window.StripeConnect || {};
 async function initStripeConnect() {
   const accountSession = await createAccountSession();
+  const stripeConnect = await loadConnect();
   if (accountSession) {
     clearErrors();
     const {clientSecret, publishableKey} = accountSession;
     // Initialize StripeConnect after the window loads
-    StripeConnect.onLoad = () => {
-      StripeConnect.init({
-        publishableKey,
-        clientSecret,
-        appearance: {
-          colors: {
-            primary: '#228403',
-          },
+    stripeConnect.initialize({
+      publishableKey: publishableKey,
+      clientSecret: clientSecret,
+      appearance: {
+        colors: {
+          primary: '#228403',
         },
-        uiConfig: {
-          overlay: 'dialog',
-        },
-        refreshClientSecret: fetchClientSecret,
-      });
-    };
+      },
+      uiConfig: {
+        overlay: 'dialog',
+      },
+      refreshClientSecret: fetchClientSecret,
+    });
   } else {
     // Handle errors on the client side here
     showErrors();
