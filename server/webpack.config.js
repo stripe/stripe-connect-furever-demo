@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: '/public/javascripts/connect.js',
+  entry: '/public/javascripts/_connect.js',
   output: {
     path: path.resolve(__dirname, 'public/javascripts/'),
-    filename: 'compiled.js',
+    filename: 'connect.js',
   },
   mode: 'production',
 };
