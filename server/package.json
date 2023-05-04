@@ -13,7 +13,7 @@
     "node": ">=12.0"
   },
   "scripts": {
-    "start": "node --inspect app.js",
+    "start": "npm build && node --inspect app.js",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
