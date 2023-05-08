@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "npm run build && node --inspect app.js",
-    "build": "webpack --config webpack.config.js"
+    "build": "npm i -g webpack webpack-cli && webpack --config webpack.config.js",
   },
   "dependencies": {
     "@stripe/connect-js": "^1.0.0",
