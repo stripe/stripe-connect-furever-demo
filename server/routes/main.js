@@ -19,10 +19,8 @@ router.get('/signup', (req, res) => {
   if (req.user) {
     if (!req.user.stripeAccountId) {
       step = 'profile'; // Mising onboarding to platform + Stripe
-    } else if (!req.stripeAccount?.details_submitted) {
-      step = 'onboarding'; // Missing onboarding to Stripe
     } else {
-      return res.redirect('/reservations'); // Created account + onboarded to Stripe
+      step = 'onboarding'; // Created account. They may or may not be onboarded, but this page will display the right UI for either case
     }
   }
   res.render('signup', {step: step});
