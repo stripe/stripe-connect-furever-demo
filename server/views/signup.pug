@@ -100,6 +100,15 @@ block content
                 option(value='dogs', selected) Dogs 
                 option(value='cats') Cats
                 option(value='hamsters') Hamsters
+          div#account-configuration-section
+            h4 Account configuration
+            fieldset
+              .row.select(label='Account Configuration')
+                select(name='accountConfiguration')
+                  option(value='no_dashboard_soll') No dashboard access + Stripe owns loss liability
+                  option(value='no_dashboard_poll') No dashboard access + Platform owns loss liability (custom)
+                  option(value='dashboard_soll') Dashboard access + Stripe owns loss liability
+
           h4 Payment information
           .stripe-information
             p We use Stripe to make sure you get paid on time and to keep your personal bank and details secure. Click #[strong Save and continue] to set up your payments on Stripe.

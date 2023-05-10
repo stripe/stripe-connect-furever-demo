@@ -139,6 +139,58 @@ const createPaymentIntentForNonCardPayments = async (
   }
 };
 
+function getAccountParams(accountConfiguration) {
+  let type = undefined;
+  let capabilities = {
+    card_payments: {
+      requested: true,
+    },
+    transfers: {
+      requested: true,
+    },
+  };
+  let controller = undefined;
+  switch (accountConfiguration) {
+    case 'no_dashboard_poll':
+      type = 'custom';
+      controller = undefined;
+      break;
+    case 'no_dashboard_soll':
+      controller = {
+        application: {
+          loss_liable: false, // Stripe owns loss liability
+          onboarding_owner: false, // Stripe is the onboarding owner
+          pricing_controls: true, // The platform is the pricing owner
+        },
+        dashboard: {
+          type: "none", // The connected account will not have access to dashboard
+        },
+      };
+      break;
+    case 'dashboard_soll':
+      capabilities = undefined;
+      controller = {
+        application: {
+          loss_liable: true, // Platform owns loss liability
+          onboarding_owner: false, // Stripe is the onboarding owner
+          pricing_controls: true, // The platform is the pricing owner
+        },
+        dashboard: {
+          type: "full", // Standard dash
+        },
+      };
+      break;
+    default:
+      throw new Error('Invalid account configuration');
+  }
+
+  return {
+    type,
+    controller,
+    capabilities,
+  }
+}
+
 /**
  * POST /stripe/create-account
  *
@@ -161,6 +213,7 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
     }
 
     const shouldPrefill = req.body.prefill;
+    const accountConfiguration = req.body.accountConfiguration;
 
     // Create a Stripe account for this user if one does not exist already
     if (accountId == undefined) {
@@ -178,16 +231,11 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
         });
       }
 
+      const accountConfigParams = getAccountParams(accountConfiguration);
+
       // Define the parameters to create a new Stripe account with
       let accountParams = {
-        capabilities: {
-          card_payments: {
-            requested: true,
-          },
-          transfers: {
-            requested: true,
-          },
-        },
+        ...accountConfigParams,
         country: req.user.country || undefined,
         email: req.user.email || undefined,
         // Prefill bank account information
@@ -231,17 +279,6 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
               },
             }
           : {}),
-        // Specify parameters to indicate an account with no dashboard, where Stripe owns loss liability and onboarding and the platform owns pricing
-        controller: {
-          application: {
-            loss_liable: false, // Stripe owns loss liability
-            onboarding_owner: false, // Stripe is the onboarding owner
-            pricing_controls: true, // The platform is the pricing owner
-          },
-          dashboard: {
-            type: 'none', // The connected account will not have access to dashboard
-          },
-        },
       };
       if (businessType === 'company') {
         accountParams = Object.assign(accountParams, {
