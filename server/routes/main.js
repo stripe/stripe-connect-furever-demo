@@ -81,7 +81,7 @@ router.get('/login', (req, res) => {
 router.post(
   '/login',
   passport.authenticate('salon-login', {
-    successRedirect: '/signup',
+    successRedirect: '/reservations', // Redirect to our landing page
     failureRedirect: '/login',
   })
 );
