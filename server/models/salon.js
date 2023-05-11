@@ -42,6 +42,8 @@ const SalonSchema = new Schema({
   },
   // Stripe account ID to send payments obtained with Stripe Connect.
   stripeAccountId: String,
+  // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
+  accountConfig: String,
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).

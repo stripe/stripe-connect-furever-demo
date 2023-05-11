@@ -859,6 +859,11 @@ form a.button {
   text-align: center;
 }
 
+/* We hide the accoutn configuration select by default */
+#account-configuration-section {
+  display: none;
+}
+
 /************* FORM END *************/
 
 /************* FUREVER ACCOUNT CREATION START *************/

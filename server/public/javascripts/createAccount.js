@@ -75,6 +75,7 @@ accountForm.addEventListener('submit', async function (event) {
           license: formData.get('salon[license]'),
           specialty: formData.get('salon[specialty]'),
         },
+        accountConfiguration: formData.get('accountConfiguration'),
       }),
     });
 
@@ -88,3 +89,10 @@ accountForm.addEventListener('submit', async function (event) {
     handleError(err.message);
   }
 });
+
+// Show the dashboard option only when dev === true
+const searchParams = new URL(window.location.href).searchParams;
+if (searchParams.get('dev') === 'true') {
+  const dashboardAccessElement = document.getElementById('account-configuration-section');
+  dashboardAccessElement.style.display = 'block';
+}
