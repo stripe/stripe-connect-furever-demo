@@ -65,9 +65,7 @@ async function initStripeConnect() {
       publishableKey: publishableKey,
       clientSecret: clientSecret,
       appearance: {
-        colors: {
-          primary: '#228403',
-        },
+        colorPrimary: '#228403',
       },
       uiConfig: {
         overlay: 'dialog',
