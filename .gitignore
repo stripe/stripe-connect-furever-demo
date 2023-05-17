@@ -1,5 +1,6 @@
 # FurEver
 .env
+dist/
 
 # macOS
 .DS_Store
@@ -68,9 +69,3 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
-
-# dotenv environment variables file
-.env
-
-#compiled by webpack
-/server/public/javascripts/connect.js

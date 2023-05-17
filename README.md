@@ -5,9 +5,9 @@ FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e 
 **See a live version on [furever.dev](https://furever.dev).**
 
 
-<img src="server/public/images/screenshots/furever_landing.png" width="440">
+<img src="client/assets/images/screenshots/furever_landing.png" width="440">
 
-<img src="server/public/images/screenshots/furever_dashboard.png" width="440">
+<img src="client/assets/images/screenshots/furever_dashboard.png" width="440">
 
 ## Features
 FurEver showcases the integration between a platform's website, [Stripe Connect](https://stripe.com/connect), and [Stripe Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components). Users sign up within the platform's website and through the process, a corresponding Stripe unified account is created with the following configuration:
@@ -30,16 +30,10 @@ The web application is implemented as as full-stack application powered by Expre
 
 To integrate Stripe Connect in your own app:
 1. [`server/routes/stripe.js`](server/routes/stripe.js) shows how to interact with the Stripe API.
-    - [`server/public/javascripts/createAccount.js`](server/public/javascripts/createAccount.js) is the client-side javascript for creating a Stripe connected account.
-    - [`server/public/javascripts/onboarding.js`](server/public/javascripts/onboarding.js) is the client-side javascript for listening to the `onboardingexited` event in the embedded onboarding UI component.
-    - [`server/public/javascripts/createPayments.js`](server/public/javascripts/createPayments.js) is the client-side javascript for creating a test payment.
-    - [`server/public/javascripts/createPayouts.js`](server/public/javascripts/createPayouts.js) is the client-side javascript for creating a test payout.
-2. [`server/routes/main.js`](server/routes/main.js) shows the basic routing for the application.
+2. [`server/routes/api.js`](server/routes/api.js) shows the basic routing for the application.
 
 To integrate Stripe Connect embedded components, check out our [documentation](https://stripe.com/docs/connect/get-started-connect-embedded-components).
-1. [`server/public/javascripts/connect.js`](server/public/javascripts/connect.js) shows the client side integration with Connect embedded components.
-    - [`server/views/layout.pug`](server/views/layout.pug) shows how to include the connect.js script in your application.
-    - [`server/views/dashboard.pug`](server/views/dashboard.pug) has an example of rendering a Connect embedded component.
+1. [`client/hooks/Connect.tsx`](client/hooks/Connect.tsx) shows the client side integration with Connect embedded components.
 2. [`server/routes/stripe.js`](server/routes/stripe.js) shows the server request to `v1/account_sessions`.
 
 ## Requirements
@@ -55,8 +49,7 @@ You'll need to have [Node.js](http://nodejs.org) >= 7.x and [MongoDB](https://ww
 Install dependencies using npm (or yarn):
 
 ```
-cd server
-npm install
+yarn
 ```
 
 Copy the environment file and add your own [Stripe API keys](https://dashboard.stripe.com/account/apikeys):
@@ -65,20 +58,15 @@ Copy the environment file and add your own [Stripe API keys](https://dashboard.s
 cp .env.example .env
 ```
 
-Make sure MongoDB is running. If you're using Homebrew on macOS:
-
+Install MongoDB Community Edition. Refer to the [official documentation](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/). Then, run MongoDB:
 ```
 brew services start mongodb-community@6.0
-```
-OR
-```
-brew services start mongodb
 ```
 
 Run the app:
 
 ```
-npm start
+yarn start
 ```
 
-Go to http://localhost:3000 in your browser to start using the app.
+Go to `process.env.PORT` in your browser to start using the app.

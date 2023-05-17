@@ -1,10 +1,9 @@
-'use strict';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcryptjs');
 
-const salonSchemaName = 'SalonV3'
+const salonSchemaName = 'SalonV3';
 
 // Define the Salon schema.
 const SalonSchema = new Schema({
@@ -48,7 +47,6 @@ const SalonSchema = new Schema({
 
 // Check the email address to make sure it's unique (no existing salon with that address).
 function SalonEmailValidator(email) {
-  const Salon = mongoose.model(salonSchemaName);
   // Asynchronously resolve a promise to validate whether an email already exists
   return new Promise((resolve, reject) => {
     // Only check model updates for new salons (or if the email address is updated).
@@ -74,16 +72,6 @@ function SalonEmailValidator(email) {
   });
 }
 
-// Return a salon name for display.
-SalonSchema.methods.displayName = function () {
-  // return this.stripeAccountId;
-  if (this.type === 'company') {
-    return this.salon.name;
-  } else {
-    return `${this.firstName} ${this.lastName}`;
-  }
-};
-
 // Generate a password hash (with an auto-generated salt for simplicity here).
 SalonSchema.methods.generateHash = function (password) {
   return bcrypt.hashSync(password, 8);
@@ -103,6 +91,8 @@ SalonSchema.pre('save', function (next) {
   next();
 });
 
-const Salon = mongoose.model(salonSchemaName, SalonSchema);
+const Salon =
+  mongoose.models[salonSchemaName] ||
+  mongoose.model(salonSchemaName, SalonSchema);
 
-module.exports = Salon;
+export default Salon;

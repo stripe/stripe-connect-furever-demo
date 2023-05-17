@@ -1,13 +1,15 @@
-'use strict';
+import dotenv from 'dotenv';
+import express from 'express';
+import Stripe from 'stripe';
+import {userRequired, stripeAccountRequired} from './middleware.js';
 
-require('dotenv').config({path: '../.env'});
+dotenv.config({path: './.env'});
+
 // We are including the beta headers for Connect embedded components and Unified accounts
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2022-08-01; embedded_connect_beta=v1;unified_accounts_beta=v1',
 });
 
-const {salonRequired, stripeAccountRequired} = require('./middleware');
-const express = require('express');
 const router = express.Router();
 
 // Important: We're using static tokens based on specific test card numbers
@@ -163,7 +165,7 @@ function getAccountParams(accountConfiguration) {
           pricing_controls: true, // The platform is the pricing owner
         },
         dashboard: {
-          type: "none", // The connected account will not have access to dashboard
+          type: 'none', // The connected account will not have access to dashboard
         },
       };
       break;
@@ -176,7 +178,7 @@ function getAccountParams(accountConfiguration) {
           pricing_controls: true, // The platform is the pricing owner
         },
         dashboard: {
-          type: "full", // Standard dash
+          type: 'full', // Standard dash
         },
       };
       break;
@@ -188,7 +190,7 @@ function getAccountParams(accountConfiguration) {
     type,
     controller,
     capabilities,
-  }
+  };
 }
 
 /**
@@ -196,7 +198,7 @@ function getAccountParams(accountConfiguration) {
  *
  * Create a Stripe account via POST /v1/accounts
  */
-router.post('/create-account', salonRequired, async (req, res, next) => {
+router.post('/create-account', userRequired, async (req, res, next) => {
   // Generate a random string as `state` to protect from CSRF and include it in the session
   req.session.state = Math.random().toString(36).slice(2);
 
@@ -370,118 +372,73 @@ router.post('/create-account', salonRequired, async (req, res, next) => {
       }
     }
 
-    res.status(200);
-    return res.send({});
+    return res.status(200).end();
   } catch (error) {
     console.error(`Failed to create a Stripe account: ${error}`);
     res.status(500);
-    res.send({error: error.message});
-  }
-});
-
-router.get('/create-link', stripeAccountRequired, async (req, res, next) => {
-  // Generate a random string as `state` to protect from CSRF and include it in the session
-  req.session.state = Math.random().toString(36).slice(2);
-
-  try {
-    const accountId = req.user.stripeAccountId;
-
-    // Create an account link for the user's Stripe account
-    const accountLink = await stripe.accountLinks.create({
-      account: accountId,
-      refresh_url: process.env.PUBLIC_DOMAIN + '/stripe/create-link',
-      return_url: process.env.PUBLIC_DOMAIN + '/stripe/onboarded',
-      type: 'account_onboarding',
-    });
-
-    // Redirect to Stripe to start the hosted onboarding flow
-    res.redirect(accountLink.url);
-  } catch (err) {
-    console.log('Failed to create an account link.');
-    console.log(err);
-    next(err);
+    return res.send({error: error.message});
   }
 });
 
 /**
- * GET /stripe/onboarded
- *
- * Return endpoint from Stripe onboarding, checks if onboarding has been completed
- */
-router.get('/onboarded', salonRequired, async (req, res, next) => {
-  try {
-    // Check the user's Stripe account and check if they have finished onboarding
-    if (req.stripeAccount?.details_submitted) {
-      req.flash('showBanner', 'true');
-    } else {
-      console.log('The onboarding process was not completed.');
-    }
-
-    // Redirect to the FurEver dashboard
-    res.redirect('/reservations');
-  } catch (err) {
-    console.log('Failed to retrieve Stripe account information.');
-    console.log(err);
-    next(err);
-  }
-});
-
-/**
- * GET /stripe/create-account-session
+ * POST /stripe/create-account-session
  *
  * Returns client secret from POST /v1/account_session
  */
-router.get('/create-account-session', async (req, res, next) => {
-  try {
-    if (!req.isAuthenticated() || !req.user.stripeAccountId) {
-      res.status(400);
-      return res.send();
+router.post(
+  '/create-account-session',
+  stripeAccountRequired,
+  async (req, res, next) => {
+    try {
+      const accountSession = await stripe.accountSessions.create({
+        account: req.user.stripeAccountId,
+      });
+      res.json({
+        client_secret: accountSession.client_secret,
+        publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
+      });
+    } catch (error) {
+      console.error('Failed to create an account session: ', error);
+      res.status(500);
+      return res.send({error: error.message});
     }
-
-    const accountSession = await stripe.accountSessions.create({
-      account: req.user.stripeAccountId,
-    });
-    res.json({
-      client_secret: accountSession.client_secret,
-      publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
-    });
-  } catch (error) {
-    console.log('Failed to create an account session');
-    console.error(error);
-    res.status(500);
-    res.send({error: error.message});
   }
-});
+);
 
 /**
- * POST /stripe/intervention
+ * POST /stripe/create-intervention
  *
  * Generates test intervention for the logged-in salon. This is only used for testing purposes
  */
 const merchantIssueResource = stripe.StripeResource.extend({
   create: stripe.StripeResource.method({
     method: 'POST',
-    path: '/test_helpers/demo/merchant_issue'
-  })
-})
-
-router.post('/intervention', stripeAccountRequired, async (req, res, next) => {
-  try {
-    const interventionResponse = await new merchantIssueResource(stripe)
-    .create({
-      account: req.user.stripeAccountId,
-      issue_type: 'additional_info'
-    })
-
-    res.send(interventionResponse)
-  } catch (err) {
-    console.log(err);
-    res.send(err)
-  }
+    path: '/test_helpers/demo/merchant_issue',
+  }),
 });
 
+router.post(
+  '/create-intervention',
+  stripeAccountRequired,
+  async (req, res, next) => {
+    try {
+      const interventionResponse = await new merchantIssueResource(
+        stripe
+      ).create({
+        account: req.user.stripeAccountId,
+        issue_type: 'additional_info',
+      });
+
+      res.send(interventionResponse);
+    } catch (err) {
+      console.error(err);
+      res.send(err);
+    }
+  }
+);
+
 /**
- * POST /stripe/payments
+ * POST /stripe/create-payments
  *
  * Generates test payments for the logged-in salon
  * using POST /v1/payment_intents and POST /v1/payment_intents/:id/confirm.
@@ -514,7 +471,7 @@ const customers = [
     description: 'Fur brushing and trimming for Argente Rabbit',
   },
 ];
-router.post('/payments', stripeAccountRequired, async (req, res, next) => {
+router.post('/create-payments', stripeAccountRequired, async (req, res) => {
   try {
     const account = await stripe.account.retrieve(req.user.stripeAccountId);
     const {count: inputCount, amount: inputAmount, status, currency} = req.body;
@@ -577,76 +534,79 @@ router.post('/payments', stripeAccountRequired, async (req, res, next) => {
         })()
       )
     );
-    res.status(200);
-    return res.send({});
+    return res.status(200).end();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
     return res.send({error: error.message});
   }
 });
 
 /**
- * POST /stripe/checkout
+ * POST /stripe/create-checkout-session
  *
  * Generate a payment intent for checkout with Stripe via POST /v1/paymentintent
  */
-router.get('/checkout', stripeAccountRequired, async (req, res) => {
-  const host = req.get('host');
-  const protocol = req.protocol;
-  console.log('url is', `${protocol}://${host}/payments`);
+router.post(
+  '/create-checkout-session',
+  stripeAccountRequired,
+  async (req, res) => {
+    const host = req.get('host');
+    const protocol = req.protocol;
+    console.log('url is', `${protocol}://${host}/payments`);
 
-  let checkoutSession;
-  try {
-    const nameAndDescription =
-      descriptions[Math.floor(Math.random() * descriptions.length)];
-    checkoutSession = await stripe.checkout.sessions.create(
-      {
-        line_items: [
-          {
-            price_data: {
-              unit_amount: getRandomInt(1000, 10000), // Use a random amount if input is not provided,
-              currency: 'USD',
-              product_data: {
-                name: nameAndDescription,
-                description: nameAndDescription,
+    let checkoutSession;
+    try {
+      const {description: nameAndDescription} =
+        customers[Math.floor(Math.random() * customers.length)];
+      checkoutSession = await stripe.checkout.sessions.create(
+        {
+          line_items: [
+            {
+              price_data: {
+                unit_amount: getRandomInt(1000, 10000), // Use a random amount if input is not provided,
+                currency: 'USD',
+                product_data: {
+                  name: nameAndDescription,
+                  description: nameAndDescription,
+                },
               },
+              quantity: 1,
             },
-            quantity: 1,
+          ],
+          payment_intent_data: {
+            description: nameAndDescription,
+            statement_descriptor: process.env.APP_NAME,
           },
-        ],
-        payment_intent_data: {
-          description: nameAndDescription,
-          statement_descriptor: process.env.APP_NAME,
+          mode: 'payment',
+          success_url: `${protocol}://${host}/payments`,
+          cancel_url: `${protocol}://${host}/payments`,
         },
-        mode: 'payment',
-        success_url: `${protocol}://${host}/payments`,
-        cancel_url: `${protocol}://${host}/payments`,
-      },
-      {
-        stripeAccount: req.user.stripeAccountId,
+        {
+          stripeAccount: req.user.stripeAccountId,
+        }
+      );
+
+      if (!checkoutSession || !checkoutSession.url) {
+        throw new Error('Session URL was not returned');
       }
-    );
 
-    if (!checkoutSession || !checkoutSession.url) {
-      throw new Error('Session URL was not returned');
+      res.status(200);
+      return res.send({checkoutSession: checkoutSession.url});
+    } catch (error) {
+      console.error(error);
+      res.status(500);
+      return res.send({error: error.message});
     }
-
-    res.status(200);
-    return res.send({checkoutSession: checkoutSession.url});
-  } catch (error) {
-    console.log(error);
-    res.status(500);
-    return res.send({error: error.message});
   }
-});
+);
 
 /**
- * POST /stripe/payout
+ * POST /stripe/create-payout
  *
  * Generate a payout with Stripe for the available balance via POST /v1/payouts
  */
-router.post('/payout', stripeAccountRequired, async (req, res) => {
+router.post('/create-payout', stripeAccountRequired, async (req, res) => {
   const salon = req.user;
   try {
     // Fetch the account balance to determine the available funds
@@ -671,12 +631,28 @@ router.post('/payout', stripeAccountRequired, async (req, res) => {
         'You do not have any available balance to payout. Create a test payment in the "Payments" tab first with the "Successful" status to immediately add funds to your account.'
       );
     }
-    res.status(200);
-    return res.send({});
+    return res.status(200).end();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
     return res.send({error: error.message});
+  }
+});
+
+/**
+ * GET /stripe/onboarded
+ *
+ * Returns a boolean indicating whether onboarding has been completed
+ */
+router.get('/onboarded', stripeAccountRequired, async (req, res) => {
+  try {
+    const stripeAccount = await retrieveStripeAccount(req.user.stripeAccountId);
+    return res
+      .status(200)
+      .send({onboarded: !!stripeAccount?.details_submitted});
+  } catch (error) {
+    console.error(error);
+    return res.status(500).res.send({onboarded: false, error: error.message});
   }
 });
 
@@ -685,4 +661,4 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-module.exports = router;
+export default router;

@@ -1,30 +1,30 @@
-'use strict';
+import dotenv from 'dotenv';
+import Stripe from 'stripe';
 
-require('dotenv').config({path: './.env'});
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+dotenv.config({path: './.env'});
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2022-08-01; embedded_connect_beta=v1',
 });
 
 // Middleware that requires a logged-in salon
-function salonRequired(req, res, next) {
+export function userRequired(req, res, next) {
   if (!req.isAuthenticated()) {
-    return res.redirect('/login');
+    return res
+      .status(500)
+      .send({error: 'Complete your profile with FurEver first.'});
   }
   next();
 }
 
 // Middleware that requires a logged-in salon and a Stripe account
-function stripeAccountRequired(req, res, next) {
-  if (!req.isAuthenticated()) {
-    return res.redirect('/login');
-  }
-  if (!req.user?.stripeAccountId) {
-    return res.redirect('/signup');
+export function stripeAccountRequired(req, res, next) {
+  if (!req.isAuthenticated() || !req.user?.stripeAccountId) {
+    return res.status(500).send({error: 'You must onboard with Stripe first.'});
   }
   next();
 }
 
-async function retrieveStripeAccount(accountId) {
+export async function retrieveStripeAccount(accountId) {
   try {
     const account = await stripe.accounts.retrieve(accountId);
     if (account) {
@@ -36,9 +36,3 @@ async function retrieveStripeAccount(accountId) {
     return null;
   }
 }
-
-module.exports = {
-  retrieveStripeAccount,
-  salonRequired,
-  stripeAccountRequired,
-};
