@@ -3,19 +3,20 @@
   "description": "A sample on-demand platform running on top of Stripe Connect embedded components.",
   "version": "0.0.1",
   "private": true,
-  "main": "index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/stripe/stripe-connect-furever.git"
   },
   "type": "module",
+  "source": "client/index.html",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "yarn build && node server/server.js",
-    "dev": "concurrently \"yarn start:server\" \"yarn start:client\" --kill-others",
-    "start:client": "webpack-dev-server --progress",
-    "start:server": "node server/server.js"
+    "clean": "rimraf dist",
+    "build": "yarn clean && npx tsc && parcel build client/index.html",
+    "start": "yarn build && parcel client/index.html && node dist/server/server.js",
+    "dev": "yarn build && concurrently \"yarn start:server\" \"yarn start:client\" --kill-others",
+    "start:client": "parcel watch client/index.html",
+    "start:server": "node dist/server/server.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.21.5",
@@ -34,7 +35,6 @@
     "express-session": "^1.17.3",
     "http-auth": "^4.2.0",
     "http-auth-connect": "^1.0.6",
-    "moment": "^2.29.2",
     "mongodb": "^5.4.0",
     "mongoose": "^5.11.9",
     "morgan": "^1.9.1",
@@ -51,23 +51,24 @@
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.8",
     "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.21.5",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
     "@types/bcryptjs": "^2.4.2",
+    "@types/express-session": "^1.17.7",
+    "@types/http-auth": "^4.1.1",
+    "@types/morgan": "^1.9.4",
     "@types/node": "20.1.0",
+    "@types/passport": "^1.0.12",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "babel-loader": "^9.1.2",
     "concurrently": "^8.0.1",
     "css-loader": "^6.7.3",
-    "dotenv-webpack": "^8.0.1",
+    "parcel": "^2.8.3",
     "prettier": "2.5.1",
+    "process": "^0.11.10",
     "style-loader": "^3.3.2",
     "ts-loader": "^9.2.6",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.82.1",
-    "webpack-cli": "^5.1.1",
-    "webpack-dev-server": "^4.15.0"
+    "url-loader": "^4.1.1"
   }
 }

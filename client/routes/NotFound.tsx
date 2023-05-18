@@ -1,27 +1,24 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PetsIcon from '@mui/icons-material/Pets';
 import Typography from '@mui/material/Typography';
+import RouterLink from '../components/RouterLink';
 
 const NotFound = () => {
-  const navigate = useNavigate();
-
   return (
-    <Box className="container w-fill" gap={4}>
+    <Box className="container w-fill" gap={2}>
       <Typography
         variant="h5"
         sx={{
           textAlign: 'center',
         }}
       >
-        Page not found
+        404
       </Typography>
       <Box
         className="container w-fill"
         sx={{
-          gap: 2,
+          gap: 1,
           width: {
             xs: '100%',
             sm: '75%',
@@ -29,15 +26,16 @@ const NotFound = () => {
           },
         }}
       >
-        <PetsIcon color="primary" sx={{fontSize: 60}} />
+        <Typography>The page you're looking for doesn't exist.</Typography>
         <Button
-          onClick={() => navigate(-1)}
+          component={RouterLink}
+          to="/"
           variant="contained"
           sx={{
             fontWeight: 600,
           }}
         >
-          Go back
+          Go home
         </Button>
       </Box>
     </Box>

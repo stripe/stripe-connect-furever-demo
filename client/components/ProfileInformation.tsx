@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -24,7 +23,11 @@ const ProfilePhoto = () => {
       <AccountCircleIcon sx={{fontSize: 50}} />
       <Box>
         <Typography variant="body2" fontSize={14}>
-          {`Salon since ${moment(user.created).format('DD MMM YYYY')}`}
+          {`Salon since ${new Date(user.created).toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          })}`}
         </Typography>
         <Typography variant="h6">{displayName}</Typography>
       </Box>

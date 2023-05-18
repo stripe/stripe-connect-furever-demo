@@ -6,7 +6,11 @@ import {retrieveStripeAccount} from './middleware.js';
 
 const router = express.Router();
 
-// Middleware that exposes the salon and stripe account object (if any) to views
+/**
+ * GET /api/preloaded
+ *
+ * Return the logged-in salon and their Stripe account if available.
+ */
 router.get('/preloaded', async (req, res) => {
   try {
     if (req.user) {
@@ -35,7 +39,7 @@ router.get('/preloaded', async (req, res) => {
 });
 
 /**
- * POST /signup
+ * POST /api/signup
  *
  * Create a user during the salon onboarding process.
  */

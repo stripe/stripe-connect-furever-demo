@@ -1,12 +1,8 @@
 import React, {createContext, useContext, useState} from 'react';
 import Stripe from 'stripe';
 import {FullScreenLoading} from '../components/FullScreenLoading';
-
-const fetchPreloaded = async (): Promise<SessionContext | undefined> => {
-  const response = await fetch('/api/preloaded');
-  const responseJson = await response.json();
-  return responseJson;
-};
+import {useMutation, useQuery} from 'react-query';
+import {ErrorState} from '../components/ErrorState';
 
 export type User = {
   salon: {
@@ -30,6 +26,22 @@ type SessionContext = {
   stripeAccount?: Stripe.Account | null;
 };
 
+const useFetchPreloaded = () => {
+  return useMutation<SessionContext, Error>('fetchPreloaded', () =>
+    fetch('/api/preloaded', {
+      method: 'GET',
+    }).then(async (response) => {
+      const responseJson = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          responseJson?.error ?? 'An error ocurred, please try again.'
+        );
+      }
+      return responseJson;
+    })
+  );
+};
+
 const SessionContext = createContext<SessionContext>({});
 
 export const useSession = () => {
@@ -37,34 +49,16 @@ export const useSession = () => {
 };
 
 export const SessionProvider = ({children}: {children: React.ReactNode}) => {
-  const [session, setSession] = useState<SessionContext | undefined>(undefined);
-  // const queryClient = useQueryClient();
-  // const prefetchPreloaded = async () => {
-  //   // The results of this query will be cached like a normal query
-  //   await queryClient.prefetchQuery({
-  //     queryKey: ['todos'],
-  //     queryFn: fetchPreloaded,
-  //   });
-  // };
+  const {data: session, isLoading, error, mutate} = useFetchPreloaded();
 
-  // React.useEffect(() => {
-  //   prefetchPreloaded();
-  // }, []);
-  // const {data, status} = useFetchPreloaded();
-  // if (status === 'error') {
-  //   return <div>Error</div>;
-  // } else if (status === 'loading' || !data) {
-  //   return <div>Loading...</div>;
-  // }
   React.useEffect(() => {
-    const runAsync = async () => {
-      const preloaded = await fetchPreloaded();
-      setSession(preloaded);
-    };
-    runAsync();
+    mutate();
   }, []);
 
-  if (!session) return <FullScreenLoading />;
+  if (error) {
+    return <ErrorState errorMessage={error.message} handleTryAgain={mutate} />;
+  }
+  if (!session || isLoading) return <FullScreenLoading />;
 
   return (
     <SessionContext.Provider value={session}>

@@ -8,7 +8,6 @@ import passport from 'passport';
 import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import moment from 'moment';
 import {fileURLToPath} from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -45,7 +44,6 @@ const connectRetry = function () {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      poolSize: 500,
     },
     (err) => {
       if (err) {
@@ -62,7 +60,6 @@ app.use(
   session({
     cookie: {maxAge: 2592000000}, // 60 * 60 * 24 * 30 * 1000 = 1 month
     secret: process.env.SECRET,
-    signed: true,
     resave: true,
   })
 );
@@ -82,8 +79,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.locals.moment = moment;
-
 // CRUD routes for the salon signup and dashboard
 app.use('/api', apiRouter);
 app.use('/stripe', stripeRouter);
@@ -92,7 +87,7 @@ app.use('/stripe', stripeRouter);
 app.use(express.static(path.join(__dirname, '..')));
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 // Start the server on the correct port

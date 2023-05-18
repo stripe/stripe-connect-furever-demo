@@ -5,8 +5,7 @@ import {loadConnect} from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
-
-const connect = await loadConnect();
+import {ErrorState} from '../components/ErrorState';
 
 type AccountSession = {
   clientSecret: string;
@@ -18,22 +17,21 @@ type AccountSession = {
  *  If there is an error, undefined is returned.
  *  Else, the clientSecret and publishableKey are returned.
  */
-const useCreateAccountSession = () => {
-  return useMutation<AccountSession, Error, void>('createAccountSession', () =>
-    fetch('/stripe/create-account-session', {
-      method: 'POST',
-    }).then(async (response) => {
-      const json = await response.json();
-      if (!response.ok) {
-        const {error} = json;
-        throw new Error(error.message);
-      } else {
-        const {client_secret: clientSecret, publishable_key: publishableKey} =
-          json;
-        return {clientSecret, publishableKey};
-      }
-    })
-  );
+const fetchAccountSession = async (): Promise<AccountSession> => {
+  const response = await fetch('/stripe/create-account-session', {
+    method: 'POST',
+  });
+  const responseJson = await response.json();
+  console.log('RESP', responseJson);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to obtain account session, could not initialize connect.js: ${responseJson.error}`
+    );
+  } else {
+    const {client_secret: clientSecret, publishable_key: publishableKey} =
+      responseJson;
+    return {clientSecret, publishableKey};
+  }
 };
 
 /**
@@ -42,59 +40,63 @@ const useCreateAccountSession = () => {
  *  This function makes a server-side request to the /stripe/create-account-session
  *  and returns a new clientSecret in order to claim a new API key.
  */
-const useFetchClientSecret = () => async () => {
-  const {mutateAsync: createAccountSession} = useCreateAccountSession();
-  try {
-    const {clientSecret} = await createAccountSession();
-    return clientSecret;
-  } catch (error: any) {
-    console.error(
-      'Failed to obtain account session, could not initialize connect.js: ',
-      error
-    );
-    return '';
-  }
+const refreshClientSecret = async () => {
+  const {clientSecret} = await fetchAccountSession();
+  return clientSecret;
+};
+
+/**
+ *  This function calls the fetchAccountSession function and
+ *  uses the retrieved clientSecret to initialize the Connect.js instance.
+ */
+const useInitStripeConnect = () => {
+  return useMutation<StripeConnectInstance, Error>(
+    'initStripeConnect',
+    async () => {
+      const connect = await loadConnect();
+      const {clientSecret, publishableKey} = await fetchAccountSession();
+      const connectInstance = connect.initialize({
+        clientSecret,
+        publishableKey,
+        refreshClientSecret,
+        appearance: {
+          colorPrimary: '#228403',
+        },
+        uiConfig: {
+          overlay: 'dialog',
+        },
+      });
+      return connectInstance;
+    }
+  );
 };
 
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
-  const {mutateAsync: createAccountSession, mutate} = useCreateAccountSession();
+  const {
+    data: connectInstance,
+    error,
+    isLoading,
+    mutate,
+  } = useInitStripeConnect();
   const {stripeAccount} = useSession();
-  const [connectInstance, setConnectInstance] =
-    React.useState<StripeConnectInstance | null>();
-  const refreshClientSecret = useFetchClientSecret();
 
   React.useEffect(() => {
     const runAsync = async () => {
-      try {
-        if (stripeAccount) {
-          const accountSession = await createAccountSession();
-
-          const connectInstance = connect.initialize({
-            clientSecret: accountSession?.clientSecret,
-            publishableKey: accountSession?.publishableKey,
-            refreshClientSecret,
-            appearance: {
-              colorPrimary: '#228403',
-            },
-            uiConfig: {
-              overlay: 'dialog',
-            },
-          });
-          setConnectInstance(connectInstance);
-        }
-      } catch (error: any) {
-        console.error(
-          'Failed to obtain account session, could not initialize connect.js: ',
-          error
-        );
+      if (stripeAccount) {
+        mutate();
       }
     };
     runAsync();
   }, [stripeAccount]);
 
   if (!stripeAccount) return <>{children}</>;
+  console.log('erorr', error);
 
-  if (!connectInstance) return <FullScreenLoading />;
+  if (error) {
+    return <ErrorState errorMessage={error.message} handleTryAgain={mutate} />;
+  }
+  if (!connectInstance || isLoading) return <FullScreenLoading />;
+
   return (
     <ConnectComponentsProvider connectInstance={connectInstance}>
       {children}
