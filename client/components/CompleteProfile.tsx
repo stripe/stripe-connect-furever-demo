@@ -33,8 +33,8 @@ const useCreateStripeAccount = () => {
   const navigate = useNavigate();
   return useMutation<void, Error, FormData>(
     'createAccount',
-    (formData: FormData) =>
-      fetch('/stripe/create-account', {
+    async (formData: FormData) => {
+      const response = await fetch('/stripe/create-account', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,13 +52,13 @@ const useCreateStripeAccount = () => {
           },
           accountConfiguration: formData.get('accountConfiguration'),
         }),
-      }).then(async (response) => {
-        if (response.ok) {
-          return navigate(0);
-        }
-        const {error} = await response.json();
-        throw new Error(error);
-      })
+      });
+      if (response.ok) {
+        return navigate(0);
+      }
+      const {error} = await response.json();
+      throw new Error(error);
+    }
   );
 };
 

@@ -14,19 +14,18 @@ import {useSession} from '../hooks/SessionProvider';
 const useOnboarded = () => {
   const {refetch} = useSession();
   const navigate = useNavigate();
-  return useMutation<void, Error>('login', () =>
-    fetch('/stripe/onboarded', {
+  return useMutation<void, Error>('login', async () => {
+    const response = await fetch('/stripe/onboarded', {
       method: 'GET',
-    }).then(async (response) => {
-      const {onboarded} = await response.json();
-      if (onboarded) {
-        refetch();
-        navigate('/reservations');
-      } else {
-        navigate(0);
-      }
-    })
-  );
+    });
+    const {onboarded} = await response.json();
+    if (onboarded) {
+      refetch();
+      navigate('/reservations');
+    } else {
+      navigate(0);
+    }
+  });
 };
 
 const Onboarding = () => {

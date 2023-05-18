@@ -11,8 +11,8 @@ const useCreateUser = () => {
   const navigate = useNavigate();
   return useMutation<void, Error, FormData>(
     'createAccount',
-    (formData: FormData) =>
-      fetch('/api/signup', {
+    async (formData: FormData) => {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,13 +21,14 @@ const useCreateUser = () => {
           email: formData.get('email'),
           password: formData.get('password'),
         }),
-      }).then(async (response) => {
-        if (response.ok) {
-          return navigate(0);
-        }
-        const {error} = await response.json();
-        throw new Error(error);
-      })
+      });
+
+      if (response.ok) {
+        return navigate(0);
+      }
+      const {error} = await response.json();
+      throw new Error(error);
+    }
   );
 };
 

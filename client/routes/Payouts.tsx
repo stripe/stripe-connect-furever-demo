@@ -14,16 +14,15 @@ import {useSession} from '../hooks/SessionProvider';
 import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
 
 const useCreatePayout = () => {
-  return useMutation<void, Error>('createPayout', () =>
-    fetch('/stripe/create-payout', {
+  return useMutation<void, Error>('createPayout', async () => {
+    const response = await fetch('/stripe/create-payout', {
       method: 'POST',
-    }).then(async (response) => {
-      if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json?.error ?? 'An error ocurred, please try again.');
-      }
-    })
-  );
+    });
+    if (!response.ok) {
+      const json = await response.json();
+      throw new Error(json?.error ?? 'An error ocurred, please try again.');
+    }
+  });
 };
 
 const Payouts = () => {

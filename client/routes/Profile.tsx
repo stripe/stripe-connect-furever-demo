@@ -15,16 +15,15 @@ import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
 import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
 
 const useCreateIntervention = () => {
-  return useMutation<void, Error>('createIntervention', () =>
-    fetch('/stripe/create-intervention', {
+  return useMutation<void, Error>('createIntervention', async () => {
+    const response = await fetch('/stripe/create-intervention', {
       method: 'POST',
-    }).then(async (response) => {
-      if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json?.error ?? 'An error ocurred, please try again.');
-      }
-    })
-  );
+    });
+    if (!response.ok) {
+      const json = await response.json();
+      throw new Error(json?.error ?? 'An error ocurred, please try again.');
+    }
+  });
 };
 
 const Profile = () => {

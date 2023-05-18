@@ -7,11 +7,11 @@ import {retrieveStripeAccount} from './middleware.js';
 const router = express.Router();
 
 /**
- * GET /api/preloaded
+ * GET /api/session
  *
  * Return the logged-in salon and their Stripe account if available.
  */
-router.get('/preloaded', async (req, res) => {
+router.get('/session', async (req, res) => {
   try {
     if (req.user) {
       let stripeAccount = null;

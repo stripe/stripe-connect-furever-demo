@@ -1,7 +1,7 @@
 import React, {createContext, useContext} from 'react';
 import Stripe from 'stripe';
 import {FullScreenLoading} from '../components/FullScreenLoading';
-import {useMutation} from 'react-query';
+import {useQuery} from 'react-query';
 import {ErrorState} from '../components/ErrorState';
 
 type SessionContext = {
@@ -10,20 +10,19 @@ type SessionContext = {
   refetch: () => void;
 };
 
-const useFetchPreloaded = () => {
-  return useMutation<SessionContext, Error>('fetchPreloaded', () =>
-    fetch('/api/preloaded', {
+const useFetchSession = () => {
+  return useQuery<SessionContext, Error>('fetchSession', async () => {
+    const response = await fetch('/api/session', {
       method: 'GET',
-    }).then(async (response) => {
-      const responseJson = await response.json();
-      if (!response.ok) {
-        throw new Error(
-          responseJson?.error ?? 'An error ocurred, please try again.'
-        );
-      }
-      return responseJson;
-    })
-  );
+    });
+    const responseJson = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        responseJson?.error ?? 'An error ocurred, please try again.'
+      );
+    }
+    return responseJson;
+  });
 };
 
 const SessionContext = createContext<SessionContext>({
@@ -35,19 +34,19 @@ export const useSession = () => {
 };
 
 export const SessionProvider = ({children}: {children: React.ReactNode}) => {
-  const {data: session, isLoading, error, mutate} = useFetchPreloaded();
+  const {data: session, isLoading, error, refetch} = useFetchSession();
 
-  React.useEffect(() => {
-    mutate();
-  }, []);
+  // React.useEffect(() => {
+  //   mutate();
+  // }, []);
 
   if (error) {
-    return <ErrorState errorMessage={error.message} retry={mutate} />;
+    return <ErrorState errorMessage={error.message} retry={refetch} />;
   }
   if (!session || isLoading) return <FullScreenLoading />;
 
   return (
-    <SessionContext.Provider value={{...session, refetch: mutate}}>
+    <SessionContext.Provider value={{...session, refetch}}>
       {children}
     </SessionContext.Provider>
   );

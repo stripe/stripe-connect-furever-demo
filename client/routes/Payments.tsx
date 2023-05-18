@@ -19,8 +19,8 @@ import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContain
 const useCreatePayments = () => {
   return useMutation<void, Error, FormData>(
     'createPayments',
-    (formData: FormData) =>
-      fetch('/stripe/create-payments', {
+    async (formData: FormData) => {
+      const response = await fetch('/stripe/create-payments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,29 +31,33 @@ const useCreatePayments = () => {
           status: formData.get('status'),
           currency: formData.get('currency'),
         }),
-      }).then(async (response) => {
-        if (!response.ok) {
-          const json = await response.json();
-          throw new Error(json?.error ?? 'An error ocurred, please try again.');
-        }
-      })
+      });
+
+      if (!response.ok) {
+        const responseJson = await response.json();
+        throw new Error(
+          responseJson?.error ?? 'An error ocurred, please try again.'
+        );
+      }
+    }
   );
 };
 
 const useCreateCheckoutSession = () => {
-  return useMutation<void, Error, void>('createCheckoutSession', () =>
-    fetch('/stripe/create-checkout-session', {
+  return useMutation<void, Error, void>('createCheckoutSession', async () => {
+    const response = await fetch('/stripe/create-checkout-session', {
       method: 'POST',
-    }).then(async (response) => {
-      const json = await response.json();
-      if (!response.ok) {
-        throw new Error(json?.error ?? 'An error ocurred, please try again.');
-      } else {
-        const {checkoutSession} = json;
-        window.location.href = checkoutSession;
-      }
-    })
-  );
+    });
+    const responseJson = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        responseJson?.error ?? 'An error ocurred, please try again.'
+      );
+    } else {
+      const {checkoutSession} = responseJson;
+      window.location.href = checkoutSession;
+    }
+  });
 };
 
 const Payments = () => {

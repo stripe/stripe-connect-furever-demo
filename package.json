@@ -1,7 +1,7 @@
 {
   "name": "stripe-connect-furever",
   "description": "A sample on-demand platform running on top of Stripe Connect embedded components.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "repository": {
@@ -60,6 +60,7 @@
     "concurrently": "^8.0.1",
     "parcel": "^2.8.3",
     "prettier": "2.5.1",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "ts-node": "^10.9.1"
   }
 }

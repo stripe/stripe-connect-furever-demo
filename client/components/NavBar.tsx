@@ -20,15 +20,14 @@ import {OnboardingNotice} from './OnboardingNotice';
 import RouterLink from './RouterLink';
 
 const useLogout = () => {
-  return useMutation<void, Error>('logout', () =>
-    fetch('/api/logout', {
+  return useMutation<void, Error>('logout', async () => {
+    const response = await fetch('/api/logout', {
       method: 'POST',
-    }).then(async (response) => {
-      if (response.ok) {
-        window.location.replace('/');
-      }
-    })
-  );
+    });
+    if (response.ok) {
+      window.location.replace('/');
+    }
+  });
 };
 
 type Page = {

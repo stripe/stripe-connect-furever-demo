@@ -9,23 +9,26 @@ import {FormBlock, TextInput} from '../components/FormInputs';
 
 const useLogin = () => {
   const navigate = useNavigate();
-  return useMutation<void, Error, FormData>('login', (formData: FormData) =>
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      }),
-    }).then(async (response) => {
+  return useMutation<void, Error, FormData>(
+    'login',
+    async (formData: FormData) => {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.get('email'),
+          password: formData.get('password'),
+        }),
+      });
+
       if (response.ok) {
         return navigate(0);
       } else {
         throw new Error('Unrecognized email or password, please try again.');
       }
-    })
+    }
   );
 };
 
