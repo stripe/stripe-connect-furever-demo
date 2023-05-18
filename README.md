@@ -26,23 +26,21 @@ FurEver makes use of the following Connect embedded components:
 - `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
-The web application is implemented as as full-stack application powered by Express.js, with a Pug template engine for the frontend, and a Node.js REST API.
+The web application is implemented as as full-stack application powered by Express.ts, with a Pug template engine for the frontend, and a Node.ts REST API.
 
 To integrate Stripe Connect in your own app:
-1. [`server/routes/stripe.js`](server/routes/stripe.js) shows how to interact with the Stripe API.
-2. [`server/routes/api.js`](server/routes/api.js) shows the basic routing for the application.
+1. [`server/routes/stripe.ts`](server/routes/stripe.ts) shows how to interact with the Stripe API.
+2. [`server/routes/api.ts`](server/routes/api.ts) shows the basic routing for the application.
 
 To integrate Stripe Connect embedded components, check out our [documentation](https://stripe.com/docs/connect/get-started-connect-embedded-components).
 1. [`client/hooks/Connect.tsx`](client/hooks/Connect.tsx) shows the client side integration with Connect embedded components.
-2. [`server/routes/stripe.js`](server/routes/stripe.js) shows the server request to `v1/account_sessions`.
+2. [`server/routes/stripe.ts`](server/routes/stripe.ts) shows the server request to `v1/account_sessions`.
 
 ## Requirements
 
 You'll need a Stripe account to manage pet salon onboarding and payments:
 - [Sign up for free](https://dashboard.stripe.com/register), then [enable Connect](https://dashboard.stripe.com/account/applications/settings) by filling in your Connect settings.
 - Fill in the necessary information in the **Branding** section in [Connect settings](https://dashboard.stripe.com/test/settings/connect).
-
-You'll need to have [Node.js](http://nodejs.org) >= 7.x and [MongoDB](https://www.mongodb.com/docs/manual/installation/) installed to run this app.
 
 ### Getting started
 
@@ -66,7 +64,7 @@ brew services start mongodb-community@6.0
 Run the app:
 
 ```
-yarn start
+yarn dev
 ```
 
 Go to `process.env.PORT` in your browser to start using the app.

@@ -22,7 +22,6 @@ const fetchAccountSession = async (): Promise<AccountSession> => {
     method: 'POST',
   });
   const responseJson = await response.json();
-  console.log('RESP', responseJson);
   if (!response.ok) {
     throw new Error(
       `Failed to obtain account session, could not initialize connect.js: ${responseJson.error}`
@@ -90,10 +89,9 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
   }, [stripeAccount]);
 
   if (!stripeAccount) return <>{children}</>;
-  console.log('erorr', error);
 
   if (error) {
-    return <ErrorState errorMessage={error.message} handleTryAgain={mutate} />;
+    return <ErrorState errorMessage={error.message} retry={mutate} />;
   }
   if (!connectInstance || isLoading) return <FullScreenLoading />;
 

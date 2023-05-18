@@ -1,12 +1,17 @@
 import dotenv from 'dotenv';
-import express from 'express';
+import express, {Request} from 'express';
 import Stripe from 'stripe';
-import {userRequired, stripeAccountRequired} from './middleware.js';
+import {
+  userRequired,
+  stripeAccountRequired,
+  retrieveStripeAccount,
+} from './middleware.js';
 
 dotenv.config({path: './.env'});
 
 // We are including the beta headers for Connect embedded components and Unified accounts
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  // @ts-ignore If you wish to remain on your account's default API version, you may pass null or another version instead of the latest version, and add a @ts-ignore comment here and anywhere the types differ between API versions.
   apiVersion: '2022-08-01; embedded_connect_beta=v1;unified_accounts_beta=v1',
 });
 
@@ -16,7 +21,7 @@ const router = express.Router();
 // to trigger a special behavior. This is NOT how you would create real payments!
 // You should use Stripe Elements or Stripe iOS/Android SDKs to tokenize card numbers.
 // Use a static token based on a test card: https://stripe.com/docs/testing#cards
-const getPaymentMethod = (status) => {
+const getPaymentMethod = (status: string) => {
   switch (status) {
     case 'card_successful':
       return 'pm_card_bypassPending';
@@ -36,8 +41,24 @@ const getPaymentMethod = (status) => {
 // This function references https://stripe.com/docs/testing#non-card-payments and is only for testing non-card payments.
 // This is NOT how you would create real payments!
 const createPaymentIntentForNonCardPayments = async (
-  status,
-  {amount, currency, name, email, customerId, description, connectedAccountId}
+  status: string,
+  {
+    amount,
+    currency,
+    name,
+    email,
+    customerId,
+    description,
+    connectedAccountId,
+  }: {
+    amount: number;
+    currency: string;
+    name: string;
+    email: string;
+    customerId: string;
+    description: string;
+    connectedAccountId: string;
+  }
 ) => {
   let paymentMethod;
   let paymentIntent;
@@ -141,9 +162,9 @@ const createPaymentIntentForNonCardPayments = async (
   }
 };
 
-function getAccountParams(accountConfiguration) {
-  let type = undefined;
-  let capabilities = {
+function getAccountParams(accountConfiguration: string) {
+  let type: Stripe.Account.Type | undefined = undefined;
+  let capabilities: any = {
     card_payments: {
       requested: true,
     },
@@ -156,18 +177,6 @@ function getAccountParams(accountConfiguration) {
     case 'no_dashboard_poll':
       type = 'custom';
       controller = undefined;
-      break;
-    case 'no_dashboard_soll':
-      controller = {
-        application: {
-          loss_liable: false, // Stripe owns loss liability
-          onboarding_owner: false, // Stripe is the onboarding owner
-          pricing_controls: true, // The platform is the pricing owner
-        },
-        dashboard: {
-          type: 'none', // The connected account will not have access to dashboard
-        },
-      };
       break;
     case 'dashboard_soll':
       capabilities = undefined;
@@ -183,7 +192,17 @@ function getAccountParams(accountConfiguration) {
       };
       break;
     default:
-      throw new Error('Invalid account configuration');
+      // "no_dashboard_soll"
+      controller = {
+        application: {
+          loss_liable: false, // Stripe owns loss liability
+          onboarding_owner: false, // Stripe is the onboarding owner
+          pricing_controls: true, // The platform is the pricing owner
+        },
+        dashboard: {
+          type: 'none', // The connected account will not have access to dashboard
+        },
+      };
   }
 
   return {
@@ -193,25 +212,26 @@ function getAccountParams(accountConfiguration) {
   };
 }
 
+interface Test extends Request {
+  user: Express.User;
+}
+
 /**
  * POST /stripe/create-account
  *
  * Create a Stripe account via POST /v1/accounts
  */
-router.post('/create-account', userRequired, async (req, res, next) => {
-  // Generate a random string as `state` to protect from CSRF and include it in the session
-  req.session.state = Math.random().toString(36).slice(2);
-
+router.post('/create-account', userRequired, async (req, res) => {
   try {
-    const salon = req.user;
-    salon.set(req.body); // Try to update the logged-in salon using the newly entered profile data
-    await salon.save();
+    const user = req.user!;
+    user.set(req.body); // Try to update the logged-in salon using the newly entered profile data
+    await user.save();
 
-    let accountId = req.user.stripeAccountId;
+    let accountId = user.stripeAccountId;
 
     let businessType = undefined;
-    if (req.user.type === 'company' || req.user.type === 'individual') {
-      businessType = req.user.type;
+    if (user.type === 'company' || user.type === 'individual') {
+      businessType = user.type;
     }
 
     const shouldPrefill = req.body.prefill;
@@ -225,7 +245,7 @@ router.post('/create-account', userRequired, async (req, res, next) => {
           bank_account: {
             country: 'US',
             currency: 'usd',
-            account_holder_name: `${req.user.firstName} ${req.user.lastName}`,
+            account_holder_name: `${user.firstName} ${user.lastName}`,
             account_holder_type: businessType,
             routing_number: '110000000',
             account_number: '000123456789',
@@ -236,10 +256,10 @@ router.post('/create-account', userRequired, async (req, res, next) => {
       const accountConfigParams = getAccountParams(accountConfiguration);
 
       // Define the parameters to create a new Stripe account with
-      let accountParams = {
+      let accountParams: Stripe.AccountCreateParams = {
         ...accountConfigParams,
-        country: req.user.country || undefined,
-        email: req.user.email || undefined,
+        country: user.country || undefined,
+        email: user.email || undefined,
         // Prefill bank account information
         ...(bankAccount
           ? {
@@ -247,7 +267,7 @@ router.post('/create-account', userRequired, async (req, res, next) => {
             }
           : {}),
         business_profile: {
-          name: req.user.salon.name,
+          name: user.salon.name,
           // Prefill business profile
           ...(shouldPrefill
             ? {
@@ -261,10 +281,9 @@ router.post('/create-account', userRequired, async (req, res, next) => {
                   state: 'CA',
                   postal_code: '94080',
                 },
-                support_email: req.user.email,
+                support_email: user.email,
                 support_phone: '0000000000',
                 support_url: 'https://furever.dev',
-                url: 'https://furever.dev',
               }
             : {}),
         },
@@ -285,7 +304,7 @@ router.post('/create-account', userRequired, async (req, res, next) => {
       if (businessType === 'company') {
         accountParams = Object.assign(accountParams, {
           company: {
-            name: req.user.salon.name || undefined,
+            name: user.salon.name || undefined,
             // Prefill company information
             ...(shouldPrefill
               ? {
@@ -308,9 +327,9 @@ router.post('/create-account', userRequired, async (req, res, next) => {
       } else if (businessType === 'individual') {
         accountParams = Object.assign(accountParams, {
           individual: {
-            first_name: req.user.firstName || undefined,
-            last_name: req.user.lastName || undefined,
-            email: req.user.email || undefined,
+            first_name: user.firstName || undefined,
+            last_name: user.lastName || undefined,
+            email: user.email || undefined,
             // Prefill individual information
             ...(shouldPrefill
               ? {
@@ -337,14 +356,14 @@ router.post('/create-account', userRequired, async (req, res, next) => {
       accountId = account.id;
       // Update the model and store the Stripe account ID in the datastore:
       // this Stripe account ID will be used to issue payouts to the salon
-      req.user.stripeAccountId = accountId;
-      await req.user.save();
+      user.stripeAccountId = accountId;
+      await user.save();
 
       // Prefill Person object
       if (shouldPrefill && businessType === 'company') {
         await stripe.accounts.createPerson(accountId, {
-          first_name: req.user.firstName,
-          last_name: req.user.lastName,
+          first_name: user.firstName,
+          last_name: user.lastName,
           address: {
             line1: 'address_full_match',
             city: 'South San Francisco',
@@ -357,7 +376,7 @@ router.post('/create-account', userRequired, async (req, res, next) => {
             month: 1,
             year: 1901,
           },
-          email: req.user.email,
+          email: user.email,
           phone: '0000000000',
           ssn_last_4: '0000',
           relationship: {
@@ -373,10 +392,9 @@ router.post('/create-account', userRequired, async (req, res, next) => {
     }
 
     return res.status(200).end();
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Failed to create a Stripe account: ${error}`);
-    res.status(500);
-    return res.send({error: error.message});
+    return res.status(500).send({error: error.message});
   }
 });
 
@@ -388,16 +406,17 @@ router.post('/create-account', userRequired, async (req, res, next) => {
 router.post(
   '/create-account-session',
   stripeAccountRequired,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
+      const user = req.user!;
       const accountSession = await stripe.accountSessions.create({
-        account: req.user.stripeAccountId,
+        account: user.stripeAccountId,
       });
       res.json({
         client_secret: accountSession.client_secret,
         publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create an account session: ', error);
       res.status(500);
       return res.send({error: error.message});
@@ -410,32 +429,28 @@ router.post(
  *
  * Generates test intervention for the logged-in salon. This is only used for testing purposes
  */
-const merchantIssueResource = stripe.StripeResource.extend({
-  create: stripe.StripeResource.method({
+const merchantIssueResource = Stripe.StripeResource.extend({
+  create: Stripe.StripeResource.method({
     method: 'POST',
     path: '/test_helpers/demo/merchant_issue',
-  }),
+  }) as (...args: any[]) => Promise<Stripe.Response<object>>,
 });
 
-router.post(
-  '/create-intervention',
-  stripeAccountRequired,
-  async (req, res, next) => {
-    try {
-      const interventionResponse = await new merchantIssueResource(
-        stripe
-      ).create({
-        account: req.user.stripeAccountId,
-        issue_type: 'additional_info',
-      });
+router.post('/create-intervention', stripeAccountRequired, async (req, res) => {
+  try {
+    const user = req.user!;
+    const interventionResource = new merchantIssueResource(stripe);
+    const interventionResponse = await interventionResource.create({
+      account: user.stripeAccountId,
+      issue_type: 'additional_info',
+    });
 
-      res.send(interventionResponse);
-    } catch (err) {
-      console.error(err);
-      res.send(err);
-    }
+    res.send(interventionResponse);
+  } catch (err) {
+    console.error(err);
+    res.send(err);
   }
-);
+});
 
 /**
  * POST /stripe/create-payments
@@ -473,7 +488,8 @@ const customers = [
 ];
 router.post('/create-payments', stripeAccountRequired, async (req, res) => {
   try {
-    const account = await stripe.account.retrieve(req.user.stripeAccountId);
+    const user = req.user!;
+    const account = await stripe.accounts.retrieve(user.stripeAccountId);
     const {count: inputCount, amount: inputAmount, status, currency} = req.body;
     const count = Number(inputCount) || 1;
 
@@ -535,7 +551,7 @@ router.post('/create-payments', stripeAccountRequired, async (req, res) => {
       )
     );
     return res.status(200).end();
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500);
     return res.send({error: error.message});
@@ -551,6 +567,7 @@ router.post(
   '/create-checkout-session',
   stripeAccountRequired,
   async (req, res) => {
+    const user = req.user!;
     const host = req.get('host');
     const protocol = req.protocol;
     console.log('url is', `${protocol}://${host}/payments`);
@@ -583,7 +600,7 @@ router.post(
           cancel_url: `${protocol}://${host}/payments`,
         },
         {
-          stripeAccount: req.user.stripeAccountId,
+          stripeAccount: user.stripeAccountId,
         }
       );
 
@@ -593,7 +610,7 @@ router.post(
 
       res.status(200);
       return res.send({checkoutSession: checkoutSession.url});
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       res.status(500);
       return res.send({error: error.message});
@@ -607,11 +624,11 @@ router.post(
  * Generate a payout with Stripe for the available balance via POST /v1/payouts
  */
 router.post('/create-payout', stripeAccountRequired, async (req, res) => {
-  const salon = req.user;
+  const user = req.user!;
   try {
     // Fetch the account balance to determine the available funds
     const balance = await stripe.balance.retrieve({
-      stripeAccount: salon.stripeAccountId,
+      stripeAccount: user.stripeAccountId,
     });
 
     // Find the first balance currency that can be paid out
@@ -624,7 +641,7 @@ router.post('/create-payout', stripeAccountRequired, async (req, res) => {
           currency,
           statement_descriptor: process.env.APP_NAME,
         },
-        {stripeAccount: salon.stripeAccountId}
+        {stripeAccount: user.stripeAccountId}
       );
     } else {
       throw new Error(
@@ -632,7 +649,7 @@ router.post('/create-payout', stripeAccountRequired, async (req, res) => {
       );
     }
     return res.status(200).end();
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500);
     return res.send({error: error.message});
@@ -646,18 +663,19 @@ router.post('/create-payout', stripeAccountRequired, async (req, res) => {
  */
 router.get('/onboarded', stripeAccountRequired, async (req, res) => {
   try {
-    const stripeAccount = await retrieveStripeAccount(req.user.stripeAccountId);
+    const user = req.user!;
+    const stripeAccount = await retrieveStripeAccount(user.stripeAccountId);
     return res
       .status(200)
       .send({onboarded: !!stripeAccount?.details_submitted});
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).res.send({onboarded: false, error: error.message});
+    return res.status(500).send({onboarded: false, error: error.message});
   }
 });
 
 // Return a random int between two numbers
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 

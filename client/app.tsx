@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import './styles.css';
-import {ConnectJsWrapper} from './hooks/Connect';
+import {ConnectJsWrapper} from './hooks/ConnectJsWrapper';
 import {Layout} from './components/Layout';
 import {SessionProvider} from './hooks/SessionProvider';
 import {

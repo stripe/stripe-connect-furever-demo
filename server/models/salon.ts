@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const salonSchemaName = 'SalonV3';
 
 // Define the Salon schema.
-const SalonSchema = new Schema({
+const SalonSchema = new Schema<Express.Request['user']>({
   email: {
     type: String,
     required: true,
@@ -46,10 +46,11 @@ const SalonSchema = new Schema({
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).
-function SalonEmailValidator(email) {
+function SalonEmailValidator(email: string) {
   // Asynchronously resolve a promise to validate whether an email already exists
   return new Promise((resolve, reject) => {
     // Only check model updates for new salons (or if the email address is updated).
+    // @ts-ignore - 'this' implicitly has type 'any' because it does not have a type annotation.ts(2683)
     if (this.isNew || this.isModified('email')) {
       // Try to find a matching salon
       Salon.findOne({email}).exec((err, salon) => {

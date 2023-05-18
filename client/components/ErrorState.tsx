@@ -5,10 +5,10 @@ import Typography from '@mui/material/Typography';
 
 type Props = {
   errorMessage?: string;
-  handleTryAgain: () => void;
+  retry: () => void;
 };
 
-export const ErrorState = ({errorMessage, handleTryAgain}: Props) => {
+export const ErrorState = ({errorMessage, retry}: Props) => {
   return (
     <Box
       sx={{
@@ -51,7 +51,7 @@ export const ErrorState = ({errorMessage, handleTryAgain}: Props) => {
           {errorMessage ?? 'Something went wrong, please try again.'}
         </Typography>
         <Button
-          onClick={() => handleTryAgain()}
+          onClick={() => retry()}
           variant="contained"
           sx={{
             fontWeight: 600,

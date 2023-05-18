@@ -1,29 +1,13 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useContext} from 'react';
 import Stripe from 'stripe';
 import {FullScreenLoading} from '../components/FullScreenLoading';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation} from 'react-query';
 import {ErrorState} from '../components/ErrorState';
 
-export type User = {
-  salon: {
-    license: string;
-    name: string;
-    specialty: string;
-  };
-  type: 'individual' | 'company';
-  country: string;
-  _id: string;
-  email: string;
-  password: string;
-  created: Date;
-  firstName: string;
-  lastName: string;
-  stripeAccountId: string;
-};
-
 type SessionContext = {
-  user?: User | null;
+  user?: Express.User | null;
   stripeAccount?: Stripe.Account | null;
+  refetch: () => void;
 };
 
 const useFetchPreloaded = () => {
@@ -42,7 +26,9 @@ const useFetchPreloaded = () => {
   );
 };
 
-const SessionContext = createContext<SessionContext>({});
+const SessionContext = createContext<SessionContext>({
+  refetch: () => {},
+});
 
 export const useSession = () => {
   return useContext(SessionContext);
@@ -56,12 +42,12 @@ export const SessionProvider = ({children}: {children: React.ReactNode}) => {
   }, []);
 
   if (error) {
-    return <ErrorState errorMessage={error.message} handleTryAgain={mutate} />;
+    return <ErrorState errorMessage={error.message} retry={mutate} />;
   }
   if (!session || isLoading) return <FullScreenLoading />;
 
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={{...session, refetch: mutate}}>
       {children}
     </SessionContext.Provider>
   );

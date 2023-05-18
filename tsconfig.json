@@ -10,7 +10,8 @@
     "strict": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmitOnError": true
   },
   "exclude": ["dist", "node_modules"]
 }

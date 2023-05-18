@@ -31,8 +31,8 @@ router.get('/preloaded', async (req, res) => {
         stripeAccount: null,
       });
     }
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.error(error);
     res.status(500);
     return res.send({error: error.message});
   }
@@ -44,7 +44,6 @@ router.get('/preloaded', async (req, res) => {
  * Create a user during the salon onboarding process.
  */
 router.post('/signup', async (req, res, next) => {
-  console.log('REQUEST', req.body);
   const body = Object.assign({}, req.body, {
     // Use `type` instead of `salon-type` for saving to the DB.
     type: req.body['salon-type'],
@@ -57,14 +56,14 @@ router.post('/signup', async (req, res, next) => {
     try {
       // Try to create and save a new salon
       salon = new Salon(body);
-      salon = await salon.save();
+      salon = await salon!.save();
       // Sign in and redirect to continue the signup process
       req.logIn(salon, (err) => {
         if (err) next(err);
         return res.status(200).end();
       });
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      console.error(err);
       // Show an error message to the user
       const errors = Object.keys(err.errors).map(
         (field) => err.errors[field].message

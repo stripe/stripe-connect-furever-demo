@@ -1,10 +1,10 @@
 import React from 'react';
+import {Link as RouterLink} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import {useSession} from '../hooks/SessionProvider';
-import RouterLink from './RouterLink';
 
 export const OnboardingNotice = () => {
   const {stripeAccount} = useSession();
@@ -23,7 +23,7 @@ export const OnboardingNotice = () => {
     >
       <Typography color="white">
         You need to complete onboarding.{' '}
-        <Link component={RouterLink} to="/onboarding">
+        <Link component={RouterLink} to="/onboard">
           <Typography
             component="span"
             color="white"

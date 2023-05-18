@@ -9,12 +9,11 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import {fileURLToPath} from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 import apiRouter from './routes/api.js';
 import stripeRouter from './routes/stripe.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config({path: './.env'});
 
 const app = express();
@@ -61,6 +60,7 @@ app.use(
     cookie: {maxAge: 2592000000}, // 60 * 60 * 24 * 30 * 1000 = 1 month
     secret: process.env.SECRET,
     resave: true,
+    saveUninitialized: true,
   })
 );
 

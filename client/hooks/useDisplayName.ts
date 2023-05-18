@@ -1,5 +1,5 @@
 import React from 'react';
-import {User, useSession} from './SessionProvider';
+import {useSession} from './SessionProvider';
 
 export const useDisplayName = () => {
   const {user, stripeAccount} = useSession();

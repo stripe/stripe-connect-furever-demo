@@ -11,15 +11,14 @@
   "type": "module",
   "source": "client/index.html",
   "scripts": {
+    "build": "npx tsc && parcel build",
     "clean": "rimraf dist",
-    "build": "yarn clean && npx tsc && parcel build client/index.html",
-    "start": "yarn build && parcel client/index.html && node dist/server/server.js",
-    "dev": "yarn build && concurrently \"yarn start:server\" \"yarn start:client\" --kill-others",
-    "start:client": "parcel watch client/index.html",
-    "start:server": "node dist/server/server.js"
+    "dev": "yarn clean && npx tsc && yarn watch",
+    "server": "node dist/server/server.js",
+    "start": "yarn clean && yarn build && yarn server",
+    "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\""
   },
   "dependencies": {
-    "@babel/runtime": "^7.21.5",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
@@ -48,27 +47,19 @@
     "typescript": "^4.5.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.8",
-    "@babel/node": "^7.20.7",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/core": "^7.12.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express-session": "^1.17.7",
     "@types/http-auth": "^4.1.1",
     "@types/morgan": "^1.9.4",
     "@types/node": "20.1.0",
     "@types/passport": "^1.0.12",
+    "@types/passport-local": "^1.0.35",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
-    "babel-loader": "^9.1.2",
     "concurrently": "^8.0.1",
-    "css-loader": "^6.7.3",
     "parcel": "^2.8.3",
     "prettier": "2.5.1",
-    "process": "^0.11.10",
-    "style-loader": "^3.3.2",
-    "ts-loader": "^9.2.6",
-    "url-loader": "^4.1.1"
+    "process": "^0.11.10"
   }
 }

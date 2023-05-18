@@ -9,8 +9,10 @@ import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import {OnboardingFooter} from '../components/NoticeFooter';
 import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
 import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
+import {useSession} from '../hooks/SessionProvider';
 
 const useOnboarded = () => {
+  const {refetch} = useSession();
   const navigate = useNavigate();
   return useMutation<void, Error>('login', () =>
     fetch('/stripe/onboarded', {
@@ -18,6 +20,7 @@ const useOnboarded = () => {
     }).then(async (response) => {
       const {onboarded} = await response.json();
       if (onboarded) {
+        refetch();
         navigate('/reservations');
       } else {
         navigate(0);
