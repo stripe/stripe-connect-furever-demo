@@ -11,18 +11,24 @@ type SessionContext = {
 };
 
 const useFetchSession = () => {
-  return useQuery<SessionContext, Error>('fetchSession', async () => {
-    const response = await fetch('/api/session', {
-      method: 'GET',
-    });
-    const responseJson = await response.json();
-    if (!response.ok) {
-      throw new Error(
-        responseJson?.error ?? 'An error ocurred, please try again.'
-      );
+  return useQuery<SessionContext, Error>(
+    'fetchSession',
+    async () => {
+      const response = await fetch('/api/session', {
+        method: 'GET',
+      });
+      const responseJson = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          responseJson?.error ?? 'An error ocurred, please try again.'
+        );
+      }
+      return responseJson;
+    },
+    {
+      refetchOnWindowFocus: false,
     }
-    return responseJson;
-  });
+  );
 };
 
 const SessionContext = createContext<SessionContext>({

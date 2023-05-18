@@ -11,7 +11,11 @@ import {
 } from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
-import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
+import {
+  EmbeddedComponentContainer,
+  EmbeddedContainer,
+} from '../components/EmbeddedComponentContainer';
+import {Container} from '../components/Container';
 
 const useCreatePayout = () => {
   return useMutation<void, Error>('createPayout', async () => {
@@ -104,7 +108,12 @@ const Payouts = () => {
   };
   return (
     <>
-      <Box className="container-start w-fill" sx={{gap: 4, marginBottom: 2}}>
+      <Container
+        sx={{
+          gap: 4,
+          marginBottom: 2,
+        }}
+      >
         <Typography
           variant="h5"
           sx={{
@@ -113,7 +122,7 @@ const Payouts = () => {
         >
           Payouts
         </Typography>
-        <Typography component={'div'} className="embedded-container" gap={2}>
+        <EmbeddedContainer>
           <EmbeddedComponentContainer>
             <ConnectNotificationBanner />
           </EmbeddedComponentContainer>
@@ -121,8 +130,8 @@ const Payouts = () => {
             <ConnectPayouts />
           </EmbeddedComponentContainer>
           <stripe-connect-debug-utils></stripe-connect-debug-utils>
-        </Typography>
-      </Box>
+        </EmbeddedContainer>
+      </Container>
 
       {renderFooter()}
     </>

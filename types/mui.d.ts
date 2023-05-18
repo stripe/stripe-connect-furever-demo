@@ -1,7 +1,7 @@
 import {Palette, PaletteColorOptions, PaletteOptions} from '@mui/material';
 
 interface MyPaletteExtensions {
-  neutral: PaletteColorOptions;
+  neutral100: PaletteColorOptions;
 }
 
 declare module '@mui/material/styles' {

@@ -13,9 +13,10 @@ import Typography, {TypographyProps} from '@mui/material/Typography';
 import StripeLogo from '../assets/images/stripe-grey.svg';
 import {TextInput, SelectInput, FormBlock} from '../components/FormInputs';
 import {CompleteProfileFooter} from './NoticeFooter';
+import {Container} from './Container';
 
 const FormControl = ({children}: {children: React.ReactNode}) => (
-  <Box className="w-fill" gap={2} display="flex" flexDirection="column">
+  <Box width="100%" gap={2} display="flex" flexDirection="column">
     {children}
   </Box>
 );
@@ -82,7 +83,7 @@ const CompleteProfile = () => {
           gap: 4,
         }}
         component="form"
-        className="w-fill"
+        width="100%"
         onSubmit={handleSubmit}
       >
         <FormControl>
@@ -222,7 +223,7 @@ const CompleteProfile = () => {
           <Box
             sx={{
               border: '2px solid',
-              borderColor: 'neutral.main',
+              borderColor: 'neutral100.main',
               borderRadius: 1.5,
               padding: 2.5,
               display: 'flex',
@@ -290,9 +291,9 @@ const CompleteProfile = () => {
           </FormControl>
         )}
 
-        <Box
-          className="container w-fill"
+        <Container
           sx={{
+            alignItems: 'center',
             gap: 1,
           }}
         >
@@ -312,7 +313,7 @@ const CompleteProfile = () => {
               {error.message}
             </Typography>
           )}
-        </Box>
+        </Container>
       </Box>
       <CompleteProfileFooter />
     </>

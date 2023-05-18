@@ -12,7 +12,11 @@ import {ProfileInformation} from '../components/ProfileInformation';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
 import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
-import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
+import {
+  EmbeddedComponentContainer,
+  EmbeddedContainer,
+} from '../components/EmbeddedComponentContainer';
+import {Container} from '../components/Container';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {
@@ -28,7 +32,7 @@ const useCreateIntervention = () => {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const {stripeAccount, user} = useSession();
+  const {stripeAccount} = useSession();
   const {status, mutate, isLoading, error} = useCreateIntervention();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -98,7 +102,12 @@ const Profile = () => {
 
   return (
     <>
-      <Box className="container-start w-fill" sx={{gap: 4, marginBottom: 2}}>
+      <Container
+        sx={{
+          gap: 4,
+          marginBottom: 2,
+        }}
+      >
         <ProfileInformation />
         <Typography
           variant="h5"
@@ -108,7 +117,7 @@ const Profile = () => {
         >
           Stripe settings
         </Typography>
-        <Typography component={'div'} className="embedded-container" gap={2}>
+        <EmbeddedContainer>
           <EnableEmbeddedCheckbox label="Enable embedded account management" />
           <EmbeddedComponentContainer>
             <ConnectNotificationBanner />
@@ -117,8 +126,8 @@ const Profile = () => {
             <ConnectAccountManagement />
           </EmbeddedComponentContainer>
           <stripe-connect-debug-utils></stripe-connect-debug-utils>
-        </Typography>
-      </Box>
+        </EmbeddedContainer>
+      </Container>
 
       {renderFooter()}
     </>

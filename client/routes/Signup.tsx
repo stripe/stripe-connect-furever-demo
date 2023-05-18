@@ -1,9 +1,9 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CreateUser from '../components/CreateUser';
 import CompleteProfile from '../components/CompleteProfile';
 import {useSession} from '../hooks/SessionProvider';
+import {Container} from '../components/Container';
 
 const Signup = () => {
   const {user, stripeAccount} = useSession();
@@ -25,7 +25,12 @@ const Signup = () => {
   };
 
   return (
-    <Box className="container w-fill" gap={4}>
+    <Container
+      sx={{
+        alignItems: 'center',
+        gap: 4,
+      }}
+    >
       <Typography
         variant="h5"
         sx={{
@@ -35,7 +40,7 @@ const Signup = () => {
         {renderTitle()}
       </Typography>
       {renderComponent()}
-    </Box>
+    </Container>
   );
 };
 

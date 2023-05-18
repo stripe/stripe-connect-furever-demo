@@ -2,14 +2,16 @@ import React from 'react';
 import {useMutation} from 'react-query';
 import {useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import {OnboardingFooter} from '../components/NoticeFooter';
 import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
-import {EmbeddedComponentContainer} from '../components/EmbeddedComponentContainer';
+import {
+  EmbeddedComponentContainer,
+  EmbeddedContainer,
+} from '../components/EmbeddedComponentContainer';
 import {useSession} from '../hooks/SessionProvider';
+import {Container} from '../components/Container';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
@@ -29,11 +31,11 @@ const useOnboarded = () => {
 };
 
 const Onboarding = () => {
-  const {mutate} = useOnboarded();
+  const {mutate, error} = useOnboarded();
 
   return (
     <>
-      <Box className="container w-fill" sx={{gap: 4, marginBottom: 2}}>
+      <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>
         <Typography
           variant="h5"
           sx={{
@@ -42,7 +44,7 @@ const Onboarding = () => {
         >
           Onboard to Stripe
         </Typography>
-        <Typography component={'div'} className="embedded-container" gap={2}>
+        <EmbeddedContainer>
           <EnableEmbeddedCheckbox label="Enable embedded onboarding" />
           <EmbeddedComponentContainer>
             <ConnectAccountOnboarding
@@ -55,8 +57,13 @@ const Onboarding = () => {
             />
           </EmbeddedComponentContainer>
           <stripe-connect-debug-utils></stripe-connect-debug-utils>
-        </Typography>
-      </Box>
+        </EmbeddedContainer>
+        {error?.message && (
+          <Typography variant="body2" color="error">
+            {error.message}
+          </Typography>
+        )}
+      </Container>
 
       <OnboardingFooter />
     </>

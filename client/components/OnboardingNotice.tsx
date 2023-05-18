@@ -16,7 +16,7 @@ export const OnboardingNotice = () => {
   return (
     <Box
       bgcolor="primary.main"
-      className="w-fill"
+      width="100%"
       display="flex"
       justifyContent="center"
       paddingY={1}

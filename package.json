@@ -11,9 +11,9 @@
   "type": "module",
   "source": "client/index.html",
   "scripts": {
-    "build": "npx tsc && parcel build",
+    "build": "tsc && parcel build",
     "clean": "rimraf dist",
-    "dev": "yarn clean && npx tsc && yarn watch",
+    "dev": "yarn clean && tsc && yarn watch",
     "server": "node dist/server/server.js",
     "start": "yarn clean && yarn build && yarn server",
     "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\""

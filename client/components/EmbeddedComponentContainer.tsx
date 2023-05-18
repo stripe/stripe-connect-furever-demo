@@ -1,6 +1,22 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
+
+export const EmbeddedContainer = ({children}: {children: React.ReactNode}) => (
+  <Typography
+    component={'div'}
+    className="embedded-container"
+    gap={2}
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+    }}
+  >
+    {children}
+  </Typography>
+);
 
 export const EmbeddedComponentContainer = ({
   children,
@@ -11,7 +27,7 @@ export const EmbeddedComponentContainer = ({
 
   return (
     <Box
-      className="w-fill"
+      width="100%"
       sx={{
         padding: '6px',
         border: '3px dashed',

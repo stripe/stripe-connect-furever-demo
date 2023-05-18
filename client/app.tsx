@@ -3,14 +3,13 @@ import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import './styles.css';
 import {ConnectJsWrapper} from './hooks/ConnectJsWrapper';
 import {Layout} from './components/Layout';
 import {SessionProvider} from './hooks/SessionProvider';
 import {
-  AuthenticatedRoute,
-  LoginRoute,
-  SignupRoute,
+  AuthenticatedAndOnboardedRoute,
+  UnauthenticatedRoute,
+  OnboardingRoute,
 } from './routes/RouteHandlers';
 import Landing from './routes/Landing';
 import Login from './routes/Login';
@@ -31,7 +30,7 @@ const theme = createTheme({
       primary: '#414552',
       secondary: '#87909f',
     },
-    neutral: {
+    neutral100: {
       main: '#EBEEF1',
     },
   },
@@ -82,57 +81,57 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: (
-          <LoginRoute>
+          <UnauthenticatedRoute>
             <Login />
-          </LoginRoute>
+          </UnauthenticatedRoute>
         ),
       },
       {
         path: '/signup',
         element: (
-          <SignupRoute>
+          <OnboardingRoute>
             <Signup />
-          </SignupRoute>
+          </OnboardingRoute>
         ),
       },
       {
         path: '/reservations',
         element: (
-          <AuthenticatedRoute>
+          <AuthenticatedAndOnboardedRoute>
             <Reservations />
-          </AuthenticatedRoute>
+          </AuthenticatedAndOnboardedRoute>
         ),
       },
       {
         path: '/payments',
         element: (
-          <AuthenticatedRoute>
+          <AuthenticatedAndOnboardedRoute>
             <Payments />
-          </AuthenticatedRoute>
+          </AuthenticatedAndOnboardedRoute>
         ),
       },
       {
         path: '/payouts',
         element: (
-          <AuthenticatedRoute>
+          <AuthenticatedAndOnboardedRoute>
             <Payouts />
-          </AuthenticatedRoute>
+          </AuthenticatedAndOnboardedRoute>
         ),
       },
       {
         path: '/profile',
         element: (
-          <AuthenticatedRoute>
+          <AuthenticatedAndOnboardedRoute>
             <Profile />
-          </AuthenticatedRoute>
+          </AuthenticatedAndOnboardedRoute>
         ),
       },
       {
         path: '/onboarding',
         element: (
-          <AuthenticatedRoute>
+          <AuthenticatedAndOnboardedRoute>
             <Onboarding />
-          </AuthenticatedRoute>
+          </AuthenticatedAndOnboardedRoute>
         ),
       },
     ],

@@ -80,7 +80,7 @@ export const SelectInput = ({
 export const FormBlock = (props: BoxProps) => (
   <Box
     boxShadow={1}
-    className="w-fill"
+    width="100%"
     sx={{
       display: 'flex',
       flexDirection: 'column',

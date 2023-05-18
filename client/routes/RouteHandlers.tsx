@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {useSession} from '../hooks/SessionProvider';
 
-export const LoginRoute = ({
+export const UnauthenticatedRoute = ({
   children,
 }: {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ export const LoginRoute = ({
   return <Navigate to="/reservations" replace />;
 };
 
-export const SignupRoute = ({
+export const OnboardingRoute = ({
   children,
 }: {
   children: React.ReactNode;
@@ -45,7 +45,7 @@ export const SignupRoute = ({
   return <Navigate to="/reservations" replace />;
 };
 
-export const AuthenticatedRoute = ({
+export const AuthenticatedAndOnboardedRoute = ({
   children,
 }: {
   children: React.ReactNode;

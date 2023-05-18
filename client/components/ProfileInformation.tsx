@@ -79,7 +79,7 @@ const ProfileGrid = () => {
 export const ProfileInformation = () => {
   return (
     <Box
-      className="w-fill"
+      width="100%"
       display="flex"
       alignItems="center"
       justifyContent="space-between"

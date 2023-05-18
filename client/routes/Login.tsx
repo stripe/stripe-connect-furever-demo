@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import {FormBlock, TextInput} from '../components/FormInputs';
+import {Container} from '../components/Container';
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -42,7 +43,12 @@ const Login = () => {
   }
 
   return (
-    <Box className="container w-fill" gap={4}>
+    <Container
+      gap={4}
+      sx={{
+        alignItems: 'center',
+      }}
+    >
       <Typography
         variant="h5"
         sx={{
@@ -55,8 +61,10 @@ const Login = () => {
         component="form"
         onSubmit={handleSubmit}
         autoComplete="off"
-        className="container"
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           gap: 2,
           width: {
             xs: '100%',
@@ -84,9 +92,9 @@ const Login = () => {
             required
           />
         </FormBlock>
-        <Box
-          className="container w-fill"
+        <Container
           sx={{
+            alignItems: 'center',
             gap: 1,
           }}
         >
@@ -104,9 +112,9 @@ const Login = () => {
               {error.message}
             </Typography>
           )}
-        </Box>
+        </Container>
       </Box>
-    </Box>
+    </Container>
   );
 };
 

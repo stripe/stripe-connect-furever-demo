@@ -1,5 +1,5 @@
 import React from 'react';
-import {useMutation} from 'react-query';
+import {useQuery} from 'react-query';
 import {StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnect} from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
@@ -48,8 +48,8 @@ const refreshClientSecret = async () => {
  *  This function calls the fetchAccountSession function and
  *  uses the retrieved clientSecret to initialize the Connect.js instance.
  */
-const useInitStripeConnect = () => {
-  return useMutation<StripeConnectInstance, Error>(
+const useInitStripeConnect = (enabled: boolean) => {
+  return useQuery<StripeConnectInstance, Error>(
     'initStripeConnect',
     async () => {
       const connect = await loadConnect();
@@ -66,32 +66,27 @@ const useInitStripeConnect = () => {
         },
       });
       return connectInstance;
+    },
+    {
+      enabled,
+      refetchOnWindowFocus: false,
     }
   );
 };
 
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
+  const {stripeAccount} = useSession();
   const {
     data: connectInstance,
     error,
     isLoading,
-    mutate,
-  } = useInitStripeConnect();
-  const {stripeAccount} = useSession();
-
-  React.useEffect(() => {
-    const runAsync = async () => {
-      if (stripeAccount) {
-        mutate();
-      }
-    };
-    runAsync();
-  }, [stripeAccount]);
+    refetch,
+  } = useInitStripeConnect(!!stripeAccount);
 
   if (!stripeAccount) return <>{children}</>;
 
   if (error) {
-    return <ErrorState errorMessage={error.message} retry={mutate} />;
+    return <ErrorState errorMessage={error.message} retry={refetch} />;
   }
   if (!connectInstance || isLoading) return <FullScreenLoading />;
 

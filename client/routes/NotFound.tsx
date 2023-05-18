@@ -1,12 +1,17 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import RouterLink from '../components/RouterLink';
+import {Container} from '../components/Container';
 
 const NotFound = () => {
   return (
-    <Box className="container w-fill" gap={2}>
+    <Container
+      sx={{
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
       <Typography
         variant="h5"
         sx={{
@@ -15,9 +20,9 @@ const NotFound = () => {
       >
         404
       </Typography>
-      <Box
-        className="container w-fill"
+      <Container
         sx={{
+          alignItems: 'center',
           gap: 1,
           width: {
             xs: '100%',
@@ -37,8 +42,8 @@ const NotFound = () => {
         >
           Go home
         </Button>
-      </Box>
-    </Box>
+      </Container>
+    </Container>
   );
 };
 

@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import {FormBlock, TextInput} from './FormInputs';
+import {Container} from './Container';
 
 const useCreateUser = () => {
   const navigate = useNavigate();
@@ -46,8 +47,10 @@ const CreateUser = () => {
       component="form"
       onSubmit={handleSubmit}
       autoComplete="off"
-      className="container"
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         gap: 2,
         width: {
           xs: '100%',
@@ -75,9 +78,9 @@ const CreateUser = () => {
           required
         />
       </FormBlock>
-      <Box
-        className="container w-fill"
+      <Container
         sx={{
+          alignItems: 'center',
           gap: 1,
         }}
       >
@@ -95,7 +98,7 @@ const CreateUser = () => {
             {error.message}
           </Typography>
         )}
-      </Box>
+      </Container>
     </Box>
   );
 };
