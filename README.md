@@ -26,7 +26,7 @@ FurEver makes use of the following Connect embedded components:
 - `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
-The web application is implemented as as full-stack application powered by Express.ts, with a Pug template engine for the frontend, and a Node.ts REST API.
+The web application is implemented as as full-stack application using Express, React, Typescript, and Material UI.
 
 To integrate Stripe Connect in your own app:
 1. [`server/routes/stripe.ts`](server/routes/stripe.ts) shows how to interact with the Stripe API.
