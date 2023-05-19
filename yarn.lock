@@ -580,7 +580,7 @@
   dependencies:
     "@parcel/plugin" "2.8.3"
 
-"@parcel/config-default@2.8.3", "@parcel/config-default@^2.8.3":
+"@parcel/config-default@2.8.3":
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/@parcel/config-default/-/config-default-2.8.3.tgz#9a43486e7c702e96c68052c37b79098d7240e35b"
   integrity sha512-o/A/mbrO6X/BfGS65Sib8d6SSG45NYrNooNBkH/o7zbOBSRQxwyTlysleK1/3Wa35YpvFyLOwgfakqCtbGy4fw==
@@ -1057,22 +1057,6 @@
     posthtml-parser "^0.10.1"
     posthtml-render "^3.0.0"
     semver "^5.7.1"
-
-"@parcel/transformer-typescript-tsc@^2.8.3":
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-tsc/-/transformer-typescript-tsc-2.8.3.tgz#9a50a6abda0ee08f3d803896a168bdd2f33b071a"
-  integrity sha512-hig99OrUJhXuGLN+Nxisvfkj3cggH6GM1nDcS3KWEGoD+UkxLaXkd32Od/mvJ4nUN/ThbAPqwIljmgkgPlYzbw==
-  dependencies:
-    "@parcel/plugin" "2.8.3"
-    "@parcel/source-map" "^2.1.1"
-    "@parcel/ts-utils" "2.8.3"
-
-"@parcel/ts-utils@2.8.3":
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/@parcel/ts-utils/-/ts-utils-2.8.3.tgz#f3590ca033c061779dc35ff3d14af2860ed106ac"
-  integrity sha512-4HMt9B9LF2pDFvSKGImho48tlCvCUl7ly1ZMXvQdmEq2i0yoS81tDsmxX3yly/RVUVeUCGAj1JRuuy1lw5zw1A==
-  dependencies:
-    nullthrows "^1.1.1"
 
 "@parcel/types@2.8.3":
   version "2.8.3"
