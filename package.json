@@ -10,9 +10,6 @@
   },
   "type": "module",
   "source": "client/index.html",
-  "engines": {
-    "node": ">=14.20.1"
-  },
   "scripts": {
     "build": "parcel build client/index.html",
     "clean": "rimraf dist",
@@ -37,7 +34,6 @@
     "express-session": "^1.17.3",
     "http-auth": "^4.2.0",
     "http-auth-connect": "^1.0.6",
-    "mongodb": "^5.4.0",
     "mongoose": "^5.11.9",
     "morgan": "^1.9.1",
     "passport": "^0.6.0",
@@ -65,5 +61,15 @@
     "prettier": "2.5.1",
     "process": "^0.11.10",
     "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=14.20.1"
+  },
+  "targets": {
+    "default": {
+      "engines": {
+        "browsers": ">= 50%"
+      }
+    }
   }
 }
