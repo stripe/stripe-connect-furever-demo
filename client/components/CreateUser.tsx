@@ -8,20 +8,22 @@ import Typography from '@mui/material/Typography';
 import {FormBlock, TextInput} from './FormInputs';
 import {Container} from './Container';
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 const useCreateUser = () => {
   const navigate = useNavigate();
-  return useMutation<void, Error, FormData>(
+  return useMutation<void, Error, FormValues>(
     'createAccount',
-    async (formData: FormData) => {
+    async (formValues: FormValues) => {
       const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.get('email'),
-          password: formData.get('password'),
-        }),
+        body: JSON.stringify(formValues),
       });
 
       if (response.ok) {
@@ -34,12 +36,15 @@ const useCreateUser = () => {
 };
 
 const CreateUser = () => {
+  const [formValues, setFormValues] = React.useState<FormValues>({
+    email: '',
+    password: '',
+  });
   const {mutate, isLoading, error} = useCreateUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    mutate(formData);
+    mutate(formValues);
   };
 
   return (
@@ -67,6 +72,10 @@ const CreateUser = () => {
           id="email"
           placeholder="you@example.com"
           required
+          value={formValues.email}
+          onChange={(event) =>
+            setFormValues((prev) => ({...prev, email: event.target.value}))
+          }
         />
         <Divider />
         <TextInput
@@ -76,6 +85,10 @@ const CreateUser = () => {
           id="password"
           placeholder="••••••••"
           required
+          value={formValues.password}
+          onChange={(event) =>
+            setFormValues((prev) => ({...prev, password: event.target.value}))
+          }
         />
       </FormBlock>
       <Container

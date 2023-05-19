@@ -16,6 +16,7 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
+import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useCreatePayout = () => {
   return useMutation<void, Error>('createPayout', async () => {
@@ -129,7 +130,7 @@ const Payouts = () => {
           <EmbeddedComponentContainer>
             <ConnectPayouts />
           </EmbeddedComponentContainer>
-          <stripe-connect-debug-utils></stripe-connect-debug-utils>
+          <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>
 

@@ -48,7 +48,7 @@ export const OnboardingRoute = ({
 export const AuthenticatedAndOnboardedRoute = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: (user: Express.User) => JSX.Element;
 }): JSX.Element => {
   const {user, stripeAccount} = useSession();
   if (!user) {
@@ -57,5 +57,5 @@ export const AuthenticatedAndOnboardedRoute = ({
   if (!stripeAccount) {
     return <Navigate to="/signup" replace />;
   }
-  return <>{children}</>;
+  return <>{children(user)}</>;
 };

@@ -12,6 +12,7 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
+import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
@@ -56,7 +57,7 @@ const Onboarding = () => {
               }}
             />
           </EmbeddedComponentContainer>
-          <stripe-connect-debug-utils></stripe-connect-debug-utils>
+          <StripeConnectDebugUtils />
         </EmbeddedContainer>
         {error?.message && (
           <Typography variant="body2" color="error">

@@ -6,13 +6,9 @@ import Grid from '@mui/material/Grid';
 import {useSession} from '../hooks/SessionProvider';
 import {useDisplayName} from '../hooks/useDisplayName';
 
-const ProfilePhoto = () => {
-  const {user} = useSession();
+const ProfilePhoto = ({user}: {user: Express.User}) => {
   const displayName = useDisplayName();
 
-  if (!user) {
-    return null;
-  }
   return (
     <Box
       sx={{
@@ -35,17 +31,19 @@ const ProfilePhoto = () => {
   );
 };
 
-const ProfileGrid = () => {
-  const {user} = useSession();
+const ProfileGrid = ({user}: {user: Express.User}) => {
   const items = [
-    {key: 'Email', value: user?.email || '--'},
-    {key: 'Name', value: user ? user.firstName + ' ' + user.lastName : '--'},
-    {key: 'Stripe account', value: user?.stripeAccountId || '--'},
-    {key: 'Business name', value: user?.salon.name || '--'},
-    {key: 'License', value: user?.salon.license || '--'},
+    {key: 'Email', value: user.email || '--'},
+    {
+      key: 'Name',
+      value: user.firstName ? user.firstName + ' ' + user.lastName : '--',
+    },
+    {key: 'Stripe account', value: user.stripeAccountId || '--'},
+    {key: 'Business name', value: user.salon.name || '--'},
+    {key: 'License', value: user.salon.license || '--'},
     {
       key: 'Specialty',
-      value: user
+      value: user.salon.specialty
         ? user.salon.specialty.charAt(0).toUpperCase() +
           user.salon.specialty.slice(1)
         : '--',
@@ -76,7 +74,7 @@ const ProfileGrid = () => {
   );
 };
 
-export const ProfileInformation = () => {
+export const ProfileInformation = ({user}: {user: Express.User}) => {
   return (
     <Box
       width="100%"
@@ -86,8 +84,8 @@ export const ProfileInformation = () => {
       flexWrap="wrap"
       gap={4}
     >
-      <ProfilePhoto />
-      <ProfileGrid />
+      <ProfilePhoto user={user} />
+      <ProfileGrid user={user} />
     </Box>
   );
 };

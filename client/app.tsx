@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         path: '/reservations',
         element: (
           <AuthenticatedAndOnboardedRoute>
-            <Reservations />
+            {() => <Reservations />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
         path: '/payments',
         element: (
           <AuthenticatedAndOnboardedRoute>
-            <Payments />
+            {() => <Payments />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },
@@ -114,7 +114,7 @@ const router = createBrowserRouter([
         path: '/payouts',
         element: (
           <AuthenticatedAndOnboardedRoute>
-            <Payouts />
+            {() => <Payouts />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },
@@ -122,7 +122,7 @@ const router = createBrowserRouter([
         path: '/profile',
         element: (
           <AuthenticatedAndOnboardedRoute>
-            <Profile />
+            {(user) => <Profile user={user} />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
         path: '/onboarding',
         element: (
           <AuthenticatedAndOnboardedRoute>
-            <Onboarding />
+            {() => <Onboarding />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },

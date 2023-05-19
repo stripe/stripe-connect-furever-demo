@@ -8,20 +8,22 @@ import Typography from '@mui/material/Typography';
 import {FormBlock, TextInput} from '../components/FormInputs';
 import {Container} from '../components/Container';
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 const useLogin = () => {
   const navigate = useNavigate();
-  return useMutation<void, Error, FormData>(
+  return useMutation<void, Error, FormValues>(
     'login',
-    async (formData: FormData) => {
+    async (formValues: FormValues) => {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.get('email'),
-          password: formData.get('password'),
-        }),
+        body: JSON.stringify(formValues),
       });
 
       if (response.ok) {
@@ -34,12 +36,16 @@ const useLogin = () => {
 };
 
 const Login = () => {
+  const [formValues, setFormValues] = React.useState<FormValues>({
+    email: '',
+    password: '',
+  });
+
   const {mutate, isLoading, error} = useLogin();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    mutate(formData);
+    mutate(formValues);
   }
 
   return (
@@ -81,6 +87,10 @@ const Login = () => {
             id="email"
             placeholder="you@example.com"
             required
+            value={formValues.email}
+            onChange={(event) =>
+              setFormValues((prev) => ({...prev, email: event.target.value}))
+            }
           />
           <Divider />
           <TextInput
@@ -90,6 +100,10 @@ const Login = () => {
             id="password"
             placeholder="••••••••"
             required
+            value={formValues.password}
+            onChange={(event) =>
+              setFormValues((prev) => ({...prev, password: event.target.value}))
+            }
           />
         </FormBlock>
         <Container

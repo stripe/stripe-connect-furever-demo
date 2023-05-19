@@ -17,6 +17,7 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
+import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {
@@ -30,7 +31,7 @@ const useCreateIntervention = () => {
   });
 };
 
-const Profile = () => {
+const Profile = ({user}: {user: Express.User}) => {
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
   const {status, mutate, isLoading, error} = useCreateIntervention();
@@ -108,7 +109,7 @@ const Profile = () => {
           marginBottom: 2,
         }}
       >
-        <ProfileInformation />
+        <ProfileInformation user={user} />
         <Typography
           variant="h5"
           sx={{
@@ -125,7 +126,7 @@ const Profile = () => {
           <EmbeddedComponentContainer>
             <ConnectAccountManagement />
           </EmbeddedComponentContainer>
-          <stripe-connect-debug-utils></stripe-connect-debug-utils>
+          <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>
 

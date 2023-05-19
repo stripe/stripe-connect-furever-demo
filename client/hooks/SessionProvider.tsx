@@ -42,10 +42,6 @@ export const useSession = () => {
 export const SessionProvider = ({children}: {children: React.ReactNode}) => {
   const {data: session, isLoading, error, refetch} = useFetchSession();
 
-  // React.useEffect(() => {
-  //   mutate();
-  // }, []);
-
   if (error) {
     return <ErrorState errorMessage={error.message} retry={refetch} />;
   }

@@ -15,6 +15,18 @@ import {TextInput, SelectInput, FormBlock} from '../components/FormInputs';
 import {CompleteProfileFooter} from './NoticeFooter';
 import {Container} from './Container';
 
+type FormValues = {
+  firstName: string;
+  lastName: string;
+  country: string;
+  type: string;
+  prefill: boolean;
+  salonName: string;
+  salonLicense: string;
+  salonSpecialty: string;
+  accountConfiguration: string;
+};
+
 const FormControl = ({children}: {children: React.ReactNode}) => (
   <Box width="100%" gap={2} display="flex" flexDirection="column">
     {children}
@@ -32,26 +44,22 @@ const FormBlockHeader = (props: TypographyProps) => (
 
 const useCreateStripeAccount = () => {
   const navigate = useNavigate();
-  return useMutation<void, Error, FormData>(
+  return useMutation<void, Error, FormValues>(
     'createAccount',
-    async (formData: FormData) => {
+    async (formValues: FormValues) => {
+      const {salonName, salonLicense, salonSpecialty, ...rest} = formValues;
       const response = await fetch('/stripe/create-account', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName: formData.get('firstName'),
-          lastName: formData.get('lastName'),
-          country: formData.get('country'),
-          type: formData.get('salon-type'),
-          prefill: !!formData.get('prefill'),
           salon: {
-            name: formData.get('salon[name]'),
-            license: formData.get('salon[license]'),
-            specialty: formData.get('salon[specialty]'),
+            name: salonName,
+            license: salonLicense,
+            specialty: salonSpecialty,
           },
-          accountConfiguration: formData.get('accountConfiguration'),
+          ...rest,
         }),
       });
       if (response.ok) {
@@ -64,13 +72,23 @@ const useCreateStripeAccount = () => {
 };
 
 const CompleteProfile = () => {
+  const [formValues, setFormValues] = React.useState<FormValues>({
+    firstName: '',
+    lastName: '',
+    country: 'US',
+    type: 'individual',
+    prefill: false,
+    salonName: '',
+    salonLicense: 'LINC123',
+    salonSpecialty: 'dogs',
+    accountConfiguration: 'no_dashboard_soll',
+  });
   const [searchParams] = useSearchParams();
   const {mutate, isLoading, error} = useCreateStripeAccount();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    mutate(formData);
+    mutate(formValues);
   };
 
   return (
@@ -90,9 +108,15 @@ const CompleteProfile = () => {
           <FormBlockHeader>Business type</FormBlockHeader>
           <RadioGroup
             aria-labelledby="business-type"
-            defaultValue="individual"
             name="salon-type"
             sx={{gap: 1.5}}
+            value={formValues.type}
+            onChange={(event) =>
+              setFormValues((prev) => ({
+                ...prev,
+                type: event.target.value,
+              }))
+            }
           >
             <FormControlLabel
               value="individual"
@@ -120,6 +144,13 @@ const CompleteProfile = () => {
               name="firstName"
               placeholder="John"
               required
+              value={formValues.firstName}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  firstName: event.target.value,
+                }))
+              }
             />
             <Divider />
             <TextInput
@@ -127,14 +158,27 @@ const CompleteProfile = () => {
               name="lastName"
               placeholder="Doe"
               required
+              value={formValues.lastName}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  lastName: event.target.value,
+                }))
+              }
             />
             <Divider />
             <SelectInput
               label="Country"
               type="select"
               name="country"
-              defaultValue="US"
               required
+              value={formValues.country}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  country: event.target.value,
+                }))
+              }
             >
               <option value="AU">Australia</option>
               <option value="AT">Austria</option>
@@ -194,22 +238,41 @@ const CompleteProfile = () => {
               name="salon[name]"
               placeholder="Pawsitively Purrfect Grooming"
               required
+              value={formValues.salonName}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  salonName: event.target.value,
+                }))
+              }
             />
             <Divider />
             <TextInput
               label="License"
               name="salon[license]"
               placeholder="LINC123"
-              defaultValue="LINC123"
               required
+              value={formValues.salonLicense}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  salonLicense: event.target.value,
+                }))
+              }
             />
             <Divider />
             <SelectInput
               label="Specialty"
               type="select"
               name="salon[specialty]"
-              defaultValue="dogs"
               required
+              value={formValues.salonSpecialty}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  salonSpecialty: event.target.value,
+                }))
+              }
             >
               <option value="dogs">Dogs</option>
               <option value="cats">Cats</option>
@@ -256,7 +319,17 @@ const CompleteProfile = () => {
           <FormControlLabel
             sx={{display: 'flex', alignItems: 'flex-start'}}
             control={
-              <Checkbox sx={{paddingY: 0}} name="prefill" value="prefill" />
+              <Checkbox
+                sx={{paddingY: 0}}
+                name="prefill"
+                checked={formValues.prefill}
+                onChange={(event) =>
+                  setFormValues((prev) => ({
+                    ...prev,
+                    prefill: event.target.checked,
+                  }))
+                }
+              />
             }
             label={
               <Typography fontSize={14}>
@@ -275,7 +348,13 @@ const CompleteProfile = () => {
               <SelectInput
                 type="select"
                 name="accountConfiguration"
-                defaultValue="no_dashboard_soll"
+                value={formValues.accountConfiguration}
+                onChange={(event) =>
+                  setFormValues((prev) => ({
+                    ...prev,
+                    accountConfiguration: event.target.value,
+                  }))
+                }
               >
                 <option value="no_dashboard_soll">
                   No dashboard access + Stripe owns loss liability (UA7)

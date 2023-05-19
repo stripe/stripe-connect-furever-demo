@@ -18,22 +18,25 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
+import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+
+type FormValues = {
+  count: string;
+  amount: string;
+  status: string;
+  currency: string;
+};
 
 const useCreatePayments = () => {
-  return useMutation<void, Error, FormData>(
+  return useMutation<void, Error, FormValues>(
     'createPayments',
-    async (formData: FormData) => {
+    async (formValues: FormValues) => {
       const response = await fetch('/stripe/create-payments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          count: formData.get('count'),
-          amount: formData.get('amount'),
-          status: formData.get('status'),
-          currency: formData.get('currency'),
-        }),
+        body: JSON.stringify(formValues),
       });
 
       if (!response.ok) {
@@ -67,24 +70,28 @@ const Payments = () => {
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
   const {status, mutate: createPayment, isLoading, error} = useCreatePayments();
-  const [hideCurrencyRow, setHideCurrencyRow] = React.useState(false);
   const {mutate: createCheckoutSession} = useCreateCheckoutSession();
+  const [formValues, setFormValues] = React.useState<FormValues>({
+    count: '1',
+    amount: '',
+    status: 'card_successful',
+    currency: '',
+  });
 
   // Disables the currency selector when not using a successful payment status
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const {value} = event.target;
     if (value.startsWith('card_successful')) {
-      setHideCurrencyRow(false);
+      setFormValues((prev) => ({...prev, status: value}));
     } else {
-      setHideCurrencyRow(true);
+      setFormValues((prev) => ({...prev, currency: '', status: value}));
     }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    createPayment(formData);
+    createPayment(formValues);
   };
 
   const renderFooter = () => {
@@ -134,8 +141,11 @@ const Payments = () => {
                 pattern: 'd*',
               }}
               required
-              defaultValue={1}
               size="small"
+              value={formValues.count}
+              onChange={(event) =>
+                setFormValues((prev) => ({...prev, count: event.target.value}))
+              }
             />
             <Divider />
             <TextInput
@@ -149,12 +159,17 @@ const Payments = () => {
                 pattern: 'd*',
               }}
               size="small"
+              value={formValues.amount}
+              onChange={(event) =>
+                setFormValues((prev) => ({...prev, amount: event.target.value}))
+              }
             />
             <Divider />
             <SelectInput
               label="Status"
               type="select"
               name="status"
+              value={formValues.status}
               onChange={handleStatusChange}
               size="small"
             >
@@ -173,15 +188,21 @@ const Payments = () => {
               <option value="ach_direct_debit">ACH Direct Debit</option>
               <option value="sepa_debit">SEPA Direct Debit</option>
             </SelectInput>
-            {!hideCurrencyRow && (
+            {formValues.status.startsWith('card_successful') && (
               <>
                 <Divider />
                 <SelectInput
                   label="Currency"
                   type="select"
                   name="currency"
-                  defaultValue=""
                   size="small"
+                  value={formValues.currency}
+                  onChange={(event) =>
+                    setFormValues((prev) => ({
+                      ...prev,
+                      currency: event.target.value,
+                    }))
+                  }
                 >
                   <option value="">Default</option>
                   <option value="aed">AED</option>
@@ -190,10 +211,10 @@ const Payments = () => {
                   <option value="cny">CNY</option>
                   <option value="eur">EUR</option>
                   <option value="gbp">GBP</option>
-                  <option value="gbp">INR</option>
-                  <option value="gbp">JPY</option>
-                  <option value="gbp">SGD</option>
-                  <option value="gbp">UD</option>
+                  <option value="inr">INR</option>
+                  <option value="jpy">JPY</option>
+                  <option value="sgd">SGD</option>
+                  <option value="usd">USD</option>
                 </SelectInput>
               </>
             )}
@@ -287,7 +308,7 @@ const Payments = () => {
           <EmbeddedComponentContainer>
             <ConnectPayments />
           </EmbeddedComponentContainer>
-          <stripe-connect-debug-utils></stripe-connect-debug-utils>
+          <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>
 
