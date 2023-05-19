@@ -10,6 +10,9 @@
   },
   "type": "module",
   "source": "client/index.html",
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "scripts": {
     "build": "parcel build client/index.html",
     "clean": "rimraf dist",
