@@ -14,7 +14,7 @@
     "build": "parcel build client/index.html",
     "clean": "rimraf dist",
     "dev": "yarn clean && yarn watch",
-    "server": "ts-node --esm --files server/server.ts",
+    "server": "ts-node-esm --files server/server.ts",
     "start": "yarn clean && yarn build && yarn server",
     "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\""
   },
