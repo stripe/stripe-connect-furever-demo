@@ -84,10 +84,10 @@ app.use('/api', apiRouter);
 app.use('/stripe', stripeRouter);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '..', 'dist')));
+app.use(express.static(path.join(__dirname, '..')));
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 // Start the server on the correct port
