@@ -6,6 +6,7 @@ import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
+import {useTheme} from '@mui/material/styles';
 
 type AccountSession = {
   clientSecret: string;
@@ -49,6 +50,8 @@ const refreshClientSecret = async () => {
  *  uses the retrieved clientSecret to initialize the Connect.js instance.
  */
 const useInitStripeConnect = (enabled: boolean) => {
+  const theme = useTheme();
+
   return useQuery<StripeConnectInstance, Error>(
     'initStripeConnect',
     async () => {
@@ -59,7 +62,14 @@ const useInitStripeConnect = (enabled: boolean) => {
         publishableKey,
         refreshClientSecret,
         appearance: {
-          colorPrimary: '#228403',
+          colorPrimary: theme.palette.primary.main,
+          colorText: theme.palette.text.primary,
+          colorSecondaryText: theme.palette.text.secondary,
+          colorSecondaryLinkText: theme.palette.secondary.main,
+          colorBorder: theme.palette.divider,
+          colorFormHighlight: theme.palette.primary.main,
+          colorFeedbackSuccess: theme.palette.success.main,
+          colorFeedbackCritical: theme.palette.error.main,
         },
         uiConfig: {
           overlay: 'dialog',
