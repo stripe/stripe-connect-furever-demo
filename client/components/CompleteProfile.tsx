@@ -365,6 +365,12 @@ const CompleteProfile = () => {
                 <option value="dashboard_soll">
                   Dashboard access + Stripe owns loss liability
                 </option>
+                <option value="default_standard">
+                  Standard account
+                </option>
+                <option value="default_express">
+                  Express account
+                </option>
               </SelectInput>
             </FormBlock>
           </FormControl>

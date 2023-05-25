@@ -1,6 +1,7 @@
 import React from 'react';
 import {useMutation} from 'react-query';
 import {useNavigate} from 'react-router-dom';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
@@ -13,6 +14,7 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import Stripe from 'stripe';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
@@ -31,9 +33,19 @@ const useOnboarded = () => {
   });
 };
 
+const goToOnboard = async (stripeAccount: Stripe.Account | null | undefined) => {
+  const response = await fetch('/stripe/create-account-onboarding-link', {
+    method: 'POST',
+    body: JSON.stringify(stripeAccount)
+  });
+  const {url} = await response.json();
+  location.href = url;
+}
+
 const Onboarding = () => {
   const {mutate, error} = useOnboarded();
-
+  const {stripeAccount} = useSession();
+  const isHostedOnboarding = stripeAccount?.type === 'express' || stripeAccount?.type === 'standard';
   return (
     <>
       <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>
@@ -45,6 +57,18 @@ const Onboarding = () => {
         >
           Onboard to Stripe
         </Typography>
+        {isHostedOnboarding && <Button
+            fullWidth
+            variant="contained"
+            onClick={() => {
+              goToOnboard(stripeAccount);
+            }}
+            sx={{
+              fontWeight: 700,
+            }}
+          >
+            Onboard to Stripe
+        </Button>}
         <EmbeddedContainer>
           <EnableEmbeddedCheckbox label="Enable embedded onboarding" />
           <EmbeddedComponentContainer>

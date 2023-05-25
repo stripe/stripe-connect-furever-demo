@@ -12,7 +12,7 @@ dotenv.config({path: './.env'});
 // We are including the beta headers for Connect embedded components and Unified accounts
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   // @ts-ignore If you wish to remain on your account's default API version, you may pass null or another version instead of the latest version, and add a @ts-ignore comment here and anywhere the types differ between API versions.
-  apiVersion: '2022-08-01; embedded_connect_beta=v1;unified_accounts_beta=v1',
+  apiVersion: '2022-08-01; embedded_connect_beta=v1',
 });
 
 const router = express.Router();
@@ -178,6 +178,14 @@ function getAccountParams(accountConfiguration: string) {
       type = 'custom';
       controller = undefined;
       break;
+    case 'default_express':
+      type = 'express';
+      controller = undefined;
+      break;
+    case 'default_standard':
+      type = 'standard';
+      controller = undefined;
+      break;
     case 'dashboard_soll':
       capabilities = undefined;
       controller = {
@@ -311,7 +319,7 @@ router.post('/create-account', userRequired, async (req, res) => {
                   address: {
                     line1: 'address_full_match',
                     city: 'South San Francisco',
-                    country: 'US',
+                    country: user.country || undefined,
                     state: 'CA',
                     postal_code: '94080',
                   },
@@ -673,6 +681,32 @@ router.get('/onboarded', stripeAccountRequired, async (req, res) => {
     return res.status(500).send({onboarded: false, error: error.message});
   }
 });
+
+/**
+ * POST /stripe/create-account-onboarding-link
+ *
+ * Returns client secret from POST /v1/account_links
+ */
+router.post(
+  '/create-account-onboarding-link',
+  stripeAccountRequired,
+  async (req, res) => {
+    try {
+      const user = req.user!;
+      const accountLink = await stripe.accountLinks.create({
+        account: user.stripeAccountId,
+        refresh_url: `${req.protocol}://${req.get('host')}/payments`,
+        return_url: `${req.protocol}://${req.get('host')}/payments`,
+        type: 'account_onboarding',
+      });
+      return res.status(200).send({url: accountLink.url});
+    } catch (error: any) {
+      console.error('Failed to create an account onboarding link: ', error);
+      res.status(500);
+      return res.send({error: error.message});
+    }
+  }
+);
 
 // Return a random int between two numbers
 function getRandomInt(min: number, max: number) {
