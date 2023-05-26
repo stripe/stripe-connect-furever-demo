@@ -70,7 +70,7 @@ const useInitStripeConnect = (enabled: boolean) => {
           colorFormHighlight: theme.palette.primary.main,
           colorFeedbackSuccess: theme.palette.success.main,
           colorFeedbackCritical: theme.palette.error.main,
-        },
+        } as any,
         uiConfig: {
           overlay: 'dialog',
         },
