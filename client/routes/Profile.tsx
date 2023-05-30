@@ -48,9 +48,10 @@ const Profile = ({user}: {user: Express.User}) => {
   }, [status]);
 
   const renderFooter = () => {
-    if (!stripeAccount?.payouts_enabled || !stripeAccount?.details_submitted) {
+    if (!stripeAccount?.details_submitted) {
       return null;
     }
+
     return (
       <CardFooter title="Create a test notification">
         <Box
