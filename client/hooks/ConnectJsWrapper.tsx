@@ -70,7 +70,7 @@ const useInitStripeConnect = (enabled: boolean) => {
           colorFormHighlight: theme.palette.primary.main,
           colorFeedbackSuccess: theme.palette.success.main,
           colorFeedbackCritical: theme.palette.error.main,
-        } as any,
+        } as any, // TODO: Remove casting once we've shipped theming options to beta
         uiConfig: {
           overlay: 'dialog',
         },
