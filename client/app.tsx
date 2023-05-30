@@ -1,4 +1,3 @@
-import {createTheme, ThemeProvider} from '@mui/material/styles';
 import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
@@ -6,6 +5,9 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import {ConnectJsWrapper} from './hooks/ConnectJsWrapper';
 import {Layout} from './components/Layout';
 import {SessionProvider} from './hooks/SessionProvider';
+import {EmbeddedComponentBorderProvider} from './hooks/EmbeddedComponentBorderProvider';
+import {ColorModeProvider} from './hooks/ColorModeProvider';
+import {ThemeProvider} from './hooks/ThemeProvider';
 import {
   AuthenticatedAndOnboardedRoute,
   UnauthenticatedRoute,
@@ -20,53 +22,7 @@ import Payments from './routes/Payments';
 import Payouts from './routes/Payouts';
 import Profile from './routes/Profile';
 import NotFound from './routes/NotFound';
-import {EmbeddedComponentBorderProvider} from './hooks/EmbeddedComponentBorderProvider';
-
-const theme = createTheme({
-  palette: {
-    primary: {main: '#228403'},
-    secondary: {main: '#002c04'},
-    text: {
-      primary: '#414552',
-      secondary: '#87909f',
-    },
-    neutral100: {
-      main: '#EBEEF1',
-    },
-  },
-
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: '#414552',
-        },
-      },
-    },
-  },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      'Segoe UI',
-      'Roboto',
-      'Helvetica Neue',
-      'Ubuntu',
-    ].join(','),
-    h2: {
-      fontWeight: 700,
-    },
-    h3: {
-      fontWeight: 700,
-    },
-    h4: {
-      fontWeight: 700,
-    },
-    h5: {
-      fontWeight: 700,
-    },
-  },
-});
+import Settings from './routes/Settings';
 
 const router = createBrowserRouter([
   {
@@ -77,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Landing />,
+      },
+      {
+        path: '/settings',
+        element: <Settings />,
       },
       {
         path: '/login',
@@ -144,15 +104,17 @@ const domNode = document.getElementById('root')!;
 const root = ReactDOM.createRoot(domNode);
 
 root.render(
-  <ThemeProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider>
-        <ConnectJsWrapper>
-          <EmbeddedComponentBorderProvider>
-            <RouterProvider router={router} />
-          </EmbeddedComponentBorderProvider>
-        </ConnectJsWrapper>
-      </SessionProvider>
-    </QueryClientProvider>
-  </ThemeProvider>
+  <ColorModeProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider>
+          <ConnectJsWrapper>
+            <EmbeddedComponentBorderProvider>
+              <RouterProvider router={router} />
+            </EmbeddedComponentBorderProvider>
+          </ConnectJsWrapper>
+        </SessionProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  </ColorModeProvider>
 );

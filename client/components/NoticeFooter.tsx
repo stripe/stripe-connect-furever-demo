@@ -105,7 +105,7 @@ const NoticeFooter = ({
         }}
       >
         <Box
-          bgcolor={'white'}
+          bgcolor={theme.palette.background.default}
           sx={{
             display: 'flex',
             justifyContent: center ? 'center' : 'space-between',
@@ -121,7 +121,7 @@ const NoticeFooter = ({
               xs: 'row wrap',
             },
           }}
-          boxShadow={3}
+          boxShadow={12}
         >
           {children}
         </Box>

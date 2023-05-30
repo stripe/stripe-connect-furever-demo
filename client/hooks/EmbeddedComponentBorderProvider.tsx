@@ -1,6 +1,15 @@
 import React, {createContext, useContext, useState} from 'react';
 
-const EmbeddedComponentBorderContext = createContext<boolean>(false);
+type IEmbeddedComponentBorderContext = {
+  enableBorder: boolean;
+  handleEnableBorderChange: (enableBorder: boolean) => void;
+};
+
+const EmbeddedComponentBorderContext =
+  createContext<IEmbeddedComponentBorderContext>({
+    enableBorder: false,
+    handleEnableBorderChange: () => {},
+  });
 
 export const useEmbeddedComponentBorder = () => {
   return useContext(EmbeddedComponentBorderContext);
@@ -15,14 +24,22 @@ export const EmbeddedComponentBorderProvider = ({
     Boolean(Number(window.localStorage.getItem('enableBorder')))
   );
 
+  const handleEnableBorderChange = (enableBorder: boolean) => {
+    if (enableBorder) {
+      window.localStorage.setItem('enableBorder', '1');
+      setEnableBorder(true);
+    } else {
+      window.localStorage.setItem('enableBorder', '0');
+      setEnableBorder(false);
+    }
+  };
+
   const handleToggleBorder = (e: KeyboardEvent) => {
     if (e.key === 'b' && e.metaKey) {
       if (Number(window.localStorage.getItem('enableBorder'))) {
-        window.localStorage.setItem('enableBorder', '0');
-        setEnableBorder(false);
+        handleEnableBorderChange(false);
       } else {
-        window.localStorage.setItem('enableBorder', '1');
-        setEnableBorder(true);
+        handleEnableBorderChange(true);
       }
     }
   };
@@ -34,7 +51,9 @@ export const EmbeddedComponentBorderProvider = ({
   }, []);
 
   return (
-    <EmbeddedComponentBorderContext.Provider value={enableBorder}>
+    <EmbeddedComponentBorderContext.Provider
+      value={{enableBorder, handleEnableBorderChange}}
+    >
       {children}
     </EmbeddedComponentBorderContext.Provider>
   );
