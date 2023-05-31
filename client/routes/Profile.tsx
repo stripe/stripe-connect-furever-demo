@@ -49,7 +49,7 @@ const Profile = ({user}: {user: Express.User}) => {
 
   const renderFooterTitle = () => {
     if (!stripeAccount?.details_submitted) {
-      return 'Test notifications are disabled. Please complete onboarding first.';
+      return 'Test notifications are disabled for this account. Please complete onboarding first.';
     }
     return 'Create a test notification';
   };
