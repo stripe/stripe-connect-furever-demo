@@ -48,7 +48,7 @@ const Payouts = () => {
 
   const renderFooterTitle = () => {
     if (!stripeAccount?.details_submitted) {
-      return 'Payouts are disabled. Please complete onboarding to enable payouts.';
+      return 'Creating payouts is disabled on this account. Please complete onboarding to enable payouts.';
     } else if (!stripeAccount?.charges_enabled) {
       return 'Payouts are disabled. Please address the requirements in the notification banner to enable payouts.';
     }
