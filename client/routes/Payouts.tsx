@@ -50,7 +50,7 @@ const Payouts = () => {
     if (!stripeAccount?.details_submitted) {
       return 'Creating payouts is disabled on this account. Please complete onboarding to enable payouts.';
     } else if (!stripeAccount?.charges_enabled) {
-      return 'Payouts are disabled. Please address the requirements in the notification banner to enable payouts.';
+      return 'Creating payouts is disabled for this account. Please address the requirements in the notification banner to enable payouts.';
     }
     return 'Create a test payout';
   };
