@@ -98,7 +98,7 @@ const Payments = () => {
     if (!stripeAccount?.details_submitted) {
       return 'Creating payments is disabled for this account. Please complete onboarding to enable payments.';
     } else if (!stripeAccount?.charges_enabled) {
-      return 'Payments are disabled. Please address the requirements in the notification banner to enable payments.';
+      return 'Creating payments is disabled for this account. Please address the requirements in the notification banner to enable payments.';
     }
     return 'Create a test payment';
   };
