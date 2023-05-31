@@ -94,13 +94,23 @@ const Payments = () => {
     createPayment(formValues);
   };
 
-  const renderFooter = () => {
-    if (!stripeAccount?.charges_enabled || !stripeAccount?.details_submitted) {
-      return null;
+  const renderFooterTitle = () => {
+    if (!stripeAccount?.details_submitted) {
+      return 'Payments are disabled. Please complete onboarding to enable payments.';
+    } else if (!stripeAccount?.charges_enabled) {
+      return 'Payments are disabled. Please address the requirements in the notification banner to enable payments.';
     }
+    return 'Create a test payment';
+  };
 
+  const renderFooter = () => {
     return (
-      <CardFooter title="Create a test payment">
+      <CardFooter
+        title={renderFooterTitle()}
+        disabled={
+          !stripeAccount?.charges_enabled || !stripeAccount?.details_submitted
+        }
+      >
         <Box
           sx={{
             display: 'flex',
