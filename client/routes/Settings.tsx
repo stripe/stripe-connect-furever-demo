@@ -14,52 +14,48 @@ const Settings = () => {
   const {mode, handleModeChange} = useColorMode();
 
   return (
-    <>
-      <Container
+    <Container
+      sx={{
+        gap: 4,
+        marginBottom: 2,
+      }}
+    >
+      <Typography
+        variant="h5"
         sx={{
-          gap: 4,
-          marginBottom: 2,
+          textAlign: 'center',
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            textAlign: 'center',
-          }}
-        >
-          Settings
-        </Typography>
-        <FormGroup>
-          {stripeAccount && (
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={enableBorder}
-                  onChange={(event) =>
-                    handleEnableBorderChange(event.target.checked)
-                  }
-                />
-              }
-              label="Enable embedded component border"
-            />
-          )}
-
+        Settings
+      </Typography>
+      <FormGroup>
+        {stripeAccount && (
           <FormControlLabel
             control={
               <Switch
-                checked={mode === 'dark'}
+                checked={enableBorder}
                 onChange={(event) =>
-                  handleModeChange(event.target.checked ? 'dark' : 'light')
+                  handleEnableBorderChange(event.target.checked)
                 }
               />
             }
-            label="Dark mode"
+            label="Enable embedded component border"
           />
-        </FormGroup>
-      </Container>
+        )}
 
-      {/* {renderFooter()} */}
-    </>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={mode === 'dark'}
+              onChange={(event) =>
+                handleModeChange(event.target.checked ? 'dark' : 'light')
+              }
+            />
+          }
+          label="Dark mode"
+        />
+      </FormGroup>
+    </Container>
   );
 };
 
