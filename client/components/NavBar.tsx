@@ -44,7 +44,10 @@ const unauthenticatedRoutes: Page[] = [
   {name: 'Sign up', href: '/signup'},
   {name: 'Login', href: '/login'},
 ];
-const settings: Page[] = [{name: 'Profile', href: '/profile'}];
+const settings: Page[] = [
+  {name: 'Profile', href: '/profile'},
+  {name: 'Settings', href: '/settings'},
+];
 
 export const NavBar = () => {
   const {mutate: logout} = useLogout();
@@ -90,12 +93,12 @@ export const NavBar = () => {
               sx={{
                 fontSize: 16,
                 fontWeight: 600,
-                color: pathname === href ? 'primary.main' : 'secondary.main',
                 '&:hover': {
-                  color: 'primary.main',
+                  color: theme.palette.primary.main,
                 },
                 textDecoration: 'none',
               }}
+              color={pathname === href ? 'primary' : 'secondary'}
             >
               {name}
             </Typography>
@@ -106,11 +109,13 @@ export const NavBar = () => {
   };
 
   const renderMenuIcon = () => {
+    const theme = useTheme();
     if (user) {
       return (
         <Avatar
           sx={{
-            backgroundColor: 'primary.main',
+            color: 'white',
+            backgroundColor: theme.palette.primary.main,
           }}
         >
           {displayName}
@@ -204,7 +209,8 @@ export const NavBar = () => {
       <AppBar
         position="static"
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: theme.palette.background.default,
+          backgroundImage: 'none',
           display: 'flex',
           alignItems: 'center',
         }}

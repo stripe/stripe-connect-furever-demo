@@ -6,7 +6,7 @@ import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
-import {useTheme} from '@mui/material/styles';
+import useTheme from '@mui/system/useTheme';
 
 type AccountSession = {
   clientSecret: string;
@@ -66,11 +66,14 @@ const useInitStripeConnect = (enabled: boolean) => {
           colorText: theme.palette.text.primary,
           colorSecondaryText: theme.palette.text.secondary,
           colorSecondaryLinkText: theme.palette.secondary.main,
-          colorBorder: theme.palette.divider,
+          colorBorder: theme.palette.border.main,
           colorFormHighlight: theme.palette.primary.main,
           colorFeedbackSuccess: theme.palette.success.main,
           colorFeedbackCritical: theme.palette.error.main,
-        } as any, // TODO: Remove casting once we've shipped theming options to beta
+          colorSecondaryButtonBackground: theme.palette.neutral100.main,
+          colorSecondaryButtonBorder: theme.palette.border.main,
+          colorOffsetBackground: theme.palette.background.default,
+        } as Record<string, string>, // TODO: Remove casting once we've shipped theming options to beta
         uiConfig: {
           overlay: 'dialog',
         },

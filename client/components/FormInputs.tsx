@@ -4,6 +4,7 @@ import Input, {InputProps} from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import NativeSelect, {NativeSelectProps} from '@mui/material/NativeSelect';
+import {useColorMode} from '../hooks/ColorModeProvider';
 
 const renderLabel = ({
   label,
@@ -77,16 +78,19 @@ export const SelectInput = ({
   </NativeSelect>
 );
 
-export const FormBlock = (props: BoxProps) => (
-  <Box
-    boxShadow={1}
-    width="100%"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 0.5,
-      paddingY: 0.5,
-    }}
-    {...props}
-  />
-);
+export const FormBlock = (props: BoxProps) => {
+  const {mode} = useColorMode();
+  return (
+    <Box
+      boxShadow={mode === 'light' ? 1 : 3}
+      width="100%"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0.5,
+        paddingY: 0.5,
+      }}
+      {...props}
+    />
+  );
+};

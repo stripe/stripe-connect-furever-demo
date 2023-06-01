@@ -1,6 +1,8 @@
 import {Palette, PaletteColorOptions, PaletteOptions} from '@mui/material';
 
 interface MyPaletteExtensions {
+  border: PaletteColorOptions;
+  neutral50: PaletteColorOptions;
   neutral100: PaletteColorOptions;
 }
 

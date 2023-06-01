@@ -10,10 +10,11 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import {useTheme, Theme} from '@mui/system';
 import reservations from '../assets/data/reservations.json';
 import {Container} from '../components/Container';
 
-const styles = {
+const createStyles = (theme: Theme) => ({
   table: {
     width: '100%',
     height: '100%',
@@ -22,7 +23,7 @@ const styles = {
   },
   tableHead: {
     borderBottom: '2px solid',
-    borderBottomColor: '#e8e8e8',
+    borderBottomColor: theme.palette.border.main,
   },
   tableHeadCell: {
     textAlign: 'center',
@@ -32,7 +33,7 @@ const styles = {
   },
   tableCell: {
     borderRight: '1px solid',
-    borderRightColor: '#e8e8e8',
+    borderRightColor: theme.palette.border.main,
     whiteSpace: 'none',
     wordWrap: 'nowrap',
     textAlign: 'center',
@@ -44,7 +45,6 @@ const styles = {
   },
   firstCol: {
     fontWeight: 500,
-    color: 'rgba(0, 0, 0, 0.5)',
     padding: '0.25rem 0',
     textAlign: 'center',
     border: 0,
@@ -61,14 +61,14 @@ const styles = {
     },
   },
   calendarEvent: {
-    background: '#f3f4f6',
-    color: 'black',
+    background: theme.palette.neutral100.main,
+    color: theme.palette.text.primary,
     borderRadius: 1,
     padding: '0.5rem',
     overflowX: 'hidden',
     transition: 'all 0.2s',
     borderLeft: '2px solid',
-    borderColor: 'primary.main',
+    borderColor: theme.palette.primary.main,
     zIndex: 2,
     position: 'relative',
     textAlign: 'left',
@@ -76,7 +76,7 @@ const styles = {
     flexDirection: 'column',
     gap: 1,
     ':hover': {
-      boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
+      boxShadow: 12,
     },
   },
   calendarHeader: {
@@ -99,7 +99,7 @@ const styles = {
   calendarButtons: {
     borderRadius: 1,
     border: '1px solid',
-    borderColor: '#e8e8e8',
+    borderColor: theme.palette.border.main,
   },
   calendarDateSelector: {
     display: 'flex',
@@ -107,7 +107,7 @@ const styles = {
     height: '100%',
     borderRadius: 1,
     border: '1px solid',
-    borderColor: '#e8e8e8',
+    borderColor: theme.palette.border.main,
   },
   calendarDateSelectorButton: {
     textTransform: 'none',
@@ -117,9 +117,11 @@ const styles = {
     padding: '0px 20px 0px 20px',
     borderRadius: 1,
   },
-};
+});
 
 const Reservations = () => {
+  const theme = useTheme();
+  const styles = React.useMemo(() => createStyles(theme), [theme]);
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('en-US', {
     month: 'short',
@@ -200,7 +202,7 @@ const Reservations = () => {
               onClick={handleAlertDemoSite}
               sx={{
                 ...styles.calendarDateSelectorButton,
-                backgroundColor: '#f3f4f6',
+                backgroundColor: theme.palette.neutral50.main,
               }}
             >
               <Typography>Week</Typography>
@@ -232,7 +234,7 @@ const Reservations = () => {
                 sx={{
                   ...styles.tableHeadCell,
                   ...(dateIndex === currentDayOfWeekIndex
-                    ? {color: 'primary.main'}
+                    ? {color: theme.palette.primary.main}
                     : {}),
                   fontSize: {
                     xs: 12,
@@ -260,7 +262,7 @@ const Reservations = () => {
                     ...(index === 0 ? styles.firstCol : styles.tableCell),
                     ...(index > 0 && index - 1 < currentDayOfWeekIndex
                       ? {
-                          backgroundColor: '#fafafa',
+                          backgroundColor: theme.palette.neutral50.main,
                         }
                       : {}),
                   }}

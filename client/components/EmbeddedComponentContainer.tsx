@@ -23,7 +23,7 @@ export const EmbeddedComponentContainer = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const enableBorder = useEmbeddedComponentBorder();
+  const {enableBorder} = useEmbeddedComponentBorder();
 
   return (
     <Box

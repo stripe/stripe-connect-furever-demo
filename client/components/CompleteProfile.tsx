@@ -10,6 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography, {TypographyProps} from '@mui/material/Typography';
+import {useTheme} from '@mui/system';
 import StripeLogo from '../assets/images/stripe-grey.svg';
 import {TextInput, SelectInput, FormBlock} from '../components/FormInputs';
 import {CompleteProfileFooter} from './NoticeFooter';
@@ -72,6 +73,7 @@ const useCreateStripeAccount = () => {
 };
 
 const CompleteProfile = () => {
+  const theme = useTheme();
   const [formValues, setFormValues] = React.useState<FormValues>({
     firstName: '',
     lastName: '',
@@ -286,7 +288,7 @@ const CompleteProfile = () => {
           <Box
             sx={{
               border: '2px solid',
-              borderColor: 'neutral100.main',
+              borderColor: theme.palette.border.main,
               borderRadius: 1.5,
               padding: 2.5,
               display: 'flex',
