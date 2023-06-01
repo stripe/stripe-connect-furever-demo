@@ -182,7 +182,7 @@ function getAccountParams(accountConfiguration: string) {
       capabilities = undefined;
       controller = {
         application: {
-          loss_liable: true, // Platform owns loss liability
+          loss_liable: false, // Stripe owns loss liability
           onboarding_owner: false, // Stripe is the onboarding owner
           pricing_controls: true, // The platform is the pricing owner
         },
