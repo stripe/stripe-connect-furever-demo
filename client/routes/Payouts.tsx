@@ -46,13 +46,23 @@ const Payouts = () => {
     }
   }, [status]);
 
-  const renderFooter = () => {
-    if (!stripeAccount?.payouts_enabled || !stripeAccount?.details_submitted) {
-      return null;
+  const renderFooterTitle = () => {
+    if (!stripeAccount?.details_submitted) {
+      return 'Creating payouts is disabled on this account. Please complete onboarding to enable payouts.';
+    } else if (!stripeAccount?.charges_enabled) {
+      return 'Creating payouts is disabled for this account. Please address the requirements in the notification banner to enable payouts.';
     }
+    return 'Create a test payout';
+  };
 
+  const renderFooter = () => {
     return (
-      <CardFooter title="Create a test payout">
+      <CardFooter
+        title={renderFooterTitle()}
+        disabled={
+          !stripeAccount?.payouts_enabled || !stripeAccount?.details_submitted
+        }
+      >
         <Box
           sx={{
             display: 'flex',
