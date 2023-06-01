@@ -47,12 +47,19 @@ const Profile = ({user}: {user: Express.User}) => {
     }
   }, [status]);
 
-  const renderFooter = () => {
-    if (!stripeAccount?.payouts_enabled || !stripeAccount?.details_submitted) {
-      return null;
+  const renderFooterTitle = () => {
+    if (!stripeAccount?.details_submitted) {
+      return 'Test notifications are disabled for this account. Please complete onboarding first.';
     }
+    return 'Create a test notification';
+  };
+
+  const renderFooter = () => {
     return (
-      <CardFooter title="Create a test notification">
+      <CardFooter
+        title={renderFooterTitle()}
+        disabled={!stripeAccount?.details_submitted}
+      >
         <Box
           sx={{
             display: 'flex',

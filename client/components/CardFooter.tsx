@@ -11,10 +11,40 @@ import {Footer} from './Footer';
 type Props = {
   title: React.ReactNode;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 
-export const CardFooter = ({title, children}: Props) => {
+export const CardFooter = ({title, children, disabled}: Props) => {
   const theme = useTheme();
+
+  const renderBody = () => {
+    if (disabled) {
+      return (
+        <Box
+          sx={{
+            minHeight: 48,
+            paddingY: theme.spacing(1.5),
+            paddingX: theme.spacing(2),
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          <Typography sx={{fontWeight: 600}}>{title}</Typography>
+        </Box>
+      );
+    }
+    return (
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandLessIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{fontWeight: 600}}>{title}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>{children}</AccordionDetails>
+      </Accordion>
+    );
+  };
 
   return (
     <Footer
@@ -33,18 +63,7 @@ export const CardFooter = ({title, children}: Props) => {
         maxWidth: {xs: '100%', sm: '500px'},
       }}
     >
-      <Box boxShadow={6}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandLessIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography sx={{fontWeight: 600}}>{title}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>{children}</AccordionDetails>
-        </Accordion>
-      </Box>
+      <Box boxShadow={6}>{renderBody()}</Box>
     </Footer>
   );
 };
