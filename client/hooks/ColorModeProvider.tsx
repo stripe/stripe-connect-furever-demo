@@ -1,5 +1,4 @@
 import React, {createContext, useContext} from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 type IColorModeContext = {
   mode: 'light' | 'dark';
@@ -16,13 +15,9 @@ export const useColorMode = () => {
 };
 
 export const ColorModeProvider = ({children}: {children: React.ReactNode}) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
   // 0: light, 1: dark
   const [mode, setMode] = React.useState<'light' | 'dark'>(
-    Boolean(Number(window.localStorage.getItem('colorMode'))) || prefersDarkMode
-      ? 'dark'
-      : 'light'
+    Boolean(Number(window.localStorage.getItem('colorMode'))) ? 'dark' : 'light'
   );
 
   const handleModeChange = (mode: 'light' | 'dark') => {
