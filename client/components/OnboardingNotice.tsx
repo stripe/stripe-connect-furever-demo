@@ -25,7 +25,7 @@ export const OnboardingNotice = () => {
     >
       <Typography color="white">
         You need to complete onboarding.{' '}
-        <Link component={RouterLink} to="/onboard">
+        <Link component={RouterLink} to="/onboarding">
           <Typography
             component="span"
             color="white"
