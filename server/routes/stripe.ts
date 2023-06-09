@@ -656,24 +656,6 @@ router.post('/create-payout', stripeAccountRequired, async (req, res) => {
   }
 });
 
-/**
- * GET /stripe/onboarded
- *
- * Returns a boolean indicating whether onboarding has been completed
- */
-router.get('/onboarded', stripeAccountRequired, async (req, res) => {
-  try {
-    const user = req.user!;
-    const stripeAccount = await retrieveStripeAccount(user.stripeAccountId);
-    return res
-      .status(200)
-      .send({onboarded: !!stripeAccount?.details_submitted});
-  } catch (error: any) {
-    console.error(error);
-    return res.status(500).send({onboarded: false, error: error.message});
-  }
-});
-
 // Return a random int between two numbers
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -65,7 +65,7 @@ export const LandingNoticeFooter = () => (
     </Typography>
 
     <Link
-      href="https://github.com/stripe/stripe-connect-furever"
+      href="https://github.com/stripe/stripe-connect-furever-demo"
       target="_blank"
       underline="none"
       display="flex"
