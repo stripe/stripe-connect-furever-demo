@@ -13,7 +13,6 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
-import {useAccount} from '../hooks/AccountProvider';
 
 const useOnboarded = () => {
   const {refetch} = useSession();

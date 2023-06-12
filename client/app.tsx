@@ -25,7 +25,6 @@ import Profile from './routes/Profile';
 import NotFound from './routes/NotFound';
 import Settings from './routes/Settings';
 import BankAccountForm from './routes/BankAccountForm';
-import {AccountProvider} from './hooks/AccountProvider';
 
 const router = createBrowserRouter([
   {
@@ -115,19 +114,17 @@ const domNode = document.getElementById('root')!;
 const root = ReactDOM.createRoot(domNode);
 
 root.render(
-  <AccountProvider>
-    <ColorModeProvider>
-      <ThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <SessionProvider>
-            <ConnectJsWrapper>
-              <EmbeddedComponentBorderProvider>
-                <RouterProvider router={router} />
-              </EmbeddedComponentBorderProvider>
-            </ConnectJsWrapper>
-          </SessionProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </ColorModeProvider>
-  </AccountProvider>
+  <ColorModeProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider>
+          <ConnectJsWrapper>
+            <EmbeddedComponentBorderProvider>
+              <RouterProvider router={router} />
+            </EmbeddedComponentBorderProvider>
+          </ConnectJsWrapper>
+        </SessionProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  </ColorModeProvider>
 );
