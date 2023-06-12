@@ -12,6 +12,7 @@ import {
   AuthenticatedAndOnboardedRoute,
   UnauthenticatedRoute,
   OnboardingRoute,
+  CustomGatedRoute,
 } from './routes/RouteHandlers';
 import Landing from './routes/Landing';
 import Login from './routes/Login';
@@ -23,6 +24,7 @@ import Payouts from './routes/Payouts';
 import Profile from './routes/Profile';
 import NotFound from './routes/NotFound';
 import Settings from './routes/Settings';
+import BankAccountForm from './routes/BankAccountForm';
 
 const router = createBrowserRouter([
   {
@@ -92,6 +94,14 @@ const router = createBrowserRouter([
           <AuthenticatedAndOnboardedRoute>
             {() => <Onboarding />}
           </AuthenticatedAndOnboardedRoute>
+        ),
+      },
+      {
+        path: '/bankaccountform',
+        element: (
+          <CustomGatedRoute>
+            <BankAccountForm />
+          </CustomGatedRoute>
         ),
       },
     ],

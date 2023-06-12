@@ -59,3 +59,15 @@ export const AuthenticatedAndOnboardedRoute = ({
   }
   return <>{children(user)}</>;
 };
+
+export const CustomGatedRoute = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element => {
+  const {stripeAccount} = useSession();
+  if (stripeAccount?.type !== 'custom') {
+    return <Navigate to="/reservations" replace />;
+  }
+  return <>{children}</>;
+};
