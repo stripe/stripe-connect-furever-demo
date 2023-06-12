@@ -13,10 +13,12 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import {useAccount} from '../hooks/AccountProvider';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
   const navigate = useNavigate();
+
   return useMutation<void, Error>('login', async () => {
     const response = await fetch('/stripe/onboarded', {
       method: 'GET',
@@ -33,7 +35,8 @@ const useOnboarded = () => {
 
 const Onboarding = () => {
   const {mutate, error} = useOnboarded();
-
+  const {accountConfiguration} = useAccount();
+  console.log(accountConfiguration);
   return (
     <>
       <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>

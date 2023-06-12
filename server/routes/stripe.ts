@@ -674,6 +674,47 @@ router.get('/onboarded', stripeAccountRequired, async (req, res) => {
   }
 });
 
+/**
+ * POST /stripe/create-bank-account
+ *
+ * Creates a bank account token and attaches it to the connected account
+ */
+router.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
+  const user = req.user!;
+
+  try {
+    const token = await stripe.tokens.create(
+      {
+        bank_account: {
+          country: 'US',
+          currency: 'usd',
+          account_holder_name: 'Jane Doe',
+          account_holder_type: 'individual',
+          routing_number: '110000000',
+          account_number: '000123456789',
+        },
+      },
+      {
+        stripeAccount: user.stripeAccountId,
+      }
+    );
+
+    if (!token) {
+      throw new Error('Token was not returned');
+    }
+    await stripe.accounts.createExternalAccount(user.stripeAccountId, {
+      external_account: token.id,
+    });
+
+    res.status(200);
+    return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
 // Return a random int between two numbers
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

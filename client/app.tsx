@@ -12,6 +12,7 @@ import {
   AuthenticatedAndOnboardedRoute,
   UnauthenticatedRoute,
   OnboardingRoute,
+  CustomGatedRoute,
 } from './routes/RouteHandlers';
 import Landing from './routes/Landing';
 import Login from './routes/Login';
@@ -23,6 +24,8 @@ import Payouts from './routes/Payouts';
 import Profile from './routes/Profile';
 import NotFound from './routes/NotFound';
 import Settings from './routes/Settings';
+import BankAccountForm from './routes/BankAccountForm';
+import {AccountProvider} from './hooks/AccountProvider';
 
 const router = createBrowserRouter([
   {
@@ -94,6 +97,14 @@ const router = createBrowserRouter([
           </AuthenticatedAndOnboardedRoute>
         ),
       },
+      {
+        path: '/bankaccountform',
+        element: (
+          <CustomGatedRoute>
+            <BankAccountForm />
+          </CustomGatedRoute>
+        ),
+      },
     ],
   },
 ]);
@@ -104,17 +115,19 @@ const domNode = document.getElementById('root')!;
 const root = ReactDOM.createRoot(domNode);
 
 root.render(
-  <ColorModeProvider>
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider>
-          <ConnectJsWrapper>
-            <EmbeddedComponentBorderProvider>
-              <RouterProvider router={router} />
-            </EmbeddedComponentBorderProvider>
-          </ConnectJsWrapper>
-        </SessionProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  </ColorModeProvider>
+  <AccountProvider>
+    <ColorModeProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider>
+            <ConnectJsWrapper>
+              <EmbeddedComponentBorderProvider>
+                <RouterProvider router={router} />
+              </EmbeddedComponentBorderProvider>
+            </ConnectJsWrapper>
+          </SessionProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </ColorModeProvider>
+  </AccountProvider>
 );

@@ -15,6 +15,7 @@ import StripeLogo from '../assets/images/stripe-grey.svg';
 import {TextInput, SelectInput, FormBlock} from '../components/FormInputs';
 import {CompleteProfileFooter} from './NoticeFooter';
 import {Container} from './Container';
+import {AccountConfiguration, useAccount} from '../hooks/AccountProvider';
 
 type FormValues = {
   firstName: string;
@@ -87,6 +88,7 @@ const CompleteProfile = () => {
   });
   const [searchParams] = useSearchParams();
   const {mutate, isLoading, error} = useCreateStripeAccount();
+  const {handleAccountChange} = useAccount();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -351,12 +353,15 @@ const CompleteProfile = () => {
                 type="select"
                 name="accountConfiguration"
                 value={formValues.accountConfiguration}
-                onChange={(event) =>
+                onChange={(event) => {
                   setFormValues((prev) => ({
                     ...prev,
                     accountConfiguration: event.target.value,
-                  }))
-                }
+                  }));
+                  handleAccountChange(
+                    event.target.value as AccountConfiguration
+                  );
+                }}
               >
                 <option value="no_dashboard_soll">
                   No dashboard access + Stripe owns loss liability (UA7)

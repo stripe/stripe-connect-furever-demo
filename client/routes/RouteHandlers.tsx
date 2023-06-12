@@ -1,6 +1,7 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {useSession} from '../hooks/SessionProvider';
+import {useAccount} from '../hooks/AccountProvider';
 
 export const UnauthenticatedRoute = ({
   children,
@@ -58,4 +59,16 @@ export const AuthenticatedAndOnboardedRoute = ({
     return <Navigate to="/signup" replace />;
   }
   return <>{children(user)}</>;
+};
+
+export const CustomGatedRoute = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element => {
+  const {accountConfiguration} = useAccount();
+  if (accountConfiguration !== 'no_dashboard_poll') {
+    return <Navigate to="/reservations" replace />;
+  }
+  return <>{children}</>;
 };
