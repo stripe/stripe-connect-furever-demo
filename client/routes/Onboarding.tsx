@@ -35,8 +35,6 @@ const useOnboarded = () => {
 
 const Onboarding = () => {
   const {mutate, error} = useOnboarded();
-  const {accountConfiguration} = useAccount();
-  console.log(accountConfiguration);
   return (
     <>
       <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>
