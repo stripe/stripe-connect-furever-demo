@@ -1,7 +1,6 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {useSession} from '../hooks/SessionProvider';
-import {useAccount} from '../hooks/AccountProvider';
 
 export const UnauthenticatedRoute = ({
   children,
