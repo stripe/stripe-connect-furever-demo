@@ -34,6 +34,8 @@ const useOnboarded = () => {
 
 const Onboarding = () => {
   const {mutate, error} = useOnboarded();
+  const {stripeAccount} = useSession();
+  const navigate = useNavigate();
   return (
     <>
       <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>
@@ -53,6 +55,9 @@ const Onboarding = () => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'
                 );
+                if (stripeAccount?.type === 'custom') {
+                  navigate('/bankaccountform');
+                }
                 mutate();
               }}
             />

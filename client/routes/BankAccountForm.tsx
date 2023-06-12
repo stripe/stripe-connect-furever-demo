@@ -26,6 +26,7 @@ const BankAccountForm = () => {
 
   React.useEffect(() => {
     if (status === 'success') {
+      navigate('/profile');
       navigate(0);
     }
   }, [status]);

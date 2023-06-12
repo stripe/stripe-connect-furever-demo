@@ -677,7 +677,7 @@ router.get('/onboarded', stripeAccountRequired, async (req, res) => {
 /**
  * POST /stripe/create-bank-account
  *
- * Creates a bank account token and attaches it to the connected account
+ * Creates a bank account token and attaches it to the connected account. Note this will only work for a custom account
  */
 router.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
   const user = req.user!;
@@ -706,7 +706,6 @@ router.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
       external_account: token.id,
     });
 
-    res.status(200);
     return res.status(200).end();
   } catch (error: any) {
     console.error(error);
