@@ -31,14 +31,10 @@ export function stripeAccountRequired(
 }
 
 export async function retrieveStripeAccount(accountId: string) {
-  try {
-    const account = await stripe.accounts.retrieve(accountId);
-    if (account) {
-      return account;
-    } else {
-      return null;
-    }
-  } catch (err) {
-    return null;
+  const account = await stripe.accounts.retrieve(accountId);
+  if (account) {
+    return account;
+  } else {
+    throw new Error(`Couldn't retrieve Stripe account: ${accountId}`);
   }
 }
