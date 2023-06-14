@@ -1,6 +1,6 @@
 import React from 'react';
 import {useMutation} from 'react-query';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
@@ -19,13 +19,14 @@ const useOnboarded = () => {
   const navigate = useNavigate();
 
   return useMutation<void, Error>('login', async () => {
+    const {search} = useLocation();
     const response = await fetch('/stripe/onboarded', {
       method: 'GET',
     });
     const {onboarded} = await response.json();
     if (onboarded) {
       refetch();
-      navigate('/reservations');
+      navigate(`/reservations${search}`);
     } else {
       navigate(0);
     }
@@ -33,6 +34,7 @@ const useOnboarded = () => {
 };
 
 const Onboarding = () => {
+  const {search} = useLocation();
   const {mutate, error} = useOnboarded();
   const {stripeAccount} = useSession();
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ const Onboarding = () => {
                   'Onboarding exited! We redirect the user to the next page...'
                 );
                 if (stripeAccount?.type === 'custom') {
-                  navigate('/bankaccountform');
+                  navigate(`/bankaccountform${search}`);
                 }
                 mutate();
               }}

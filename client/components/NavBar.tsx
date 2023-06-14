@@ -20,12 +20,14 @@ import {OnboardingNotice} from './OnboardingNotice';
 import RouterLink from './RouterLink';
 
 const useLogout = () => {
+  const {search} = useLocation();
+
   return useMutation<void, Error>('logout', async () => {
     const response = await fetch('/api/logout', {
       method: 'POST',
     });
     if (response.ok) {
-      window.location.replace('/');
+      window.location.replace(`/${search}`);
     }
   });
 };
