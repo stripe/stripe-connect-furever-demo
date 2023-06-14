@@ -1,5 +1,5 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useMutation} from 'react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -21,12 +21,13 @@ const useCreateBankAccount = () => {
 };
 
 const BankAccountForm = () => {
+  const {search} = useLocation();
   const navigate = useNavigate();
   const {status, mutate, isLoading, error} = useCreateBankAccount();
 
   React.useEffect(() => {
     if (status === 'success') {
-      navigate('/profile');
+      navigate(`/profile${search}`);
       navigate(0);
     }
   }, [status]);

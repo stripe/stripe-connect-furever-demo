@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import {useSession} from '../hooks/SessionProvider';
 
 export const UnauthenticatedRoute = ({
@@ -7,6 +7,7 @@ export const UnauthenticatedRoute = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
+  const {search} = useLocation();
   const {user, stripeAccount} = useSession();
   if (!user) {
     return <>{children}</>;
@@ -14,16 +15,16 @@ export const UnauthenticatedRoute = ({
 
   // If no Stripe account, user needs to complete their profile
   if (!stripeAccount) {
-    return <Navigate to="/signup" replace />;
+    return <Navigate to={`/signup${search}`} replace />;
   }
 
   // If not fully onboarded, redirect to onboarding page
   if (!stripeAccount.details_submitted) {
-    return <Navigate to="/onboarding" replace />;
+    return <Navigate to={`/onboarding${search}`} replace />;
   }
 
   // If the user is fully onboarded, redirect to the reservations page
-  return <Navigate to="/reservations" replace />;
+  return <Navigate to={`/reservations${search}`} replace />;
 };
 
 export const OnboardingRoute = ({
@@ -31,6 +32,7 @@ export const OnboardingRoute = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
+  const {search} = useLocation();
   const {user, stripeAccount} = useSession();
   if (!user || !stripeAccount) {
     return <>{children}</>;
@@ -38,11 +40,11 @@ export const OnboardingRoute = ({
 
   // If not fully onboarded, redirect to onboarding page
   if (!stripeAccount.details_submitted) {
-    return <Navigate to="/onboarding" replace />;
+    return <Navigate to={`/onboarding${search}`} replace />;
   }
 
   // If the user is fully onboarded, redirect to the reservations page
-  return <Navigate to="/reservations" replace />;
+  return <Navigate to={`/reservations${search}`} replace />;
 };
 
 export const AuthenticatedAndOnboardedRoute = ({
@@ -50,12 +52,13 @@ export const AuthenticatedAndOnboardedRoute = ({
 }: {
   children: (user: Express.User) => JSX.Element;
 }): JSX.Element => {
+  const {search} = useLocation();
   const {user, stripeAccount} = useSession();
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={`/login${search}`} replace />;
   }
   if (!stripeAccount) {
-    return <Navigate to="/signup" replace />;
+    return <Navigate to={`/signup${search}`} replace />;
   }
   return <>{children(user)}</>;
 };
@@ -65,9 +68,10 @@ export const CustomGatedRoute = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
+  const {search} = useLocation();
   const {stripeAccount} = useSession();
   if (stripeAccount?.type !== 'custom') {
-    return <Navigate to="/reservations" replace />;
+    return <Navigate to={`/reservations${search}`} replace />;
   }
   return <>{children}</>;
 };
