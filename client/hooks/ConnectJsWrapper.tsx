@@ -77,6 +77,7 @@ const useInitStripeConnect = (enabled: boolean, appearance: Record<string, strin
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
   const { stripeAccount } = useSession();
   const theme = useTheme();
+  const { mode } = useColorMode();
   const appearance = {
     // FurEver specifies a subset of the available options in ConnectJS
     colorPrimary: theme.palette.primary.main,
@@ -98,18 +99,18 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
     refetch,
   } = useInitStripeConnect(!!stripeAccount, appearance);
 
+  React.useEffect(() => {
+    connectInstance?.update({
+      appearance,
+    });
+  }, [mode]);
+
   if (!stripeAccount) return <>{children}</>;
 
   if (error) {
     return <ErrorState errorMessage={error.message} retry={refetch} />;
   }
   if (!connectInstance || isLoading) return <FullScreenLoading />;
-
-  if (connectInstance) {
-    connectInstance.update({
-      appearance,
-    });
-  }
 
   return (
     <ConnectComponentsProvider connectInstance={connectInstance}>
