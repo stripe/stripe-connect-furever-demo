@@ -1,8 +1,10 @@
 import React, {createContext, useContext} from 'react';
 
+type ColorMode = 'light' | 'dark';
+
 type IColorModeContext = {
-  mode: 'light' | 'dark';
-  handleModeChange: (mode: 'light' | 'dark') => void;
+  mode: ColorMode;
+  handleModeChange: (mode: ColorMode) => void;
 };
 
 const ColorModeContext = createContext<IColorModeContext>({
@@ -14,13 +16,13 @@ export const useColorMode = () => {
   return useContext(ColorModeContext);
 };
 
-export const ColorModeProvider = ({children}: {children: React.ReactNode}) => {
-  // 0: light, 1: dark
-  const [mode, setMode] = React.useState<'light' | 'dark'>(
-    Boolean(Number(window.localStorage.getItem('colorMode'))) ? 'dark' : 'light'
-  );
+// 0: light, 1: dark
+export const getCurrentColorMode = (): ColorMode => Boolean(Number(window.localStorage.getItem('colorMode'))) ? 'dark' : 'light';
 
-  const handleModeChange = (mode: 'light' | 'dark') => {
+export const ColorModeProvider = ({children}: {children: React.ReactNode}) => {
+  const [mode, setMode] = React.useState<ColorMode>(getCurrentColorMode());
+
+  const handleModeChange = (mode: ColorMode) => {
     if (mode === 'light') {
       window.localStorage.setItem('colorMode', '0');
       setMode('light');
