@@ -62,17 +62,17 @@ const useInitStripeConnect = (enabled: boolean) => {
         publishableKey,
         refreshClientSecret,
         appearance: {
+          // FurEver specifies a subset of the available options in ConnectJS
           colorPrimary: theme.palette.primary.main,
           colorText: theme.palette.text.primary,
+          colorBackground: theme.palette.background.default,
           colorSecondaryText: theme.palette.text.secondary,
           colorSecondaryLinkText: theme.palette.secondary.main,
           colorBorder: theme.palette.border.main,
           colorFormHighlight: theme.palette.primary.main,
-          colorFeedbackSuccess: theme.palette.success.main,
-          colorFeedbackCritical: theme.palette.error.main,
+          colorFeedbackDanger: theme.palette.error.main,
           colorSecondaryButtonBackground: theme.palette.neutral100.main,
           colorSecondaryButtonBorder: theme.palette.border.main,
-          colorOffsetBackground: theme.palette.background.default,
         } as Record<string, string>, // TODO: Remove casting once we've shipped theming options to beta
         uiConfig: {
           overlay: 'dialog',
