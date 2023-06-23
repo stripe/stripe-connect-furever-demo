@@ -86,8 +86,8 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
     colorSecondaryText: theme.palette.text.secondary,
     colorSecondaryLinkText: theme.palette.secondary.main,
     colorBorder: theme.palette.border.main,
-    colorFormHighlight: theme.palette.primary.main,
-    colorFeedbackDanger: theme.palette.error.main,
+    colorFormHighlightBorder: theme.palette.primary.main,
+    colorDanger: theme.palette.error.main,
     colorSecondaryButtonBackground: theme.palette.neutral100.main,
     colorSecondaryButtonBorder: theme.palette.border.main,
   } as Record<string, string>; // TODO: Remove casting once we've shipped theming options to beta
