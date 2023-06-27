@@ -17,9 +17,9 @@ import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 const useOnboarded = () => {
   const {refetch} = useSession();
   const navigate = useNavigate();
+  const {search} = useLocation();
 
   return useMutation<void, Error>('login', async () => {
-    const {search} = useLocation();
     const response = await fetch('/stripe/onboarded', {
       method: 'GET',
     });
@@ -38,6 +38,7 @@ const Onboarding = () => {
   const {mutate, error} = useOnboarded();
   const {stripeAccount} = useSession();
   const navigate = useNavigate();
+
   return (
     <>
       <Container sx={{alignItems: 'center', gap: 4, marginBottom: 2}}>
