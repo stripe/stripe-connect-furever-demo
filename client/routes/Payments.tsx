@@ -31,7 +31,7 @@ const useCreatePayments = () => {
   return useMutation<void, Error, FormValues>(
     'createPayments',
     async (formValues: FormValues) => {
-      const response = await fetch('/stripe/create-payments', {
+      const response = await fetch('/create-payments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const useCreatePayments = () => {
 
 const useCreateCheckoutSession = () => {
   return useMutation<void, Error, void>('createCheckoutSession', async () => {
-    const response = await fetch('/stripe/create-checkout-session', {
+    const response = await fetch('/create-checkout-session', {
       method: 'POST',
     });
     const responseJson = await response.json();

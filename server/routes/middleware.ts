@@ -1,12 +1,5 @@
-import dotenv from 'dotenv';
-import Stripe from 'stripe';
 import type {NextFunction, Request, Response} from 'express';
-
-dotenv.config({path: './.env'});
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  // @ts-ignore If you wish to remain on your account's default API version, you may pass null or another version instead of the latest version, and add a @ts-ignore comment here and anywhere the types differ between API versions.
-  apiVersion: '2022-08-01; embedded_connect_beta=v1',
-});
+import { stripeSdk } from './stripeSdk.js';
 
 // Middleware that requires a logged-in salon
 export function userRequired(req: Request, res: Response, next: NextFunction) {
@@ -31,7 +24,7 @@ export function stripeAccountRequired(
 }
 
 export async function retrieveStripeAccount(accountId: string) {
-  const account = await stripe.accounts.retrieve(accountId);
+  const account = await stripeSdk.accounts.retrieve(accountId);
   if (account) {
     return account;
   } else {

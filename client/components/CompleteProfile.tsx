@@ -49,7 +49,7 @@ const useCreateStripeAccount = () => {
     'createAccount',
     async (formValues: FormValues) => {
       const {salonName, salonLicense, salonSpecialty, ...rest} = formValues;
-      const response = await fetch('/stripe/create-account', {
+      const response = await fetch('/create-account', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

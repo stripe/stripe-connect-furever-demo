@@ -10,7 +10,7 @@ import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useCreateBankAccount = () => {
   return useMutation<void, Error>('createBankAccount', async () => {
-    const response = await fetch('/stripe/create-bank-account', {
+    const response = await fetch('/create-bank-account', {
       method: 'POST',
     });
     if (!response.ok) {
