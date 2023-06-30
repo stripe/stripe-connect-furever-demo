@@ -1096,6 +1096,11 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.6.1.tgz#3a3a408481a3796f45223a549c2571517bc8af2d"
   integrity sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==
 
+"@stripe/react-connect-js@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-1.2.1.tgz#19382cf88213615ff2917a54df4fd365d83049d3"
+  integrity sha512-eqXbIl8qtXMb89Wu/+xpjwd5x/KkXt2mYSTTezM+/ORMXCvuDR4QaukecLG/26XgnV/TEcPJ6dUq3sfndNCDlA==
+
 "@swc/helpers@^0.4.12":
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.14.tgz#1352ac6d95e3617ccb7c1498ff019654f1e12a74"

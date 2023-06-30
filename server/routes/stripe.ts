@@ -398,6 +398,22 @@ function getStripeAccountId(req: any) {
   return user.stripeAccountId
 }
 
+app.post('/account_session', async (req, res) => {
+  try {
+    const accountSession = await stripeSdk.accountSessions.create({
+      account: getStripeAccountId(req),
+    });
+
+    res.json({
+      client_secret: accountSession.client_secret,
+    });
+  } catch (error) {
+    console.error('An error occurred when calling the Stripe API to create an account session', error);
+    res.status(500);
+    res.send({error: (error as any).message});
+  }
+});
+
 /**
  * POST /create-intervention
  *
