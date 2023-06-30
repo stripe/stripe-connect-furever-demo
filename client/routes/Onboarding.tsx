@@ -20,7 +20,7 @@ const useOnboarded = () => {
   const {search} = useLocation();
 
   return useMutation<void, Error>('login', async () => {
-    const response = await fetch('/stripe/onboarded', {
+    const response = await fetch('/onboarded', {
       method: 'GET',
     });
     const {onboarded} = await response.json();

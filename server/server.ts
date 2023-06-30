@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 
 // CRUD routes for the salon signup and dashboard
 app.use('/api', apiRouter);
-app.use('/stripe', stripeRouter);
+app.use(stripeRouter);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '..')));

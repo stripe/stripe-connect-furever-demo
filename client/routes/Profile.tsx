@@ -21,7 +21,7 @@ import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {
-    const response = await fetch('/stripe/create-intervention', {
+    const response = await fetch('/create-intervention', {
       method: 'POST',
     });
     if (!response.ok) {

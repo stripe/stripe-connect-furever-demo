@@ -20,7 +20,7 @@ import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 
 const useCreatePayout = () => {
   return useMutation<void, Error>('createPayout', async () => {
-    const response = await fetch('/stripe/create-payout', {
+    const response = await fetch('/create-payout', {
       method: 'POST',
     });
     if (!response.ok) {

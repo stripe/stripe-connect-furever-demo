@@ -67,4 +67,4 @@ Run the app:
 yarn dev
 ```
 
-Go to `process.env.PORT` in your browser to start using the app.
+Go to `http://localhost:{process.env.PORT}` in your browser to start using the app.

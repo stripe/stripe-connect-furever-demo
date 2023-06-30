@@ -11,16 +11,15 @@ import useTheme from '@mui/system/useTheme';
 
 type AccountSession = {
   clientSecret: string;
-  publishableKey: string;
 };
 
 /**
- *  This function makes a server-side request to the /stripe/create-account-session.
+ *  This function makes a server-side request to the /account_session.
  *  If there is an error, undefined is returned.
  *  Else, the clientSecret and publishableKey are returned.
  */
 const fetchAccountSession = async (): Promise<AccountSession> => {
-  const response = await fetch('/stripe/create-account-session', {
+  const response = await fetch('/account_session', {
     method: 'POST',
   });
   const responseJson = await response.json();
@@ -29,16 +28,16 @@ const fetchAccountSession = async (): Promise<AccountSession> => {
       `Failed to obtain account session, could not initialize connect.js: ${responseJson.error}`
     );
   } else {
-    const {client_secret: clientSecret, publishable_key: publishableKey} =
+    const {client_secret: clientSecret} =
       responseJson;
-    return {clientSecret, publishableKey};
+    return {clientSecret};
   }
 };
 
 /**
  *  Since the claimed API key expires after a few hours, this will cause API calls
  *  to fail with a 401 unauthorized using an expired API key.
- *  This function makes a server-side request to the /stripe/create-account-session
+ *  This function makes a server-side request to the /account_session
  *  and returns a new clientSecret in order to claim a new API key.
  */
 const refreshClientSecret = async () => {
@@ -55,10 +54,10 @@ const useInitStripeConnect = (enabled: boolean, appearance: Record<string, strin
     'initStripeConnect',
     async () => {
       const connect = await loadConnect();
-      const { clientSecret, publishableKey } = await fetchAccountSession();
+      const { clientSecret } = await fetchAccountSession();
       const connectInstance = connect.initialize({
         clientSecret,
-        publishableKey,
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
         refreshClientSecret,
         appearance,
         uiConfig: {
