@@ -399,30 +399,6 @@ function getStripeAccountId(req: any) {
 }
 
 /**
- * POST /account_session
- *
- * Returns client secret from POST /v1/account_session
- */
-app.post(
-  '/account_session',
-  stripeAccountRequired,
-  async (req, res) => {
-    try {
-      const accountSession = await stripeSdk.accountSessions.create({
-        account: getStripeAccountId(req),
-      });
-      res.json({
-        client_secret: accountSession.client_secret,
-      });
-    } catch (error: any) {
-      console.error('Failed to create an account session: ', error);
-      res.status(500);
-      return res.send({error: error.message});
-    }
-  }
-);
-
-/**
  * POST /create-intervention
  *
  * Generates test intervention for the logged-in salon. This is only used for testing purposes
