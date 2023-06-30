@@ -1,9 +1,7 @@
 import React from 'react';
 import {useMutation} from 'react-query';
 import {useLocation, useNavigate} from 'react-router-dom';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import {OnboardingFooter} from '../components/NoticeFooter';
 import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
 import {
@@ -53,7 +51,7 @@ const Onboarding = () => {
         <EmbeddedContainer>
           <EnableEmbeddedCheckbox label="Enable embedded onboarding" />
           <EmbeddedComponentContainer>
-            <ConnectAccountOnboarding
+            {/* <ConnectAccountOnboarding
               onOnboardingExited={() => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'
@@ -63,7 +61,7 @@ const Onboarding = () => {
                 }
                 mutate();
               }}
-            />
+            /> */}
           </EmbeddedComponentContainer>
           <StripeConnectDebugUtils />
         </EmbeddedContainer>

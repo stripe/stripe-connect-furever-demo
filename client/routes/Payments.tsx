@@ -6,10 +6,6 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import {
-  ConnectNotificationBanner,
-  ConnectPayments,
-} from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
 import {TextInput, SelectInput} from '../components/FormInputs';
@@ -19,6 +15,7 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import { PaymentsComponent } from '../components/PaymentsComponent';
 
 type FormValues = {
   count: string;
@@ -313,10 +310,7 @@ const Payments = () => {
         </Typography>
         <EmbeddedContainer>
           <EmbeddedComponentContainer>
-            <ConnectNotificationBanner />
-          </EmbeddedComponentContainer>
-          <EmbeddedComponentContainer>
-            <ConnectPayments />
+            <PaymentsComponent />
           </EmbeddedComponentContainer>
           <StripeConnectDebugUtils />
         </EmbeddedContainer>

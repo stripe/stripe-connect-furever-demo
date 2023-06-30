@@ -1,9 +1,5 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {
-  ConnectAccountManagement,
-  ConnectNotificationBanner,
-} from '@stripe/react-connect-js';
 import {useMutation} from 'react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -127,13 +123,13 @@ const Profile = ({user}: {user: Express.User}) => {
         </Typography>
         <EmbeddedContainer>
           <EnableEmbeddedCheckbox label="Enable embedded account management" />
-          <EmbeddedComponentContainer>
+          {/* <EmbeddedComponentContainer>
             <ConnectNotificationBanner />
-          </EmbeddedComponentContainer>
-          <EmbeddedComponentContainer>
+          </EmbeddedComponentContainer> */}
+          {/* <EmbeddedComponentContainer>
             <ConnectAccountManagement />
-          </EmbeddedComponentContainer>
-          <StripeConnectDebugUtils />
+          </EmbeddedComponentContainer> */}
+          {/* <StripeConnectDebugUtils /> */}
         </EmbeddedContainer>
       </Container>
 

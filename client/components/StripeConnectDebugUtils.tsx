@@ -6,7 +6,7 @@ const StripeConnectDebugUtils = () => {
   if (searchParams.get('dev') !== 'true') {
     return null;
   }
-  return <stripe-connect-debug-utils></stripe-connect-debug-utils>;
+  return <></>;
 };
 
 export default StripeConnectDebugUtils;
