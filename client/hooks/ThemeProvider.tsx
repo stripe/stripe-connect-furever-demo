@@ -24,7 +24,7 @@ export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
             secondary: mode === 'light' ? '#87909f' : '#828A99',
           },
           border: {
-            main: mode === 'light' ? '#d5dbe1' : '#363642',
+            main: mode === 'light' ? '#d5dbe1' : '#878787',
           },
           neutral50: {
             main: mode === 'light' ? '#f6f8fa' : '#1F212B',
