@@ -19,11 +19,11 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded components will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
 
 FurEver makes use of the following Connect embedded components:
-- `<stripe-connect-account-onboarding></stripe-connect-account-onboarding>` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
-- `<stripe-connect-payments></stripe-connect-payments>` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
-- `<stripe-connect-payouts></stripe-connect-payouts>` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
-- `<stripe-connect-account-management></stripe-connect-account-management>` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
-- `<stripe-connect-notification-banner></stripe-connect-notification-banner>` displays a list of current and future risk requirements an account needs to resolve.
+- `<ConnectOnboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
+- `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
+- `<ConnectPayouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
+- `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
+- `<ConnectNotificationsBanner />` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
 The web application is implemented as as full-stack application using Express, React, Typescript, and Material UI.

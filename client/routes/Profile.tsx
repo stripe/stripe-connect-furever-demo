@@ -1,9 +1,5 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {
-  ConnectAccountManagement,
-  ConnectNotificationBanner,
-} from '@stripe/react-connect-js';
 import {useMutation} from 'react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -18,6 +14,7 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import { ConnectAccountManagement, ConnectNotificationBanner } from '../components/internal/ConnectJsPrivateComponents';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {

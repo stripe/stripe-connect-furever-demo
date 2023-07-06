@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import {
-  ConnectNotificationBanner,
   ConnectPayouts,
 } from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
@@ -17,6 +16,7 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import { ConnectNotificationBanner } from '../components/internal/ConnectJsPrivateComponents';
 
 const useCreatePayout = () => {
   return useMutation<void, Error>('createPayout', async () => {

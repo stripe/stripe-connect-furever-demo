@@ -3,7 +3,6 @@ import {useMutation} from 'react-query';
 import {useLocation, useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import {OnboardingFooter} from '../components/NoticeFooter';
 import {EnableEmbeddedCheckbox} from '../components/EnableEmbeddedCheckbox';
 import {
@@ -13,6 +12,7 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import { ConnectAccountOnboarding } from '../components/internal/ConnectJsPrivateComponents';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
