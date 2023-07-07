@@ -358,13 +358,13 @@ const CompleteProfile = () => {
               }
             >
               <option value="no_dashboard_soll">
-                No Stripe dashboard access + Stripe owns loss liability
+                No Stripe dashboard access + Stripe owns loss liability (fully embedded, stripe managed)
               </option>
               <option value="no_dashboard_poll">
                 No Stripe dashboard access + Platform owns loss liability (custom)
               </option>
               <option value="dashboard_soll">
-                Stripe standard dashboard access + Stripe owns loss liability
+                Stripe standard dashboard access + Stripe owns loss liability (standard dashboard, stripe managed)
               </option>
             </SelectInput>
           </FormBlock>
