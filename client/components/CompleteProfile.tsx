@@ -343,34 +343,32 @@ const CompleteProfile = () => {
           />
         </FormControl>
 
-        {searchParams.get('dev') === 'true' && (
-          <FormControl>
-            <FormBlockHeader>Account configuration</FormBlockHeader>
-            <FormBlock>
-              <SelectInput
-                type="select"
-                name="accountConfiguration"
-                value={formValues.accountConfiguration}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    accountConfiguration: event.target.value,
-                  }))
-                }
-              >
-                <option value="no_dashboard_soll">
-                  No dashboard access + Stripe owns loss liability (UA7)
-                </option>
-                <option value="no_dashboard_poll">
-                  No dashboard access + Platform owns loss liability (custom)
-                </option>
-                <option value="dashboard_soll">
-                  Dashboard access + Stripe owns loss liability
-                </option>
-              </SelectInput>
-            </FormBlock>
-          </FormControl>
-        )}
+        <FormControl>
+          <FormBlockHeader>Account configuration</FormBlockHeader>
+          <FormBlock>
+            <SelectInput
+              type="select"
+              name="accountConfiguration"
+              value={formValues.accountConfiguration}
+              onChange={(event) =>
+                setFormValues((prev) => ({
+                  ...prev,
+                  accountConfiguration: event.target.value,
+                }))
+              }
+            >
+              <option value="no_dashboard_soll">
+                No Stripe dashboard access + Stripe owns loss liability (fully embedded, stripe managed)
+              </option>
+              <option value="no_dashboard_poll">
+                No Stripe dashboard access + Platform owns loss liability (custom)
+              </option>
+              <option value="dashboard_soll">
+                Stripe standard dashboard access + Stripe owns loss liability (standard dashboard, stripe managed)
+              </option>
+            </SelectInput>
+          </FormBlock>
+        </FormControl>
 
         <Container
           sx={{
