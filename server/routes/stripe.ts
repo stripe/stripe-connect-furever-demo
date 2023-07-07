@@ -458,28 +458,28 @@ app.post('/create-intervention', stripeAccountRequired, async (req, res) => {
  */
 const customers = [
   {
-    email: 'labradoodle@stripeSdk.com',
+    email: 'labradoodle@stripe.com',
     name: 'Odie',
     description: 'Full grooming package for large Labradoodle',
   },
   {
-    email: 'poodle@stripeSdk.com',
+    email: 'poodle@stripe.com',
     name: 'Snoopy ',
     description: 'Nail trimming for toy Poodle',
   },
   {
-    email: 'golden_retriever@stripeSdk.com',
+    email: 'golden_retriever@stripe.com',
     name: 'Dug',
     description:
       'Hydro surge warm water shampoo & conditioner for Golden Retriever',
   },
   {
-    email: 'siamese_cat@stripeSdk.com',
+    email: 'siamese_cat@stripe.com',
     name: 'Garfield',
     description: 'Flea and tick treatments for Siamese cat',
   },
   {
-    email: 'argente_rabbit@stripeSdk.com',
+    email: 'argente_rabbit@stripe.com',
     name: 'Bugs Bunny',
     description: 'Fur brushing and trimming for Argente Rabbit',
   },
