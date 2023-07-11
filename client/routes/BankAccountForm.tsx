@@ -25,7 +25,7 @@ const StyledTypography = styled(Typography)(() => ({
 }));
 
 const FormBlockHeader = (props: TypographyProps) => (
-  <StyledTypography color="text.secondary" {...props} />
+  <StyledTypography color="text.primary" {...props} />
 );
 
 const useCreateBankAccount = () => {
@@ -76,29 +76,34 @@ const BankAccountForm = () => {
     <>
       <Container
         sx={{
-          gap: 4,
-          marginBottom: 2,
+          gap: 2,
         }}
       >
-        <Typography
-          variant="h5"
+        <Container
           sx={{
-            textAlign: 'center',
+            gap: 2,
           }}
         >
-          Add bank account
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is an example of a form the platform can use to collect bank
-          account information. Test bank account numbers can be found{' '}
-          <Link
-            href="https://stripe.com/docs/testing#non-card-payments"
-            target="_blank"
-            underline="none"
+          <Typography
+            variant="h5"
+            sx={{
+              textAlign: 'center',
+            }}
           >
-            here
-          </Link>{' '}
-        </Typography>
+            Add bank account
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            This is an example of a form the platform can use to collect bank
+            account information. Test bank account numbers can be found{' '}
+            <Link
+              href="https://stripe.com/docs/testing#non-card-payments"
+              target="_blank"
+              underline="none"
+            >
+              here
+            </Link>{' '}
+          </Typography>
+        </Container>
         <EmbeddedContainer>
           <Box component="form" onSubmit={handleSubmit}>
             <FormBlockHeader>Account information</FormBlockHeader>
