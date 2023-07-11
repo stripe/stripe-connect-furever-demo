@@ -17,7 +17,7 @@ const renderLabel = ({
     <Typography
       sx={{
         fontSize: size === 'small' ? 14 : 15,
-        width: '120px',
+        width: '150px',
         paddingRight: 1.5,
         paddingY: size === 'small' ? 0.5 : 1,
         fontWeight: 500,

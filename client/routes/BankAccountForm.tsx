@@ -7,9 +7,8 @@ import Button from '@mui/material/Button';
 import {EmbeddedContainer} from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
-import {FormGroup, styled} from '@mui/material';
+import {Divider, FormGroup, Link, styled} from '@mui/material';
 import {TextInput} from '../components/FormInputs';
-import {BankAccountFooter} from '../components/NoticeFooter';
 
 type FormValues = {
   account_number: string;
@@ -89,13 +88,24 @@ const BankAccountForm = () => {
         >
           Add bank account
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          This is an example of a form the platform can use to collect bank
+          account information. Test bank account numbers can be found{' '}
+          <Link
+            href="https://stripe.com/docs/testing#non-card-payments"
+            target="_blank"
+            underline="none"
+          >
+            here
+          </Link>{' '}
+        </Typography>
         <EmbeddedContainer>
           <Box component="form" onSubmit={handleSubmit}>
             <FormBlockHeader>Account information</FormBlockHeader>
             <FormGroup>
               <TextInput
-                label="Account name"
-                name="Account name"
+                label="Account holder name"
+                name="Account holder name"
                 placeholder="Jane Doe"
                 required
                 value={formValues.account_holder_name}
@@ -106,9 +116,10 @@ const BankAccountForm = () => {
                   }))
                 }
               />
+              <Divider />
               <TextInput
-                label="Account type"
-                name="Account type"
+                label="Account holder type"
+                name="Account holder type"
                 placeholder="individual"
                 required
                 value={formValues.account_holder_type}
@@ -119,6 +130,7 @@ const BankAccountForm = () => {
                   }))
                 }
               />
+              <Divider />
               <TextInput
                 label="Country"
                 name="country"
@@ -132,6 +144,7 @@ const BankAccountForm = () => {
                   }))
                 }
               />
+              <Divider />
               <TextInput
                 label="Currency"
                 name="Currency"
@@ -145,6 +158,7 @@ const BankAccountForm = () => {
                   }))
                 }
               />
+              <Divider />
               <TextInput
                 label="Routing number"
                 name="Routing number"
@@ -158,6 +172,7 @@ const BankAccountForm = () => {
                   }))
                 }
               />
+              <Divider />
               <TextInput
                 label="Account number"
                 name="Account number"
@@ -197,7 +212,6 @@ const BankAccountForm = () => {
           <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>
-      <BankAccountFooter />
     </>
   );
 };

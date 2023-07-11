@@ -28,22 +28,6 @@ export const OnboardingFooter = () => (
   </NoticeFooter>
 );
 
-export const BankAccountFooter = () => (
-  <NoticeFooter center>
-    <Typography variant="body2" color="text.secondary">
-      This is an example of a form the platform can use to collect bank account
-      information. Test bank account numbers can be found{' '}
-      <Link
-        href="https://stripe.com/docs/testing#non-card-payments"
-        target="_blank"
-        underline="none"
-      >
-        here
-      </Link>{' '}
-    </Typography>
-  </NoticeFooter>
-);
-
 export const LandingNoticeFooter = () => (
   <NoticeFooter center={false}>
     <Link
