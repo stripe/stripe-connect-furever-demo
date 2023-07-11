@@ -19,6 +19,7 @@ import {
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 import { ConnectNotificationBanner } from '../components/internal/ConnectJsPrivateComponents';
+import { staticCurrencyPaymentMethods } from '../../shared/staticCurrencies';
 
 type FormValues = {
   count: string;
@@ -198,7 +199,7 @@ const Payments = () => {
               <option value="ach_direct_debit">ACH Direct Debit</option>
               <option value="sepa_debit">SEPA Direct Debit</option>
             </SelectInput>
-            {formValues.status.startsWith('card_successful') && (
+            {!staticCurrencyPaymentMethods.includes(formValues.status) && (
               <>
                 <Divider />
                 <SelectInput
