@@ -7,6 +7,7 @@ import {
 } from './middleware.js';
 import { stripeSdk } from './stripeSdk.js';
 import stripe from 'stripe';
+import { staticCurrencyPaymentMethods } from '../../shared/staticCurrencies.js';
 
 dotenv.config({path: './.env'});
 
@@ -511,7 +512,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
               ? Math.round(inputAmount) * 100
               : getRandomInt(1000, 10000), // Use a random amount if input is not provided,
             currency:
-              status.startsWith('card_successful') && currency
+              !staticCurrencyPaymentMethods.includes(status) && currency
                 ? currency
                 : account.default_currency,
             name,
