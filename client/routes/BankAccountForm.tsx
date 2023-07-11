@@ -9,6 +9,7 @@ import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
 import {FormGroup, styled} from '@mui/material';
 import {TextInput} from '../components/FormInputs';
+import {BankAccountFooter} from '../components/NoticeFooter';
 
 type FormValues = {
   account_number: string;
@@ -196,6 +197,7 @@ const BankAccountForm = () => {
           <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>
+      <BankAccountFooter />
     </>
   );
 };
