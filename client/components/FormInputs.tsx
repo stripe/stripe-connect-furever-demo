@@ -21,7 +21,8 @@ const renderLabel = ({
         paddingRight: 1.5,
         paddingY: size === 'small' ? 0.5 : 1,
         fontWeight: 500,
-        textAlign: 'right',
+        textAlign: 'left',
+        whiteSpace: 'nowrap',
       }}
       color="text.secondary"
     >

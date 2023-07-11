@@ -12,7 +12,7 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
-import { ConnectAccountOnboarding } from '../components/internal/ConnectJsPrivateComponents';
+import {ConnectAccountOnboarding} from '../components/internal/ConnectJsPrivateComponents';
 
 const useOnboarded = () => {
   const {refetch} = useSession();
@@ -58,10 +58,10 @@ const Onboarding = () => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'
                 );
+                mutate();
                 if (stripeAccount?.type === 'custom') {
                   navigate(`/bankaccountform${search}`);
                 }
-                mutate();
               }}
             />
           </EmbeddedComponentContainer>

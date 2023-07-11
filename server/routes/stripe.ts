@@ -5,7 +5,7 @@ import {
   stripeAccountRequired,
   retrieveStripeAccount,
 } from './middleware.js';
-import { stripeSdk } from './stripeSdk.js';
+import {stripeSdk} from './stripeSdk.js';
 import stripe from 'stripe';
 
 dotenv.config({path: './.env'});
@@ -395,7 +395,7 @@ app.post('/create-account', userRequired, async (req, res) => {
 
 function getStripeAccountId(req: any) {
   const user = req.user!;
-  return user.stripeAccountId
+  return user.stripeAccountId;
 }
 
 /**
@@ -403,24 +403,20 @@ function getStripeAccountId(req: any) {
  *
  * Returns client secret from POST /v1/account_session
  */
-app.post(
-  '/account_session',
-  stripeAccountRequired,
-  async (req, res) => {
-    try {
-      const accountSession = await stripeSdk.accountSessions.create({
-        account: getStripeAccountId(req),
-      });
-      res.json({
-        client_secret: accountSession.client_secret,
-      });
-    } catch (error: any) {
-      console.error('Failed to create an account session: ', error);
-      res.status(500);
-      return res.send({error: error.message});
-    }
+app.post('/account_session', stripeAccountRequired, async (req, res) => {
+  try {
+    const accountSession = await stripeSdk.accountSessions.create({
+      account: getStripeAccountId(req),
+    });
+    res.json({
+      client_secret: accountSession.client_secret,
+    });
+  } catch (error: any) {
+    console.error('Failed to create an account session: ', error);
+    res.status(500);
+    return res.send({error: error.message});
   }
-);
+});
 
 /**
  * POST /create-intervention
@@ -679,17 +675,24 @@ app.get('/onboarded', stripeAccountRequired, async (req, res) => {
  */
 app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
   const user = req.user!;
-
+  const {
+    country,
+    currency,
+    account_holder_name,
+    account_holder_type,
+    routing_number,
+    account_number,
+  } = req.body;
   try {
     const token = await stripeSdk.tokens.create(
       {
         bank_account: {
-          country: 'US',
-          currency: 'usd',
-          account_holder_name: 'Jane Doe',
-          account_holder_type: 'individual',
-          routing_number: '110000000',
-          account_number: '000123456789',
+          country: country,
+          currency: currency,
+          account_holder_name: account_holder_name,
+          account_holder_type: account_holder_type,
+          routing_number: routing_number,
+          account_number: account_number,
         },
       },
       {

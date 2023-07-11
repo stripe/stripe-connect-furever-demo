@@ -70,8 +70,8 @@ export const CustomGatedRoute = ({
 }): JSX.Element => {
   const {search} = useLocation();
   const {stripeAccount} = useSession();
-  if (stripeAccount?.type !== 'custom') {
+  /*if (stripeAccount?.type !== 'custom') {
     return <Navigate to={`/reservations${search}`} replace />;
-  }
+  }*/
   return <>{children}</>;
 };
