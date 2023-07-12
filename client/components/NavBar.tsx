@@ -48,6 +48,7 @@ const unauthenticatedRoutes: Page[] = [
 ];
 const settings: Page[] = [
   {name: 'Profile', href: '/profile'},
+  {name: 'Payment Methods', href: '/paymentMethods'},
   {name: 'Settings', href: '/settings'},
 ];
 
