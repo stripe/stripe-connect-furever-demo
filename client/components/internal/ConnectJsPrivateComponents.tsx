@@ -1,5 +1,18 @@
-import {useAttachEvent, useCreateComponent} from '@stripe/react-connect-js';
 import React from 'react';
+
+// Stubs
+const useCreateComponent = (_t: string) => {
+  return {
+    wrapper: <div />,
+    component: {} as any,
+  };
+};
+
+function useAttachEvent(
+  onboarding: any,
+  arg1: any,
+  onOnboardingExited: () => void
+) {}
 
 // Not yet shipped connect components. These are not publicly accessible.
 export const ConnectNotificationBanner = (): JSX.Element => {

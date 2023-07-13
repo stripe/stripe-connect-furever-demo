@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import {ConnectPayouts} from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
 import {
@@ -136,7 +135,7 @@ export const Payouts = () => {
             <ConnectNotificationBanner />
           </EmbeddedComponentContainer>
           <EmbeddedComponentContainer>
-            <ConnectPayouts />
+            {/* <ConnectPayouts /> */}
           </EmbeddedComponentContainer>
           <StripeConnectDebugUtils />
         </EmbeddedContainer>
