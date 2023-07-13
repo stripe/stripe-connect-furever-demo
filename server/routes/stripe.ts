@@ -567,7 +567,7 @@ app.post(
     const protocol = req.protocol;
     console.log('url is', `${protocol}://${host}/payments`);
 
-    const account = await stripeSdk.accounts.retrieve(user.stripeAccountId);
+    const account = await stripe.accounts.retrieve(user.stripeAccountId);
 
     const {amount, currency} = req.body;
 
