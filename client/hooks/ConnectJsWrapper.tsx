@@ -91,29 +91,29 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
     colorSecondaryButtonBorder: theme.palette.border.main,
   } as Record<string, string>; // TODO: Remove casting once we've shipped theming options to beta
 
-  const {
-    data: connectInstance,
-    error,
-    isLoading,
-    refetch,
-  } = useInitStripeConnect(!!stripeAccount, appearance);
+  // const {
+  //   data: connectInstance,
+  //   error,
+  //   isLoading,
+  //   refetch,
+  // } = useInitStripeConnect(!!stripeAccount, appearance);
 
-  React.useEffect(() => {
-    connectInstance?.update({
-      appearance,
-    });
-  }, [mode]);
+  // React.useEffect(() => {
+  //   connectInstance?.update({
+  //     appearance,
+  //   });
+  // }, [mode]);
 
-  if (!stripeAccount) return <>{children}</>;
+  // if (!stripeAccount) return <>{children}</>;
 
-  if (error) {
-    return <ErrorState errorMessage={error.message} retry={refetch} />;
-  }
-  if (!connectInstance || isLoading) return <FullScreenLoading />;
+  // if (error) {
+  //   return <ErrorState errorMessage={error.message} retry={refetch} />;
+  // }
+  // if (!connectInstance || isLoading) return <FullScreenLoading />;
 
   return (
-    <ConnectComponentsProvider connectInstance={connectInstance}>
-      {children}
-    </ConnectComponentsProvider>
+    // <ConnectComponentsProvider connectInstance={connectInstance}>
+      <>{children}</>
+    // </ConnectComponentsProvider>
   );
 };
