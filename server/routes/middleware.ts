@@ -1,5 +1,5 @@
 import type {NextFunction, Request, Response} from 'express';
-import { stripeSdk } from './stripeSdk.js';
+import { stripe } from './stripeSdk.js';
 
 // Middleware that requires a logged-in salon
 export function userRequired(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +24,7 @@ export function stripeAccountRequired(
 }
 
 export async function retrieveStripeAccount(accountId: string) {
-  const account = await stripeSdk.accounts.retrieve(accountId);
+  const account = await stripe.accounts.retrieve(accountId);
   if (account) {
     return account;
   } else {
