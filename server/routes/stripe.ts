@@ -565,11 +565,16 @@ app.post(
     const user = req.user!;
     const host = req.get('host');
     const protocol = req.protocol;
-    console.log('url is', `${protocol}://${host}/payments`);
 
     const account = await stripe.accounts.retrieve(user.stripeAccountId);
 
-    const {amount, currency} = req.body;
+    const {
+      amount,
+      currency,
+      redirectUrl = `${protocol}://${host}/payments`,
+    } = req.body;
+
+    console.log('url is', redirectUrl);
 
     let checkoutSession;
     try {
@@ -597,8 +602,8 @@ app.post(
             statement_descriptor: process.env.APP_NAME,
           },
           mode: 'payment',
-          success_url: `${protocol}://${host}/payments`,
-          cancel_url: `${protocol}://${host}/payments`,
+          success_url: redirectUrl,
+          cancel_url: redirectUrl,
         },
         {
           stripeAccount: user.stripeAccountId,

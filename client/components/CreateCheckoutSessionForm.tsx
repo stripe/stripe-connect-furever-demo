@@ -12,15 +12,15 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
 const useCreateCheckoutSession = () => {
-  return useMutation<void, Error, FormValues>(
+  return useMutation<void, Error, PostValues>(
     'createCheckoutSession',
-    async (formValues: FormValues) => {
+    async (postValues: PostValues) => {
       const response = await fetch('/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(postValues),
       });
       const responseJson = await response.json();
       if (!response.ok) {
@@ -38,6 +38,10 @@ const useCreateCheckoutSession = () => {
 type FormValues = {
   currency: string;
   amount: string;
+};
+
+type PostValues = FormValues & {
+  redirectUrl: string;
 };
 
 type Props = {
@@ -67,7 +71,10 @@ const LaunchCheckoutForm = ({description}: Props) => {
       component="form"
       onSubmit={(event) => {
         event.preventDefault();
-        createCheckoutSession(formValues);
+        createCheckoutSession({
+          ...formValues,
+          redirectUrl: window.location.href,
+        });
       }}
     >
       {description}
