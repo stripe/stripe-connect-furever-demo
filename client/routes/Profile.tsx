@@ -14,7 +14,10 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
-import { ConnectAccountManagement, ConnectNotificationBanner } from '../components/internal/ConnectJsPrivateComponents';
+import {
+  ConnectAccountManagement,
+  ConnectNotificationBanner,
+} from '../components/internal/ConnectJsPrivateComponents';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {

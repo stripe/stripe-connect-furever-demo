@@ -17,7 +17,8 @@ export const useColorMode = () => {
 };
 
 // 0: light, 1: dark
-export const getCurrentColorMode = (): ColorMode => Boolean(Number(window.localStorage.getItem('colorMode'))) ? 'dark' : 'light';
+export const getCurrentColorMode = (): ColorMode =>
+  Boolean(Number(window.localStorage.getItem('colorMode'))) ? 'dark' : 'light';
 
 export const ColorModeProvider = ({children}: {children: React.ReactNode}) => {
   const [mode, setMode] = React.useState<ColorMode>(getCurrentColorMode());

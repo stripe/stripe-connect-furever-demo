@@ -7,7 +7,7 @@ import {
 } from './middleware.js';
 import {stripe} from './stripeSdk.js';
 import Stripe from 'stripe';
-import { staticCurrencyPaymentMethods } from '../../shared/staticCurrencies.js';
+import {staticCurrencyPaymentMethods} from '../../shared/staticCurrencies.js';
 
 dotenv.config({path: './.env'});
 

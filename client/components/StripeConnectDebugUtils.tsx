@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSearchParams} from 'react-router-dom';
-import { ConnectDebugUtils } from './internal/ConnectJsPrivateComponents';
+import {ConnectDebugUtils} from './internal/ConnectJsPrivateComponents';
 
 const StripeConnectDebugUtils = () => {
   const [searchParams] = useSearchParams();
