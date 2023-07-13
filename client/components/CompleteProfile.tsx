@@ -72,7 +72,7 @@ const useCreateStripeAccount = () => {
   );
 };
 
-const CompleteProfile = () => {
+export const CompleteProfile = () => {
   const theme = useTheme();
   const [formValues, setFormValues] = React.useState<FormValues>({
     firstName: '',
@@ -358,13 +358,16 @@ const CompleteProfile = () => {
               }
             >
               <option value="no_dashboard_soll">
-                No Stripe dashboard access + Stripe owns loss liability (fully embedded, stripe managed)
+                No Stripe dashboard access + Stripe owns loss liability (fully
+                embedded, stripe managed)
               </option>
               <option value="no_dashboard_poll">
-                No Stripe dashboard access + Platform owns loss liability (custom)
+                No Stripe dashboard access + Platform owns loss liability
+                (custom)
               </option>
               <option value="dashboard_soll">
-                Stripe standard dashboard access + Stripe owns loss liability (standard dashboard, stripe managed)
+                Stripe standard dashboard access + Stripe owns loss liability
+                (standard dashboard, stripe managed)
               </option>
             </SelectInput>
           </FormBlock>
@@ -398,5 +401,3 @@ const CompleteProfile = () => {
     </>
   );
 };
-
-export default CompleteProfile;

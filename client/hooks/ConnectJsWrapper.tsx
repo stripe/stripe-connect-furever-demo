@@ -4,7 +4,7 @@ import {StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnect} from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
-import { useColorMode } from './ColorModeProvider';
+import {useColorMode} from './ColorModeProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
 import useTheme from '@mui/system/useTheme';
@@ -28,8 +28,7 @@ const fetchAccountSession = async (): Promise<AccountSession> => {
       `Failed to obtain account session, could not initialize connect.js: ${responseJson.error}`
     );
   } else {
-    const {client_secret: clientSecret} =
-      responseJson;
+    const {client_secret: clientSecret} = responseJson;
     return {clientSecret};
   }
 };
@@ -49,12 +48,15 @@ const refreshClientSecret = async () => {
  *  This function calls the fetchAccountSession function and
  *  uses the retrieved clientSecret to initialize the Connect.js instance.
  */
-const useInitStripeConnect = (enabled: boolean, appearance: Record<string, string>) => {
+const useInitStripeConnect = (
+  enabled: boolean,
+  appearance: Record<string, string>
+) => {
   return useQuery<StripeConnectInstance, Error>(
     'initStripeConnect',
     async () => {
       const connect = await loadConnect();
-      const { clientSecret } = await fetchAccountSession();
+      const {clientSecret} = await fetchAccountSession();
       const connectInstance = connect.initialize({
         clientSecret,
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
@@ -74,9 +76,9 @@ const useInitStripeConnect = (enabled: boolean, appearance: Record<string, strin
 };
 
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
-  const { stripeAccount } = useSession();
+  const {stripeAccount} = useSession();
   const theme = useTheme();
-  const { mode } = useColorMode();
+  const {mode} = useColorMode();
   const appearance = {
     // FurEver specifies a subset of the available options in ConnectJS
     colorPrimary: theme.palette.primary.main,

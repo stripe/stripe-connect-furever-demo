@@ -5,9 +5,9 @@ import {
   stripeAccountRequired,
   retrieveStripeAccount,
 } from './middleware.js';
-import {stripeSdk} from './stripeSdk.js';
-import stripe from 'stripe';
-import { staticCurrencyPaymentMethods } from '../../shared/staticCurrencies.js';
+import {stripe} from './stripeSdk.js';
+import Stripe from 'stripe';
+import {staticCurrencyPaymentMethods} from '../../shared/staticCurrencies.js';
 
 dotenv.config({path: './.env'});
 
@@ -60,7 +60,7 @@ const createPaymentIntentForNonCardPayments = async (
   let paymentIntent;
   switch (status) {
     case 'ach_direct_debit':
-      paymentMethod = await stripeSdk.paymentMethods.create(
+      paymentMethod = await stripe.paymentMethods.create(
         {
           type: 'us_bank_account',
           billing_details: {
@@ -83,7 +83,7 @@ const createPaymentIntentForNonCardPayments = async (
         {stripeAccount: connectedAccountId}
       );
 
-      paymentIntent = await stripeSdk.paymentIntents.create(
+      paymentIntent = await stripe.paymentIntents.create(
         {
           amount,
           currency,
@@ -103,7 +103,7 @@ const createPaymentIntentForNonCardPayments = async (
         {stripeAccount: connectedAccountId}
       );
 
-      await stripeSdk.paymentIntents.verifyMicrodeposits(
+      await stripe.paymentIntents.verifyMicrodeposits(
         paymentIntent.id,
         {
           descriptor_code: 'SM11AA',
@@ -113,7 +113,7 @@ const createPaymentIntentForNonCardPayments = async (
       return;
 
     case 'sepa_debit':
-      paymentMethod = await stripeSdk.paymentMethods.create(
+      paymentMethod = await stripe.paymentMethods.create(
         {
           type: 'sepa_debit',
           billing_details: {
@@ -133,7 +133,7 @@ const createPaymentIntentForNonCardPayments = async (
         {stripeAccount: connectedAccountId}
       );
 
-      paymentIntent = await stripeSdk.paymentIntents.create(
+      paymentIntent = await stripe.paymentIntents.create(
         {
           amount,
           currency: 'eur',
@@ -159,7 +159,7 @@ const createPaymentIntentForNonCardPayments = async (
 };
 
 function getAccountParams(accountConfiguration: string) {
-  let type: stripe.Account.Type | undefined = undefined;
+  let type: Stripe.Account.Type | undefined = undefined;
   let capabilities: any = {
     card_payments: {
       requested: true,
@@ -237,7 +237,7 @@ app.post('/create-account', userRequired, async (req, res) => {
     if (accountId == undefined) {
       let bankAccount;
       if (shouldPrefill) {
-        bankAccount = await stripeSdk.tokens.create({
+        bankAccount = await stripe.tokens.create({
           bank_account: {
             country: 'US',
             currency: 'usd',
@@ -252,7 +252,7 @@ app.post('/create-account', userRequired, async (req, res) => {
       const accountConfigParams = getAccountParams(accountConfiguration);
 
       // Define the parameters to create a new Stripe account with
-      let accountParams: stripe.AccountCreateParams = {
+      let accountParams: Stripe.AccountCreateParams = {
         ...accountConfigParams,
         country: user.country || undefined,
         email: user.email || undefined,
@@ -348,7 +348,7 @@ app.post('/create-account', userRequired, async (req, res) => {
           },
         });
       }
-      const account = await stripeSdk.accounts.create(accountParams);
+      const account = await stripe.accounts.create(accountParams);
       accountId = account.id;
       // Update the model and store the Stripe account ID in the datastore:
       // this Stripe account ID will be used to issue payouts to the salon
@@ -357,7 +357,7 @@ app.post('/create-account', userRequired, async (req, res) => {
 
       // Prefill Person object
       if (shouldPrefill && businessType === 'company') {
-        await stripeSdk.accounts.createPerson(accountId, {
+        await stripe.accounts.createPerson(accountId, {
           first_name: user.firstName,
           last_name: user.lastName,
           address: {
@@ -406,7 +406,7 @@ function getStripeAccountId(req: any) {
  */
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
-    const accountSession = await stripeSdk.accountSessions.create({
+    const accountSession = await stripe.accountSessions.create({
       account: getStripeAccountId(req),
     });
     res.json({
@@ -424,17 +424,17 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
  *
  * Generates test intervention for the logged-in salon. This is only used for testing purposes
  */
-const merchantIssueResource = stripe.StripeResource.extend({
-  create: stripe.StripeResource.method({
+const merchantIssueResource = Stripe.StripeResource.extend({
+  create: Stripe.StripeResource.method({
     method: 'POST',
     path: '/test_helpers/demo/merchant_issue',
-  }) as (...args: any[]) => Promise<stripe.Response<object>>,
+  }) as (...args: any[]) => Promise<Stripe.Response<object>>,
 });
 
 app.post('/create-intervention', stripeAccountRequired, async (req, res) => {
   try {
     const user = req.user!;
-    const interventionResource = new merchantIssueResource(stripeSdk);
+    const interventionResource = new merchantIssueResource(stripe);
     const interventionResponse = await interventionResource.create({
       account: user.stripeAccountId,
       issue_type: 'additional_info',
@@ -484,7 +484,7 @@ const customers = [
 app.post('/create-payments', stripeAccountRequired, async (req, res) => {
   try {
     const user = req.user!;
-    const account = await stripeSdk.accounts.retrieve(user.stripeAccountId);
+    const account = await stripe.accounts.retrieve(user.stripeAccountId);
     const {count: inputCount, amount: inputAmount, status, currency} = req.body;
     const count = Number(inputCount) || 1;
 
@@ -494,7 +494,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
           const {name, email, description} =
             customers[Math.floor(Math.random() * customers.length)];
           // Note: normally, you won't create a separate customer per payment - this is only done for the purposes of this demo
-          const customer = await stripeSdk.customers.create(
+          const customer = await stripe.customers.create(
             {
               email,
             },
@@ -519,7 +519,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
           };
 
           if (status.startsWith('card_')) {
-            await stripeSdk.paymentIntents.create(
+            await stripe.paymentIntents.create(
               {
                 amount: metadata.amount,
                 currency: metadata.currency,
@@ -571,7 +571,7 @@ app.post(
     try {
       const {description: nameAndDescription} =
         customers[Math.floor(Math.random() * customers.length)];
-      checkoutSession = await stripeSdk.checkout.sessions.create(
+      checkoutSession = await stripe.checkout.sessions.create(
         {
           line_items: [
             {
@@ -622,7 +622,7 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
   const user = req.user!;
   try {
     // Fetch the account balance to determine the available funds
-    const balance = await stripeSdk.balance.retrieve({
+    const balance = await stripe.balance.retrieve({
       stripeAccount: user.stripeAccountId,
     });
 
@@ -630,7 +630,7 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
     const selectedBalance = balance.available.find(({amount}) => amount > 0);
     if (selectedBalance) {
       const {amount, currency} = selectedBalance;
-      await stripeSdk.payouts.create(
+      await stripe.payouts.create(
         {
           amount: Math.min(amount, 1000), // We allow a max of 10 dlls to be paid out in this test app
           currency,
@@ -685,7 +685,7 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
     account_number,
   } = req.body;
   try {
-    const token = await stripeSdk.tokens.create(
+    const token = await stripe.tokens.create(
       {
         bank_account: {
           country: country,
@@ -704,7 +704,7 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
     if (!token) {
       throw new Error('Token was not returned');
     }
-    await stripeSdk.accounts.createExternalAccount(user.stripeAccountId, {
+    await stripe.accounts.createExternalAccount(user.stripeAccountId, {
       external_account: token.id,
     });
 

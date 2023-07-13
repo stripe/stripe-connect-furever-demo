@@ -4,7 +4,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import Salon from '../models/salon.js';
 import {retrieveStripeAccount} from './middleware.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 /**
  * GET /api/session
@@ -144,5 +144,3 @@ passport.use(
     }
   )
 );
-
-export default router;

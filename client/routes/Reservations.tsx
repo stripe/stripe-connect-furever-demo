@@ -119,7 +119,7 @@ const createStyles = (theme: Theme) => ({
   },
 });
 
-const Reservations = () => {
+export const Reservations = () => {
   const theme = useTheme();
   const styles = React.useMemo(() => createStyles(theme), [theme]);
   const currentDate = new Date();
@@ -317,5 +317,3 @@ const Reservations = () => {
     </Container>
   );
 };
-
-export default Reservations;

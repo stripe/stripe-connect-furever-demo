@@ -1,11 +1,11 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import CreateUser from '../components/CreateUser';
-import CompleteProfile from '../components/CompleteProfile';
+import {CreateUser} from '../components/CreateUser';
+import {CompleteProfile} from '../components/CompleteProfile';
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 
-const Signup = () => {
+export const Signup = () => {
   const {user, stripeAccount} = useSession();
 
   const renderTitle = () => {
@@ -43,5 +43,3 @@ const Signup = () => {
     </Container>
   );
 };
-
-export default Signup;
