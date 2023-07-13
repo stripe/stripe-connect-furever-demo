@@ -11,7 +11,7 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
-import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectAccountOnboarding} from '../components/internal/ConnectJsPrivateComponents';
 
 const useOnboarded = () => {
@@ -33,7 +33,7 @@ const useOnboarded = () => {
   });
 };
 
-const Onboarding = () => {
+export const Onboarding = () => {
   const {search} = useLocation();
   const {mutate, error} = useOnboarded();
   const {stripeAccount} = useSession();
@@ -78,5 +78,3 @@ const Onboarding = () => {
     </>
   );
 };
-
-export default Onboarding;

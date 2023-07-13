@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import RouterLink from '../components/RouterLink';
+import {RouterLink} from '../components/RouterLink';
 import {Container} from '../components/Container';
 
-const NotFound = () => {
+export const NotFound = () => {
   return (
     <Container
       sx={{
@@ -46,5 +46,3 @@ const NotFound = () => {
     </Container>
   );
 };
-
-export default NotFound;

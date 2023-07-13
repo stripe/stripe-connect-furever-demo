@@ -9,7 +9,7 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import {fileURLToPath} from 'url';
-import apiRouter from './routes/api.js';
+import {router as apiRouter} from './routes/api.js';
 import stripeRouter from './routes/stripe.js';
 
 const __filename = fileURLToPath(import.meta.url);

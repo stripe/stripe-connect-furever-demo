@@ -6,7 +6,7 @@ import {useSession} from '../hooks/SessionProvider';
 import LandingIcon from '../assets/images/landing-icon.png';
 import LandingBackground from '../assets/images/landing.jpeg';
 import {LandingNoticeFooter} from '../components/NoticeFooter';
-import RouterLink from '../components/RouterLink';
+import {RouterLink} from '../components/RouterLink';
 
 const styles = {
   introContainer: {
@@ -38,7 +38,7 @@ const styles = {
   },
 };
 
-const Landing = () => {
+export const Landing = () => {
   const {user} = useSession();
 
   return (
@@ -109,5 +109,3 @@ const Landing = () => {
     </>
   );
 };
-
-export default Landing;

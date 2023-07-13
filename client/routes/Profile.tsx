@@ -13,7 +13,7 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
-import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {
   ConnectAccountManagement,
   ConnectNotificationBanner,
@@ -31,7 +31,7 @@ const useCreateIntervention = () => {
   });
 };
 
-const Profile = ({user}: {user: Express.User}) => {
+export const Profile = ({user}: {user: Express.User}) => {
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
   const {status, mutate, isLoading, error} = useCreateIntervention();
@@ -141,5 +141,3 @@ const Profile = ({user}: {user: Express.User}) => {
     </>
   );
 };
-
-export default Profile;

@@ -8,7 +8,7 @@ import {useColorMode} from '../hooks/ColorModeProvider';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 import {useSession} from '../hooks/SessionProvider';
 
-const Settings = () => {
+export const Settings = () => {
   const {stripeAccount} = useSession();
   const {enableBorder, handleEnableBorderChange} = useEmbeddedComponentBorder();
   const {mode, handleModeChange} = useColorMode();
@@ -58,5 +58,3 @@ const Settings = () => {
     </Container>
   );
 };
-
-export default Settings;

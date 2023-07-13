@@ -13,7 +13,7 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
-import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 
 const useCreatePayout = () => {
@@ -28,7 +28,7 @@ const useCreatePayout = () => {
   });
 };
 
-const Payouts = () => {
+export const Payouts = () => {
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
   const {status, mutate, isLoading, error} = useCreatePayout();
@@ -146,5 +146,3 @@ const Payouts = () => {
     </>
   );
 };
-
-export default Payouts;

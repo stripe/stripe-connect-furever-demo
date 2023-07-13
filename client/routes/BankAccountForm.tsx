@@ -6,7 +6,7 @@ import Typography, {TypographyProps} from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {EmbeddedContainer} from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
-import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
+import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {Divider, FormGroup, Link, styled} from '@mui/material';
 import {TextInput} from '../components/FormInputs';
 
@@ -49,7 +49,7 @@ const useCreateBankAccount = () => {
   );
 };
 
-const BankAccountForm = () => {
+export const BankAccountForm = () => {
   const {search} = useLocation();
   const navigate = useNavigate();
   const {status, mutate, isLoading, error} = useCreateBankAccount();
@@ -220,5 +220,3 @@ const BankAccountForm = () => {
     </>
   );
 };
-
-export default BankAccountForm;

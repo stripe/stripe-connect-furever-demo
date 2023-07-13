@@ -72,7 +72,7 @@ const useCreateStripeAccount = () => {
   );
 };
 
-const CompleteProfile = () => {
+export const CompleteProfile = () => {
   const theme = useTheme();
   const [formValues, setFormValues] = React.useState<FormValues>({
     firstName: '',
@@ -401,5 +401,3 @@ const CompleteProfile = () => {
     </>
   );
 };
-
-export default CompleteProfile;

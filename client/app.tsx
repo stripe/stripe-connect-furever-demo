@@ -14,17 +14,17 @@ import {
   OnboardingRoute,
   CustomGatedRoute,
 } from './routes/RouteHandlers';
-import Landing from './routes/Landing';
-import Login from './routes/Login';
-import Signup from './routes/Signup';
-import Onboarding from './routes/Onboarding';
-import Reservations from './routes/Reservations';
-import Payments from './routes/Payments';
-import Payouts from './routes/Payouts';
-import Profile from './routes/Profile';
-import NotFound from './routes/NotFound';
-import Settings from './routes/Settings';
-import BankAccountForm from './routes/BankAccountForm';
+import {Landing} from './routes/Landing';
+import {Login} from './routes/Login';
+import {Signup} from './routes/Signup';
+import {Onboarding} from './routes/Onboarding';
+import {Reservations} from './routes/Reservations';
+import {Payments} from './routes/Payments';
+import {Payouts} from './routes/Payouts';
+import {Profile} from './routes/Profile';
+import {NotFound} from './routes/NotFound';
+import {Settings} from './routes/Settings';
+import {BankAccountForm} from './routes/BankAccountForm';
 
 const router = createBrowserRouter([
   {
