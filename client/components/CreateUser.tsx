@@ -35,7 +35,7 @@ const useCreateUser = () => {
   );
 };
 
-const CreateUser = () => {
+export const CreateUser = () => {
   const [formValues, setFormValues] = React.useState<FormValues>({
     email: '',
     password: '',
@@ -115,5 +115,3 @@ const CreateUser = () => {
     </Box>
   );
 };
-
-export default CreateUser;

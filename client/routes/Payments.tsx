@@ -6,9 +6,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import {
-  ConnectPayments,
-} from '@stripe/react-connect-js';
+import {ConnectPayments} from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
 import {TextInput, SelectInput} from '../components/FormInputs';
@@ -17,9 +15,9 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
-import StripeConnectDebugUtils from '../components/StripeConnectDebugUtils';
-import { ConnectNotificationBanner } from '../components/internal/ConnectJsPrivateComponents';
-import { staticCurrencyPaymentMethods } from '../../shared/staticCurrencies';
+import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
+import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
+import {staticCurrencyPaymentMethods} from '../../shared/staticCurrencies';
 
 type FormValues = {
   count: string;
@@ -67,7 +65,7 @@ const useCreateCheckoutSession = () => {
   });
 };
 
-const Payments = () => {
+export const Payments = () => {
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
   const {status, mutate: createPayment, isLoading, error} = useCreatePayments();
@@ -327,5 +325,3 @@ const Payments = () => {
     </>
   );
 };
-
-export default Payments;

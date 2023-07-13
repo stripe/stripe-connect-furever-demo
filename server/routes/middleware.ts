@@ -1,5 +1,5 @@
 import type {NextFunction, Request, Response} from 'express';
-import { stripe } from './stripeSdk.js';
+import {stripe} from './stripeSdk.js';
 
 // Middleware that requires a logged-in salon
 export function userRequired(req: Request, res: Response, next: NextFunction) {

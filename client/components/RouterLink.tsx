@@ -6,7 +6,7 @@ import {Link, LinkProps, useLocation} from 'react-router-dom';
  * in order to preserve the URL search params when
  * navigating between pages.
  */
-const RouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
+export const RouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (props, ref) => {
     const {search} = useLocation();
     const {to, children, ...rest} = props;
@@ -17,5 +17,3 @@ const RouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
     );
   }
 );
-
-export default RouterLink;

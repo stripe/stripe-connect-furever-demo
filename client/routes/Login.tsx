@@ -35,7 +35,7 @@ const useLogin = () => {
   );
 };
 
-const Login = () => {
+export const Login = () => {
   const [formValues, setFormValues] = React.useState<FormValues>({
     email: '',
     password: '',
@@ -131,5 +131,3 @@ const Login = () => {
     </Container>
   );
 };
-
-export default Login;

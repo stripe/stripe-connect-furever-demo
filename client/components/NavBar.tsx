@@ -17,7 +17,7 @@ import logo from '../assets/images/logo.png';
 import {useSession} from '../hooks/SessionProvider';
 import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
-import RouterLink from './RouterLink';
+import {RouterLink} from './RouterLink';
 
 const useLogout = () => {
   const {search} = useLocation();
