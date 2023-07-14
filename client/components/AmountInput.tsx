@@ -7,7 +7,7 @@ type Props = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 };
 
-const AmountInput = ({value, onChange}: Props) => {
+export const AmountInput = ({value, onChange}: Props) => {
   return (
     <TextInput
       label="Amount"
@@ -25,5 +25,3 @@ const AmountInput = ({value, onChange}: Props) => {
     />
   );
 };
-
-export default AmountInput;

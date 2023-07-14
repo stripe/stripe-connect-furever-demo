@@ -15,54 +15,8 @@ import {
 import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
-import CreatePaymentsForm from '../components/CreatePaymentsForm';
-import LaunchCheckoutForm from '../components/CreateCheckoutSessionForm';
-
-type FormValues = {
-  count: string;
-  amount: string;
-  status: string;
-  currency: string;
-};
-
-const useCreatePayments = () => {
-  return useMutation<void, Error, FormValues>(
-    'createPayments',
-    async (formValues: FormValues) => {
-      const response = await fetch('/create-payments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formValues),
-      });
-
-      if (!response.ok) {
-        const responseJson = await response.json();
-        throw new Error(
-          responseJson?.error ?? 'An error ocurred, please try again.'
-        );
-      }
-    }
-  );
-};
-
-const useCreateCheckoutSession = () => {
-  return useMutation<void, Error, void>('createCheckoutSession', async () => {
-    const response = await fetch('/create-checkout-session', {
-      method: 'POST',
-    });
-    const responseJson = await response.json();
-    if (!response.ok) {
-      throw new Error(
-        responseJson?.error ?? 'An error ocurred, please try again.'
-      );
-    } else {
-      const {checkoutSession} = responseJson;
-      window.location.href = checkoutSession;
-    }
-  });
-};
+import {CreatePaymentsForm} from '../components/CreatePaymentsForm';
+import {LaunchCheckoutForm} from '../components/CreateCheckoutSessionForm';
 
 export const Payments = () => {
   const {stripeAccount} = useSession();

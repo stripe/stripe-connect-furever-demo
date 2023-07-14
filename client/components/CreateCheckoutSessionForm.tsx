@@ -5,11 +5,11 @@ import {useMutation} from 'react-query';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-
-import CurrencySelectInput from './CurrencySelectInput';
-import AmountInput from './AmountInput';
-import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+
+import {CurrencySelectInput} from './CurrencySelectInput';
+import {AmountInput} from './AmountInput';
 
 const useCreateCheckoutSession = () => {
   return useMutation<void, Error, PostValues>(
@@ -48,7 +48,7 @@ type Props = {
   description?: React.ReactNode;
 };
 
-const LaunchCheckoutForm = ({description}: Props) => {
+export const LaunchCheckoutForm = ({description}: Props) => {
   const [formValues, setFormValues] = React.useState<FormValues>({
     amount: '',
     currency: '',
@@ -129,5 +129,3 @@ const LaunchCheckoutForm = ({description}: Props) => {
     </Box>
   );
 };
-
-export default LaunchCheckoutForm;

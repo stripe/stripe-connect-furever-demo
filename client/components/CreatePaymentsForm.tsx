@@ -8,8 +8,8 @@ import Divider from '@mui/material/Divider';
 
 import {staticCurrencyPaymentMethods} from '../../shared/staticCurrencies';
 
-import CurrencySelectInput from './CurrencySelectInput';
-import AmountInput from './AmountInput';
+import {CurrencySelectInput} from './CurrencySelectInput';
+import {AmountInput} from './AmountInput';
 import {Link, Typography} from '@mui/material';
 import {SelectInput, TextInput} from './FormInputs';
 import {useNavigate} from 'react-router-dom';
@@ -43,7 +43,7 @@ const useCreatePayments = () => {
   );
 };
 
-const CreatePaymentsForm = () => {
+export const CreatePaymentsForm = () => {
   const [formValues, setFormValues] = React.useState<FormValues>({
     count: '1',
     amount: '',
@@ -208,5 +208,3 @@ const CreatePaymentsForm = () => {
     </Box>
   );
 };
-
-export default CreatePaymentsForm;

@@ -7,7 +7,7 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const CurrencySelectInput = ({value, onChange}: Props) => {
+export const CurrencySelectInput = ({value, onChange}: Props) => {
   return (
     <SelectInput
       label="Currency"
@@ -31,5 +31,3 @@ const CurrencySelectInput = ({value, onChange}: Props) => {
     </SelectInput>
   );
 };
-
-export default CurrencySelectInput;
