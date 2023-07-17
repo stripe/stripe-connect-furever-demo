@@ -28,9 +28,16 @@ export const PaymentMethods = () => {
           description={
             <>
               <Typography variant="body2">
-                Launch a Checkout session where customers can pay with credit
-                cards or one of the local payment methods that you have enabled
-                here. View your completed payments on the{' '}
+                Launch a Checkout session where customers can pay with{' '}
+                <Link
+                  href="https://stripe.com/docs/testing#cards"
+                  target="_blank"
+                  underline="none"
+                >
+                  Stripe test cards
+                </Link>{' '}
+                or one of the local payment methods that you have enabled here.
+                View your completed payments on the{' '}
                 <Link href="/payments" target="_blank" underline="none">
                   Payments
                 </Link>{' '}

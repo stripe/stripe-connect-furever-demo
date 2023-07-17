@@ -64,8 +64,15 @@ export const Payments = () => {
               <>
                 <Typography variant="body2">
                   Collect payment for a grooming session using Checkout. The
-                  customer can pay with credit cards or one of the local payment
-                  methods that you have{' '}
+                  customer can pay with{' '}
+                  <Link
+                    href="https://stripe.com/docs/testing#cards"
+                    target="_blank"
+                    underline="none"
+                  >
+                    Stripe test cards
+                  </Link>{' '}
+                  or one of the local payment methods that you have{' '}
                   <Link href="/paymentMethods" target="_blank" underline="none">
                     enabled
                   </Link>
