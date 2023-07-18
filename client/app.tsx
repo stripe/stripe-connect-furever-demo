@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/paymentMethods',
+        path: '/payment-methods',
         element: (
           <AuthenticatedAndOnboardedRoute>
             {() => <PaymentMethods />}

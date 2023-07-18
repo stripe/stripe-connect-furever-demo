@@ -12,9 +12,16 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {useSession} from '../hooks/SessionProvider';
+import {useCreateComponent} from '@stripe/react-connect-js';
+import type {ConnectElementTagName} from '@stripe/connect-js';
 
 export const PaymentMethods = () => {
   const {stripeAccount} = useSession();
+
+  // TODO convert to the <ConnectPaymentMethodSettings /> component once it is launched
+  const {wrapper} = useCreateComponent(
+    'stripe-connect-payment-method-settings' as ConnectElementTagName
+  );
 
   const renderFooter = () => {
     return (
@@ -79,11 +86,7 @@ export const PaymentMethods = () => {
           Payment Methods
         </Typography>
         <EmbeddedContainer>
-          <EmbeddedComponentContainer>
-            {/* TODO convert to the <ConnectPaymentMethodSettings /> component once it is launched */}
-            {/* @ts-ignore-next-line */}
-            <stripe-connect-payment-method-settings></stripe-connect-payment-method-settings>
-          </EmbeddedComponentContainer>
+          <EmbeddedComponentContainer>{wrapper}</EmbeddedComponentContainer>
           <StripeConnectDebugUtils />
         </EmbeddedContainer>
       </Container>

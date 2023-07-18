@@ -53,12 +53,16 @@ export const Payments = () => {
           <Tabs
             value={tabIndex}
             onChange={(event, newIndex) => setTabIndex(newIndex)}
+            variant="fullWidth"
           >
-            <Tab label="Using Checkout (recommended)" />
-            <Tab label="Using Payment Intent" />
+            <Tab wrapped label="Using Payment Intent" />
+            <Tab wrapped label="Using Checkout" />
           </Tabs>
         </Box>
         <TabPanel index={0}>
+          <CreatePaymentsForm />
+        </TabPanel>
+        <TabPanel index={1}>
           <LaunchCheckoutForm
             description={
               <>
@@ -72,11 +76,16 @@ export const Payments = () => {
                   >
                     Stripe test cards
                   </Link>{' '}
-                  or one of the local payment methods that you have{' '}
-                  <Link href="/paymentMethods" target="_blank" underline="none">
-                    enabled
-                  </Link>
-                  .
+                  or one of the local payment methods that you have enabled on
+                  the{' '}
+                  <Link
+                    href="/payment-methods"
+                    target="_blank"
+                    underline="none"
+                  >
+                    Payment Methods
+                  </Link>{' '}
+                  page.
                 </Typography>
 
                 <Typography variant="body2">
@@ -93,9 +102,6 @@ export const Payments = () => {
               </>
             }
           />
-        </TabPanel>
-        <TabPanel index={1}>
-          <CreatePaymentsForm />
         </TabPanel>
       </CardFooter>
     );
