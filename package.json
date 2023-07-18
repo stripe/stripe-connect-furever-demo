@@ -25,6 +25,8 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.0",
     "@mui/system": "^5.12.3",
+    "@stripe/connect-js": "^1.0.6",
+    "@stripe/react-connect-js": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "debug": "^4.1.1",
