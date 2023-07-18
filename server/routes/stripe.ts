@@ -565,7 +565,16 @@ app.post(
     const user = req.user!;
     const host = req.get('host');
     const protocol = req.protocol;
-    console.log('url is', `${protocol}://${host}/payments`);
+
+    const account = await stripe.accounts.retrieve(user.stripeAccountId);
+
+    const {
+      amount,
+      currency,
+      redirectUrl = `${protocol}://${host}/payments`,
+    } = req.body;
+
+    console.log('url is', redirectUrl);
 
     let checkoutSession;
     try {
@@ -576,8 +585,10 @@ app.post(
           line_items: [
             {
               price_data: {
-                unit_amount: getRandomInt(1000, 10000), // Use a random amount if input is not provided,
-                currency: 'USD',
+                unit_amount: amount
+                  ? Math.round(amount) * 100
+                  : getRandomInt(4000, 10000), // Use a random amount if input is not provided
+                currency: currency || account.default_currency,
                 product_data: {
                   name: nameAndDescription,
                   description: nameAndDescription,
@@ -591,8 +602,8 @@ app.post(
             statement_descriptor: process.env.APP_NAME,
           },
           mode: 'payment',
-          success_url: `${protocol}://${host}/payments`,
-          cancel_url: `${protocol}://${host}/payments`,
+          success_url: redirectUrl,
+          cancel_url: redirectUrl,
         },
         {
           stripeAccount: user.stripeAccountId,
