@@ -35,7 +35,7 @@
     "express-session": "^1.17.3",
     "http-auth": "^4.2.0",
     "http-auth-connect": "^1.0.6",
-    "mongoose": "^5.11.9",
+    "mongoose": "^5.13.20",
     "morgan": "^1.9.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
