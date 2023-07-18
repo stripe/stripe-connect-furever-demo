@@ -1,10 +1,13 @@
 import React from 'react';
-import Link from '@mui/material/Link';
+import {Typography, Link} from '@mui/material';
 
 export const Payments = () => {
   return (
-    <Link href="https://dashboard.stripe.com/test/payments">
-      To manage your payments, open the Stripe dashboard
-    </Link>
+    <Typography variant="h6">
+      To manage your payments, open the{' '}
+      <Link href="https://dashboard.stripe.com/test/payments">
+        Stripe dashboard
+      </Link>
+    </Typography>
   );
 };
