@@ -13,5 +13,8 @@
     "resolveJsonModule": true,
     "noEmitOnError": true
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules"],
+  "ts-node": {
+    "esm": true
+  }
 }
