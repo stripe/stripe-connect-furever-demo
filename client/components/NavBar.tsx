@@ -166,13 +166,13 @@ export const NavBar = () => {
           {user &&
             stripeAccount &&
             settings.map(({name, href}) => (
-              <MenuItem key={name} onClick={handleCloseNavMenu}>
-                <Link component={RouterLink} to={href} underline="none">
+              <Link component={RouterLink} to={href} underline="none">
+                <MenuItem key={name} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center" variant="body2">
                     {name}
                   </Typography>
-                </Link>
-              </MenuItem>
+                </MenuItem>
+              </Link>
             ))}
           {routes.map(({name, href}) => (
             <MenuItem
