@@ -11,6 +11,7 @@ import bodyParser from 'body-parser';
 import {fileURLToPath} from 'url';
 import {router as apiRouter} from './routes/api.js';
 import stripeRouter from './routes/stripe.js';
+import Salon from './models/salon.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -70,8 +71,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Initialize Passport and restore any existing authentication state
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+app.use(async (req, res, next) => {
+  // Force jorgea@stripe.com to be signed in
+  req.user = await Salon.findById('6397501b973c7390ac72feed');
+  next();
+});
 
 // Disable caching on all APIs to prevent secrets from being used more than once
 app.use((req, res, next) => {
