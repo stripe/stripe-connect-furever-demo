@@ -11,3 +11,5 @@ export const Payments = () => {
     </Typography>
   );
 };
+
+export default Payments;
