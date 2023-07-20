@@ -13,12 +13,13 @@
   "scripts": {
     "build": "parcel build client/index.html --no-cache && yarn typescript",
     "clean": "rimraf dist && rimraf .parcel-cache",
-    "dev": "yarn clean && yarn typescript && yarn watch",
+    "dev": "yarn kill-ports && yarn clean && yarn typescript && yarn watch",
     "server": "concurrently --kill-others \"nodemon dist/server/server.js\" \"yarn typescript-watch\"",
     "start": "yarn clean && yarn build && yarn server",
     "typescript": "yarn tsc",
     "typescript-watch": "yarn tsc-watch",
-    "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\""
+    "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\"",
+    "kill-ports": "kill-port 3000"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -60,6 +61,7 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "concurrently": "^8.0.1",
+    "kill-port": "^2.0.1",
     "nodemon": "^3.0.1",
     "parcel": "^2.8.3",
     "prettier": "2.5.1",
