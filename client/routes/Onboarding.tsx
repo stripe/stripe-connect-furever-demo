@@ -15,7 +15,7 @@ import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectAccountOnboarding} from '../components/internal/ConnectJsPrivateComponents';
 
 const useOnboarded = () => {
-  const {refetch} = useSession();
+  const {refetch, stripeAccount} = useSession();
   const navigate = useNavigate();
   const {search} = useLocation();
 
@@ -27,7 +27,7 @@ const useOnboarded = () => {
     if (onboarded) {
       refetch();
       navigate(`/reservations${search}`);
-    } else {
+    } else if (stripeAccount?.type !== 'custom') {
       navigate(0);
     }
   });
