@@ -68,6 +68,7 @@ export const BankAccountForm = () => {
 
   React.useEffect(() => {
     if (status === 'success') {
+      navigate(0);
       navigate(`/profile${search}`);
     }
   }, [status]);
