@@ -7,7 +7,7 @@ export const EmbeddedContainer = ({children}: {children: React.ReactNode}) => (
   <Typography
     component={'div'}
     className="embedded-container"
-    gap={2}
+    gap={1}
     sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -29,8 +29,8 @@ export const EmbeddedComponentContainer = ({
     <Box
       width="100%"
       sx={{
-        padding: '6px',
-        border: '3px dashed',
+        padding: enableBorder ? '4px' : '0px',
+        border: enableBorder ? '2px dashed' : 'none',
         borderColor: enableBorder ? 'text.secondary' : 'transparent',
         transition: 'border 0.3s ease-in',
       }}

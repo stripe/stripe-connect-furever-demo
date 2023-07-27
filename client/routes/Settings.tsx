@@ -16,7 +16,7 @@ export const Settings = () => {
   return (
     <Container
       sx={{
-        gap: 4,
+        gap: 2,
         marginBottom: 2,
       }}
     >

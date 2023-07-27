@@ -119,7 +119,7 @@ export const Payouts = () => {
     <>
       <Container
         sx={{
-          gap: 4,
+          gap: 2,
           marginBottom: 2,
         }}
       >
