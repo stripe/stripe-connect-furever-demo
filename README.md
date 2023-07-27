@@ -25,7 +25,7 @@ FurEver makes use of the following Connect embedded components:
 - `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
 - `<ConnectPayouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
 - `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
-- `<ConnectNotificationsBanner />` displays a list of current and future risk requirements an account needs to resolve.
+- `<ConnectNotificationBanner />` displays a list of current and future risk requirements an account needs to resolve.
 
 ### Architecture
 
