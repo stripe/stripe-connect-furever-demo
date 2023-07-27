@@ -13,6 +13,11 @@ import Typography from '@mui/material/Typography';
 import {useTheme, Theme} from '@mui/system';
 import reservations from '../assets/data/reservations.json';
 import {Container} from '../components/Container';
+import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
+import {
+  EmbeddedContainer,
+  EmbeddedComponentContainer,
+} from '../components/EmbeddedComponentContainer';
 
 const createStyles = (theme: Theme) => ({
   table: {
@@ -154,7 +159,7 @@ export const Reservations = () => {
   return (
     <Container
       sx={{
-        gap: 4,
+        gap: 2,
         marginBottom: 2,
       }}
     >
@@ -166,6 +171,11 @@ export const Reservations = () => {
       >
         Upcoming appointments
       </Typography>
+      <EmbeddedContainer>
+        <EmbeddedComponentContainer>
+          <ConnectNotificationBanner />
+        </EmbeddedComponentContainer>
+      </EmbeddedContainer>
       <Box sx={styles.calendarHeader}>
         <Box sx={styles.calendarButtonsContainer}>
           <Button

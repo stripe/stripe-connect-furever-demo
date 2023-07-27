@@ -67,7 +67,7 @@ export const PaymentMethods = () => {
     <>
       <Container
         sx={{
-          gap: 4,
+          gap: 2,
           marginBottom: 2,
         }}
       >
