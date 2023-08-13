@@ -70,7 +70,7 @@ export const CreateUser = () => {
           type="email"
           name="email"
           id="email"
-          placeholder="you@example.com"
+          placeholder="jenny.rosen@example.com"
           required
           value={formValues.email}
           onChange={(event) =>
