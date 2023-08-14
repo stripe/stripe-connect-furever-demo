@@ -144,7 +144,7 @@ export const CompleteProfile = () => {
             <TextInput
               label="First name"
               name="firstName"
-              placeholder="John"
+              placeholder="Jenny"
               required
               value={formValues.firstName}
               onChange={(event) =>
@@ -158,7 +158,7 @@ export const CompleteProfile = () => {
             <TextInput
               label="Last name"
               name="lastName"
-              placeholder="Doe"
+              placeholder="Rosen"
               required
               value={formValues.lastName}
               onChange={(event) =>
