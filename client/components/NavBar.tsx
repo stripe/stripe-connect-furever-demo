@@ -48,6 +48,7 @@ const unauthenticatedRoutes: Page[] = [
 ];
 const settings: Page[] = [
   {name: 'Profile', href: '/profile'},
+  {name: 'Payment Methods', href: '/payment-methods'},
   {name: 'Settings', href: '/settings'},
 ];
 
@@ -174,31 +175,31 @@ export const NavBar = () => {
               </Link>
             ))}
           {routes.map(({name, href}) => (
-            <MenuItem
-              key={name}
-              onClick={handleCloseNavMenu}
-              sx={{
-                display: {
-                  xs: 'flex',
-                  sm: 'none',
-                },
-              }}
-            >
-              <Link component={RouterLink} to={href} underline="none">
+            <Link component={RouterLink} to={href} underline="none">
+              <MenuItem
+                key={name}
+                onClick={handleCloseNavMenu}
+                sx={{
+                  display: {
+                    xs: 'flex',
+                    sm: 'none',
+                  },
+                }}
+              >
                 <Typography textAlign="center" variant="body2">
                   {name}
                 </Typography>
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           ))}
           {user && (
-            <MenuItem>
-              <Link underline="none" onClick={() => logout()}>
+            <Link underline="none" onClick={() => logout()}>
+              <MenuItem>
                 <Typography textAlign="center" variant="body2">
                   Log out
                 </Typography>
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           )}
         </Menu>
       </Box>

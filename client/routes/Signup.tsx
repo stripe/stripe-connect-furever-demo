@@ -28,7 +28,7 @@ export const Signup = () => {
     <Container
       sx={{
         alignItems: 'center',
-        gap: 4,
+        gap: 2,
       }}
     >
       <Typography

@@ -1,3 +1,5 @@
+import {ConnectElementTagName} from '@stripe/connect-js';
+import {useAttachEvent, useCreateComponent} from '@stripe/react-connect-js';
 import React from 'react';
 
 // Stubs
@@ -49,6 +51,15 @@ export const ConnectAccountOnboarding = ({
   );
 
   useAttachEvent(onboarding, 'onboardingexited' as any, onOnboardingExited); // Assuming an 'onboardingexited' event
+
+  return wrapper;
+};
+
+export const ConnectPaymentMethodSettings = (): JSX.Element => {
+  // TODO convert to the <ConnectPaymentMethodSettings /> component once it is launched
+  const {wrapper} = useCreateComponent(
+    'stripe-connect-payment-method-settings' as ConnectElementTagName
+  );
 
   return wrapper;
 };

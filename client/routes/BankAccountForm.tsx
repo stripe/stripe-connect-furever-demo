@@ -68,6 +68,7 @@ export const BankAccountForm = () => {
 
   React.useEffect(() => {
     if (status === 'success') {
+      navigate(0);
       navigate(`/profile${search}`);
     }
   }, [status]);
@@ -111,7 +112,7 @@ export const BankAccountForm = () => {
               <TextInput
                 label="Account holder name"
                 name="Account holder name"
-                placeholder="Jane Doe"
+                placeholder="Jenny Rosen"
                 required
                 value={formValues.account_holder_name}
                 onChange={(event) =>
