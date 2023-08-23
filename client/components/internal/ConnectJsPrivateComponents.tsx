@@ -1,5 +1,4 @@
 import {ConnectElementTagName} from '@stripe/connect-js';
-import {useAttachEvent, useCreateComponent} from '@stripe/react-connect-js';
 import React from 'react';
 
 // Stubs
