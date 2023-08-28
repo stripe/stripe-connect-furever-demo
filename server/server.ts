@@ -75,8 +75,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 // app.use(passport.session());
 
 app.use(async (req, res, next) => {
-  // Force jorgea@stripe.com to be signed in
-  req.user = await Salon.findById('6397501b973c7390ac72feed');
+  // Force jason@guptasgroomers.com to be signed in
+  req.user = await Salon.findById('64ed1b8bd67bdd318117b447');
   next();
 });
 
