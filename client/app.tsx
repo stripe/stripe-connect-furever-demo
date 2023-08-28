@@ -19,7 +19,7 @@ import {Login} from './routes/Login';
 import {Signup} from './routes/Signup';
 import {Onboarding} from './routes/Onboarding';
 import {Reservations} from './routes/Reservations';
-import {Payments} from './routes/Payments';
+import Payments from './routes/Payments';
 import {PaymentMethods} from './routes/PaymentMethods';
 import {Payouts} from './routes/Payouts';
 import {Profile} from './routes/Profile';
