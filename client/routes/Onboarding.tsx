@@ -54,6 +54,8 @@ export const Onboarding = () => {
           <EnableEmbeddedCheckbox label="Enable embedded onboarding" />
           <EmbeddedComponentContainer>
             <ConnectAccountOnboarding
+              tosUrl="https://stripe.com/legal?utm_campaign=woof"
+              privacyPolicyUrl="https://stripe.com/privacy?utm_campaign=woof"
               onOnboardingExited={() => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'

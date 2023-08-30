@@ -1,5 +1,9 @@
 import {ConnectElementTagName} from '@stripe/connect-js';
-import {useAttachEvent, useCreateComponent} from '@stripe/react-connect-js';
+import {
+  useAttachAttribute,
+  useAttachEvent,
+  useCreateComponent,
+} from '@stripe/react-connect-js';
 import React from 'react';
 
 // Not yet shipped connect components. These are not publicly accessible.
@@ -29,14 +33,20 @@ export const ConnectAccountManagement = (): JSX.Element => {
 
 export const ConnectAccountOnboarding = ({
   onOnboardingExited,
+  privacyPolicyUrl,
+  tosUrl,
 }: {
   onOnboardingExited: () => void;
+  privacyPolicyUrl?: string;
+  tosUrl?: string;
 }): JSX.Element | null => {
   const {wrapper, component: onboarding} = useCreateComponent(
     'stripe-connect-account-onboarding' as any
   );
 
   useAttachEvent(onboarding, 'onboardingexited' as any, onOnboardingExited); // Assuming an 'onboardingexited' event
+  useAttachAttribute(onboarding, 'tos-url', tosUrl);
+  useAttachAttribute(onboarding, 'privacy-policy-url', privacyPolicyUrl);
 
   return wrapper;
 };
