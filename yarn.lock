@@ -3366,10 +3366,10 @@ strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   dependencies:
     ansi-regex "^5.0.1"
 
-stripe@11.5.0-beta.1:
-  version "11.5.0-beta.1"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-11.5.0-beta.1.tgz#43ace0b645d4103d1a73d1ca8b9039e4f19bbcfe"
-  integrity sha512-MS51gidEEZJujE77+Z8OqmRbWofeyhcfDewdoLTbn9vpPask4ehPWuPRq3teomjwN4gjn5by6Inpq5bEHSiCXA==
+stripe@13.5.0-beta.1:
+  version "13.5.0-beta.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-13.5.0-beta.1.tgz#74428046361be39c30019cf6960d322c36fafcb4"
+  integrity sha512-nZPlxwToP0QpthgoEJHOMUSPj6uUIkqy9VO3xXC6TDGuQuHZFoYKtFwRRs9P2X5QVK80cizAflyiEhmaeWMEwA==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.11.0"
