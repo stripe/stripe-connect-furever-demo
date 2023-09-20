@@ -604,6 +604,10 @@ app.post(
           mode: 'payment',
           success_url: redirectUrl,
           cancel_url: redirectUrl,
+          // Enable automatic tax for Homebox demo
+          automatic_tax: {
+            enabled: true,
+          },
         },
         {
           stripeAccount: user.stripeAccountId,
