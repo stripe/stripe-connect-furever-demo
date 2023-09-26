@@ -158,7 +158,9 @@ const createPaymentIntentForNonCardPayments = async (
   }
 };
 
-function getAccountParams(accountConfiguration: string) {
+function getAccountParams(
+  accountConfiguration: string
+): Stripe.AccountCreateParams {
   let type: Stripe.Account.Type | undefined = undefined;
   let capabilities: any = {
     card_payments: {
@@ -171,7 +173,7 @@ function getAccountParams(accountConfiguration: string) {
   let controller = undefined;
   switch (accountConfiguration) {
     case 'no_dashboard_poll':
-      type = 'custom';
+      type = 'custom' as const;
       controller = undefined;
       break;
     case 'dashboard_soll':
@@ -183,7 +185,7 @@ function getAccountParams(accountConfiguration: string) {
           pricing_controls: true, // The platform is the pricing owner
         },
         dashboard: {
-          type: 'full', // Standard dash
+          type: 'full' as const, // Standard dash
         },
       };
       break;
@@ -196,7 +198,7 @@ function getAccountParams(accountConfiguration: string) {
           pricing_controls: true, // The platform is the pricing owner
         },
         dashboard: {
-          type: 'none', // The connected account will not have access to dashboard
+          type: 'none' as const, // The connected account will not have access to dashboard
         },
       };
   }
@@ -408,6 +410,27 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
     const accountSession = await stripe.accountSessions.create({
       account: getStripeAccountId(req),
+      // This should contain a list of all components used in FurEver, otherwise they will be disabled when rendering
+      components: {
+        account_management: {
+          enabled: true,
+        },
+        account_onboarding: {
+          enabled: true,
+        },
+        notification_banner: {
+          enabled: true,
+        },
+        payments: {
+          enabled: true,
+        },
+        payouts: {
+          enabled: true,
+        },
+        payment_method_settings: {
+          enabled: true,
+        },
+      } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
     });
     res.json({
       client_secret: accountSession.client_secret,
