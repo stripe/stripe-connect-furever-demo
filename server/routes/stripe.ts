@@ -547,6 +547,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
                 amount: metadata.amount,
                 currency: metadata.currency,
                 payment_method: getPaymentMethod(status),
+                payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
                 statement_descriptor: process.env.APP_NAME,
