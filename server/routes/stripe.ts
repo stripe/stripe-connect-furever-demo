@@ -328,6 +328,7 @@ app.post('/create-account', userRequired, async (req, res) => {
             first_name: user.firstName || undefined,
             last_name: user.lastName || undefined,
             email: user.email || undefined,
+            id_number: '000000000',
             // Prefill individual information
             ...(shouldPrefill
               ? {
@@ -348,6 +349,14 @@ app.post('/create-account', userRequired, async (req, res) => {
                 }
               : {}),
           },
+          ...(shouldPrefill
+            ? {
+                company: {
+                  tax_id: '000000000', // There is a bug where prefilling id_number for individual is not working
+                  name: 'Jenny Rosen', // There is a bug with prefilling that also requires this field for GS
+                },
+              }
+            : {}),
         });
       }
       const account = await stripe.accounts.create(accountParams);
