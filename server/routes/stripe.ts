@@ -280,7 +280,7 @@ app.post('/create-account', userRequired, async (req, res) => {
                   postal_code: '94080',
                 },
                 support_email: user.email,
-                support_phone: '0000000000',
+                support_phone: '8888675309',
                 support_url: 'https://furever.dev',
               }
             : {}),
@@ -316,7 +316,7 @@ app.post('/create-account', userRequired, async (req, res) => {
                   directors_provided: true,
                   executives_provided: true,
                   owners_provided: true,
-                  phone: '0000000000',
+                  phone: '8888675309',
                   tax_id: '000000000',
                 }
               : {}),
@@ -343,7 +343,7 @@ app.post('/create-account', userRequired, async (req, res) => {
                     month: 1,
                     year: 1901,
                   },
-                  phone: '0000000000',
+                  phone: '8888675309',
                   ssn_last_4: '0000',
                 }
               : {}),
@@ -375,7 +375,7 @@ app.post('/create-account', userRequired, async (req, res) => {
             year: 1901,
           },
           email: user.email,
-          phone: '0000000000',
+          phone: '8888675309',
           ssn_last_4: '0000',
           relationship: {
             director: false,
