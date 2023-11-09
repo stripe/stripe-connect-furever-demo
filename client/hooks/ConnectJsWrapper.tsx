@@ -1,7 +1,9 @@
 import React from 'react';
 import {useQuery} from 'react-query';
-import {StripeConnectInstance} from '@stripe/connect-js';
-import {loadConnect} from '@stripe/connect-js';
+import {
+  StripeConnectInstance,
+  loadConnectAndInitialize,
+} from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
 import {useColorMode} from './ColorModeProvider';
@@ -33,13 +35,7 @@ const fetchAccountSession = async (): Promise<AccountSession> => {
   }
 };
 
-/**
- *  Since the claimed API key expires after a few hours, this will cause API calls
- *  to fail with a 401 unauthorized using an expired API key.
- *  This function makes a server-side request to the /account_session
- *  and returns a new clientSecret in order to claim a new API key.
- */
-const refreshClientSecret = async () => {
+const fetchClientSecret = async () => {
   const {clientSecret} = await fetchAccountSession();
   return clientSecret;
 };
@@ -55,16 +51,10 @@ const useInitStripeConnect = (
   return useQuery<StripeConnectInstance, Error>(
     'initStripeConnect',
     async () => {
-      const connect = await loadConnect();
-      const {clientSecret} = await fetchAccountSession();
-      const connectInstance = connect.initialize({
-        clientSecret,
+      const connectInstance = loadConnectAndInitialize({
+        fetchClientSecret,
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-        refreshClientSecret,
         appearance,
-        uiConfig: {
-          overlay: 'dialog',
-        },
       });
       return connectInstance;
     },
