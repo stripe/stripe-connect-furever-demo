@@ -1096,15 +1096,33 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.6.1.tgz#3a3a408481a3796f45223a549c2571517bc8af2d"
   integrity sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==
 
-"@stripe/connect-js@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-1.0.5.tgz#d10b08715a8646f0d1dc95161324cad9fd2c3d77"
-  integrity sha512-albxp12DIE++Okck4PoqqE63OGKz/Stb/XGkIE8TX0E7jX6oxWnJSOiD3UGhgsT/zd1qGbd5/vE5yh2isDomNg==
+"@rollup/plugin-json@^6.0.0":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-6.0.1.tgz#7e2efcf5ed549963f1444e010611d22f463931c0"
+  integrity sha512-RgVfl5hWMkxN1h/uZj8FVESvPuBJ/uf6ly6GTj0GONnkfoBN5KC0MSz+PN2OLDgYXMhtG0mWpTrkiOjoxAIevw==
+  dependencies:
+    "@rollup/pluginutils" "^5.0.1"
 
-"@stripe/react-connect-js@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-1.2.2.tgz#4cb5ac0173a10cace282401d47036e5439ccfe76"
-  integrity sha512-B5nNfuS4h9YXE5+c4XQvG24zTWub4ZAngA4wI+L9xNW6oOKAMM64wv8CKAPS/u12FaO/tOWNTC5TEFM28yNiKg==
+"@rollup/pluginutils@^5.0.1":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.5.tgz#bbb4c175e19ebfeeb8c132c2eea0ecb89941a66c"
+  integrity sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==
+  dependencies:
+    "@types/estree" "^1.0.0"
+    estree-walker "^2.0.2"
+    picomatch "^2.3.1"
+
+"@stripe/connect-js@^3.0.0-beta.1":
+  version "3.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.0.0-beta.1.tgz#d50b60fb6cde0223a356c352ecce9c8681f2d387"
+  integrity sha512-VddX046IOCFwQPnltpX511+m1zg4h1nCgrUHfzkuJzsg68RTHWak8rW6Kbu+z1pBuI2tMEVdJE4rEuJxErQ2QA==
+  dependencies:
+    "@rollup/plugin-json" "^6.0.0"
+
+"@stripe/react-connect-js@^3.0.0-beta.1":
+  version "3.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.0.0-beta.1.tgz#9d09a04c4faa95d15b95e8fa83fb096ebc1ea775"
+  integrity sha512-y98Dxxjq6LNN9G1FKANp44go/XPMGaA+wndDZUfB+Y1rdPcUCn9LyZTV418trwoJoUBMlOfpy5G27q5g5APszw==
 
 "@swc/helpers@^0.4.12":
   version "0.4.14"
@@ -1151,6 +1169,11 @@
   integrity sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==
   dependencies:
     "@types/node" "*"
+
+"@types/estree@^1.0.0":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
+  integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
 
 "@types/express-serve-static-core@^4.17.33":
   version "4.17.34"
@@ -1899,6 +1922,11 @@ escape-string-regexp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
+
+estree-walker@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
+  integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
 
 etag@~1.8.1:
   version "1.8.1"
