@@ -18,7 +18,8 @@
     "start": "yarn clean && yarn build && yarn server",
     "typescript": "yarn tsc",
     "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\"",
-    "validate-change": "yarn build"
+    "validate-change": "yarn build",
+    "validate-changes": "yarn validate-change"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
