@@ -63,6 +63,25 @@ export const LandingNoticeFooter = () => (
       </Link>
       . It is not a real product.
     </Typography>
+
+    {/* TODO - add this link back in when the repo is open source */}
+    {/* <Link
+      href="https://github.com/stripe/stripe-connect-furever"
+      target="_blank"
+      underline="none"
+      display="flex"
+      gap={0.5}
+    >
+      <Typography
+        sx={{
+          fontSize: {sm: 16, xs: 14},
+          fontWeight: 600,
+        }}
+      >
+        View on GitHub
+      </Typography>
+      <ChevronRight />
+    </Link> */}
   </NoticeFooter>
 );
 
