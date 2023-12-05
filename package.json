@@ -12,7 +12,7 @@
   "source": "client/index.html",
   "scripts": {
     "build": "parcel build client/index.html && yarn typescript",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist .parcel-cache",
     "dev": "yarn clean && yarn typescript && yarn watch",
     "server": "node dist/server/server.js",
     "start": "yarn clean && yarn build && yarn server",
