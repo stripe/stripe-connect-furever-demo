@@ -10,6 +10,7 @@ import {useColorMode} from './ColorModeProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
 import useTheme from '@mui/system/useTheme';
+import Theme from '@mui/system/createTheme';
 
 type AccountSession = {
   clientSecret: string;
@@ -69,32 +70,35 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
   const {stripeAccount} = useSession();
   const theme = useTheme();
   const {mode} = useColorMode();
-  const appearance = {
-    // FurEver specifies a subset of the available options in ConnectJS
-    colorPrimary: theme.palette.primary.main,
-    colorText: theme.palette.text.primary,
-    colorBackground: theme.palette.background.default,
-    colorSecondaryText: theme.palette.text.secondary,
-    colorSecondaryLinkText: theme.palette.secondary.main,
-    colorBorder: theme.palette.border.main,
-    colorFormHighlightBorder: theme.palette.primary.main,
-    colorDanger: theme.palette.error.main,
-    colorSecondaryButtonBackground: theme.palette.neutral100.main,
-    colorSecondaryButtonBorder: theme.palette.border.main,
-  } as Record<string, string>; // TODO: Remove casting once we've shipped theming options to beta
+
+  const calculateCurrentAppearance = (currentTheme: any) => {
+    return {
+      // FurEver specifies a subset of the available options in ConnectJS
+      colorPrimary: currentTheme.palette.primary.main,
+      colorText: currentTheme.palette.text.primary,
+      colorBackground: currentTheme.palette.background.default,
+      colorSecondaryText: currentTheme.palette.text.secondary,
+      colorSecondaryLinkText: currentTheme.palette.secondary.main,
+      colorBorder: currentTheme.palette.border.main,
+      colorFormHighlightBorder: currentTheme.palette.primary.main,
+      colorDanger: currentTheme.palette.error.main,
+      colorSecondaryButtonBackground: currentTheme.palette.neutral100.main,
+      colorSecondaryButtonBorder: currentTheme.palette.border.main,
+    };
+  };
 
   const {
     data: connectInstance,
     error,
     isLoading,
     refetch,
-  } = useInitStripeConnect(!!stripeAccount, appearance);
+  } = useInitStripeConnect(!!stripeAccount, calculateCurrentAppearance(theme));
 
   React.useEffect(() => {
     connectInstance?.update({
-      appearance,
+      appearance: {variables: calculateCurrentAppearance(theme)},
     });
-  }, [mode]);
+  }, [theme]);
 
   if (!stripeAccount) return <>{children}</>;
 
