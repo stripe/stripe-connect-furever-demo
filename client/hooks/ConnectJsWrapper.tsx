@@ -6,11 +6,10 @@ import {
 } from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
 import {useSession} from './SessionProvider';
-import {useColorMode} from './ColorModeProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
 import useTheme from '@mui/system/useTheme';
-import Theme from '@mui/system/createTheme';
+import {Theme} from '@mui/system';
 
 type AccountSession = {
   clientSecret: string;
@@ -69,9 +68,8 @@ const useInitStripeConnect = (
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
   const {stripeAccount} = useSession();
   const theme = useTheme();
-  const {mode} = useColorMode();
 
-  const calculateCurrentAppearance = (currentTheme: any) => {
+  const calculateCurrentAppearance = (currentTheme: Theme) => {
     return {
       // FurEver specifies a subset of the available options in ConnectJS
       colorPrimary: currentTheme.palette.primary.main,
