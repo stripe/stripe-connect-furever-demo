@@ -5,6 +5,7 @@ import {
   loadConnectAndInitialize,
 } from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
+import {ConnectJSProvider} from './ConnectJSProvider';
 import {useSession} from './SessionProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
@@ -56,7 +57,6 @@ const useInitStripeConnect = (
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
         appearance,
       });
-      resolveConnectInstancePromise(connectInstance);
       return connectInstance;
     },
     {
@@ -64,18 +64,6 @@ const useInitStripeConnect = (
       refetchOnWindowFocus: false,
     }
   );
-};
-
-let resolveConnectInstancePromise: (value: StripeConnectInstance) => void;
-const connectInstancePromise: Promise<StripeConnectInstance> = new Promise(
-  (res, _) => {
-    resolveConnectInstancePromise = res;
-  }
-);
-
-export const logoutStripe = async () => {
-  const connectInstance = await connectInstancePromise;
-  connectInstance.logout();
 };
 
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
@@ -120,7 +108,9 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
 
   return (
     <ConnectComponentsProvider connectInstance={connectInstance}>
-      {children}
+      <ConnectJSProvider connectInstance={connectInstance}>
+        {children}
+      </ConnectJSProvider>
     </ConnectComponentsProvider>
   );
 };
