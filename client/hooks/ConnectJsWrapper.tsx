@@ -56,6 +56,7 @@ const useInitStripeConnect = (
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
         appearance,
       });
+      resolveConnectInstancePromise(connectInstance);
       return connectInstance;
     },
     {
@@ -63,6 +64,18 @@ const useInitStripeConnect = (
       refetchOnWindowFocus: false,
     }
   );
+};
+
+let resolveConnectInstancePromise: (value: StripeConnectInstance) => void;
+const connectInstancePromise: Promise<StripeConnectInstance> = new Promise(
+  (res, _) => {
+    resolveConnectInstancePromise = res;
+  }
+);
+
+export const logoutStripe = async () => {
+  const connectInstance = await connectInstancePromise;
+  connectInstance.logout();
 };
 
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {

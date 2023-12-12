@@ -18,11 +18,13 @@ import {useSession} from '../hooks/SessionProvider';
 import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
 import {RouterLink} from './RouterLink';
+import {logoutStripe} from '../hooks/ConnectJsWrapper';
 
 const useLogout = () => {
   const {search} = useLocation();
 
   return useMutation<void, Error>('logout', async () => {
+    logoutStripe();
     const response = await fetch('/api/logout', {
       method: 'POST',
     });
