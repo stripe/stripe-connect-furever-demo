@@ -5,6 +5,7 @@ import {
   loadConnectAndInitialize,
 } from '@stripe/connect-js';
 import {ConnectComponentsProvider} from '@stripe/react-connect-js';
+import {ConnectJSProvider} from './ConnectJSProvider';
 import {useSession} from './SessionProvider';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
@@ -107,7 +108,9 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
 
   return (
     <ConnectComponentsProvider connectInstance={connectInstance}>
-      {children}
+      <ConnectJSProvider connectInstance={connectInstance}>
+        {children}
+      </ConnectJSProvider>
     </ConnectComponentsProvider>
   );
 };

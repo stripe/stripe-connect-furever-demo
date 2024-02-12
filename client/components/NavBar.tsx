@@ -18,11 +18,14 @@ import {useSession} from '../hooks/SessionProvider';
 import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
 import {RouterLink} from './RouterLink';
+import {useConnectJSContext} from '../hooks/ConnectJSProvider';
 
 const useLogout = () => {
   const {search} = useLocation();
+  const connectJSContext = useConnectJSContext();
 
   return useMutation<void, Error>('logout', async () => {
+    await connectJSContext.connectInstance?.logout();
     const response = await fetch('/api/logout', {
       method: 'POST',
     });
