@@ -54,9 +54,9 @@ export const Onboarding = () => {
           <EnableEmbeddedCheckbox label="Enable embedded onboarding" />
           <EmbeddedComponentContainer>
             <ConnectAccountOnboarding
-              privacyPolicyUrl="https://stripe.com/privacy?utm_campaign=woof"
-              fullTermsOfServiceUrl="https://stripe.com/legal/connect-account?utm_campaign=woof"
-              recipientTermsOfServiceUrl="https://stripe.com/legal/connect-account/recipient?utm_campaign=woof"
+              privacyPolicyUrl="https://stripe.com/privacy?utm_campaign=st"
+              fullTermsOfServiceUrl="https://stripe.com/legal/connect-account?utm_campaign=st"
+              recipientTermsOfServiceUrl="https://stripe.com/legal/connect-account/recipient?utm_campaign=st"
               onOnboardingExited={() => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'
