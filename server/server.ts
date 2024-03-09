@@ -24,7 +24,7 @@ if (process.env.HTTP_AUTH_PASSWORD !== undefined) {
     authConnect(
       auth.basic(
         {
-          realm: 'furever-user',
+          realm: 'servicetitan-user',
           skipUser: true, // Do not allow this library to overwrite user, user should be a Salon.js model.
         },
         (_username, password, callback) => {
@@ -92,5 +92,5 @@ app.get('*', (req, res) => {
 
 // Start the server on the correct port
 app.listen(process.env.PORT, () => {
-  console.log('🐾 FurEver server started');
+  console.log('🐾 ServiceTitan Demo server started');
 });

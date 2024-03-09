@@ -11,8 +11,8 @@ export const CompleteProfileFooter = () => (
   <NoticeFooter center>
     <Typography variant="body2" color="text.secondary">
       The platform can choose to request additional information from the user
-      before it collects any payments details. Here, FurEver asks a few
-      questions about the user's salon. This information will be stored in the
+      before it collects any payments details. Here, ServiceTitan asks a few
+      questions about the user's business. This information will be stored in the
       platform's database
     </Typography>
   </NoticeFooter>
@@ -49,7 +49,7 @@ export const LandingNoticeFooter = () => (
         },
       }}
     >
-      FurEver is a demo for{' '}
+      ServiceTitan Demo is a demo for{' '}
       <Link href="https://stripe.com/connect" target="_blank" underline="none">
         Stripe Connect
       </Link>{' '}
@@ -61,27 +61,8 @@ export const LandingNoticeFooter = () => (
       >
         Stripe Connect embedded components
       </Link>
-      . It is not a real product.
+      . It is not a real product...yet
     </Typography>
-
-    {/* TODO - add this link back in when the repo is open source */}
-    {/* <Link
-      href="https://github.com/stripe/stripe-connect-furever"
-      target="_blank"
-      underline="none"
-      display="flex"
-      gap={0.5}
-    >
-      <Typography
-        sx={{
-          fontSize: {sm: 16, xs: 14},
-          fontWeight: 600,
-        }}
-      >
-        View on GitHub
-      </Typography>
-      <ChevronRight />
-    </Link> */}
   </NoticeFooter>
 );
 

@@ -72,7 +72,7 @@ export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
 
   const calculateCurrentAppearance = (currentTheme: Theme) => {
     return {
-      // FurEver specifies a subset of the available options in ConnectJS
+      // ServiceTitan Demo specifies a subset of the available options in ConnectJS
       colorPrimary: currentTheme.palette.primary.main,
       colorText: currentTheme.palette.text.primary,
       colorBackground: currentTheme.palette.background.default,

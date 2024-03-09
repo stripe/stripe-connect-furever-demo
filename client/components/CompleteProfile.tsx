@@ -82,7 +82,7 @@ export const CompleteProfile = () => {
     prefill: false,
     salonName: '',
     salonLicense: 'LINC123',
-    salonSpecialty: 'dogs',
+    salonSpecialty: 'electrical',
     accountConfiguration: 'no_dashboard_soll',
   });
   const [searchParams] = useSearchParams();
@@ -123,12 +123,12 @@ export const CompleteProfile = () => {
             <FormControlLabel
               value="individual"
               control={<Radio sx={{paddingY: 0}} />}
-              label={<Typography fontSize={15}>Independent salon</Typography>}
+              label={<Typography fontSize={15}>Independent Contractor</Typography>}
             />
             <FormControlLabel
               value="company"
               control={<Radio sx={{paddingY: 0}} />}
-              label={<Typography fontSize={15}>Chain of salons</Typography>}
+              label={<Typography fontSize={15}>Commercial Business</Typography>}
             />
             <FormControlLabel
               value="other"
@@ -233,12 +233,12 @@ export const CompleteProfile = () => {
         </FormControl>
 
         <FormControl>
-          <FormBlockHeader>Salon information</FormBlockHeader>
+          <FormBlockHeader>Business information</FormBlockHeader>
           <FormBlock>
             <TextInput
               label="Business"
               name="salon[name]"
-              placeholder="Pawsitively Purrfect Grooming"
+              placeholder="ServiceTitan Pro"
               required
               value={formValues.salonName}
               onChange={(event) =>
@@ -276,9 +276,9 @@ export const CompleteProfile = () => {
                 }))
               }
             >
-              <option value="dogs">Dogs</option>
-              <option value="cats">Cats</option>
-              <option value="hamsters">Hamsters</option>
+              <option value="electrical">Electrical</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="homeServices">Home Services</option>
             </SelectInput>
           </FormBlock>
         </FormControl>

@@ -270,9 +270,9 @@ app.post('/create-account', userRequired, async (req, res) => {
           ...(shouldPrefill
             ? {
                 mcc: '7299',
-                url: 'https://furever.dev',
-                name: 'FurEver company',
-                product_description: 'Products for pets',
+                url: 'https://servicetitan.com',
+                name: 'Service company',
+                product_description: 'Home Services Professionals',
                 support_address: {
                   line1: '354 Oyster Point Blvd',
                   city: 'South San Francisco',
@@ -281,7 +281,7 @@ app.post('/create-account', userRequired, async (req, res) => {
                 },
                 support_email: user.email,
                 support_phone: '8888675309',
-                support_url: 'https://furever.dev',
+                support_url: 'https://servicetitan.com',
               }
             : {}),
         },
@@ -290,10 +290,10 @@ app.post('/create-account', userRequired, async (req, res) => {
           ? {
               settings: {
                 card_payments: {
-                  statement_descriptor_prefix: 'FurEver',
+                  statement_descriptor_prefix: 'ST',
                 },
                 payments: {
-                  statement_descriptor: 'FurEver',
+                  statement_descriptor: 'ServiceTitan',
                 },
               },
             }
@@ -419,7 +419,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
     const accountSession = await stripe.accountSessions.create({
       account: getStripeAccountId(req),
-      // This should contain a list of all components used in FurEver, otherwise they will be disabled when rendering
+      // This should contain a list of all components used in ServiceTitan Demo, otherwise they will be disabled when rendering
       components: {
         account_management: {
           enabled: true,
@@ -487,31 +487,31 @@ app.post('/create-intervention', stripeAccountRequired, async (req, res) => {
  */
 const customers = [
   {
-    email: 'labradoodle@stripe.com',
-    name: 'Odie',
-    description: 'Full grooming package for large Labradoodle',
+    email: 'pob@stripe.com',
+    name: 'Patrick',
+    description: 'Account Executive',
   },
   {
-    email: 'poodle@stripe.com',
-    name: 'Snoopy ',
-    description: 'Nail trimming for toy Poodle',
+    email: 'adev@stripe.com',
+    name: 'Aditya',
+    description: 'Solutions Architect',
   },
   {
-    email: 'golden_retriever@stripe.com',
-    name: 'Dug',
-    description:
-      'Hydro surge warm water shampoo & conditioner for Golden Retriever',
-  },
-  {
-    email: 'siamese_cat@stripe.com',
-    name: 'Garfield',
-    description: 'Flea and tick treatments for Siamese cat',
-  },
-  {
-    email: 'argente_rabbit@stripe.com',
-    name: 'Bugs Bunny',
-    description: 'Fur brushing and trimming for Argente Rabbit',
-  },
+    email: 'jakefishbain@stripe.com',
+    name: 'Jake',
+    description: 'Solutions Architect',
+  }
+  //,
+  // {
+  //   email: 'siamese_cat@stripe.com',
+  //   name: 'Garfield',
+  //   description: 'Flea and tick treatments for Siamese cat',
+  // },
+  // {
+  //   email: 'argente_rabbit@stripe.com',
+  //   name: 'Bugs Bunny',
+  //   description: 'Fur brushing and trimming for Argente Rabbit',
+  // },
 ];
 app.post('/create-payments', stripeAccountRequired, async (req, res) => {
   try {

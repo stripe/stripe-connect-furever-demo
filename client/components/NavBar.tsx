@@ -255,8 +255,8 @@ export const NavBar = () => {
               <Link component={RouterLink} to="/" underline="none">
                 <img
                   src={logo}
-                  title="FurEver logo"
-                  alt="FurEver"
+                  title="ServiceTitan logo"
+                  alt="ServiceTitan"
                   style={{height: '40px'}}
                 />
               </Link>

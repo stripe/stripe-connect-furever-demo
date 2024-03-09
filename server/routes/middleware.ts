@@ -6,7 +6,7 @@ export function userRequired(req: Request, res: Response, next: NextFunction) {
   if (!req.isAuthenticated()) {
     return res
       .status(500)
-      .send({error: 'Complete your profile with FurEver first.'});
+      .send({error: 'Complete your profile with ServiceTitan Demo first.'});
   }
   next();
 }

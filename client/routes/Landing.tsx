@@ -104,7 +104,7 @@ export const Landing = () => {
           />
         </Box>
       </Box>
-      {/* <LandingNoticeFooter /> */}
+      <LandingNoticeFooter />
     </>
   );
 };
