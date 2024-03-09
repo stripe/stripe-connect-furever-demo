@@ -67,7 +67,7 @@ export const Payments = () => {
             description={
               <>
                 <Typography variant="body2">
-                  Collect payment for a grooming session using Checkout. The
+                  Collect payment for an appointment using Checkout. The
                   customer can pay with{' '}
                   <Link
                     href="https://stripe.com/docs/testing#cards"

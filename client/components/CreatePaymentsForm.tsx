@@ -80,7 +80,7 @@ export const CreatePaymentsForm = () => {
       }}
     >
       <Typography variant="body2">
-        Simulate a grooming session by using a testmode payment method to{' '}
+        Simulate an appointment by using a testmode payment method to{' '}
         <Link
           href="https://stripe.com/docs/api/payment_intents"
           target="_blank"
