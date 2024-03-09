@@ -18,5 +18,10 @@
       },
     },
     "typescript.tsdk": "node_modules/typescript/lib",
+    "[typescript][typescriptreact]": {
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      }
+    },
   }
   

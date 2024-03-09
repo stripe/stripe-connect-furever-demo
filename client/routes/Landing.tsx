@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useSession} from '../hooks/SessionProvider';
-import LandingIcon from '../assets/images/landing-icon.png';
-import LandingBackground from '../assets/images/landing.jpeg';
+import LandingIcon from '../assets/images/st-landing-icon.png';
+import LandingBackground from '../assets/images/st-hero.png';
 import {LandingNoticeFooter} from '../components/NoticeFooter';
 import {RouterLink} from '../components/RouterLink';
 
@@ -62,7 +62,7 @@ export const Landing = () => {
             }}
             variant="h4"
           >
-            Manage your business with ease.
+            Software that keeps you running while you keep the world running.
           </Typography>
           <Typography
             sx={{
@@ -75,8 +75,7 @@ export const Landing = () => {
               },
             }}
           >
-            FurEver is the world's leading pet grooming platform: join our team
-            of salons and expand your business.
+            Our all-in-one solution means you no longer have to sign into multiple platforms. Everything you need to run your business is in one convenient location, wherever you are.
           </Typography>
           <Button
             to={user ? '/reservations' : '/signup'}
@@ -105,7 +104,7 @@ export const Landing = () => {
           />
         </Box>
       </Box>
-      <LandingNoticeFooter />
+      {/* <LandingNoticeFooter /> */}
     </>
   );
 };
