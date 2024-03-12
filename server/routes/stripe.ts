@@ -559,7 +559,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
                 payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
-                statement_descriptor: process.env.APP_NAME,
+                // statement_descriptor: process.env.APP_NAME,
                 confirmation_method: 'manual',
                 confirm: true,
                 ...(status === 'card_uncaptured'
@@ -676,7 +676,7 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
       const {amount, currency} = selectedBalance;
       await stripe.payouts.create(
         {
-          amount: Math.min(amount, 1000), // We allow a max of 10 dlls to be paid out in this test app
+          amount: Math.min(amount, 10000), // We allow a max of 100 dlls to be paid out in this test app
           currency,
           statement_descriptor: process.env.APP_NAME,
         },
