@@ -1,0 +1,100 @@
+<tr
+  data-id="{{id}}"
+  data-url="{{hosted_invoice_url}}"
+  data-type="table-row"
+  class="{{#if (eq odd true)}}bg-white{{else}}bg-light-blue-50{{/if}} group cursor-pointer hover:bg-light-blue-100"
+>
+  <td
+    class="group-hover:underline px-6 py-4 whitespace-nowrap text-sm font-medium text-dark-gray-900"
+  >
+    {{lines.data.0.description}}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-normal text-dark-gray-500">
+    $
+    {{centsToDollars total}}
+  </td>
+  <td class="px-6 py-4 truncate text-sm font-normal text-dark-gray-500">
+    {{customer_address.line1}}
+    ,
+    {{customer_address.state}}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-normal text-dark-gray-500">
+    {{formatDate created}}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-normal text-dark-gray-500">
+    {{formatTime created}}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-normal text-dark-gray-500">
+    <div class="flex justify-center w-max min-w-[60px] px-2.5 py-0.5 rounded-xl font-medium
+      {{#if (eq status 'open')}}
+        bg-green-100 text-green-800
+        {{else}}
+        {{#if (eq status 'paid')}}
+          bg-light-blue-200 text-light-blue
+          {{else}}
+          {{#if (eq status 'void')}}
+            bg-yellow text-light-brown
+            {{else}}
+              {{#if (eq status 'uncollectible')}}
+              bg-brand text-green-700
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    ">
+      {{capitalize status}}
+    </div>
+  </td>
+  <td class="px-6 py-4 pr-0 whitespace-nowrap text-sm font-normal text-dark-gray-500">
+    <div class="inline-flex items-center">
+      <svg
+        id="hosted-invoice-link-icon"
+        data-url="{{hosted_invoice_url}}"
+        class="text-dark-gray-400 hover:text-light-blue"
+        width="23"
+        height="16"
+        viewBox="0 0 23 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M14.5 8C14.5 9.65685 13.1569 11 11.5 11C9.84315 11 8.5 9.65685 8.5 8C8.5 6.34315 9.84315 5 11.5 5C13.1569 5 14.5 6.34315 14.5 8Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          d="M1.95825 7.99997C3.23253 3.94288 7.02281 1 11.5004 1C15.9781 1 19.7684 3.94291 21.0426 8.00004C19.7684 12.0571 15.9781 15 11.5005 15C7.02281 15 3.23251 12.0571 1.95825 7.99997Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+      {{#unless (eq status "void")}}
+        {{#unless (eq status "paid")}}
+          <svg
+            id="invoice-item-delete-icon"
+            data-id="{{id}}"
+            data-type="void"
+            class="stroke-current ml-4 text-dark-gray-400 hover:text-brand h-5 cursor-pointer"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 13L7 7L13 1M1 1L13 13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        {{/unless}}
+      {{/unless}}
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,183 @@
+{{#unless session.isOnboarded}}
+  {{> onboarding_notice}}
+{{/unless}}
+{{> header}}
+<div class="flex-1 container p-12 pb-24 mx-auto text-left">
+  <form action="/customers/{{customer.id}}" method="post">
+    <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+      <div>
+        <h2 class="text-2xl leading-7 text-gray-900 sm:text-3xl sm:truncate mb-4">
+          Edit Customer
+        </h2>
+      </div>
+      <div class="space-y-6 sm:space-y-5">
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="full-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Full name
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              name="name"
+              value="{{customer.name}}"
+              id="full-name"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="phone" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Phone number
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="phone"
+              name="phone"
+              type="text"
+              value="{{customer.phone}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="email" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Email address
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value="{{customer.email}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="description" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Customer description
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="description"
+              name="description"
+              type="text"
+              value="{{customer.description}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Country
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="country"
+              type="text"
+              name="country"
+              value="{{customer.address.country}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="line1" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Line 1
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="line1"
+              type="text"
+              name="line1"
+              value="{{customer.address.line1}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="line2" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Line 2
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              id="line2"
+              type="text"
+              name="line2"
+              value="{{customer.address.line2}}"
+              class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="city" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            City
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              name="city"
+              id="city"
+              value="{{customer.address.city}}"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="region" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            State / Province
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              id="region"
+              name="state"
+              value="{{customer.address.state}}"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+        <div
+          class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label for="postal-code" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            ZIP / Postal code
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              id="postal-code"
+              name="postal_code"
+              value="{{customer.address.postal_code}}"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Save
+    </button>
+  </form>
+</div>
+{{> footer}}

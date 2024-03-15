@@ -1,0 +1,52 @@
+{{#unless session.isOnboarded}}
+  {{> onboarding_notice}}
+{{/unless}}
+{{> header route="Account"}}
+<div class="flex relative flex-col mt-0.5 flex-1 w-full text-left">
+<div class="flex flex-col flex-1 gap-4 container pb-24 xl:mx-auto xxs:max-w-full xxs:px-4 xs:px-10 md:px-20">
+     <div class="flex items-center justify-between py-6 xs:pt-12 xs:pb-6 flex-row gap-2">
+        <h2 class="text-3xl font-bold">
+            Account
+        </h2>
+        {{#if interventionsEnabled}}
+        <button id="create" class="bg-brand border border-brand-outline text-white font-semibold relative text-sm flex flex-row gap-2 items-center px-2 py-1 max-h-28 rounded-full">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.55228 0 6 0.447715 6 1V4L9 4C9.55228 4 10 4.44772 10 5C10 5.55228 9.55228 6 9 6H6V9C6 9.55229 5.55228 10 5 10C4.44771 10 4 9.55229 4 9V6H1C0.447715 6 0 5.55228 0 5C5.96046e-08 4.44771 0.447715 4 1 4L4 4V1C4 0.447715 4.44771 0 5 0Z" fill="white"></path>
+            </svg>
+            <span class="spinner hidden animate-spin rounded-full h-5 w-5 border-b-2"></span>
+            <span>Create notification</span>
+        </button>
+        {{/if}}
+    </div>
+    <div class="flex flex-col gap-4">
+        <div class="embedded-component"><stripe-connect-notification-banner></stripe-connect-notification-banner></div>
+        <div class="embedded-component"><stripe-connect-account-management></stripe-connect-account-management></div>
+    </div>
+    <script>
+    const createButton = document.getElementById('create');
+    if (createButton) {
+        createButton.addEventListener('click', async () => {
+            createButton.querySelector('svg').classList.add('hidden');
+            createButton.querySelector('.spinner').classList.remove('hidden');
+            try {
+                const response = await fetch('/interventions', {
+                    method: 'POST',
+                });
+                if (!response.ok) {
+                    const json = await response.json();
+                    window.notificationEvents.fail('An error occurred while creating a notification', json.error);
+                } else {
+                    window.notificationEvents.success('Notification has been created!', 'Refresh the page to view the notification');
+                    window.location.reload();
+                }
+            } catch (err) {
+                window.notificationEvents.fail('An error occurred while creating a notification', err.message);
+            }
+            createButton.querySelector('svg').classList.remove('hidden');
+            createButton.querySelector('.spinner').classList.add('hidden');
+        });
+    }
+    </script>
+</div>
+</div>
+{{> footer}}

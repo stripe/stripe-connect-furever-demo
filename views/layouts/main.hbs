@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <title>Homebox</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/terminal/v1/"></script>
+    <script src="https://connect-js.stripe.com/v0.1/connect.js" async></script>
+    <script src="/javascript/toggleBorder.js"></script>
+    <script src="/javascript/connect.js"></script>
+    {{#if (enableAnalytics)}}
+      {{> analytics }}
+    {{/if}}
+</head>
+<body class="flex flex-col relative bg-white">
+  <script>
+     // Keyboard shortcut to enable/disable border
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'b' && e.metaKey) {
+        toggleBorder();
+      }
+    })
+
+    window.addEventListener("load", toggleBorderHelper);
+
+    window.StripeConnect ||= {};
+    const isAuthenticated = "{{ isAuthenticated }}" === "true";
+    if (isAuthenticated) {
+      initConnectJs("{{ stripePublishableKey }}");
+    }
+  </script>
+  {{{body}}}
+</body>
+</html>

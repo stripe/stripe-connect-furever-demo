@@ -1,0 +1,114 @@
+
+{{#unless session.isOnboarded}}
+  {{> onboarding_notice}}
+{{/unless}}
+
+{{> header route="Home"}}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<div class="flex relative flex-col mt-0.5 flex-1 w-full text-left">
+<div class="flex-1 container pb-24 xl:mx-auto xxs:max-w-full xxs:px-4 xs:px-10 md:px-20">
+  <div class="flex sm:items-center sm:justify-between py-6 xs:pt-12 xs:pb-6 flex-col sm:flex-row">
+    <h2 class="text-3xl font-bold">
+      Morning, {{displayName}}!
+    </h2>
+  </div>
+  <div class="flex flex-1 flex-col lg:flex-row justify-between w-full gap-10">
+    <div class="flex gap-10 flex-1 flex-col justify-between h-min max-h-min basis-8/12">
+
+      <div
+        class="flex flex-1 flex-col gap-4 relative bg-white overflow-hidden w-full"
+      >
+        <div class="flex flex-row justify-between items-center">
+          <span class="font-bold text-xl" style="flex: 1 0 auto">Total jobs: 232</span>
+          <span class="bg-neutral-100 border border-neutral-150 text-sm text-neutral-700 font-semibold px-2 py-1 max-h-28 rounded-full">Monthly</span>
+        </div>
+        <img src="/images/jobs-graph.svg"/>
+      </div>
+
+      <div
+        class="flex flex-1 flex-col gap-4 relative bg-white overflow-hidden w-full"
+      >
+        <div class="flex flex-row justify-between items-center">
+          <span class="font-bold text-xl" style="flex: 1 0 auto">Overview</span>
+          <span class="bg-neutral-100 border border-neutral-150 text-sm text-neutral-700 font-semibold px-2 py-1 max-h-28 rounded-full">See all</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col basis-7/12">
+              <span class="text-sm font-semibold">Total volume</span>
+              <span class="text-2xl font-bold">{{currencySymbol}}89k</span>
+            </div>
+            <div class="flex flex-col basis-5/12">
+              <img src="/images/chart_1.svg" class="max-h-50 object-contain" />
+            </div>
+          </div>
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">Total customers</span>
+              <div class="flex flex-row items-center gap-2">
+                <span class="text-2xl font-bold">29%</span>
+                 <img src="/images/chart_3.svg" class="object-contain" style="height:1.5rem"/>
+              </div> 
+            </div>
+          </div>
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">Q1 growth</span>
+              <div class="flex flex-row items-center gap-2">
+                <span class="text-2xl font-bold">8%</span>
+                 <img src="/images/chart_3.svg" class="object-contain" style="height:1.5rem"/>
+              </div> 
+            </div>
+          </div>
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">Available credit</span>
+              <span class="text-2xl font-bold">{{currencySymbol}}35k</span>
+            </div>
+          </div>
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">Issuing balance</span>
+              <span class="text-2xl font-bold">{{currencySymbol}}10k</span>
+            </div>
+          </div>
+          <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">Credit</span>
+              <span class="text-2xl font-bold">{{currencySymbol}}21k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="basis-4/12 flex flex-1 flex-col gap-4 relative bg-white overflow-hidden w-full">
+      <div class="flex flex-row justify-between items-baseline w-full gap-4">
+        <div class="flex flex-col" style="flex: 1 0 auto">
+          <span class="font-bold text-xl">{{formattedDate}}</span>
+          <span class="text-xl">{{dayOfWeek}}</span>
+        </div>
+        <div class="flex flex-row flex-wrap gap-2 items-center justify-end">
+          <span class="hidden xs:flex flex-row gap-2 items-center bg-brand border border-brand-outline text-sm text-white font-semibold px-2 py-1 max-h-28 rounded-full">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.55228 0 6 0.447715 6 1V4L9 4C9.55228 4 10 4.44772 10 5C10 5.55228 9.55228 6 9 6H6V9C6 9.55229 5.55228 10 5 10C4.44771 10 4 9.55229 4 9V6H1C0.447715 6 0 5.55228 0 5C5.96046e-08 4.44771 0.447715 4 1 4L4 4V1C4 0.447715 4.44771 0 5 0Z" fill="white"></path>
+            </svg>
+            Add a job
+          </span>
+          <div class="flex flex-row gap-2 items-center bg-neutral-100 border border-neutral-150 px-2 py-1 max-h-28 rounded-full">
+            <span class="text-sm font-semibold text-neutral-700">Day</span>
+            <img src="/images/calendar-icon.svg" />
+          </div>
+        </div>
+      </div>
+      <img src="/images/calendar.svg"/>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{{> footer}}
