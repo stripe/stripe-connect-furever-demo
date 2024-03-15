@@ -1,0 +1,16 @@
+{{#unless session.isOnboarded}}
+  {{> onboarding_notice}}
+{{/unless}}
+
+{{> header route=routeName }}
+
+<div class="flex relative flex-col mt-0.5 flex-1 w-full text-left sm:px-6 lg:px-8 items-center">
+  <p class="text-4xl font-medium text-brand-dark mt-28">
+    404
+  </p>
+  <p class="text-2xl font-medium text-neutral-900 mt-8">
+    Page not found.
+  </p>
+</div>
+
+{{> footer}}

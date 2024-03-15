@@ -1,0 +1,229 @@
+{{#unless session.isOnboarded}}
+  {{> onboarding_notice}}
+{{/unless}}
+{{> header route="Payments"}}
+<div class="flex relative flex-col mt-0.5 flex-1 w-full text-left">
+<div class="flex flex-col flex-1 gap-4 container pb-24 xl:mx-auto xxs:max-w-full xxs:px-4 xs:px-10 md:px-20">
+    <div class="flex items-center justify-between py-6 xs:pt-12 xs:pb-6 flex-row gap-2">
+        <h2 class="text-3xl font-bold">
+            Payments
+        </h2>
+        {{#if chargesEnabled}}
+        <div class="flex flex-row flex-wrap gap-2 items-center justify-end">
+            <span class="items-center justify-center hidden xs:flex bg-neutral-100 border border-neutral-150 text-sm text-neutral-700 font-semibold px-2 py-1 max-h-28 rounded-full">View reports</span>
+            <div class="relative">
+                <button id="open-payments-form" class="flex items-center justify-center bg-brand border border-brand-outline text-white font-semibold relative text-sm flex flex-row gap-2 items-center px-2 py-1 max-h-28 rounded-full">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.55228 0 6 0.447715 6 1V4L9 4C9.55228 4 10 4.44772 10 5C10 5.55228 9.55228 6 9 6H6V9C6 9.55229 5.55228 10 5 10C4.44771 10 4 9.55229 4 9V6H1C0.447715 6 0 5.55228 0 5C5.96046e-08 4.44771 0.447715 4 1 4L4 4V1C4 0.447715 4.44771 0 5 0Z" fill="white"></path>
+                    </svg>
+                    <span>Create payment</span>
+                </button>
+                <!-- Create payment dropdown -->
+                <form
+                    id="payments-form"
+                    class="hidden flex flex-col box-content origin-top-right absolute right-0 mt-2 whitespace-nowrap rounded-md shadow-lg px-4 py-3 bg-white text-sm leading-5 text-dark-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                    aria-orientation="vertical"
+                    tabindex="-1"
+                    autocomplete="off"
+                    style="width: 275px"
+                >
+
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-medium">Simulate a test payment</span>
+                        <!-- Heroicon name: outline/cross -->
+                        <button id="close-payments-form" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <label for="count" class="block text-sm font-medium text-dark-gray-700">
+                                Count
+                            </label>
+                            <input
+                                name="count"
+                                type="number"
+                                min="1" 
+                                max="10" 
+                                pattern="\d*" 
+                                value="1" 
+                                required
+                                class="shadow-sm focus:ring-dark-gray-600 focus:border-dark-gray-600 block w-full text-sm border-dark-gray-300 rounded-md"
+                                placeholder="Number of charges"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-dark-gray-700">
+                                Amount
+                            </label>
+                            <input
+                                name="amount"
+                                type="number"
+                                placeholder='Random amount' 
+                                min="1" 
+                                max="1000" 
+                                pattern="\d*" 
+                                value=""
+                                class="shadow-sm focus:ring-dark-gray-600 focus:border-dark-gray-600 block w-full text-sm border-dark-gray-300 rounded-md"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-dark-gray-700">
+                                Status
+                            </label>
+                            <select name="status"
+                                class="shadow-sm focus:ring-dark-gray-600 focus:border-dark-gray-600 block w-full text-sm border-dark-gray-300 rounded-md">
+                                <option value="card_successful" selected>Successful</option> 
+                                <option value="card_successful_intl">Successful (Non-US country)</option> 
+                                <option value="card_disputed_fraudulent">Disputed (fraudulent)</option> 
+                                <option value="card_disputed_product_not_received">Disputed (product not received)</option> 
+                                <option value="card_disputed_inquiry">Disputed (inquiry)</option> 
+                                <option value="card_uncaptured">Uncaptured</option> 
+                                <option value="ach_direct_debit">ACH Direct Debit</option> 
+                                <option value="sepa_debit">SEPA Direct Debit</option> 
+                            </select>
+                        </div>
+
+                        <div id="currency-row">
+                            <label for="currency" class="block text-sm font-medium text-dark-gray-700">
+                                Currency
+                            </label>
+                            <select name="currency"
+                                class="shadow-sm focus:ring-dark-gray-600 focus:border-dark-gray-600 block w-full text-sm border-dark-gray-300 rounded-md">
+                                <option value="usd" selected>USD</option> 
+                                <option value="aed">AED</option> 
+                                <option value="aud">AUD</option> 
+                                <option value="cad">CAD</option> 
+                                <option value="cny">CNY</option> 
+                                <option value="eur">EUR</option> 
+                                <option value="gbp">GBP</option> 
+                                <option value="inr">INR</option> 
+                                <option value="jpy">JPY</option> 
+                                <option value="sgd">SGD</option> 
+                            </select>
+                        </div>
+
+                        <button type='submit' class="w-full gap-3 justify-center inline-flex items-center mb-2 px-10 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-brand-outline">
+                            <span>Create test payments</span>
+                            <span
+                            class="spinner hidden animate-spin rounded-full h-5 w-5 border-b-2"
+                            ></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+        {{/if}}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col basis-7/12 md:basis-8/12">
+                <span class="text-sm font-semibold">April pay-in volume</span>
+                <div class="flex flex-row items-center gap-2">
+                    <span class="text-xl md:text-2xl font-bold">{{currencySymbol}}21,000.00 {{currency}}</span>
+                    <span class="bg-brand-chip border border-brand-outline-chip rounded-full text-brand text-xs font-semibold px-2 py-0.5">+26%</span>
+                </div>
+            </div>
+            <div class="flex flex-col basis-5/12 md:basis-4/12 items-end">
+                <img src="/images/chart_1.svg" class="max-h-50 object-contain" />
+            </div>
+        </div>
+        <div class="flex flex-row gap-2 justify-between items-center bg-neutral-100 px-6 py-6 rounded-xl">
+            <div class="flex flex-col basis-7/12 md:basis-8/12">
+                <span class="text-sm font-semibold">April new customer pay-in volume</span>
+                <div class="flex flex-row items-center gap-2">
+                    <span class="text-xl md:text-2xl font-bold">{{currencySymbol}}2,000.00 {{currency}}</span>
+                    <span class="bg-brand-chip border border-brand-outline-chip rounded-full text-brand text-xs font-semibold px-2 py-0.5">+28%</span>
+                </div>
+            </div>
+            <div class="flex flex-col basis-5/12 md:basis-4/12 items-end">
+                <img src="/images/chart_1.svg" class="max-h-50 object-contain" />
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-4">
+        <div class="embedded-component"><stripe-connect-payments></stripe-connect-payments></div>
+    </div>
+    <script>
+    const openPaymentForm = document.getElementById('open-payments-form');
+    if (openPaymentForm) {
+        const closePaymentForm = document.getElementById('close-payments-form');
+        const paymentForm = document.getElementById('payments-form');
+
+        openPaymentForm.addEventListener('click', () => {
+            paymentForm.classList.remove('hidden');
+        });
+        closePaymentForm.addEventListener('click', () => {
+            paymentForm.classList.add('hidden');
+        });
+
+        // Disables the currency selector when not using a successful payment status
+        const currencyRow = document.querySelector('#currency-row');
+        paymentForm
+            .querySelector('select[name="status"]')
+            .addEventListener('change', async function (event) {
+                event.preventDefault();
+                const {value} = event.target;
+                if (value.startsWith('card_successful')) {
+                currencyRow.style.display = 'block';
+                } else {
+                currencyRow.style.display = 'none';
+                }
+            });
+
+        const paymentFormButton = paymentForm.querySelector('button[type="submit"]');
+        // Create test payments
+        paymentForm.addEventListener('submit', async function (event) {
+            paymentFormButton.setAttribute('disabled', '');
+            paymentFormButton.querySelector('.spinner').classList.remove('hidden');
+
+            event.preventDefault();
+
+            const formData = new FormData(paymentForm);
+
+            function handleError(errorMsg) {
+                paymentFormButton.removeAttribute('disabled');
+                paymentFormButton.querySelector('.spinner').classList.add('hidden');
+                window.notificationEvents.fail('An error occurred while creating payments', errorMsg);
+            }
+
+            try {
+                const response = await fetch('/payments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        count: formData.get('count'),
+                        amount: formData.get('amount'),
+                        status: formData.get('status'),
+                        currency: formData.get('currency'),
+                    }),
+                });
+
+                if (!response.ok) {
+                    const json = await response.json();
+                    handleError(json.error);
+                } else {
+                    paymentFormButton.removeAttribute('disabled');
+                    paymentFormButton.value = 'Create test payments';
+                    paymentFormButton.querySelector('.spinner').classList.add('hidden');
+                    window.notificationEvents.success('Payments successfully created!', 'Refresh the page to view the new payments');
+                }
+            } catch (err) {
+                handleError(err.message);
+            }
+            
+            return false;
+        });
+    }
+    </script>
+</div>
+</div>
+{{> footer}}
