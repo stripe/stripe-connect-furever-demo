@@ -19,7 +19,6 @@ import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
 import {RouterLink} from './RouterLink';
 import {useConnectJSContext} from '../hooks/ConnectJSProvider';
-import {stripe} from '../../server/routes/stripeSdk';
 
 const useLogout = () => {
   const {search} = useLocation();
@@ -100,7 +99,13 @@ export const NavBar = () => {
         }}
       >
         {routes
+          // For paths that have required capabilities, filter out
+          // the ones that have yet to be requested. In the case
+          // a capability is not active, the Page is responsible for
+          // calling-out or re-directing the user to the appropriate
+          // page to resolve the requirement.
           .filter(({requiredCapabilities}) => {
+            // Not all pages require capabalities. If none provided, continue.
             if (!requiredCapabilities) {
               return true;
             }

@@ -738,9 +738,9 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
 });
 
 /**
- * POST /create-payout
+ * POST /create-received-credit
  *
- * Generate a payout with Stripe for the available balance via POST /v1/payouts
+ * Generate a received credit applied to the FinancialAccount.
  */
 app.post('/create-received-credit', stripeAccountRequired, async (req, res) => {
   const user = req.user!;
@@ -829,6 +829,13 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
   }
 });
 
+/**
+ * GET /financial-account
+ *
+ * Returns the first financial account for the connected account.
+ * Multi-FA support is only limited to a subset of users, so we'll
+ * just return the first one for simplicity.
+ */
 app.get('/financial-account', stripeAccountRequired, async (req, res) => {
   const user = req.user!;
 

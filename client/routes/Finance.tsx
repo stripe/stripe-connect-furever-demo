@@ -141,8 +141,7 @@ export const Finance = () => {
     return null;
   }
 
-  const disabled =
-    !financialAccount || stripeAccount?.capabilities?.treasury !== 'active';
+  const disabled = !financialAccount;
 
   const renderFooterTitle = () => {
     if (disabled) {
