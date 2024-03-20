@@ -15,6 +15,7 @@ import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 import {CardFooter} from '../components/CardFooter';
+import {stripe} from '../../server/routes/stripeSdk';
 
 const useCreateReceivedCredit = () => {
   const {financialAccount} = useFinancialAccount();
@@ -117,6 +118,7 @@ export const Finance = () => {
 
   const navigate = useNavigate();
   const {stripeAccount} = useSession();
+
   const {
     status,
     mutate,
@@ -139,8 +141,11 @@ export const Finance = () => {
     return null;
   }
 
+  const disabled =
+    !financialAccount || stripeAccount?.capabilities?.treasury !== 'active';
+
   const renderFooterTitle = () => {
-    if (!financialAccount) {
+    if (disabled) {
       return 'You need to create a financial account to enable finance features.';
     }
     return 'Create a test received credit';
@@ -148,7 +153,7 @@ export const Finance = () => {
 
   const renderFooter = () => {
     return (
-      <CardFooter title={renderFooterTitle()}>
+      <CardFooter title={renderFooterTitle()} disabled={disabled}>
         <Box
           sx={{
             display: 'flex',

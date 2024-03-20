@@ -293,6 +293,12 @@ app.post('/create-account', userRequired, async (req, res) => {
                 support_email: user.email,
                 support_phone: '8888675309',
                 support_url: 'https://furever.dev',
+                estimated_worker_count: 10,
+                annual_revenue: {
+                  amount: 1000000,
+                  currency: 'usd',
+                  fiscal_year_end: '2023-12-31',
+                },
               }
             : {}),
         },
@@ -419,7 +425,6 @@ app.post('/create-account', userRequired, async (req, res) => {
           },
           {stripeAccount: accountId}
         );
-        console.log(financialAccount);
       }
     }
 
@@ -738,7 +743,6 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
  * Generate a payout with Stripe for the available balance via POST /v1/payouts
  */
 app.post('/create-received-credit', stripeAccountRequired, async (req, res) => {
-  console.log(req.body);
   const user = req.user!;
   try {
     await stripe.testHelpers.treasury.receivedCredits.create(

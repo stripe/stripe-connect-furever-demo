@@ -19,6 +19,7 @@ import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
 import {RouterLink} from './RouterLink';
 import {useConnectJSContext} from '../hooks/ConnectJSProvider';
+import {stripe} from '../../server/routes/stripeSdk';
 
 const useLogout = () => {
   const {search} = useLocation();
@@ -38,13 +39,18 @@ const useLogout = () => {
 type Page = {
   name: string;
   href: string;
+  requiredCapabilities?: string[];
 };
 
 const authenticatedRoutes: Page[] = [
   {name: 'Reservations', href: '/reservations'},
   {name: 'Payments', href: '/payments'},
   {name: 'Payouts', href: '/payouts'},
-  {name: 'Finance', href: '/finance'},
+  {
+    name: 'Finance',
+    href: '/finance',
+    requiredCapabilities: ['card_issuing', 'treasury'],
+  },
 ];
 const unauthenticatedRoutes: Page[] = [
   {name: 'Sign up', href: '/signup'},
@@ -93,24 +99,35 @@ export const NavBar = () => {
           justifyContent: user ? 'flex-start' : 'flex-end',
         }}
       >
-        {routes.map(({name, href}) => (
-          <Link component={RouterLink} key={name} to={href} underline="none">
-            <Typography
-              textAlign="center"
-              sx={{
-                fontSize: 16,
-                fontWeight: 600,
-                '&:hover': {
-                  color: theme.palette.primary.main,
-                },
-                textDecoration: 'none',
-              }}
-              color={pathname === href ? 'primary' : 'secondary'}
-            >
-              {name}
-            </Typography>
-          </Link>
-        ))}
+        {routes
+          .filter(({requiredCapabilities}) => {
+            if (!requiredCapabilities) {
+              return true;
+            }
+
+            const capabilities = Object.keys(stripeAccount?.capabilities || []);
+            return requiredCapabilities.every((capability) =>
+              capabilities.includes(capability)
+            );
+          })
+          .map(({name, href}) => (
+            <Link component={RouterLink} key={name} to={href} underline="none">
+              <Typography
+                textAlign="center"
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  '&:hover': {
+                    color: theme.palette.primary.main,
+                  },
+                  textDecoration: 'none',
+                }}
+                color={pathname === href ? 'primary' : 'secondary'}
+              >
+                {name}
+              </Typography>
+            </Link>
+          ))}
       </Box>
     );
   };
