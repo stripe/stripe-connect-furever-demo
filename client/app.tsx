@@ -22,6 +22,7 @@ import {Reservations} from './routes/Reservations';
 import {Payments} from './routes/Payments';
 import {PaymentMethods} from './routes/PaymentMethods';
 import {Payouts} from './routes/Payouts';
+import {Finance} from './routes/Finance';
 import {Profile} from './routes/Profile';
 import {NotFound} from './routes/NotFound';
 import {Settings} from './routes/Settings';
@@ -86,6 +87,14 @@ const router = createBrowserRouter([
         element: (
           <AuthenticatedAndOnboardedRoute>
             {() => <Payouts />}
+          </AuthenticatedAndOnboardedRoute>
+        ),
+      },
+      {
+        path: '/finance',
+        element: (
+          <AuthenticatedAndOnboardedRoute>
+            {() => <Finance />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },

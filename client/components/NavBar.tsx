@@ -44,6 +44,7 @@ const authenticatedRoutes: Page[] = [
   {name: 'Reservations', href: '/reservations'},
   {name: 'Payments', href: '/payments'},
   {name: 'Payouts', href: '/payouts'},
+  {name: 'Finance', href: '/finance'},
 ];
 const unauthenticatedRoutes: Page[] = [
   {name: 'Sign up', href: '/signup'},

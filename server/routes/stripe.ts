@@ -175,6 +175,17 @@ function getAccountParams(
     case 'no_dashboard_poll':
       type = 'custom' as const;
       controller = undefined;
+
+      // Issuing and Banking products only work on UA3 aka Custom accounts aka no_dashboard_poll.
+      capabilities = {
+        ...capabilities,
+        card_issuing: {
+          requested: true,
+        },
+        treasury: {
+          requested: true,
+        },
+      };
       break;
     case 'dashboard_soll':
       capabilities = undefined;
@@ -384,6 +395,32 @@ app.post('/create-account', userRequired, async (req, res) => {
           },
         });
       }
+
+      // If the account is no_dashboard_poll, create a financial account.
+      if (accountConfiguration === 'no_dashboard_poll') {
+        const financialAccount = await stripe.treasury.financialAccounts.create(
+          {
+            supported_currencies: ['usd'],
+            features: {
+              card_issuing: {requested: true},
+              deposit_insurance: {requested: true},
+              financial_addresses: {aba: {requested: true}},
+              inbound_transfers: {ach: {requested: true}},
+              intra_stripe_flows: {requested: true},
+              outbound_payments: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+              outbound_transfers: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+            },
+          },
+          {stripeAccount: accountId}
+        );
+        console.log(financialAccount);
+      }
     }
 
     return res.status(200).end();
@@ -425,6 +462,18 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
           enabled: true,
         },
         payment_method_settings: {
+          enabled: true,
+        },
+        issuing_cards_list: {
+          enabled: true,
+        },
+        financial_account: {
+          enabled: true,
+          features: {
+            money_movement: true,
+          },
+        },
+        financial_account_transactions: {
           enabled: true,
         },
       } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
@@ -547,7 +596,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
                 payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
-                statement_descriptor: process.env.APP_NAME,
+                statement_descriptor_suffix: process.env.APP_NAME,
                 confirmation_method: 'manual',
                 confirm: true,
                 ...(status === 'card_uncaptured'
@@ -684,6 +733,34 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
 });
 
 /**
+ * POST /create-payout
+ *
+ * Generate a payout with Stripe for the available balance via POST /v1/payouts
+ */
+app.post('/create-received-credit', stripeAccountRequired, async (req, res) => {
+  console.log(req.body);
+  const user = req.user!;
+  try {
+    await stripe.testHelpers.treasury.receivedCredits.create(
+      {
+        amount: 1000,
+        currency: 'usd',
+        financial_account: req.body.financial_account,
+        network: 'ach',
+      },
+      {
+        stripeAccount: user.stripeAccountId,
+      }
+    );
+    return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
+/**
  * GET /onboarded
  *
  * Returns a boolean indicating whether onboarding has been completed
@@ -741,6 +818,35 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
     });
 
     return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
+app.get('/financial-account', stripeAccountRequired, async (req, res) => {
+  const user = req.user!;
+
+  try {
+    const financialAccounts = await stripe.treasury.financialAccounts.list(
+      {
+        limit: 3,
+      },
+      {
+        stripeAccount: user.stripeAccountId,
+      }
+    );
+
+    if (financialAccounts.data.length === 0) {
+      console.error('No financial accounts found for user');
+      res.status(400);
+      return res.send({error: 'No financial accounts found for user'});
+    }
+
+    res.json({
+      financial_account: financialAccounts.data[0].id,
+    });
   } catch (error: any) {
     console.error(error);
     res.status(500);
