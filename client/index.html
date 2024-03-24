@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@stripe" />
+    <meta name="twitter:title" content="FurEver" />
+    <meta
+      name="twitter:description"
+      content="FurEver is a SaaS platform built on top of Stripe Connect embedded components."
+    />
+    <meta name="twitter:image" content="./favicon.ico" />
+    <title>FurEver</title>
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="./favicon.ico" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-text-size-adjust: none;
+        box-sizing: border-box;
+      }
+
+      body,
+      #root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        min-height: 100vh;
+        min-width: 340px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./app.tsx" type="module"></script>
+  </body>
+</html>
