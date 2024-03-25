@@ -4,7 +4,7 @@ import dbConnect from '@/lib/dbConnect';
 import Studio from '../../../models/studio';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2022-08-01; embedded_connect_beta=v2;unified_accounts_beta=v1',
+  apiVersion: '2023-10-16; embedded_connect_beta=v2;unified_accounts_beta=v1',
 });
 
 export const authOptions = {
