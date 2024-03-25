@@ -286,18 +286,6 @@ app.post('/create-account', userRequired, async (req, res) => {
             : {}),
         },
         business_type: businessType,
-        ...(shouldPrefill
-          ? {
-              settings: {
-                card_payments: {
-                  statement_descriptor_prefix: 'FurEver',
-                },
-                payments: {
-                  statement_descriptor: 'FurEver',
-                },
-              },
-            }
-          : {}),
       };
       if (businessType === 'company') {
         accountParams = Object.assign(accountParams, {
