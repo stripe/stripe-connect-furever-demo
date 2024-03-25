@@ -1,14 +1,14 @@
-import express from 'express';
+import express from "express";
 
 declare global {
   namespace Express {
     export interface User {
-      salon: {
+      studio: {
         license: string;
         name: string;
         specialty: string;
       };
-      type: 'individual' | 'company';
+      type: "individual" | "company";
       country: string;
       id: string;
       email: string;

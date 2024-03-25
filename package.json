@@ -1,77 +1,51 @@
 {
-  "name": "stripe-connect-furever",
-  "description": "A sample on-demand platform running on top of Stripe Connect embedded components.",
-  "version": "1.0.0",
+  "name": "pose",
+  "version": "0.1.0",
   "private": true,
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stripe/stripe-connect-furever.git"
-  },
-  "type": "module",
-  "source": "client/index.html",
   "scripts": {
-    "build": "parcel build client/index.html && yarn typescript",
-    "clean": "rimraf dist .parcel-cache",
-    "dev": "yarn clean && yarn typescript && yarn watch",
-    "server": "node dist/server/server.js",
-    "start": "yarn clean && yarn build && yarn server",
-    "typescript": "yarn tsc",
-    "watch": "concurrently --kill-others \"parcel watch client/index.html\" \"yarn server\"",
-    "validate-change": "yarn build",
-    "validate-changes": "yarn validate-change"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.0",
-    "@mui/system": "^5.12.3",
-    "@stripe/connect-js": "^3.0.0-beta.1",
-    "@stripe/react-connect-js": "^3.0.0-beta.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.1",
-    "debug": "^4.1.1",
-    "dotenv": "^16.0.3",
-    "express": "^4.17.3",
-    "express-session": "^1.17.3",
-    "http-auth": "^4.2.0",
-    "http-auth-connect": "^1.0.6",
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@stripe/connect-js": "^3.2.2-beta-1",
+    "@stripe/react-connect-js": "^3.2.1-beta.1",
+    "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.363.0",
     "mongoose": "^5.11.9",
-    "morgan": "^1.9.1",
-    "passport": "^0.6.0",
+    "next": "14.1.4",
+    "next-auth": "^4.24.7",
+    "next-connect": "^1.0.0",
+    "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.1",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.11.1",
-    "stripe": "13.5.0-beta.1",
-    "typescript": "^4.5.5"
+    "stripe": "^14.22.0",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.0",
-    "@types/bcryptjs": "^2.4.2",
-    "@types/express-session": "^1.17.7",
-    "@types/http-auth": "^4.1.1",
-    "@types/morgan": "^1.9.4",
-    "@types/node": "20.1.0",
-    "@types/passport": "^1.0.12",
-    "@types/passport-local": "^1.0.35",
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^18.2.4",
-    "concurrently": "^8.0.1",
-    "parcel": "^2.8.3",
-    "prettier": "2.5.1",
-    "process": "^0.11.10"
-  },
-  "engines": {
-    "node": ">=14.20.1"
-  },
-  "targets": {
-    "default": {
-      "engines": {
-        "browsers": ">= 50%"
-      }
-    }
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
