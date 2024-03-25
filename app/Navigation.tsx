@@ -14,27 +14,27 @@ import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 const navigationMenuItems = [
   {
     label: 'Home',
-    href: '/dashboard',
+    href: '/',
     icon: HomeIcon,
   },
   {
     label: 'Classes',
-    href: '/dashboard/classes',
+    href: '/classes',
     icon: CalendarIcon,
   },
   {
     label: 'Payments',
-    href: '/dashboard/payments',
+    href: '/payments',
     icon: WalletIcon,
   },
   {
     label: 'Payouts',
-    href: '/dashboard/payouts',
+    href: '/payouts',
     icon: CoinsIcon,
   },
   {
     label: 'Finance',
-    href: '/dashboard/finance',
+    href: '/finance',
     icon: LandmarkIcon,
   },
 ];

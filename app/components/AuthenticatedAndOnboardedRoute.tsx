@@ -2,7 +2,6 @@
 
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import {useOnboarded} from '../hooks/useOnboarded';
 import Navigation from '../Navigation';
 
 export default function AuthenticatedAndOnboardedRoute({
@@ -10,15 +9,14 @@ export default function AuthenticatedAndOnboardedRoute({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {loading, onboarded} = useOnboarded();
   const router = useRouter();
   const {data: session} = useSession();
 
-  if (!session || !session.user || loading) {
+  if (!session || !session.user) {
     return null;
   }
 
-  if (!onboarded) {
+  if (!session.user.stripeAccount.details_submitted) {
     router.push('/onboarding');
   }
 

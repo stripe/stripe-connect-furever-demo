@@ -10,7 +10,7 @@ import {
 
 export default function Onboarding() {
   const router = useRouter();
-  const {data: session} = useSession();
+  const {data: session, update} = useSession();
   const {hasError, stripeConnectInstance} = useConnect();
 
   if (!session || !session.user) {
@@ -29,7 +29,8 @@ export default function Onboarding() {
     <>
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
         <ConnectAccountOnboarding
-          onExit={() => {
+          onExit={async () => {
+            await update();
             router.push('/');
           }}
         />

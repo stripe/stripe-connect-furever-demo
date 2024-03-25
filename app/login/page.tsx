@@ -1,14 +1,14 @@
-import React from "react";
-import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import Form from "./form";
+import React from 'react';
+import Link from 'next/link';
+import {getServerSession} from 'next-auth';
+import {redirect} from 'next/navigation';
+import Form from './form';
 
 export default async function Signup() {
   const session = await getServerSession();
 
   if (session) {
-    redirect("/");
+    redirect('/');
   }
 
   return (
@@ -22,7 +22,10 @@ export default async function Signup() {
       <div className="bg-white p-4 space-y-4 rounded-xl min-w-96">
         <h2 className="text-2xl font-bold">Login</h2>
         <div>
-          Don&apos;t have an account? <Link href="/signup">Register</Link>
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="text-primary">
+            Register
+          </Link>
         </div>
         <Form />
       </div>
