@@ -54,7 +54,7 @@ export const useConnect = () => {
     if (stripeConnectInstance) {
       stripeConnectInstance.update({
         appearance: {
-          overlays: 'drawer',
+          overlays: 'dialog',
           variables: appearanceVariables,
         },
       });
@@ -66,7 +66,7 @@ export const useConnect = () => {
       // @ts-ignore
       publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
       appearance: {
-        overlays: 'drawer',
+        overlays: 'dialog',
         variables: appearanceVariables,
       },
       fetchClientSecret: async () => {

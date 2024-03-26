@@ -1,9 +1,12 @@
+import React from 'react';
+import Container from './Container';
+
 const Widget = () => {
   return (
-    <div className="bg-white shadow-md p-4 rounded-xl space-y-4">
+    <Container>
       <h1>Header</h1>
       <p>Subheader</p>
-    </div>
+    </Container>
   );
 };
 

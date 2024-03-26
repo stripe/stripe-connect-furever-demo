@@ -10,6 +10,7 @@ import {
 } from '@stripe/react-connect-js';
 import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
 import SubNav from '../components/SubNav';
+import Container from '../components/Container';
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -86,26 +87,26 @@ const ConnectCapitalOverview = () => {
 const renderTransactions = (financialAccount: string) => {
   return (
     <>
-      <div className="bg-white p-8 rounded-lg mb-6">
-        <h1 className="text-lg font-bold mb-6">Financial account</h1>
+      <Container>
+      <h1 className="text-lg font-bold mb-6">Financial account</h1>
         <ConnectFinancialAccount financialAccount={financialAccount} />
-      </div>
-      <div className="bg-white p-8 rounded-lg mb-6">
-        <h1 className="text-lg font-bold">Recent transactions</h1>
+      </Container>
+      <Container>
+        <h1 className="text-lg font-bold">Transactions</h1>
         <ConnectFinancialAccountTransactions
           financialAccount={financialAccount}
         />
-      </div>
+      </Container>
     </>
   );
 };
 
 const renderCards = () => {
   return (
-    <div className="bg-white p-8 rounded-lg mb-6">
-      <h1 className="text-lg font-bold">Cards</h1>
+    <Container>
+      <h1 className="text-lg font-bold mb-6">Cards</h1>
       <ConnectIssuingCardsList />
-    </div>
+    </Container>
   );
 };
 
@@ -119,11 +120,8 @@ const renderLoans = () => {
 
 export default function Finances() {
   const {hasError, stripeConnectInstance} = useConnect();
-  const {
-    loading,
-    financialAccount,
-    error: useFinancialAccountError,
-  } = useFinancialAccount();
+  const {financialAccount, error: useFinancialAccountError, loading} =
+    useFinancialAccount();
 
   const [subpage, setSubpage] = useState('transactions');
 

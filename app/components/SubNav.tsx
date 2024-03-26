@@ -19,7 +19,9 @@ export default function SubNav({items, page, setPage}: SubNavProps) {
           key={key}
           onClick={() => setPage(key)}
           variant={`${page !== key ? 'ghost' : 'default'}`}
-          className={`${page === key ? 'bg-white text-primary' : ''} font-bold`}
+          className={`${
+            page === key ? 'bg-white text-primary shadow-md' : ''
+          } font-bold`}
         >
           {label}
         </Button>

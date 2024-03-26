@@ -1,4 +1,5 @@
 import studios from '../data/studios.json';
+import Container from './Container';
 
 const SCHEDULE_HEIGHT = 1296;
 const MINUTES_IN_BUSINESS_DAY = 540;
@@ -27,7 +28,7 @@ const renderHourBlock = (hour: string) => {
 
 const Schedule = () => {
   return (
-    <div className="bg-white shadow-md p-4 rounded-xl space-y-8">
+    <Container>
       <div className="flex flex-row justify-between">
         <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
         <div className="text-primary font-bold">{getCurrentDate()}</div>
@@ -108,7 +109,7 @@ const Schedule = () => {
           })}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
