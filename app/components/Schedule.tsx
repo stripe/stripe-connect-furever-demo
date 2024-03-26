@@ -3,6 +3,16 @@ import studios from '../data/studios.json';
 const SCHEDULE_HEIGHT = 1296;
 const MINUTES_IN_BUSINESS_DAY = 540;
 
+const getCurrentDate = () => {
+  const currentDate = new Date();
+  const options = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  } as Intl.DateTimeFormatOptions;
+  return currentDate.toLocaleDateString('en-US', options);
+};
+
 const renderHourBlock = (hour: string) => {
   return (
     <div className="flex flex-row h-36">
@@ -20,7 +30,7 @@ const Schedule = () => {
     <div className="bg-white shadow-md p-4 rounded-xl space-y-8">
       <div className="flex flex-row justify-between">
         <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
-        <div className="text-primary font-bold">Saturday, March 3</div>
+        <div className="text-primary font-bold">{getCurrentDate()}</div>
       </div>
       <div className="flex flex-row ml-20">
         {studios.map(({id: studioId, name}) => (
