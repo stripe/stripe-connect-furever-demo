@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1",
+    "name": "Studio 1",
+    "classes": [
+      {
+        "id": 1,
+        "name": "Gentle flow",
+        "startTime": "9:30am",
+        "endTime": "10:20am",
+        "startTimeMinutes": 30,
+        "endTimeMinutes": 80,
+        "teacher": "Ari K.",
+        "attendees": 15,
+        "capacity": 15
+      },
+      {
+        "id": 2,
+        "name": "Yoga Basics - Intermediate",
+        "startTime": "10:30am",
+        "endTime": "11:20am",
+        "startTimeMinutes": 90,
+        "endTimeMinutes": 140,
+        "teacher": "Erica L.",
+        "attendees": 12,
+        "capacity": 15
+      },
+      {
+        "id": 3,
+        "name": "Mindful Movement",
+        "startTime": "1:00pm",
+        "endTime": "1:50pm",
+        "startTimeMinutes": 240,
+        "endTimeMinutes": 290,
+        "teacher": "Lee Y.",
+        "attendees": 9,
+        "capacity": 15
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Studio 2",
+    "classes": [
+      {
+        "id": 1,
+        "name": "Yoga Basics - Beginner",
+        "startTime": "10:00am",
+        "endTime": "10:45am",
+        "startTimeMinutes": 60,
+        "endTimeMinutes": 105,
+        "teacher": "Jenny P.",
+        "attendees": 17,
+        "capacity": 18
+      },
+      {
+        "id": 2,
+        "name": "Core Strength Yoga",
+        "startTime": "11:00am",
+        "endTime": "11:50am",
+        "startTimeMinutes": 120,
+        "endTimeMinutes": 170,
+        "teacher": "Kenny F.",
+        "attendees": 12,
+        "capacity": 18
+      },
+      {
+        "id": 3,
+        "name": "Yoga Basics - Beginner",
+        "startTime": "12:00pm",
+        "endTime": "12:50pm",
+        "startTimeMinutes": 180,
+        "endTimeMinutes": 230,
+        "teacher": "Rachel G.",
+        "attendees": 10,
+        "capacity": 18
+      }
+    ]
+  }
+]
