@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route";
+import {getServerSession} from 'next-auth/next';
+import {authOptions} from '@/lib/auth';
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2022-08-01; embedded_connect_beta=v2",
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2022-08-01; embedded_connect_beta=v2',
 });
 
 export async function POST() {
@@ -26,12 +26,12 @@ export async function POST() {
           },
         },
         // Connect
-        account_management: { enabled: true },
-        account_onboarding: { enabled: true },
+        account_management: {enabled: true},
+        account_onboarding: {enabled: true},
         // apps: { enabled: true },
-        payment_method_settings: { enabled: true },
+        payment_method_settings: {enabled: true},
         // InB
-        issuing_cards_list: { enabled: true },
+        issuing_cards_list: {enabled: true},
         financial_account: {
           enabled: true,
           features: {
@@ -51,13 +51,13 @@ export async function POST() {
       JSON.stringify({
         client_secret: accountSession.client_secret,
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      {status: 200, headers: {'Content-Type': 'application/json'}}
     );
   } catch (error: any) {
     console.error(
-      "An error occurred when calling the Stripe API to create an account session",
+      'An error occurred when calling the Stripe API to create an account session',
       error
     );
-    return new Response(error.message, { status: 500 });
+    return new Response(error.message, {status: 500});
   }
 }
