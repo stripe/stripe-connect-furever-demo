@@ -35,7 +35,7 @@ const useFinancialAccount = () => {
   return {loading, financialAccount, error};
 };
 
-const ConnectFinancialAccountComponent = ({
+const ConnectFinancialAccount = ({
   financialAccount,
 }: {
   financialAccount: string;
@@ -54,7 +54,7 @@ const ConnectFinancialAccountComponent = ({
   return wrapper;
 };
 
-const ConnectFinancialAccountTransactionsComponent = ({
+const ConnectFinancialAccountTransactions = ({
   financialAccount,
 }: {
   financialAccount: string;
@@ -74,15 +74,25 @@ const ConnectFinancialAccountTransactionsComponent = ({
   return wrapper;
 };
 
+const ConnectCapitalOverview = () => {
+  const {wrapper} = useCreateComponent(
+    // @ts-ignore
+    'stripe-connect-capital-overview'
+  );
+
+  return wrapper;
+};
+
 const renderTransactions = (financialAccount: string) => {
   return (
     <>
       <div className="bg-white p-8 rounded-lg mb-6">
-        <ConnectFinancialAccountComponent financialAccount={financialAccount} />
+        <h1 className="text-lg font-bold mb-6">Financial account</h1>
+        <ConnectFinancialAccount financialAccount={financialAccount} />
       </div>
       <div className="bg-white p-8 rounded-lg mb-6">
-        <h1 className="text-lg font-bold">Transactions</h1>
-        <ConnectFinancialAccountTransactionsComponent
+        <h1 className="text-lg font-bold">Recent transactions</h1>
+        <ConnectFinancialAccountTransactions
           financialAccount={financialAccount}
         />
       </div>
@@ -93,12 +103,21 @@ const renderTransactions = (financialAccount: string) => {
 const renderCards = () => {
   return (
     <div className="bg-white p-8 rounded-lg mb-6">
+      <h1 className="text-lg font-bold">Cards</h1>
       <ConnectIssuingCardsList />
     </div>
   );
 };
 
-export default function Finance() {
+const renderLoans = () => {
+  return (
+    <div className="bg-white p-8 rounded-lg mb-6">
+      <ConnectCapitalOverview />
+    </div>
+  );
+};
+
+export default function Finances() {
   const {hasError, stripeConnectInstance} = useConnect();
   const {
     loading,
@@ -118,11 +137,12 @@ export default function Finance() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <h1 className="text-3xl font-bold">Finance</h1>
+      <h1 className="text-3xl font-bold">Finances</h1>
       <SubNav
         items={[
           {key: 'transactions', label: 'Transactions'},
           {key: 'cards', label: 'Cards'},
+          {key: 'loans', label: 'Loans'},
         ]}
         page={subpage}
         setPage={setSubpage}
@@ -132,6 +152,7 @@ export default function Finance() {
           financialAccount &&
           renderTransactions(financialAccount)}
         {subpage === 'cards' && renderCards()}
+        {subpage === 'loans' && renderLoans()}
       </ConnectComponentsProvider>
     </AuthenticatedAndOnboardedRoute>
   );
