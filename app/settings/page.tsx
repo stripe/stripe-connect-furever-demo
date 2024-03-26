@@ -10,6 +10,7 @@ import {
 } from '@stripe/react-connect-js';
 import {Button} from '@/components/ui/button';
 import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
+import SubNav from '../components/SubNav';
 
 const renderSettings = () => {
   return (
@@ -82,33 +83,25 @@ export default function Settings() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <div className="mb-6 flex space-x-1">
-        <Button
-          onClick={() => setSubpage('settings')}
-          variant={`${subpage !== 'settings' ? 'ghost' : 'default'}`}
-          className={`${subpage === 'settings' ? 'bg-white text-primary' : ''}`}
-        >
-          Settings
-        </Button>
-        <Button
-          onClick={() => setSubpage('paymentMethods')}
-          variant={`${subpage !== 'paymentMethods' ? 'ghost' : 'default'}`}
-          className={`${
-            subpage === 'paymentMethods' ? 'bg-white text-primary' : ''
-          }`}
-        >
-          Payment methods
-        </Button>
-        <Button
-          onClick={() => setSubpage('apps')}
-          variant={`${subpage !== 'apps' ? 'ghost' : 'default'}`}
-          className={`${subpage === 'apps' ? 'bg-white text-primary' : ''}`}
-        >
-          Apps
-        </Button>
-        <Button className="self-end" variant="ghost" onClick={() => signOut()}>
-          Sign out
-        </Button>
+      <div className="flex flex-row justify-between">
+        <SubNav
+          items={[
+            {key: 'settings', label: 'Settings'},
+            {key: 'paymentMethods', label: 'Payment methods'},
+            {key: 'apps', label: 'Apps'},
+          ]}
+          page={subpage}
+          setPage={setSubpage}
+        />
+        <div>
+          <Button
+            className="self-end"
+            variant="ghost"
+            onClick={() => signOut()}
+          >
+            Sign out
+          </Button>
+        </div>
       </div>
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
         {subpage === 'settings' && renderSettings()}
