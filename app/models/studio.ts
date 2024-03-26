@@ -1,12 +1,38 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
-const studioSchemaName = "StudioV1";
+const studioSchemaName = 'StudioV1';
+
+interface IStudio extends Document {
+  email: string;
+  password: string;
+  type: 'individual' | 'company' | 'non_profit' | 'government_entity' | 'other';
+  firstName: string;
+  lastName: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  state: string;
+  country: string;
+  created: Date;
+  studio: {
+    name: string;
+    license: string;
+    specialty: string;
+  };
+  // Stripe account ID to send payments obtained with Stripe Connect.
+  stripeAccountId: string;
+  // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
+  accountConfig: string;
+
+  generateHash: (password: string) => string;
+  validatePassword: (password: string) => boolean;
+}
 
 // Define the Salon schema.
-const StudioSchema = new Schema({
+const StudioSchema = new Schema<IStudio>({
   email: {
     type: String,
     required: true,
@@ -14,7 +40,7 @@ const StudioSchema = new Schema({
     validate: {
       // Custom validator to check if the email was already used.
       validator: StudioEmailValidator,
-      message: "This email already exists. Please try to log in instead.",
+      message: 'This email already exists. Please try to log in instead.',
     },
   },
   password: {
@@ -23,17 +49,17 @@ const StudioSchema = new Schema({
   },
   type: {
     type: String,
-    default: "individual",
-    enum: ["individual", "company", "non_profit", "government_entity", "other"],
+    default: 'individual',
+    enum: ['individual', 'company', 'non_profit', 'government_entity', 'other'],
   },
   firstName: String,
   lastName: String,
   address: String,
   postalCode: String,
   city: String,
-  state: { type: String },
-  country: { type: String, default: "US" },
-  created: { type: Date, default: Date.now },
+  state: {type: String},
+  country: {type: String, default: 'US'},
+  created: {type: Date, default: Date.now},
   studio: {
     name: String,
     license: String,
@@ -51,9 +77,9 @@ function StudioEmailValidator(email: string) {
   return new Promise((resolve, reject) => {
     // Only check model updates for new salons (or if the email address is updated).
     // @ts-ignore - 'this' implicitly has type 'any' because it does not have a type annotation.ts(2683)
-    if (this.isNew || this.isModified("email")) {
+    if (this.isNew || this.isModified('email')) {
       // Try to find a matching salon
-      Studio.findOne({ email }).exec((err, studio) => {
+      Studio.findOne({email}).exec((err, studio) => {
         // Handle errors
         if (err) {
           console.log(err);
@@ -84,9 +110,9 @@ StudioSchema.methods.validatePassword = function (password) {
 };
 
 // Pre-save hook to define some default properties for salons.
-StudioSchema.pre("save", function (next) {
+StudioSchema.pre('save', function (next) {
   // Make sure the password is hashed before being stored.
-  if (this.isModified("password")) {
+  if (this.isModified('password')) {
     this.password = this.generateHash(this.password);
   }
   next();
