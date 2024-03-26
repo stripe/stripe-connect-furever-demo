@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import Navigation from '../Navigation';
+import Nav from './Nav';
 
 export default function AuthenticatedRoute({
   children,
@@ -17,7 +17,7 @@ export default function AuthenticatedRoute({
 
   return (
     <div className="flex h-full min-h-screen">
-      <Navigation />
+      <Nav />
       <div className="bg-secondary p-8 ml-64 flex-1 space-y-8">{children}</div>
     </div>
   );

@@ -9,6 +9,7 @@ import {
   useAttachAttribute,
 } from '@stripe/react-connect-js';
 import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
+import SubNav from '../components/SubNav';
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -73,6 +74,30 @@ const ConnectFinancialAccountTransactionsComponent = ({
   return wrapper;
 };
 
+const renderTransactions = (financialAccount: string) => {
+  return (
+    <>
+      <div className="bg-white p-8 rounded-lg mb-6">
+        <ConnectFinancialAccountComponent financialAccount={financialAccount} />
+      </div>
+      <div className="bg-white p-8 rounded-lg mb-6">
+        <h1 className="text-lg font-bold">Transactions</h1>
+        <ConnectFinancialAccountTransactionsComponent
+          financialAccount={financialAccount}
+        />
+      </div>
+    </>
+  );
+};
+
+const renderCards = () => {
+  return (
+    <div className="bg-white p-8 rounded-lg mb-6">
+      <ConnectIssuingCardsList />
+    </div>
+  );
+};
+
 export default function Finance() {
   const {hasError, stripeConnectInstance} = useConnect();
   const {
@@ -80,6 +105,8 @@ export default function Finance() {
     financialAccount,
     error: useFinancialAccountError,
   } = useFinancialAccount();
+
+  const [subpage, setSubpage] = useState('transactions');
 
   if (useFinancialAccountError) {
     return null;
@@ -92,26 +119,19 @@ export default function Finance() {
   return (
     <AuthenticatedAndOnboardedRoute>
       <h1 className="text-3xl font-bold">Finance</h1>
+      <SubNav
+        items={[
+          {key: 'transactions', label: 'Transactions'},
+          {key: 'cards', label: 'Cards'},
+        ]}
+        page={subpage}
+        setPage={setSubpage}
+      />
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-        {financialAccount && !loading && (
-          <>
-            <div className="bg-white p-8 rounded-lg mb-6">
-              <ConnectFinancialAccountComponent
-                financialAccount={financialAccount}
-              />
-            </div>
-            <div className="bg-white p-8 rounded-lg mb-6">
-              <h1 className="text-lg font-bold">Recent transactions</h1>
-              <ConnectFinancialAccountTransactionsComponent
-                financialAccount={financialAccount}
-              />
-            </div>
-            <div className="bg-white p-8 rounded-lg mb-6">
-              <h1 className="text-lg font-bold">Cards</h1>
-              <ConnectIssuingCardsList />
-            </div>
-          </>
-        )}
+        {subpage === 'transactions' &&
+          financialAccount &&
+          renderTransactions(financialAccount)}
+        {subpage === 'cards' && renderCards()}
       </ConnectComponentsProvider>
     </AuthenticatedAndOnboardedRoute>
   );

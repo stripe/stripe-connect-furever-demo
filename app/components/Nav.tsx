@@ -39,7 +39,7 @@ const navigationMenuItems = [
   },
 ];
 
-const Navigation = () => {
+const Nav = () => {
   const pathname = usePathname();
 
   return (
@@ -92,4 +92,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Nav;
