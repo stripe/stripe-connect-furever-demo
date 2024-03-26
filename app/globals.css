@@ -7,6 +7,8 @@
     --background: 0 0% 100%;
     --foreground: white;
 
+    --offset: #f5f6f8;
+
     --subdued: #596171;
 
     --card: 0 0% 100%;
@@ -18,8 +20,8 @@
     --primary: #f26552;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: #fff5e5;
+    --secondary-foreground: black;
 
     --radius: 0.5rem;
   }
