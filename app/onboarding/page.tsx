@@ -2,6 +2,7 @@
 
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
+import {useEffect} from 'react';
 import {useConnect} from '../hooks/useConnect';
 import {
   ConnectComponentsProvider,
@@ -13,16 +14,18 @@ export default function Onboarding() {
   const {data: session, update} = useSession();
   const {hasError, stripeConnectInstance} = useConnect();
 
+  useEffect(() => {
+    if (session?.user?.stripeAccount?.details_submitted === false) {
+      router.push('/onboarding');
+    }
+  });
+
   if (!session || !session.user) {
     return null;
   }
 
   if (hasError || !stripeConnectInstance) {
     return null;
-  }
-
-  if (session?.user?.stripeAccount?.details_submitted) {
-    router.push('/');
   }
 
   return (
