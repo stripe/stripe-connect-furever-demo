@@ -17,6 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Pose</title>
+      </head>
       <body
         className={cn(
           'min-h-screen bg-secondary font-sans antialiased',
