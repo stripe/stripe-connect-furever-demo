@@ -156,14 +156,6 @@ export const authOptions: AuthOptions = {
               },
             },
             business_type: 'company',
-            settings: {
-              card_payments: {
-                statement_descriptor_prefix: 'posepose',
-              },
-              payments: {
-                statement_descriptor: 'posepose',
-              },
-            },
             company: {
               name: 'Pose',
               address: {
