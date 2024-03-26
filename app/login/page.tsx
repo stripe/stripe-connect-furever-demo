@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
 import {ArrowRight} from 'lucide-react';
@@ -14,7 +15,8 @@ export default async function Signup() {
 
   return (
     <div className="flex justify-center items-center min-h-screen space-x-20">
-      <div className="max-w-sm  space-y-4">
+      <div className="max-w-sm  space-y-8">
+        <Image src="pose_red.svg" alt="Pose" width={150} height={23} />
         <h1 className="text-4xl font-bold">
           Manage your fitness studio with ease
         </h1>

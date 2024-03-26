@@ -46,7 +46,7 @@ const Navigation = () => {
     <div className="p-3 bg-primary fixed w-64 h-screen">
       <Image
         className="p-5"
-        src="pose.svg"
+        src="pose_light.svg"
         alt="Pose"
         width={150}
         height={23}
