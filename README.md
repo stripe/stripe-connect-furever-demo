@@ -10,7 +10,27 @@ This demo is built with
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies using npm (or yarn):
+
+```
+npm install
+```
+
+Copy the environment file and add your own [Stripe API keys](https://dashboard.stripe.com/account/apikeys):
+
+```
+cp .env.example .env.local
+```
+
+Install MongoDB Community Edition. Refer to the [official documentation](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/). Then, run MongoDB:
+
+```
+brew tap mongodb/brew && brew update
+brew install mongodb-community@7.0
+brew services start mongodb-community@7.0
+```
+
+Run the app:
 
 ```bash
 npm run dev

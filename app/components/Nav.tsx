@@ -1,3 +1,4 @@
+import {signOut} from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
@@ -50,6 +51,7 @@ const Nav = () => {
         alt="Pose"
         width={150}
         height={23}
+        onClick={() => signOut({callbackUrl: ''})}
       />
       <nav>
         <ul className="flex-col items-start space-x-0">

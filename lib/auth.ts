@@ -1,7 +1,7 @@
 import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
-import Studio from '../app/models/studio';
+import Studio, {IStudio} from '../app/models/studio';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16; embedded_connect_beta=v2;unified_accounts_beta=v1',
@@ -18,10 +18,18 @@ export const authOptions: AuthOptions = {
   callbacks: {
     // @ts-ignore
     async session({session, user}) {
-      await dbConnect();
-      const studio = await Studio.findOne({email: session.user?.email});
+      try {
+        await dbConnect();
+      } catch (err) {
+        console.error('Could not connect to the db');
+        return null;
+      }
 
+      const studio: IStudio = await Studio.findOne({
+        email: session.user?.email,
+      });
       if (!studio) {
+        console.log('Could not find a user for email in login');
         return null;
       }
 
@@ -29,8 +37,10 @@ export const authOptions: AuthOptions = {
         studio.stripeAccountId
       );
 
-      // @ts-ignore
       session.user.stripeAccount = stripeAccount;
+      console.log(
+        `Got session for user ${studio.email} and stripe account ${stripeAccount.id}`
+      );
 
       return session;
     },
@@ -46,13 +56,16 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await dbConnect();
 
-        let user;
+        let user: IStudio | null = null;
         try {
           const email = credentials?.email;
           const password = credentials?.password;
+          if (!email) {
+            console.log('Could not find an email for provider');
+            return null;
+          }
 
           user = await Studio.findOne({email});
-
           if (!user) {
             return null;
           }
@@ -61,11 +74,12 @@ export const authOptions: AuthOptions = {
             return null;
           }
         } catch (err) {
+          console.warn('Got an error authorizing a user during login', err);
           return null;
         }
 
         return {
-          id: user.id,
+          id: user.stripeAccountId,
           email: user.email,
         };
       },
@@ -79,15 +93,23 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials, req) {
         await dbConnect();
+        console.log('Signing up');
 
         const email = credentials?.email;
         const password = credentials?.password;
+        if (!email) {
+          console.log('Could not find an email for authorization');
+          return null;
+        }
 
-        let user;
+        let user: IStudio | null = null;
         try {
           // Look for existing user.
           user = await Studio.findOne({email});
-          if (user) return null;
+          if (user) {
+            console.log('Found an existing user, cannot sign up again');
+            return null;
+          }
 
           const firstName = 'Steve';
           const lastName = 'Kaliski';
@@ -114,6 +136,8 @@ export const authOptions: AuthOptions = {
           //     type: "none" as const, // The connected account will not have access to dashboard
           //   },
           // };
+
+          console.log('Creating stripe account for the email', email);
 
           const account = await stripe.accounts.create({
             type: 'custom',
@@ -156,14 +180,6 @@ export const authOptions: AuthOptions = {
               },
             },
             business_type: 'company',
-            settings: {
-              card_payments: {
-                statement_descriptor_prefix: 'posepose',
-              },
-              payments: {
-                statement_descriptor: 'posepose',
-              },
-            },
             company: {
               name: 'Pose',
               address: {
@@ -181,8 +197,16 @@ export const authOptions: AuthOptions = {
             },
           });
 
-          user = new Studio({email, password, stripeAccountId: account.id});
-          await user.save();
+          user = new Studio({
+            email,
+            password,
+            firstName,
+            lastName,
+            stripeAccountId: account.id,
+          });
+          console.log('Creating Studio...');
+          await user!.save();
+          console.log('Studio was created');
 
           await stripe.accounts.createPerson(account.id, {
             first_name: firstName,
@@ -234,12 +258,16 @@ export const authOptions: AuthOptions = {
             {stripeAccount: account.id}
           );
         } catch (error: any) {
+          console.log(
+            'Got an error authorizing and creating a user during signup',
+            error
+          );
           return null;
         }
 
         return {
-          id: user.id,
-          email: user.email,
+          id: user!.stripeAccountId,
+          email: user!.email,
         };
       },
     }),

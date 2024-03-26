@@ -5,30 +5,21 @@ const Schema = mongoose.Schema;
 
 const studioSchemaName = 'StudioV1';
 
-interface IStudio extends Document {
+export interface IStudio extends Document {
   email: string;
   password: string;
-  type: 'individual' | 'company' | 'non_profit' | 'government_entity' | 'other';
+
   firstName: string;
   lastName: string;
-  address: string;
-  postalCode: string;
-  city: string;
-  state: string;
-  country: string;
-  created: Date;
-  studio: {
-    name: string;
-    license: string;
-    specialty: string;
-  };
+
   // Stripe account ID to send payments obtained with Stripe Connect.
   stripeAccountId: string;
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: string;
 
   generateHash: (password: string) => string;
-  validatePassword: (password: string) => boolean;
+  validatePassword: (password?: string) => boolean;
+  save: () => Promise<void>;
 }
 
 // Define the Salon schema.
@@ -47,24 +38,8 @@ const StudioSchema = new Schema<IStudio>({
     type: String,
     required: true,
   },
-  type: {
-    type: String,
-    default: 'individual',
-    enum: ['individual', 'company', 'non_profit', 'government_entity', 'other'],
-  },
   firstName: String,
   lastName: String,
-  address: String,
-  postalCode: String,
-  city: String,
-  state: {type: String},
-  country: {type: String, default: 'US'},
-  created: {type: Date, default: Date.now},
-  studio: {
-    name: String,
-    license: String,
-    specialty: String,
-  },
   // Stripe account ID to send payments obtained with Stripe Connect.
   stripeAccountId: String,
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
