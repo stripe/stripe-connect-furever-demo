@@ -65,6 +65,8 @@ cp .env.example .env
 Install MongoDB Community Edition. Refer to the [official documentation](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/). Then, run MongoDB:
 
 ```
+brew tap mongodb/brew
+brew install mongodb-community@6.0
 brew services start mongodb-community@6.0
 ```
 
