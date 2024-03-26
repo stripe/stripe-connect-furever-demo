@@ -7,8 +7,15 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 export async function POST() {
   try {
-    // @ts-ignore
     const session = await getServerSession(authOptions);
+    if (!session?.user?.stripeAccount?.id) {
+      return new Response(
+        JSON.stringify({
+          error: 'No Stripe account found for this user',
+        }),
+        {status: 400}
+      );
+    }
 
     const accountSession = await stripe.accountSessions.create({
       account: session?.user?.stripeAccount?.id,
@@ -58,6 +65,6 @@ export async function POST() {
       'An error occurred when calling the Stripe API to create an account session',
       error
     );
-    return new Response(error.message, {status: 500});
+    return new Response(JSON.stringify({error: error.message}), {status: 500});
   }
 }

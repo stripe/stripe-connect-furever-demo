@@ -95,11 +95,12 @@ export default function SignupForm() {
           type="submit"
           className={'bg-primary text-white p-2 rounded-md w-full font-bold'}
         >
-          {!form.formState.isSubmitting && <>Continue</>}
-          {form.formState.isSubmitting && (
+          {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
             </>
+          ) : (
+            <>Continue</>
           )}
         </Button>
       </form>
