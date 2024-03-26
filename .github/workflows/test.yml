@@ -1,9 +1,20 @@
 name: build
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+env:
+  STRIPE_SECRET_KEY: sk_secret_key
+  STRIPE_PUBLIC_KEY: pk_pub_key
+  NEXT_PUBLIC_STRIPE_PUBLIC_KEY: pk_pub_key
+  APP_NAME: Pose
+  PORT: 3000
+  SECRET: S3cr3t
+  MONGO_URI: mongodb://localhost/pose
+
 jobs:
   test:
     runs-on: ubuntu-latest
