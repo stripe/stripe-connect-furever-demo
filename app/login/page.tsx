@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
+import {ArrowRight} from 'lucide-react';
 import Form from './form';
 
 export default async function Signup() {
@@ -19,12 +20,13 @@ export default async function Signup() {
         </h1>
         <p>Pose is the world&apos;s leading health and wellness platform.</p>
       </div>
-      <div className="bg-white p-4 space-y-4 rounded-xl min-w-96">
+      <div className="bg-white p-4 space-y-4 rounded-xl min-w-96 shadow-2xl">
         <h2 className="text-2xl font-bold">Login</h2>
         <div>
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-primary">
-            Register
+          <Link href="/signup" className="text-primary font-bold">
+            Register{' '}
+            <ArrowRight className="inline w-4 mb-0.5" strokeWidth={2.5} />
           </Link>
         </div>
         <Form />
