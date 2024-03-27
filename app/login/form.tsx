@@ -39,8 +39,10 @@ export default function SignupForm() {
       await signIn('login', {
         email: values.email,
         password: values.password,
-        redirect: true,
+        redirect: false,
       });
+
+      router.push('/');
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
     }
