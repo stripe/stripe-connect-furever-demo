@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 
 declare global {
   namespace Express {
@@ -8,7 +8,7 @@ declare global {
         name: string;
         specialty: string;
       };
-      type: "individual" | "company";
+      type: 'individual' | 'company';
       country: string;
       id: string;
       email: string;
