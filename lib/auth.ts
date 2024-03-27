@@ -14,6 +14,7 @@ export const authOptions: AuthOptions = {
 
   pages: {
     signIn: '/login',
+    signOut: '/',
   },
   callbacks: {
     // @ts-ignore
