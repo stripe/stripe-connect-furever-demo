@@ -6,6 +6,7 @@ import {
   ConnectPayouts,
 } from '@stripe/react-connect-js';
 import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
+import Container from '../components/Container';
 
 export default function Payouts() {
   const {hasError, stripeConnectInstance} = useConnect();
@@ -17,11 +18,11 @@ export default function Payouts() {
   return (
     <AuthenticatedAndOnboardedRoute>
       <h1 className="text-3xl font-bold">Payouts</h1>
-      <div className="bg-white p-8 rounded-lg mb-6">
+      <Container>
         <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
           <ConnectPayouts />
         </ConnectComponentsProvider>
-      </div>
+      </Container>
     </AuthenticatedAndOnboardedRoute>
   );
 }

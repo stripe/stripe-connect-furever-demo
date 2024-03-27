@@ -11,11 +11,12 @@ import {
 import {Button} from '@/components/ui/button';
 import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
 import SubNav from '../components/SubNav';
+import Container from '../components/Container';
 
 const renderSettings = () => {
   return (
     <>
-      <div className="bg-white p-4 rounded-lg mb-6 space-y-4">
+      <Container>
         <h1 className="text-xl font-semibold">Basic details</h1>
         <div className="flex flex-row space-x-12">
           <div>
@@ -31,8 +32,8 @@ const renderSettings = () => {
             <div>Greatest Yoga Studio</div>
           </div>
         </div>
-      </div>
-      <div className="bg-white p-4 rounded-lg mb-6">
+      </Container>
+      <Container>
         <header className="mb-8">
           <h1 className="text-xl font-semibold">Account settings</h1>
           <h2 className="text-sm">
@@ -41,7 +42,7 @@ const renderSettings = () => {
           </h2>
         </header>
         <ConnectAccountManagement />
-      </div>
+      </Container>
     </>
   );
 };
