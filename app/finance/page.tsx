@@ -108,7 +108,7 @@ export default function Finance() {
 
   const [subpage, setSubpage] = useState('transactions');
 
-  if (useFinancialAccountError) {
+  if (useFinancialAccountError || loading) {
     return null;
   }
 
