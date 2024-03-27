@@ -9,9 +9,9 @@ import {
   ConnectPaymentMethodSettings,
 } from '@stripe/react-connect-js';
 import {Button} from '@/components/ui/button';
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
-import SubNav from '../components/SubNav';
-import Container from '../components/Container';
+import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
+import SubNav from '@/app/components/SubNav';
+import Container from '@/app/components/Container';
 
 const renderSettings = () => {
   return (

@@ -1,8 +1,8 @@
 'use client';
 
-import AuthenticatedRoute from './components/AuthenticatedRoute';
-import Schedule from './components/Schedule';
-import Widget from './components/Widget';
+import AuthenticatedRoute from '@/app/components/AuthenticatedRoute';
+import Schedule from '@/app/components/Schedule';
+import Widget from '@/app/components/Widget';
 
 export default function Dashboard() {
   return (
