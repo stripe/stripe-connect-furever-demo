@@ -1,16 +1,16 @@
 'use client';
 
 import React, {useState, useEffect} from 'react';
-import {useConnect} from '../../hooks/useConnect';
+import {useConnect} from '../hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectIssuingCardsList,
   useCreateComponent,
   useAttachAttribute,
 } from '@stripe/react-connect-js';
-import AuthenticatedAndOnboardedRoute from '../../components/AuthenticatedAndOnboardedRoute';
-import SubNav from '../../components/SubNav';
-import Container from '../../components/Container';
+import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
+import SubNav from '../components/SubNav';
+import Container from '../components/Container';
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -88,7 +88,7 @@ const renderTransactions = (financialAccount: string) => {
   return (
     <>
       <Container>
-        <h1 className="text-lg font-bold mb-6">Financial account</h1>
+      <h1 className="text-lg font-bold mb-6">Financial account</h1>
         <ConnectFinancialAccount financialAccount={financialAccount} />
       </Container>
       <Container>
@@ -120,11 +120,8 @@ const renderLoans = () => {
 
 export default function Finances() {
   const {hasError, stripeConnectInstance} = useConnect();
-  const {
-    financialAccount,
-    error: useFinancialAccountError,
-    loading,
-  } = useFinancialAccount();
+  const {financialAccount, error: useFinancialAccountError, loading} =
+    useFinancialAccount();
 
   const [subpage, setSubpage] = useState('transactions');
 
@@ -137,12 +134,13 @@ export default function Finances() {
     financialAccount
   );
 
-  if (hasError || !stripeConnectInstance) {
+  if (useFinancialAccountError || loading || !financialAccount) {
     return null;
   }
 
-  const shouldRenderContent =
-    !useFinancialAccountError && !loading && financialAccount;
+  if (hasError || !stripeConnectInstance) {
+    return null;
+  }
 
   return (
     <AuthenticatedAndOnboardedRoute>
@@ -157,15 +155,11 @@ export default function Finances() {
         setPage={setSubpage}
       />
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-        {shouldRenderContent && (
-          <>
-            {subpage === 'transactions' &&
-              financialAccount &&
-              renderTransactions(financialAccount)}
-            {subpage === 'cards' && renderCards()}
-            {subpage === 'loans' && renderLoans()}
-          </>
-        )}
+        {subpage === 'transactions' &&
+          financialAccount &&
+          renderTransactions(financialAccount)}
+        {subpage === 'cards' && renderCards()}
+        {subpage === 'loans' && renderLoans()}
       </ConnectComponentsProvider>
     </AuthenticatedAndOnboardedRoute>
   );
