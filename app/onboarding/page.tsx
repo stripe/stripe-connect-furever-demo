@@ -34,7 +34,7 @@ export default function Onboarding() {
         <ConnectAccountOnboarding
           onExit={async () => {
             await update();
-            router.push('/');
+            router.push('/dashboard');
           }}
         />
       </ConnectComponentsProvider>
