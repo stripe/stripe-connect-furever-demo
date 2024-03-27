@@ -16,7 +16,6 @@ export default function AuthenticatedAndOnboardedRoute({
   useEffect(() => {
     if (session?.user?.stripeAccount?.details_submitted === false) {
       router.push('/onboarding');
-      return;
     }
   });
 
@@ -24,5 +23,10 @@ export default function AuthenticatedAndOnboardedRoute({
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <div className="flex h-full min-h-screen">
+      <Nav />
+      <div className="bg-offset p-8 ml-64 flex-1 space-y-8">{children}</div>
+    </div>
+  );
 }

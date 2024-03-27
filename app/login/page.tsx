@@ -11,7 +11,7 @@ export default async function Signup() {
   const session = await getServerSession();
 
   if (session) {
-    return redirect('/dashboard');
+    return redirect('/');
   }
 
   return (

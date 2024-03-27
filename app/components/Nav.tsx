@@ -1,5 +1,3 @@
-'use client';
-
 import {signOut} from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,32 +11,31 @@ import {
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-import PoseLight from '@/public/pose_light.svg';
 
 const navigationMenuItems = [
   {
     label: 'Home',
-    href: '/dashboard',
+    href: '/',
     icon: HomeIcon,
   },
   {
     label: 'Classes',
-    href: '/dashboard/classes',
+    href: '/classes',
     icon: CalendarIcon,
   },
   {
     label: 'Payments',
-    href: '/dashboard/payments',
+    href: '/payments',
     icon: WalletIcon,
   },
   {
     label: 'Payouts',
-    href: '/dashboard/payouts',
+    href: '/payouts',
     icon: CoinsIcon,
   },
   {
     label: 'Finances',
-    href: '/dashboard/finances',
+    href: '/finances',
     icon: LandmarkIcon,
   },
 ];
@@ -50,7 +47,7 @@ const Nav = () => {
     <div className="p-3 bg-primary fixed w-64 h-screen">
       <Image
         className="p-5"
-        src={PoseLight}
+        src="pose_light.svg"
         alt="Pose"
         width={150}
         height={23}
@@ -75,10 +72,10 @@ const Nav = () => {
             </li>
           ))}
           <li>
-            <Link href="/dashboard/settings">
+            <Link href="/settings">
               <Button
                 className={`fixed bottom-5 justify-start text-lg text-white hover:bg-white ${
-                  pathname === '/dashboard/settings'
+                  pathname === '/settings'
                     ? 'bg-white hover:bg-opacity-25 bg-opacity-25'
                     : 'bg-none hover:bg-opacity-10'
                 }`}
