@@ -51,6 +51,9 @@ export async function POST() {
             card_spend_dispute_management: true,
           },
         },
+        capital_overview: {
+          enabled: true,
+        },
       },
     });
 

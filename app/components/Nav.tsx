@@ -34,8 +34,8 @@ const navigationMenuItems = [
     icon: CoinsIcon,
   },
   {
-    label: 'Finance',
-    href: '/finance',
+    label: 'Finances',
+    href: '/finances',
     icon: LandmarkIcon,
   },
 ];
