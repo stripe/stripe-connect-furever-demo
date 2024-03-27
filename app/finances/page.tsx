@@ -127,6 +127,15 @@ export default function Finances() {
 
   const [subpage, setSubpage] = useState('transactions');
 
+  console.log(
+    'useFinancialAccountError',
+    useFinancialAccountError,
+    'loading',
+    loading,
+    'financialAccount',
+    financialAccount
+  );
+
   if (useFinancialAccountError || loading || !financialAccount) {
     return null;
   }
