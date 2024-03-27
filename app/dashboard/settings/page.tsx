@@ -2,16 +2,16 @@
 
 import React, {useState} from 'react';
 import {signOut} from 'next-auth/react';
-import {useConnect} from '../hooks/useConnect';
+import {useConnect} from '../../hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectAccountManagement,
   ConnectPaymentMethodSettings,
 } from '@stripe/react-connect-js';
 import {Button} from '@/components/ui/button';
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
-import SubNav from '../components/SubNav';
-import Container from '../components/Container';
+import AuthenticatedAndOnboardedRoute from '../../components/AuthenticatedAndOnboardedRoute';
+import SubNav from '../../components/SubNav';
+import Container from '../../components/Container';
 
 const renderSettings = () => {
   return (

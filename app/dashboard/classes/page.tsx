@@ -1,6 +1,6 @@
 'use client';
 
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
+import AuthenticatedAndOnboardedRoute from '../../components/AuthenticatedAndOnboardedRoute';
 
 export default function Classes() {
   return (

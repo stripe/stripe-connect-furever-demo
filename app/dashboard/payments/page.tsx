@@ -1,12 +1,13 @@
 'use client';
 
-import {useConnect} from '../hooks/useConnect';
+import {useConnect} from '../../hooks/useConnect';
+
 import {
   ConnectComponentsProvider,
-  ConnectPayouts,
+  ConnectPayments,
 } from '@stripe/react-connect-js';
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
-import Container from '../components/Container';
+import AuthenticatedAndOnboardedRoute from '../../components/AuthenticatedAndOnboardedRoute';
+import Container from '../../components/Container';
 
 export default function Payouts() {
   const {hasError, stripeConnectInstance} = useConnect();
@@ -17,10 +18,11 @@ export default function Payouts() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <h1 className="text-3xl font-bold">Payouts</h1>
+      <h1 className="text-3xl font-bold">Payments</h1>
       <Container>
+        <h1 className="text-lg font-bold">Recent payments</h1>
         <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-          <ConnectPayouts />
+          <ConnectPayments />
         </ConnectComponentsProvider>
       </Container>
     </AuthenticatedAndOnboardedRoute>
