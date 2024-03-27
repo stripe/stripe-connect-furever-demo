@@ -5,7 +5,7 @@ import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
 import {ArrowRight} from 'lucide-react';
 import Form from './form';
-import Container from '../components/Container';
+import Container from '@/app/components/Container';
 
 export default async function Signup() {
   const session = await getServerSession();

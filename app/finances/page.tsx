@@ -8,9 +8,9 @@ import {
   useCreateComponent,
   useAttachAttribute,
 } from '@stripe/react-connect-js';
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
-import SubNav from '../components/SubNav';
-import Container from '../components/Container';
+import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
+import SubNav from '@/app/components/SubNav';
+import Container from '@/app/components/Container';
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -88,7 +88,7 @@ const renderTransactions = (financialAccount: string) => {
   return (
     <>
       <Container>
-      <h1 className="text-lg font-bold mb-6">Financial account</h1>
+        <h1 className="text-lg font-bold mb-6">Financial account</h1>
         <ConnectFinancialAccount financialAccount={financialAccount} />
       </Container>
       <Container>
@@ -120,8 +120,11 @@ const renderLoans = () => {
 
 export default function Finances() {
   const {hasError, stripeConnectInstance} = useConnect();
-  const {financialAccount, error: useFinancialAccountError, loading} =
-    useFinancialAccount();
+  const {
+    financialAccount,
+    error: useFinancialAccountError,
+    loading,
+  } = useFinancialAccount();
 
   const [subpage, setSubpage] = useState('transactions');
 

@@ -5,8 +5,8 @@ import {
   ConnectComponentsProvider,
   ConnectPayouts,
 } from '@stripe/react-connect-js';
-import AuthenticatedAndOnboardedRoute from '../components/AuthenticatedAndOnboardedRoute';
-import Container from '../components/Container';
+import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
+import Container from '@/app/components/Container';
 
 export default function Payouts() {
   const {hasError, stripeConnectInstance} = useConnect();
