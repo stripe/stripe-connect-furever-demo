@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint && npm run prettier-check",
+    "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
+    "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -45,6 +47,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "postcss": "^8",
+    "prettier": "^3.2.5",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.3"
   }

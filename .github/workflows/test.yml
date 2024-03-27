@@ -25,3 +25,4 @@ jobs:
           node-version: 20
       - run: npm install --frozen-lockfile
       - run: npm run build
+      - run: npm run lint
