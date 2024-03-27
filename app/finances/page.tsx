@@ -128,18 +128,8 @@ export default function Finances() {
 
   const [subpage, setSubpage] = useState('transactions');
 
-  console.log(
-    'useFinancialAccountError',
-    useFinancialAccountError,
-    'loading',
-    loading,
-    'financialAccount',
-    financialAccount
-  );
-
-  if (useFinancialAccountError || loading || !financialAccount) {
-    return null;
-  }
+  const displayFinancialAccount =
+    !useFinancialAccountError && financialAccount && !loading;
 
   if (hasError || !stripeConnectInstance) {
     return null;
@@ -158,11 +148,15 @@ export default function Finances() {
         setPage={setSubpage}
       />
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-        {subpage === 'transactions' &&
-          financialAccount &&
-          renderTransactions(financialAccount)}
-        {subpage === 'cards' && renderCards()}
-        {subpage === 'loans' && renderLoans()}
+        {displayFinancialAccount && (
+          <>
+            {subpage === 'transactions' &&
+              financialAccount &&
+              renderTransactions(financialAccount)}
+            {subpage === 'cards' && renderCards()}
+            {subpage === 'loans' && renderLoans()}
+          </>
+        )}
       </ConnectComponentsProvider>
     </AuthenticatedAndOnboardedRoute>
   );
