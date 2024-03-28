@@ -17,7 +17,7 @@ export default function AuthenticatedAndOnboardedRoute({
     if (session?.user?.stripeAccount?.details_submitted === false) {
       router.push('/onboarding');
     }
-  });
+  }, [session, router]);
 
   if (!session || !session.user) {
     return null;
