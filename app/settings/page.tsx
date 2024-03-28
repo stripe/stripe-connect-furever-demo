@@ -12,6 +12,7 @@ import {Button} from '@/components/ui/button';
 import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
 import SubNav from '@/app/components/SubNav';
 import Container from '@/app/components/Container';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
 const renderSettings = () => {
   return (
@@ -41,7 +42,9 @@ const renderSettings = () => {
             out. Manage your Stripe settings here.
           </h2>
         </header>
-        <ConnectAccountManagement />
+        <EmbeddedComponentContainer>
+          <ConnectAccountManagement />
+        </EmbeddedComponentContainer>
       </Container>
     </>
   );
@@ -54,7 +57,9 @@ const renderPaymentMethods = () => {
         <h1 className="text-xl font-semibold">Payment methods</h1>
         <h2 className="text-sm">Add and manage your payment methods here.</h2>
       </header>
-      <ConnectPaymentMethodSettings />
+      <EmbeddedComponentContainer>
+        <ConnectPaymentMethodSettings />
+      </EmbeddedComponentContainer>
     </div>
   );
 };

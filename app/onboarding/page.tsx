@@ -8,6 +8,7 @@ import {
   ConnectComponentsProvider,
   ConnectAccountOnboarding,
 } from '@stripe/react-connect-js';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
 export default function Onboarding() {
   const router = useRouter();
@@ -31,12 +32,14 @@ export default function Onboarding() {
   return (
     <>
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-        <ConnectAccountOnboarding
-          onExit={async () => {
-            await update();
-            router.push('/');
-          }}
-        />
+        <EmbeddedComponentContainer>
+          <ConnectAccountOnboarding
+            onExit={async () => {
+              await update();
+              router.push('/');
+            }}
+          />
+        </EmbeddedComponentContainer>
       </ConnectComponentsProvider>
     </>
   );
