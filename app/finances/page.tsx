@@ -5,8 +5,9 @@ import {useConnect} from '../hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectIssuingCardsList,
+  ConnectFinancialAccount,
+  ConnectFinancialAccountTransactions,
   useCreateComponent,
-  useAttachAttribute,
 } from '@stripe/react-connect-js';
 import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
 import SubNav from '@/app/components/SubNav';
@@ -34,45 +35,6 @@ const useFinancialAccount = () => {
   }, []);
 
   return {loading, financialAccount, error};
-};
-
-const ConnectFinancialAccount = ({
-  financialAccount,
-}: {
-  financialAccount: string;
-}) => {
-  const {wrapper, component: financialAccountComponent} = useCreateComponent(
-    // @ts-ignore
-    'stripe-connect-financial-account'
-  );
-
-  useAttachAttribute(
-    financialAccountComponent,
-    'financial-account',
-    financialAccount
-  );
-
-  return wrapper;
-};
-
-const ConnectFinancialAccountTransactions = ({
-  financialAccount,
-}: {
-  financialAccount: string;
-}) => {
-  const {wrapper, component: financialAccountTransactionsComponent} =
-    useCreateComponent(
-      // @ts-ignore
-      'stripe-connect-financial-account-transactions'
-    );
-
-  useAttachAttribute(
-    financialAccountTransactionsComponent,
-    'financial-account',
-    financialAccount
-  );
-
-  return wrapper;
 };
 
 const ConnectCapitalOverview = () => {
