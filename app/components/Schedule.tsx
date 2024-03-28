@@ -31,7 +31,7 @@ const Schedule = () => {
     <Container>
       <div className="flex flex-row justify-between">
         <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
-        <div className="text-primary font-bold">{getCurrentDate()}</div>
+        <div className="text-secondary font-bold">{getCurrentDate()}</div>
       </div>
       <div className="flex flex-row ml-20">
         {studios.map(({id: studioId, name}) => (
@@ -75,7 +75,7 @@ const Schedule = () => {
                     return (
                       <div
                         key={classId}
-                        className="bg-secondary space-y-4 rounded-md p-4 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full"
+                        className="bg-primary-foreground space-y-4 rounded-md p-4 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full shadow-md"
                         style={{
                           height: `${Math.round(
                             (SCHEDULE_HEIGHT *
@@ -89,7 +89,7 @@ const Schedule = () => {
                         }}
                       >
                         <div>
-                          <div className="text-md font-medium text-primary">
+                          <div className="text-md font-medium text-secondary">
                             {startTime} - {endTime}
                           </div>
                           <div className="text-md font-bold">{name}</div>
