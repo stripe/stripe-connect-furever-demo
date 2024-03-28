@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
+import PoseRed from '@/public/pose_red.svg';
 
 const navigationMenuItems = [
   {
@@ -47,7 +48,7 @@ const Nav = () => {
     <div className="p-3 bg-primary fixed w-64 h-screen">
       <Image
         className="p-5"
-        src="pose_light.svg"
+        src={PoseRed}
         alt="Pose"
         width={150}
         height={23}
