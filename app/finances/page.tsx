@@ -11,6 +11,7 @@ import {
 import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
 import SubNav from '@/app/components/SubNav';
 import Container from '@/app/components/Container';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -89,13 +90,17 @@ const renderTransactions = (financialAccount: string) => {
     <>
       <Container>
         <h1 className="text-lg font-bold mb-6">Financial account</h1>
-        <ConnectFinancialAccount financialAccount={financialAccount} />
+        <EmbeddedComponentContainer>
+          <ConnectFinancialAccount financialAccount={financialAccount} />
+        </EmbeddedComponentContainer>
       </Container>
       <Container>
         <h1 className="text-lg font-bold">Transactions</h1>
-        <ConnectFinancialAccountTransactions
-          financialAccount={financialAccount}
-        />
+        <EmbeddedComponentContainer>
+          <ConnectFinancialAccountTransactions
+            financialAccount={financialAccount}
+          />
+        </EmbeddedComponentContainer>
       </Container>
     </>
   );
@@ -105,7 +110,9 @@ const renderCards = () => {
   return (
     <Container>
       <h1 className="text-lg font-bold mb-6">Cards</h1>
-      <ConnectIssuingCardsList />
+      <EmbeddedComponentContainer>
+        <ConnectIssuingCardsList />
+      </EmbeddedComponentContainer>
     </Container>
   );
 };
@@ -113,7 +120,9 @@ const renderCards = () => {
 const renderLoans = () => {
   return (
     <div className="bg-white p-8 rounded-lg mb-6">
-      <ConnectCapitalOverview />
+      <EmbeddedComponentContainer>
+        <ConnectCapitalOverview />
+      </EmbeddedComponentContainer>
     </div>
   );
 };
