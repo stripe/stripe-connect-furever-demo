@@ -5,7 +5,7 @@ type ContainerProps = {
 };
 
 const Container = ({children}: ContainerProps) => {
-  return <div className="bg-white shadow-md p-8 rounded-lg">{children}</div>;
+  return <div className="bg-white shadow-md p-5 rounded-lg">{children}</div>;
 };
 
 export default Container;

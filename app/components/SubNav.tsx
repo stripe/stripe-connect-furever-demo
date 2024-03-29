@@ -24,8 +24,8 @@ export default function SubNav({base, routes}: SubNavProps) {
             key={index}
             href={path}
             className={`${
-              path === pathname ? 'bg-white text-secondary shadow-md' : ''
-            } font-bold p-2 rounded-md`}
+              path === pathname ? 'bg-white text-secondary !font-bold shadow-md' : ''
+            } font-medium p-2 rounded-md`}
           >
             {label}
           </Link>

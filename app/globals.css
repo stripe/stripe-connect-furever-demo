@@ -32,3 +32,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  @font-face {
+    font-family: 'Sohne';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(fonts/Sohne-Buch.otf) format('opentype');
+  }
+
+  @font-face {
+    font-family: 'Sohne';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(fonts/Sohne-Kraftig.otf) format('opentype');
+  }
+
+  @font-face {
+    font-family: 'Sohne';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url(fonts/Sohne-Halbfett.otf) format('opentype');
+  }
+}

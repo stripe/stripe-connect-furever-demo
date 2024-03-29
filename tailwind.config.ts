@@ -81,6 +81,9 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
+    fontFamily: {
+      'sans': ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif']
+    }
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;

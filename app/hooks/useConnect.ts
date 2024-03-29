@@ -27,9 +27,13 @@ export const useConnect = () => {
 
   const appearanceVariables = useMemo(
     () => ({
+      fontFamily: 'Sohne, inherit',
+
       colorPrimary: '#F26552',
 
       buttonPrimaryColorText: '#FFFFFF',
+
+      buttonSecondaryColorBackground: '#DEDDE1',
 
       badgeNeutralColorBackground: '#E4ECEC',
       badgeNeutralColorText: '#545969',
@@ -65,6 +69,23 @@ export const useConnect = () => {
     const instance = loadConnectAndInitialize({
       // @ts-ignore
       publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+      fonts: [
+        {
+          src: `url(app/fonts/Sohne-Buch.otf)`,
+          weight: '400',
+          family: 'Sohne'
+        },
+        {
+          src: `url(app/fonts/Sohne-Kraftig.otf)`,
+          weight: '500',
+          family: 'Sohne'
+        },
+        {
+          src: `url(app/fonts/Sohne-Halbfett.otf)`,
+          weight: '600',
+          family: 'Sohne'
+        },
+      ],
       appearance: {
         overlays: 'dialog',
         variables: appearanceVariables,
