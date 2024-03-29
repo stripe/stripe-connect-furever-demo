@@ -27,6 +27,8 @@ export const useConnect = () => {
 
   const appearanceVariables = useMemo(
     () => ({
+      fontFamily: 'Sohne, inherit',
+
       colorPrimary: '#F26552',
 
       buttonPrimaryColorText: '#FFFFFF',

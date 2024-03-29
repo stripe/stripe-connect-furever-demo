@@ -76,7 +76,7 @@ const Nav = () => {
                 <Button
                   className={`w-full justify-start text-lg text-white hover:bg-white ${
                     pathname === item.href || item.paths.includes(pathname)
-                      ? 'bg-white hover:bg-opacity-25 bg-opacity-25'
+                      ? 'bg-white hover:bg-opacity-15 bg-opacity-15'
                       : 'bg-none hover:bg-opacity-10'
                   }`}
                 >
@@ -91,7 +91,7 @@ const Nav = () => {
               <Button
                 className={`fixed bottom-5 justify-start text-lg text-white hover:bg-white ${
                   pathname.startsWith('/settings')
-                    ? 'bg-white hover:bg-opacity-25 bg-opacity-25'
+                    ? 'bg-white hover:bg-opacity-15 bg-opacity-15'
                     : 'bg-none hover:bg-opacity-10'
                 }`}
               >
