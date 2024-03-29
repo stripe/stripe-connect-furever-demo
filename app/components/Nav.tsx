@@ -8,6 +8,7 @@ import {
   Wallet as WalletIcon,
   Coins as CoinsIcon,
   Landmark as LandmarkIcon,
+  Users as UsersIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
@@ -23,6 +24,11 @@ const navigationMenuItems = [
     label: 'Classes',
     href: '/classes',
     icon: CalendarIcon,
+  },
+  {
+    label: 'Instructors',
+    href: '/instructors',
+    icon: UsersIcon,
   },
   {
     label: 'Payments',
