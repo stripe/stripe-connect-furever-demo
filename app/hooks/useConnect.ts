@@ -33,8 +33,6 @@ export const useConnect = () => {
 
       buttonPrimaryColorText: '#FFFFFF',
 
-      buttonSecondaryColorBackground: '#DEDDE1',
-
       badgeNeutralColorBackground: '#E4ECEC',
       badgeNeutralColorText: '#545969',
       badgeNeutralColorBorder: '#E4ECEC',
