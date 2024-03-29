@@ -108,16 +108,18 @@ export default function Finances() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <h1 className="text-3xl font-bold">Finances</h1>
-      <SubNav
-        items={[
-          {key: 'transactions', label: 'Transactions'},
-          {key: 'cards', label: 'Cards'},
-          {key: 'loans', label: 'Loans'},
-        ]}
-        page={subpage}
-        setPage={setSubpage}
-      />
+      <header className="flex flex-row justify-between">
+        <h1 className="text-3xl font-bold">Finances</h1>
+        <SubNav
+          items={[
+            {key: 'transactions', label: 'Transactions'},
+            {key: 'cards', label: 'Cards'},
+            {key: 'loans', label: 'Loans'},
+          ]}
+          page={subpage}
+          setPage={setSubpage}
+        />
+      </header>
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
         {displayFinancialAccount && (
           <>
