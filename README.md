@@ -1,5 +1,7 @@
 # Sessions '24 Connect Demo
 
+![preview](https://github.com/stripe-samples/s24-connect-demo/assets/59668283/69feff16-0cc9-4d56-a476-81d09ed15082)
+
 ## Overview
 
 This demo is built with
