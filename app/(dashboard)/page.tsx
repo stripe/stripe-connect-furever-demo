@@ -16,8 +16,8 @@ export default function Dashboard() {
           <BalanceWidget />
           <RecentPaymentsWidget />
           <h2 className="text-lg font-bold">Performance</h2>
-          <MonthToDateWidget />
-          <CustomersWidget />
+          <MonthToDateWidget chartWidth={125} />
+          <CustomersWidget chartWidth={125} />
         </div>
       </div>
     </>
