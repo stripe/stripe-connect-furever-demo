@@ -24,6 +24,9 @@
     --secondary-foreground: black;
 
     --radius: 0.5rem;
+
+    --success: #d6eefb;
+    --success-foreground: black;
   }
 }
 
