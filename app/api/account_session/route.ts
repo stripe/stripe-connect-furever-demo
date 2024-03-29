@@ -38,7 +38,10 @@ export async function POST() {
         // apps: { enabled: true },
         payment_method_settings: {enabled: true},
         // InB
-        issuing_cards_list: {enabled: true},
+        issuing_cards_list: {
+          enabled: true,
+          features: {card_management: true, cardholder_management: true},
+        },
         financial_account: {
           enabled: true,
           features: {
