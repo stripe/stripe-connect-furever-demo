@@ -3,7 +3,7 @@
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import {useEffect} from 'react';
-import {useConnect} from '../hooks/useConnect';
+import {useConnect} from '@/app/hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectAccountOnboarding,

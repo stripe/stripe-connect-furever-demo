@@ -1,9 +1,10 @@
 'use client';
 
-import {useConnect} from '../hooks/useConnect';
+import {useConnect} from '@/app/hooks/useConnect';
+
 import {
   ConnectComponentsProvider,
-  ConnectPayouts,
+  ConnectPayments,
 } from '@stripe/react-connect-js';
 import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
 import Container from '@/app/components/Container';
@@ -18,11 +19,12 @@ export default function Payouts() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <h1 className="text-3xl font-bold">Payouts</h1>
+      <h1 className="text-3xl font-bold">Payments</h1>
       <Container>
+        <h1 className="text-lg font-bold">Recent payments</h1>
         <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
           <EmbeddedComponentContainer>
-            <ConnectPayouts />
+            <ConnectPayments />
           </EmbeddedComponentContainer>
         </ConnectComponentsProvider>
       </Container>
