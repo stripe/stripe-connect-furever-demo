@@ -1,31 +1,34 @@
-import {Button} from '@/components/ui/button';
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
 
 type SubNavProps = {
-  items: SubNavItem[];
-  page: string;
-  setPage: (page: string) => void;
+  base: string;
+  routes: SubNavItem[];
 };
 
 type SubNavItem = {
-  key: string;
+  path: string;
   label: string;
 };
 
-export default function SubNav({items, page, setPage}: SubNavProps) {
+export default function SubNav({base, routes}: SubNavProps) {
+  const pathname = usePathname();
+
   return (
-    <div className="flex space-x-1">
-      {items.map(({key, label}) => (
-        <Button
-          key={key}
-          onClick={() => setPage(key)}
-          variant={`${page !== key ? 'ghost' : 'default'}`}
-          className={`${
-            page === key ? 'bg-white text-primary shadow-md' : ''
-          } font-bold`}
-        >
-          {label}
-        </Button>
-      ))}
+    <div className="flex space-x-2">
+      {routes.map(({path, label}, index) => {
+        return (
+          <Link
+            key={index}
+            href={path}
+            className={`${
+              path === pathname ? 'bg-white text-secondary shadow-md' : ''
+            } font-bold p-2 rounded-md`}
+          >
+            {label}
+          </Link>
+        );
+      })}
     </div>
   );
 }

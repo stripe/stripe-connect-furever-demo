@@ -4,13 +4,9 @@ import React, {useState, useEffect} from 'react';
 import {useConnect} from '@/app/hooks/useConnect';
 import {
   ConnectComponentsProvider,
-  ConnectIssuingCardsList,
   ConnectFinancialAccount,
   ConnectFinancialAccountTransactions,
-  useCreateComponent,
 } from '@stripe/react-connect-js';
-import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
-import SubNav from '@/app/components/SubNav';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
@@ -38,57 +34,6 @@ const useFinancialAccount = () => {
   return {loading, financialAccount, error};
 };
 
-const ConnectCapitalOverview = () => {
-  const {wrapper} = useCreateComponent(
-    // @ts-ignore
-    'stripe-connect-capital-overview'
-  );
-
-  return wrapper;
-};
-
-const renderTransactions = (financialAccount: string) => {
-  return (
-    <>
-      <Container>
-        <h1 className="text-lg font-bold mb-6">Financial account</h1>
-        <EmbeddedComponentContainer>
-          <ConnectFinancialAccount financialAccount={financialAccount} />
-        </EmbeddedComponentContainer>
-      </Container>
-      <Container>
-        <h1 className="text-lg font-bold">Transactions</h1>
-        <EmbeddedComponentContainer>
-          <ConnectFinancialAccountTransactions
-            financialAccount={financialAccount}
-          />
-        </EmbeddedComponentContainer>
-      </Container>
-    </>
-  );
-};
-
-const renderCards = () => {
-  return (
-    <Container>
-      <h1 className="text-lg font-bold mb-6">Cards</h1>
-      <EmbeddedComponentContainer>
-        <ConnectIssuingCardsList />
-      </EmbeddedComponentContainer>
-    </Container>
-  );
-};
-
-const renderLoans = () => {
-  return (
-    <div className="bg-white p-8 rounded-lg mb-6">
-      <EmbeddedComponentContainer>
-        <ConnectCapitalOverview />
-      </EmbeddedComponentContainer>
-    </div>
-  );
-};
-
 export default function Finances() {
   const {hasError, stripeConnectInstance} = useConnect();
   const {
@@ -96,8 +41,6 @@ export default function Finances() {
     error: useFinancialAccountError,
     loading,
   } = useFinancialAccount();
-
-  const [subpage, setSubpage] = useState('transactions');
 
   const displayFinancialAccount =
     !useFinancialAccountError && financialAccount && !loading;
@@ -107,30 +50,25 @@ export default function Finances() {
   }
 
   return (
-    <AuthenticatedAndOnboardedRoute>
-      <header className="flex flex-row justify-between">
-        <h1 className="text-3xl font-bold">Finances</h1>
-        <SubNav
-          items={[
-            {key: 'transactions', label: 'Transactions'},
-            {key: 'cards', label: 'Cards'},
-            {key: 'loans', label: 'Loans'},
-          ]}
-          page={subpage}
-          setPage={setSubpage}
-        />
-      </header>
-      <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-        {displayFinancialAccount && (
-          <>
-            {subpage === 'transactions' &&
-              financialAccount &&
-              renderTransactions(financialAccount)}
-            {subpage === 'cards' && renderCards()}
-            {subpage === 'loans' && renderLoans()}
-          </>
-        )}
-      </ConnectComponentsProvider>
-    </AuthenticatedAndOnboardedRoute>
+    <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+      <Container>
+        <h1 className="text-lg font-bold mb-6">Financial account</h1>
+        <EmbeddedComponentContainer>
+          {displayFinancialAccount && (
+            <ConnectFinancialAccount financialAccount={financialAccount} />
+          )}
+        </EmbeddedComponentContainer>
+      </Container>
+      <Container>
+        <h1 className="text-lg font-bold">Transactions</h1>
+        <EmbeddedComponentContainer>
+          {displayFinancialAccount && (
+            <ConnectFinancialAccountTransactions
+              financialAccount={financialAccount}
+            />
+          )}
+        </EmbeddedComponentContainer>
+      </Container>
+    </ConnectComponentsProvider>
   );
 }
