@@ -21,31 +21,37 @@ const navigationMenuItems = [
     label: 'Home',
     href: '/',
     icon: HomeIcon,
+    paths: [],
   },
   {
     label: 'Classes',
     href: '/classes',
     icon: CalendarIcon,
+    paths: [],
   },
   {
     label: 'Instructors',
     href: '/instructors',
     icon: UsersIcon,
+    paths: [],
   },
   {
     label: 'Payments',
     href: '/payments',
     icon: WalletIcon,
+    paths: [],
   },
   {
     label: 'Payouts',
     href: '/payouts',
     icon: CoinsIcon,
+    paths: [],
   },
   {
     label: 'Finances',
     href: '/finances',
     icon: LandmarkIcon,
+    paths: ['/finances/cards', '/finances/loans'],
   },
 ];
 
@@ -69,7 +75,7 @@ const Nav = () => {
               <Link href={item.href}>
                 <Button
                   className={`w-full justify-start text-lg text-white hover:bg-white ${
-                    pathname === item.href
+                    pathname === item.href || item.paths.includes(pathname)
                       ? 'bg-white hover:bg-opacity-25 bg-opacity-25'
                       : 'bg-none hover:bg-opacity-10'
                   }`}
@@ -84,7 +90,7 @@ const Nav = () => {
             <Link href="/settings">
               <Button
                 className={`fixed bottom-5 justify-start text-lg text-white hover:bg-white ${
-                  pathname === '/settings'
+                  pathname.startsWith('/settings')
                     ? 'bg-white hover:bg-opacity-25 bg-opacity-25'
                     : 'bg-none hover:bg-opacity-10'
                 }`}

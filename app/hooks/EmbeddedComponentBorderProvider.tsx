@@ -38,7 +38,6 @@ export const EmbeddedComponentBorderProvider = ({
 
   const handleToggleBorder = (e: KeyboardEvent) => {
     if (e.key === 'b' && e.metaKey) {
-      console.log('we running bb');
       if (Number(window.localStorage.getItem('enableBorder'))) {
         handleEnableBorderChange(false);
       } else {
