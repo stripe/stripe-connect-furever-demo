@@ -1,12 +1,9 @@
-'use client';
-
-import AuthenticatedRoute from '@/app/components/AuthenticatedRoute';
 import Schedule from '@/app/components/Schedule';
 import Widget from '@/app/components/Widget';
 
 export default function Dashboard() {
   return (
-    <AuthenticatedRoute>
+    <>
       <h1 className="text-3xl font-bold">Welcome, Eric!</h1>
       <div className="flex flex-row space-x-8 items-start">
         <div className="flex-1 min-w-[700px]">
@@ -18,6 +15,6 @@ export default function Dashboard() {
           <Widget />
         </div>
       </div>
-    </AuthenticatedRoute>
+    </>
   );
 }

@@ -1,62 +1,10 @@
 'use client';
 
-import React, {useState} from 'react';
-import {signOut} from 'next-auth/react';
-import {useConnect} from '@/app/hooks/useConnect';
-import {
-  ConnectComponentsProvider,
-  ConnectAccountManagement,
-  ConnectPaymentMethodSettings,
-} from '@stripe/react-connect-js';
-import {Button} from '@/components/ui/button';
-import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
-import SubNav from '@/app/components/SubNav';
+import {ConnectAccountManagement} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-
-// const renderSettings = () => {
-//   return (
-//     <>
-
-//     </>
-//   );
-// };
-
-// const renderPaymentMethods = () => {
-//   return (
-//     <div className="bg-white p-8 rounded-lg mb-6">
-//       <header className="mb-8">
-//         <h1 className="text-xl font-semibold">Payment methods</h1>
-//         <h2 className="text-sm">Add and manage your payment methods here.</h2>
-//       </header>
-//       <EmbeddedComponentContainer>
-//         <ConnectPaymentMethodSettings />
-//       </EmbeddedComponentContainer>
-//     </div>
-//   );
-// };
-
-// const renderApps = () => {
-//   return (
-//     <div className="bg-white p-8 rounded-lg mb-6">
-//       <header className="mb-8">
-//         <h1 className="text-xl font-semibold">Apps</h1>
-//         <h2 className="text-sm">
-//           Connect your Stripe account to third-party apps and services.
-//         </h2>
-//       </header>
-//       <div>Apps</div>
-//     </div>
-//   );
-// };
 
 export default function Settings() {
-  const {hasError, stripeConnectInstance} = useConnect();
-  if (hasError || !stripeConnectInstance) {
-    return null;
-  }
-
   return (
     <>
       <Container>
@@ -84,11 +32,9 @@ export default function Settings() {
             out. Manage your Stripe settings here.
           </h2>
         </header>
-        <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
-          <EmbeddedComponentContainer>
-            <ConnectAccountManagement />
-          </EmbeddedComponentContainer>
-        </ConnectComponentsProvider>
+        <EmbeddedComponentContainer>
+          <ConnectAccountManagement />
+        </EmbeddedComponentContainer>
       </Container>
     </>
   );

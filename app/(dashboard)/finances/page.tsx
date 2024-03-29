@@ -1,9 +1,7 @@
 'use client';
 
 import React, {useState, useEffect} from 'react';
-import {useConnect} from '@/app/hooks/useConnect';
 import {
-  ConnectComponentsProvider,
   ConnectFinancialAccount,
   ConnectFinancialAccountTransactions,
 } from '@stripe/react-connect-js';
@@ -35,7 +33,6 @@ const useFinancialAccount = () => {
 };
 
 export default function Finances() {
-  const {hasError, stripeConnectInstance} = useConnect();
   const {
     financialAccount,
     error: useFinancialAccountError,
@@ -45,12 +42,8 @@ export default function Finances() {
   const displayFinancialAccount =
     !useFinancialAccountError && financialAccount && !loading;
 
-  if (hasError || !stripeConnectInstance) {
-    return null;
-  }
-
   return (
-    <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+    <>
       <Container>
         <h1 className="text-lg font-bold mb-6">Financial account</h1>
         <EmbeddedComponentContainer>
@@ -69,6 +62,6 @@ export default function Finances() {
           )}
         </EmbeddedComponentContainer>
       </Container>
-    </ConnectComponentsProvider>
+    </>
   );
 }
