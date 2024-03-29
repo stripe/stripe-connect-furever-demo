@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useState, useEffect} from 'react';
-import {useConnect} from '../../hooks/useConnect';
+import {useConnect} from '@/app/hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectIssuingCardsList,

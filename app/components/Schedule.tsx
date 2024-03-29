@@ -1,4 +1,4 @@
-import studios from '../data/studios.json';
+import studios from '@/app/data/studios.json';
 import Container from './Container';
 
 const SCHEDULE_HEIGHT = 1296;

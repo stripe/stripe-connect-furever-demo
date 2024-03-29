@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import {signOut} from 'next-auth/react';
-import {useConnect} from '../../hooks/useConnect';
+import {useConnect} from '@/app/hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectAccountManagement,
