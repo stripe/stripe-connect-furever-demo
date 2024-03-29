@@ -39,7 +39,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/public/fonts/Sohne-Buch.otf) format('opentype');
+    src: url(/fonts/Sohne-Buch.otf) format('opentype');
   }
 
   @font-face {
@@ -47,7 +47,7 @@
     font-style: normal;
     font-weight: 500;
     font-display: swap;
-    src: url(/public/fonts/Sohne-Kraftig.otf) format('opentype');
+    src: url(/fonts/Sohne-Kraftig.otf) format('opentype');
   }
 
   @font-face {
@@ -55,6 +55,6 @@
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url(/public/fonts/Sohne-Halbfett.otf) format('opentype');
+    src: url(/fonts/Sohne-Halbfett.otf) format('opentype');
   }
 }
