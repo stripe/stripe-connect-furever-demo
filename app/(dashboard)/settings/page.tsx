@@ -13,6 +13,7 @@ import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnb
 import SubNav from '@/app/components/SubNav';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 
 const renderSettings = () => {
   return (
@@ -89,26 +90,35 @@ export default function Settings() {
 
   return (
     <AuthenticatedAndOnboardedRoute>
-      <div className="flex flex-row justify-between">
-        <SubNav
-          items={[
-            {key: 'settings', label: 'Settings'},
-            {key: 'paymentMethods', label: 'Payment methods'},
-            {key: 'apps', label: 'Apps'},
-          ]}
-          page={subpage}
-          setPage={setSubpage}
-        />
-        <div>
-          <Button
-            className="self-end"
-            variant="ghost"
-            onClick={() => signOut()}
-          >
-            Sign out
-          </Button>
+      <header className="flex flex-row justify-between">
+        <div className="flex flex-row">
+          <Avatar className="w-10 h-10 mr-5">
+            <AvatarImage src="/avatar.png" alt="profile" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>{' '}
+          <h1 className="text-3xl font-bold">My studio</h1>
         </div>
-      </div>
+        <div className="flex flex-row justify-between">
+          <SubNav
+            items={[
+              {key: 'settings', label: 'Settings'},
+              {key: 'paymentMethods', label: 'Payment methods'},
+              {key: 'apps', label: 'Apps'},
+            ]}
+            page={subpage}
+            setPage={setSubpage}
+          />
+          <div>
+            <Button
+              className="self-end"
+              variant="ghost"
+              onClick={() => signOut()}
+            >
+              Sign out
+            </Button>
+          </div>
+        </div>
+      </header>
       <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
         {subpage === 'settings' && renderSettings()}
         {subpage === 'paymentMethods' && renderPaymentMethods()}
