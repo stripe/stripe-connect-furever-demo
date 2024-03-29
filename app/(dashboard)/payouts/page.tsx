@@ -1,6 +1,6 @@
 'use client';
 
-import {useConnect} from '../hooks/useConnect';
+import {useConnect} from '../../hooks/useConnect';
 import {
   ConnectComponentsProvider,
   ConnectPayouts,

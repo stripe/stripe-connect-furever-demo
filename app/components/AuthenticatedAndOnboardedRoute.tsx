@@ -3,7 +3,6 @@
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
-import Nav from './Nav';
 
 export default function AuthenticatedAndOnboardedRoute({
   children,
@@ -23,10 +22,5 @@ export default function AuthenticatedAndOnboardedRoute({
     return null;
   }
 
-  return (
-    <div className="flex h-full min-h-screen">
-      <Nav />
-      <div className="bg-offset p-8 ml-64 flex-1 space-y-8">{children}</div>
-    </div>
-  );
+  return <>{children}</>;
 }
