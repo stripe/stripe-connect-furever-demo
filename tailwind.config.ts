@@ -60,6 +60,10 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        success: {
+          DEFAULT: 'var(--success)',
+          foreground: 'var(--success-foreground)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -71,8 +75,8 @@ const config = {
       },
     },
     fontFamily: {
-      'sans': ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif']
-    }
+      sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;

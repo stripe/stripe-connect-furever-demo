@@ -1,5 +1,8 @@
 import Schedule from '@/app/components/Schedule';
-import Widget from '@/app/components/Widget';
+import BalanceWidget from '@/app/components/BalanceWidget';
+import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
+import MonthToDateWidget from '@/app/components/MonthToDateWidget';
+import CustomersWidget from '@/app/components/CustomersWidget';
 
 export default function Dashboard() {
   return (
@@ -10,9 +13,11 @@ export default function Dashboard() {
           <Schedule />
         </div>
         <div className="w-1/4 space-y-4">
-          <Widget />
-          <Widget />
-          <Widget />
+          <BalanceWidget />
+          <RecentPaymentsWidget />
+          <h2 className="text-lg font-bold">Performance</h2>
+          <MonthToDateWidget />
+          <CustomersWidget />
         </div>
       </div>
     </>
