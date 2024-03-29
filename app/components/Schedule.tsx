@@ -15,49 +15,6 @@ const getCurrentDate = () => {
   return currentDate.toLocaleDateString('en-US', options);
 };
 
-function getMinutesSince9AM() {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
-
-  const targetHour = 9; // 9 AM
-  const targetMinute = 0; // 0 minutes
-
-  let minutesSince9AM = 0;
-
-  if (currentHour > targetHour) {
-    // Calculate minutes after 9 AM
-    minutesSince9AM = (currentHour - targetHour) * 60 + currentMinute;
-  } else if (currentHour === targetHour) {
-    // It's 9 AM or later, but before 10 AM
-    minutesSince9AM = currentMinute;
-  } else {
-    // It's before 9 AM, so calculate minutes until tomorrow's 9 AM
-    minutesSince9AM = (24 - targetHour + currentHour) * 60 - currentMinute;
-  }
-
-  return minutesSince9AM;
-}
-
-const renderDayProgressBar = () => {
-  const minutesSince9AM = getMinutesSince9AM();
-
-  if (minutesSince9AM < 0 || minutesSince9AM > MINUTES_IN_BUSINESS_DAY) {
-    return null;
-  }
-
-  return (
-    <div
-      className="bg-secondary absolute h-[2px] w-[calc(100%-10rem)] left-20 pl-20"
-      style={{
-        top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY}px`,
-      }}
-    >
-      <div className="bg-secondary border-secondary rounded-full border-2 w-2 h-2 relative top-[-3px] left-[-80px]"></div>
-    </div>
-  );
-};
-
 const renderHourBlock = (hour: string) => {
   return (
     <div className="flex flex-row h-36">
@@ -82,10 +39,7 @@ const Schedule = () => {
             <ChevronRight color="#f26552" />
           </div>
         </div>
-        <div className="flex flex-row z-20 relative left-20 pl-20 -ml-20">
-          {renderDayProgressBar()}
-        </div>
-        <div className="flex flex-row absolute z-30 top-0 w-full left-20 pl-20 -ml-20">
+        <div className="flex flex-row ml-20">
           {studios.map(({id: studioId, name}) => (
             <h2
               key={studioId}
