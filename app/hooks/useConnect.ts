@@ -41,9 +41,9 @@ export const useConnect = () => {
       badgeSuccessColorText: '#216142',
       badgeSuccessColorBorder: '#D4FCE8',
 
-      // badgeErrorColorBackground: "#f26552",
-      // badgeErrorColorText: "#ffffff",
-      // badgeErrorColorBorder: "#f26552",
+      badgeDangerColorBackground: "#F26552",
+      badgeDangerColorText: "#ffffff",
+      badgeDangerColorBorder: "#F26552",
 
       badgeWarningColorBackground: '#FFEACC',
       badgeWarningColorText: '#F26552',

@@ -59,7 +59,7 @@ const Nav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="p-3 bg-primary fixed w-64 h-screen">
+    <div className="p-3 bg-primary fixed w-64 h-screen z-40">
       <Image
         className="p-5"
         src={PoseRed}
