@@ -85,7 +85,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="bg-primary-foreground space-y-4 rounded-md p-4 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full shadow-md"
+                          className="bg-primary-foreground space-y-2 rounded-md p-3 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full shadow hover:shadow-md hover:bg-[#FFF5E5] cursor-pointer transition duration-150"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -104,7 +104,7 @@ const Schedule = () => {
                             </div>
                             <div className="text-md font-bold">{name}</div>
                           </div>
-                          <div className="flex flex-row justify-between">
+                          <div className="flex flex-row justify-between items-center">
                             <div className="text-md">{teacher}</div>
                             <div className="text-sm text-subdued">
                               {attendees}/{capacity} attendees
