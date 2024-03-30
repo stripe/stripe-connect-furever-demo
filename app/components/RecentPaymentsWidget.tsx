@@ -12,8 +12,8 @@ const BalanceWidget = () => {
             <h1 className="font-bold text-subdued">Recent payments</h1>
           </div>
           <div>
-            <Link href="/payments" className="items-center flex flex-row">
-              <div className="text-secondary text-sm font-bold">View all</div>
+            <Link href="/payments" className="flex flex-row items-center">
+              <div className="text-sm font-bold text-secondary">View all</div>
               <ChevronRight color="#f26552" size={18} className="mt-[1px]" />
             </Link>
           </div>

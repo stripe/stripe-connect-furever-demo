@@ -60,7 +60,7 @@ export default function SignupForm() {
                 <FormLabel className="font-bold">Email</FormLabel>
                 <FormControl>
                   <Input
-                    className="border border-gray-300 rounded-md p-2 placeholder:text-gray-400"
+                    className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="jenny.rosen@example.com"
                     {...field}
                   />
@@ -79,7 +79,7 @@ export default function SignupForm() {
                 <FormLabel className="font-bold">Password</FormLabel>
                 <FormControl>
                   <Input
-                    className="border border-gray-300 rounded-md p-2 placeholder:text-gray-400"
+                    className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="••••••••"
                     type="password"
                     {...field}
@@ -92,7 +92,7 @@ export default function SignupForm() {
         </div>
         <Button
           type="submit"
-          className={'bg-primary text-white p-2 rounded-md w-full font-bold'}
+          className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
         >
           {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>

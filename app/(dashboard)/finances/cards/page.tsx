@@ -7,7 +7,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 export default function Finances() {
   return (
     <Container>
-      <h1 className="text-lg font-bold mb-6">Cards</h1>
+      <h1 className="mb-6 text-lg font-bold">Cards</h1>
       <EmbeddedComponentContainer>
         <ConnectIssuingCardsList />
       </EmbeddedComponentContainer>

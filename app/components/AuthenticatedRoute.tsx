@@ -1,12 +1,12 @@
 import React from 'react';
-import {useSession} from 'next-auth/react';
+import {getServerSession} from 'next-auth';
 
-export default function AuthenticatedRoute({
+export default async function AuthenticatedRoute({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {data: session} = useSession();
+  const session = await getServerSession();
 
   if (!session || !session.user) {
     return null;

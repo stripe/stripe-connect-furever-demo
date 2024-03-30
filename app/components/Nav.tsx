@@ -59,7 +59,7 @@ const Nav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="p-3 bg-primary fixed w-64 h-screen z-40">
+    <div className="fixed z-40 h-screen w-64 bg-primary p-3">
       <Image
         className="p-5"
         src={PoseRed}
@@ -76,7 +76,7 @@ const Nav = () => {
                 <Button
                   className={`w-full justify-start text-lg text-white hover:bg-white ${
                     pathname === item.href || item.paths.includes(pathname)
-                      ? 'bg-white hover:bg-opacity-15 bg-opacity-15'
+                      ? 'bg-white bg-opacity-15 hover:bg-opacity-15'
                       : 'bg-none hover:bg-opacity-10'
                   }`}
                 >
@@ -91,11 +91,11 @@ const Nav = () => {
               <Button
                 className={`fixed bottom-5 justify-start text-lg text-white hover:bg-white ${
                   pathname.startsWith('/settings')
-                    ? 'bg-white hover:bg-opacity-15 bg-opacity-15'
+                    ? 'bg-white bg-opacity-15 hover:bg-opacity-15'
                     : 'bg-none hover:bg-opacity-10'
                 }`}
               >
-                <Avatar className="w-5 h-5 mr-2">
+                <Avatar className="mr-2 h-5 w-5">
                   <AvatarImage src="/avatar.png" alt="profile" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>{' '}

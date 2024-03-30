@@ -16,7 +16,7 @@ const ConnectCapitalOverview = () => {
 export default function Finances() {
   return (
     <Container>
-      <h1 className="text-lg font-bold mb-6">Loans</h1>
+      <h1 className="mb-6 text-lg font-bold">Loans</h1>
       <EmbeddedComponentContainer>
         <ConnectCapitalOverview />
       </EmbeddedComponentContainer>

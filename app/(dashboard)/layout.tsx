@@ -12,8 +12,10 @@ export default function DashboardLayout({
       <EmbeddedComponentWrapper>
         <div className="flex h-full min-h-screen">
           <Nav />
-          <div className="flex justify-center bg-offset p-8 ml-64 flex-1">
-            <div className="max-w-[1200px] min-w-[600px] space-y-5 flex-1">{children}</div>
+          <div className="ml-64 flex flex-1 justify-center bg-offset p-8">
+            <div className="min-w-[600px] max-w-[1200px] flex-1 space-y-5">
+              {children}
+            </div>
           </div>
         </div>
       </EmbeddedComponentWrapper>
