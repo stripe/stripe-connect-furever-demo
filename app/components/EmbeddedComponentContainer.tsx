@@ -9,7 +9,7 @@ const EmbeddedComponentContainer = ({
 
   return (
     <div
-      className={`${enableBorder ? 'border-2 p-[6px] border-secondary border-dashed' : 'p-[8px]'} transition-border ease-in-out duration-300`}
+      className={`${enableBorder ? 'border-2 border-dashed border-secondary p-[6px]' : 'p-[8px]'} transition-border duration-300 ease-in-out`}
     >
       {children}
     </div>

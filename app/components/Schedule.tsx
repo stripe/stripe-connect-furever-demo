@@ -17,9 +17,9 @@ const getCurrentDate = () => {
 
 const renderHourBlock = (hour: string) => {
   return (
-    <div className="flex flex-row h-36">
-      <div className="text-subdued text-sm w-20">{hour}</div>
-      <div className="grid grid-cols-1 divide-y flex-1 border-t-2">
+    <div className="flex h-36 flex-row">
+      <div className="w-20 text-sm text-subdued">{hour}</div>
+      <div className="grid flex-1 grid-cols-1 divide-y border-t-2">
         <div></div>
         <div></div>
       </div>
@@ -35,22 +35,22 @@ const Schedule = () => {
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
             <ChevronLeft color="#f26552" />
-            <div className="text-secondary font-bold">{getCurrentDate()}</div>
+            <div className="font-bold text-secondary">{getCurrentDate()}</div>
             <ChevronRight color="#f26552" />
           </div>
         </div>
-        <div className="flex flex-row ml-20">
+        <div className="ml-20 flex flex-row">
           {studios.map(({id: studioId, name}) => (
             <h2
               key={studioId}
-              className="text-lg font-bold flex-1 ml-10 flex flex-row items-center space-x-1"
+              className="ml-10 flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
             >
               <div>{name}</div>
               <ChevronDown color="#6c7688" />
             </h2>
           ))}
         </div>
-        <div className="flex relative">
+        <div className="relative flex">
           <div className="z-10 flex-1">
             {renderHourBlock('9:00am')}
             {renderHourBlock('10:00am')}
@@ -63,12 +63,12 @@ const Schedule = () => {
             {renderHourBlock('5:00pm')}
             {renderHourBlock('6:00pm')}
           </div>
-          <div className="flex flex-row absolute z-20 top-0 w-full left-20 pl-20 -ml-20">
+          <div className="absolute left-20 top-0 z-20 -ml-20 flex w-full flex-row pl-20">
             {studios.map(({id: studioId, classes}) => {
               return (
                 <div
                   key={studioId}
-                  className="flex flex-col relative flex-1 ml-5 mr-5"
+                  className="relative ml-5 mr-5 flex flex-1 flex-col"
                 >
                   {classes.map(
                     ({
@@ -85,7 +85,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="bg-primary-foreground space-y-4 rounded-md p-4 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 flex-col justify-between space-y-4 rounded-md bg-primary-foreground p-4 shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *

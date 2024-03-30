@@ -14,7 +14,7 @@ export default function SettingsLayout({
     <>
       <header className="flex flex-row justify-between">
         <div className="flex flex-row">
-          <Avatar className="w-10 h-10 mr-5">
+          <Avatar className="mr-5 h-10 w-10">
             <AvatarImage src="/avatar.png" alt="profile" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>{' '}
@@ -30,7 +30,7 @@ export default function SettingsLayout({
           />
           <div>
             <Button
-              className="self-end text-md"
+              className="text-md self-end"
               variant="ghost"
               onClick={() => signOut()}
             >
