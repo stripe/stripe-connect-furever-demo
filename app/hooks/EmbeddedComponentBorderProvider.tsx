@@ -22,6 +22,10 @@ export const EmbeddedComponentBorderProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const [enableBorder, setEnableBorder] = useState<boolean>(
     Boolean(Number(window.localStorage.getItem('enableBorder')))
   );
