@@ -1,8 +1,15 @@
+'use client';
+
 import React from 'react';
 import Container from './Container';
 import {Badge} from '@/components/ui/badge';
+import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 
-const MonthToDateWidget = () => {
+type MonthToDateWidgetProps = {
+  chartWidth: number;
+};
+
+const MonthToDateWidget = ({chartWidth}: MonthToDateWidgetProps) => {
   return (
     <Container>
       <div className="flex flex-row justify-between">
@@ -14,6 +21,14 @@ const MonthToDateWidget = () => {
               +12.5%
             </Badge>
           </div>
+        </div>
+        <div>
+          <SparkLineChart
+            data={[1, 5, 20, 30, 12, 10, 5, 25, 40]}
+            height={50}
+            width={chartWidth}
+            colors={['black']}
+          />
         </div>
       </div>
     </Container>

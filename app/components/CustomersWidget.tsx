@@ -1,8 +1,15 @@
+'use client';
+
 import React from 'react';
 import Container from './Container';
 import {Badge} from '@/components/ui/badge';
+import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 
-const CustomersWidget = () => {
+type CustomersWidgetProps = {
+  chartWidth: number;
+};
+
+const CustomersWidget = ({chartWidth}: CustomersWidgetProps) => {
   return (
     <Container>
       <div className="flex flex-row justify-between">
@@ -12,8 +19,19 @@ const CustomersWidget = () => {
             <div className="text-xl font-bold">424</div>
             <Badge className="rounded-md bg-success pb-0 pl-1 pr-1 pt-0 text-success-foreground">
               +3.9%
+            <div className="font-bold text-xl">424</div>
+            <Badge className="bg-success text-success-foreground rounded-md pb-0 pt-0 pl-1 pr-1">
+              +12.5%
             </Badge>
           </div>
+        </div>
+        <div>
+          <SparkLineChart
+            data={[3, 2, 10, 24, 8, 10, 14, 25, 30]}
+            height={50}
+            width={chartWidth}
+            colors={['black']}
+          />
         </div>
       </div>
     </Container>

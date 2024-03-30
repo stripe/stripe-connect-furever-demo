@@ -15,6 +15,49 @@ const getCurrentDate = () => {
   return currentDate.toLocaleDateString('en-US', options);
 };
 
+function getMinutesSince9AM() {
+  const now = new Date();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+
+  const targetHour = 9; // 9 AM
+  const targetMinute = 0; // 0 minutes
+
+  let minutesSince9AM = 0;
+
+  if (currentHour > targetHour) {
+    // Calculate minutes after 9 AM
+    minutesSince9AM = (currentHour - targetHour) * 60 + currentMinute;
+  } else if (currentHour === targetHour) {
+    // It's 9 AM or later, but before 10 AM
+    minutesSince9AM = currentMinute;
+  } else {
+    // It's before 9 AM, so calculate minutes until tomorrow's 9 AM
+    minutesSince9AM = (24 - targetHour + currentHour) * 60 - currentMinute;
+  }
+
+  return minutesSince9AM;
+}
+
+const renderDayProgressBar = () => {
+  const minutesSince9AM = getMinutesSince9AM();
+
+  if (minutesSince9AM < 0 || minutesSince9AM > MINUTES_IN_BUSINESS_DAY) {
+    return null;
+  }
+
+  return (
+    <div
+      className="bg-secondary absolute h-[2px] w-[calc(100%-10rem)] left-20 pl-20"
+      style={{
+        top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY}px`,
+      }}
+    >
+      <div className="bg-secondary border-secondary rounded-full border-2 w-2 h-2 relative top-[-3px] left-[-80px]"></div>
+    </div>
+  );
+};
+
 const renderHourBlock = (hour: string) => {
   return (
     <div className="flex h-36 flex-row">
@@ -30,7 +73,7 @@ const renderHourBlock = (hour: string) => {
 const Schedule = () => {
   return (
     <Container>
-      <div className="space-y-8">
+      <div className="space-y-4">
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
@@ -39,7 +82,10 @@ const Schedule = () => {
             <ChevronRight color="#f26552" />
           </div>
         </div>
-        <div className="ml-20 flex flex-row">
+        <div className="flex flex-row z-20 relative left-20 pl-20 -ml-20">
+          {renderDayProgressBar()}
+        </div>
+        <div className="flex flex-row ml-20">
           {studios.map(({id: studioId, name}) => (
             <h2
               key={studioId}
@@ -85,7 +131,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 flex-col justify-between space-y-4 rounded-md bg-primary-foreground p-4 shadow-md"
+                          className="bg-primary-foreground space-y-2 rounded-md p-3 ml-2 mr-2 absolute min-w-64 flex flex-col justify-between w-full shadow hover:shadow-md hover:bg-[#FFF5E5] cursor-pointer transition duration-150"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -104,7 +150,7 @@ const Schedule = () => {
                             </div>
                             <div className="text-md font-bold">{name}</div>
                           </div>
-                          <div className="flex flex-row justify-between">
+                          <div className="flex flex-row justify-between items-center">
                             <div className="text-md">{teacher}</div>
                             <div className="text-sm text-subdued">
                               {attendees}/{capacity} attendees
