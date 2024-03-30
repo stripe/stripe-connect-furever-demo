@@ -18,9 +18,6 @@ const CustomersWidget = ({chartWidth}: CustomersWidgetProps) => {
           <div className="flex flex-row space-x-2">
             <div className="text-xl font-bold">424</div>
             <Badge className="rounded-md bg-success pb-0 pl-1 pr-1 pt-0 text-success-foreground">
-              +3.9%
-            <div className="font-bold text-xl">424</div>
-            <Badge className="bg-success text-success-foreground rounded-md pb-0 pt-0 pl-1 pr-1">
               +12.5%
             </Badge>
           </div>

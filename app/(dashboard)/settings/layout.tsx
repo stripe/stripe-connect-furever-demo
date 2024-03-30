@@ -30,7 +30,7 @@ export default function SettingsLayout({
           />
           <div>
             <Button
-              className="self-end text-md p-2 hover:bg-white/80 ml-2"
+              className="text-md ml-2 self-end p-2 hover:bg-white/80"
               variant="ghost"
               onClick={() => signOut()}
             >
