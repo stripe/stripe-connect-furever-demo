@@ -62,7 +62,9 @@ const renderDayProgressBar = () => {
 const renderHourBlock = (hour: string) => {
   return (
     <div className="flex h-36 flex-row">
-      <div className="w-20 text-sm text-subdued">{hour}</div>
+      <div className="w-20 text-sm text-subdued">
+        <div className="-translate-y-[50%]">{hour}</div>
+      </div>
       <div className="grid flex-1 grid-cols-1 divide-y border-t-2">
         <div></div>
         <div></div>

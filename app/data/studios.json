@@ -33,10 +33,23 @@
         "id": 3,
         "studio": "1",
         "name": "Mindful Movement",
-        "startTime": "1:00pm",
-        "endTime": "1:50pm",
-        "startTimeMinutes": 240,
-        "endTimeMinutes": 290,
+        "startTime": "12:30pm",
+        "endTime": "1:20pm",
+        "startTimeMinutes": 210,
+        "endTimeMinutes": 260,
+        "teacher": "Lee Y.",
+        "attendees": 9,
+        "capacity": 15,
+        "profilePhoto": "lee"
+      },
+      {
+        "id": 4,
+        "studio": "1",
+        "name": "Stretch & Restore",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
         "teacher": "Lee Y.",
         "attendees": 9,
         "capacity": 15,
@@ -51,7 +64,7 @@
       {
         "id": 1,
         "studio": "2",
-        "name": "Yoga Basics - Beginner",
+        "name": "Stretch & Restore",
         "startTime": "10:00am",
         "endTime": "10:45am",
         "startTimeMinutes": 60,
@@ -86,6 +99,19 @@
         "attendees": 10,
         "capacity": 18,
         "profilePhoto": "rachel"
+      },
+      {
+        "id": 4,
+        "studio": "2",
+        "name": "Advanced Yoga",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
+        "teacher": "Ethan B.",
+        "attendees": 15,
+        "capacity": 18,
+        "profilePhoto": "ethan"
       }
     ]
   }
