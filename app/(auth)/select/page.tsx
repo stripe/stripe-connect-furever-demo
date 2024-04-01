@@ -4,7 +4,7 @@ import {redirect} from 'next/navigation';
 import {ArrowRight} from 'lucide-react';
 import Form from './form';
 
-export default async function Login() {
+export default async function Select() {
   const session = await getServerSession();
 
   if (session) {
@@ -14,7 +14,7 @@ export default async function Login() {
   return (
     <>
       <div>
-        <h2 className="text-2xl font-bold">Login</h2>
+        <h2 className="text-2xl font-bold">Select Account</h2>
         <div>
           Don&apos;t have an account?{' '}
           <Link href="/signup" className="font-bold text-primary">
