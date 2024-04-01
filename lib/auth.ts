@@ -34,9 +34,15 @@ export const authOptions: AuthOptions = {
         return null;
       }
 
-      const stripeAccount = await stripe.accounts.retrieve(
-        studio.stripeAccountId
-      );
+      let stripeAccount;
+      try {
+        stripeAccount = await stripe.accounts.retrieve(
+          studio.stripeAccountId
+        );
+        } catch (err) {
+          console.error('Could not retrieve stripe account for user', err);
+          return null;
+        }
 
       session.user.stripeAccount = stripeAccount;
       console.log(
@@ -82,6 +88,62 @@ export const authOptions: AuthOptions = {
         return {
           id: user.stripeAccountId,
           email: user.email,
+        };
+      },
+    }),
+    CredentialsProvider({
+      id: 'account',
+      name: 'Account ID',
+      credentials: {
+        accountId: {},
+        password: {},
+      },
+      async authorize(credentials, req) {
+        await dbConnect();
+
+        let user: IStudio | null = null;
+        try {
+          const stripeAccountId = credentials?.accountId;
+          const password = credentials?.password;
+          if (!stripeAccountId) {
+            console.log('Could not find an account id for provider');
+            return null;
+          }
+
+          user = await Studio.findOne({stripeAccountId: stripeAccountId});
+          if (!user) {
+            // See if they exist on the platform
+            const stripeAccount = await stripe.accounts.retrieve(
+              stripeAccountId
+            );
+            if (stripeAccount?.email) {
+              // Create the account locally
+              user = new Studio({
+                email: stripeAccount.email,
+                password,
+                firstName: stripeAccount.indivdual?.first_name,
+                lastName: stripeAccount.individual?.last_name,
+                stripeAccountId: stripeAccountId,
+              });
+              console.log('Creating Studio...');
+              await user!.save();
+              console.log('Studio was created');
+            } else {
+              return null;
+            }
+          } else {
+            if (!user.validatePassword(password)) {
+              return null;
+            }
+          }
+        } catch (err) {
+          console.warn('Got an error authorizing a user during login', err);
+          return null;
+        }
+
+        return {
+          id: user!.stripeAccountId,
+          email: user!.email,
         };
       },
     }),

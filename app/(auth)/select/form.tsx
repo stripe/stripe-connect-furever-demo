@@ -19,32 +19,33 @@ import {
 import {Input} from '@/components/ui/input';
 
 const formSchema = z.object({
-  email: z.string().email(),
+  accountId: z.string().startsWith('acct_'),
   password: z.string().min(8),
 });
 
-export default function LoginForm() {
+export default function SelectForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      accountId: '',
       password: '',
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signIn('login', {
-        email: values.email,
+      console.log('Selecting the account');
+      await signIn('account', {
+        accountId: values.accountId,
         password: values.password,
         redirect: false,
       });
 
       router.push('/');
     } catch (error: any) {
-      console.error('An error occurred when signing in', error);
+        console.error('An error occurred when selecting the account', error);
     }
   };
 
@@ -54,14 +55,14 @@ export default function LoginForm() {
         <div className="flex flex-col space-y-2">
           <FormField
             control={form.control}
-            name="email"
+            name="accountId"
             render={({field}) => (
               <FormItem>
-                <FormLabel className="font-bold">Email</FormLabel>
+                <FormLabel className="font-bold">Account ID</FormLabel>
                 <FormControl>
                   <Input
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
-                    placeholder="jenny.rosen@example.com"
+                    placeholder="acct_1234567890abcdef"
                     {...field}
                   />
                 </FormControl>
