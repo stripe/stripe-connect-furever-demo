@@ -20,19 +20,19 @@ export default function Instructors() {
           Add instructor
         </Button>
       </div>
-      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-3 xl:grid-cols-4 gap-4">
         {
           instructors.map((instructor) => {
             return (
-              <Container className="flex items-center gap-4 hover:shadow-lg transition cursor-pointer" key={instructor.id}>
+              <Container className="flex flex-col items-center gap-4 hover:shadow-lg transition cursor-pointer" key={instructor.id}>
                 <Image
-                  className="w-[48px] h-[48px] relative rounded-full"
+                  className="w-[80px] h-[80px] relative rounded-full shadow"
                   fill
                   quality={100}
                   src={`/headshots/${instructor.profilePhoto}.jpg`}
                   alt={`Profile photo of ${instructor.name}`}
                 />
-                <div className="flex-1">
+                <div className="flex flex-col items-center">
                   <h3 className="font-medium text-lg">{instructor.name}</h3>
                   <p className="text-subdued text-sm">{instructor.numClasses} class{instructor.numClasses == 1 ? '' : 'es'} this week</p>
                 </div>
