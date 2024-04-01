@@ -9,7 +9,7 @@ export default function PaymentMethods() {
     <Container>
       <header className="mb-8">
         <h1 className="text-xl font-semibold">Payment methods</h1>
-        <h2 className="text-sm">Add and manage your payment methods here.</h2>
+        <h2 className="text-subdued">Add and manage your payment methods.</h2>
       </header>
       <EmbeddedComponentContainer>
         <ConnectPaymentMethodSettings />
