@@ -17,21 +17,27 @@ export const authOptions: AuthOptions = {
     signOut: '/',
   },
   callbacks: {
-    // @ts-ignore
-    async session({session, user}) {
+    async signIn({user}) {
+      // Ensure the user exists on Stripe
+      console.log("Signing in user", user);
+
+      return true;
+    },
+
+    async session({session}) {
       try {
         await dbConnect();
       } catch (err) {
         console.error('Could not connect to the db');
-        return null;
+        throw err;
       }
 
       const studio: IStudio = await Studio.findOne({
         email: session.user?.email,
       });
       if (!studio) {
-        console.log('Could not find a user for email in login');
-        return null;
+        console.error('Could not find a user for email in login');
+        throw new Error('Could not find a user for email in login');
       }
 
       let stripeAccount;
@@ -39,10 +45,10 @@ export const authOptions: AuthOptions = {
         stripeAccount = await stripe.accounts.retrieve(
           studio.stripeAccountId
         );
-        } catch (err) {
-          console.error('Could not retrieve stripe account for user', err);
-          return null;
-        }
+      } catch (err) {
+        console.error('Could not retrieve stripe account for user', err);
+        throw err;
+      }
 
       session.user.stripeAccount = stripeAccount;
       console.log(
@@ -105,7 +111,7 @@ export const authOptions: AuthOptions = {
         try {
           const stripeAccountId = credentials?.accountId;
           const password = credentials?.password;
-          if (!stripeAccountId) {
+          if (!stripeAccountId || !password) {
             console.log('Could not find an account id for provider');
             return null;
           }
@@ -132,9 +138,9 @@ export const authOptions: AuthOptions = {
               return null;
             }
           } else {
-            if (!user.validatePassword(password)) {
-              return null;
-            }
+            // Update the password
+            user.password = password;
+            await user!.save();
           }
         } catch (err) {
           console.warn('Got an error authorizing a user during login', err);
