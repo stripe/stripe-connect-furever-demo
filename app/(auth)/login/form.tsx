@@ -50,7 +50,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
         <div className="flex flex-col space-y-2">
           <FormField
             control={form.control}
@@ -70,7 +70,7 @@ export default function LoginForm() {
             )}
           />
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 pb-3">
           <FormField
             control={form.control}
             name="password"
@@ -92,12 +92,13 @@ export default function LoginForm() {
         </div>
         <Button
           type="submit"
-          className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
+          disabled={form.formState.isSubmitting}
+          className={'w-full rounded-md bg-secondary p-2 font-bold text-white'}
         >
           {!form.formState.isSubmitting && <>Continue</>}
           {form.formState.isSubmitting && (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
             </>
           )}
         </Button>
