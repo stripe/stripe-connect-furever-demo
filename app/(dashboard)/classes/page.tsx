@@ -59,20 +59,16 @@ const classes = [
   }
 ];
 
-const getDates = () => {
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+const getDate = (daysFromToday: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromToday);
 
   const options = {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   } as Intl.DateTimeFormatOptions;
-  return {
-    "today": today.toLocaleDateString('en-US', options),
-    "tomorrow": tomorrow.toLocaleDateString('en-US', options)
-  }
+  return date.toLocaleDateString('en-US', options)
 };
 
 const renderClassRow = (
@@ -126,7 +122,7 @@ export default function Classes() {
       </div>
       <div className="flex gap-3 text-xl pt-4">
         <h2 className="font-bold">Today</h2>
-        <span className="font-normal text-subdued">{getDates().today}</span>
+        <span className="font-normal text-subdued">{getDate(0)}</span>
       </div>
       <div className="flex flex-col gap-y-3">
         {
@@ -137,7 +133,7 @@ export default function Classes() {
       </div>
       <div className="flex gap-3 text-xl pt-8">
         <h2 className="font-bold">Tomorrow</h2>
-        <span className="font-normal text-subdued">{getDates().tomorrow}</span>
+        <span className="font-normal text-subdued">{getDate(1)}</span>
       </div>
       <div className="flex flex-col gap-y-3">
         {
