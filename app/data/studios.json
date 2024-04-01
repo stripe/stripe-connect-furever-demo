@@ -12,7 +12,8 @@
         "endTimeMinutes": 80,
         "teacher": "Ari K.",
         "attendees": 15,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "ari"
       },
       {
         "id": 2,
@@ -23,7 +24,8 @@
         "endTimeMinutes": 140,
         "teacher": "Erica L.",
         "attendees": 12,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "erica"
       },
       {
         "id": 3,
@@ -34,7 +36,8 @@
         "endTimeMinutes": 290,
         "teacher": "Lee Y.",
         "attendees": 9,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "lee"
       }
     ]
   },
@@ -51,7 +54,8 @@
         "endTimeMinutes": 105,
         "teacher": "Jenny P.",
         "attendees": 17,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "jenny"
       },
       {
         "id": 2,
@@ -62,7 +66,8 @@
         "endTimeMinutes": 170,
         "teacher": "Kenny F.",
         "attendees": 12,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "kenny"
       },
       {
         "id": 3,
@@ -73,7 +78,8 @@
         "endTimeMinutes": 230,
         "teacher": "Rachel G.",
         "attendees": 10,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "rachel"
       }
     ]
   }

@@ -1,5 +1,6 @@
 import studios from '@/app/data/studios.json';
 import Container from '@/app/components/Container';
+import Image from 'next/image';
 import {ChevronLeft, ChevronRight, ChevronDown} from 'lucide-react';
 
 const SCHEDULE_HEIGHT = 1296;
@@ -127,6 +128,7 @@ const Schedule = () => {
                       teacher,
                       attendees,
                       capacity,
+                      profilePhoto,
                     }) => {
                       return (
                         <div
@@ -151,7 +153,16 @@ const Schedule = () => {
                             <div className="text-md font-bold">{name}</div>
                           </div>
                           <div className="flex flex-row items-center justify-between">
-                            <div className="text-md">{teacher}</div>
+                            <div className="text-md flex gap-2 items-center">
+                              <Image
+                                className="w-5 h-5 relative rounded-full"
+                                fill
+                                quality={100}
+                                src={`/headshots/${profilePhoto}.jpg`}
+                                alt={`Profile photo of ${name}`}
+                              />
+                              {teacher}
+                            </div>
                             <div className="text-sm text-subdued">
                               {attendees}/{capacity} attendees
                             </div>
