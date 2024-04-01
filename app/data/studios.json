@@ -5,6 +5,7 @@
     "classes": [
       {
         "id": 1,
+        "studio": "1",
         "name": "Gentle flow",
         "startTime": "9:30am",
         "endTime": "10:20am",
@@ -12,10 +13,12 @@
         "endTimeMinutes": 80,
         "teacher": "Ari K.",
         "attendees": 15,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "ari"
       },
       {
         "id": 2,
+        "studio": "1",
         "name": "Yoga Basics - Intermediate",
         "startTime": "10:30am",
         "endTime": "11:20am",
@@ -23,18 +26,34 @@
         "endTimeMinutes": 140,
         "teacher": "Erica L.",
         "attendees": 12,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "erica"
       },
       {
         "id": 3,
+        "studio": "1",
         "name": "Mindful Movement",
-        "startTime": "1:00pm",
-        "endTime": "1:50pm",
-        "startTimeMinutes": 240,
-        "endTimeMinutes": 290,
+        "startTime": "12:30pm",
+        "endTime": "1:20pm",
+        "startTimeMinutes": 210,
+        "endTimeMinutes": 260,
         "teacher": "Lee Y.",
         "attendees": 9,
-        "capacity": 15
+        "capacity": 15,
+        "profilePhoto": "lee"
+      },
+      {
+        "id": 4,
+        "studio": "1",
+        "name": "Stretch & Restore",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
+        "teacher": "Lee Y.",
+        "attendees": 9,
+        "capacity": 15,
+        "profilePhoto": "lee"
       }
     ]
   },
@@ -44,17 +63,20 @@
     "classes": [
       {
         "id": 1,
-        "name": "Yoga Basics - Beginner",
+        "studio": "2",
+        "name": "Stretch & Restore",
         "startTime": "10:00am",
         "endTime": "10:45am",
         "startTimeMinutes": 60,
         "endTimeMinutes": 105,
         "teacher": "Jenny P.",
         "attendees": 17,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "jenny"
       },
       {
         "id": 2,
+        "studio": "2",
         "name": "Core Strength Yoga",
         "startTime": "11:00am",
         "endTime": "11:50am",
@@ -62,10 +84,12 @@
         "endTimeMinutes": 170,
         "teacher": "Kenny F.",
         "attendees": 12,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "kenny"
       },
       {
         "id": 3,
+        "studio": "2",
         "name": "Yoga Basics - Beginner",
         "startTime": "12:00pm",
         "endTime": "12:50pm",
@@ -73,7 +97,21 @@
         "endTimeMinutes": 230,
         "teacher": "Rachel G.",
         "attendees": 10,
-        "capacity": 18
+        "capacity": 18,
+        "profilePhoto": "rachel"
+      },
+      {
+        "id": 4,
+        "studio": "2",
+        "name": "Advanced Yoga",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
+        "teacher": "Ethan B.",
+        "attendees": 15,
+        "capacity": 18,
+        "profilePhoto": "ethan"
       }
     ]
   }
