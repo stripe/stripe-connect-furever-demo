@@ -7,7 +7,7 @@ import CustomersWidget from '@/app/components/CustomersWidget';
 export default function Dashboard() {
   return (
     <>
-      <h1 className="text-3xl font-bold">Welcome, Eric!</h1>
+      <h1 className="text-3xl font-bold">Welcome, Steve!</h1>
       <div className="flex flex-row items-start space-x-5">
         <div className="min-w-[700px] flex-1">
           <Schedule />
