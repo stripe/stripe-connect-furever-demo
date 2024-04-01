@@ -14,10 +14,10 @@ export default async function Signup() {
   return (
     <>
       <div>
-        <h2 className="text-2xl font-bold">Register</h2>
+        <h2 className="text-2xl font-bold">Sign up</h2>
         <div>
           Already have an account?{' '}
-          <Link href="/login" className="font-bold text-primary">
+          <Link href="/login" className="font-bold text-secondary">
             Login <ArrowRight className="mb-0.5 inline w-4" strokeWidth={2.5} />
           </Link>
         </div>
