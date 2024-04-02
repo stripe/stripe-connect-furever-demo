@@ -33,21 +33,17 @@ export const useConnect = () => {
 
       buttonPrimaryColorText: '#FFFFFF',
 
-      badgeNeutralColorBackground: '#E4ECEC',
-      badgeNeutralColorText: '#545969',
-      badgeNeutralColorBorder: '#E4ECEC',
-
-      badgeSuccessColorBackground: '#D4FCE8',
-      badgeSuccessColorText: '#216142',
-      badgeSuccessColorBorder: '#D4FCE8',
-
-      badgeDangerColorBackground: '#F26552',
-      badgeDangerColorText: '#ffffff',
-      badgeDangerColorBorder: '#F26552',
+      badgeSuccessColorBackground: '#D7F4CC',
+      badgeSuccessColorText: '#264F47',
+      badgeSuccessColorBorder: '#BDDAB3',
 
       badgeWarningColorBackground: '#FFEACC',
-      badgeWarningColorText: '#F26552',
-      badgeWarningColorBorder: '#FFEACC',
+      badgeWarningColorText: '#C95B4D',
+      badgeWarningColorBorder: '#FFD28C',
+
+      badgeDangerColorBackground: '#FFEACC',
+      badgeDangerColorText: '#C95B4D',
+      badgeDangerColorBorder: '#FFD28C',
     }),
     []
   );

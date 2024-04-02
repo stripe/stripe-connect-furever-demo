@@ -117,7 +117,7 @@ const Schedule = () => {
               return (
                 <div
                   key={studioId}
-                  className="relative ml-5 mr-5 flex flex-1 flex-col"
+                  className="relative ml-1 mr-5 flex flex-1 flex-col"
                 >
                   {classes.map(
                     ({

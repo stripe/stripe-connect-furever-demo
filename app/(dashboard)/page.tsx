@@ -12,12 +12,12 @@ export default function Dashboard() {
         <div className="min-w-[700px] flex-1">
           <Schedule />
         </div>
-        <div className="w-1/4 space-y-4">
+        <div className="w-[30%] min-w-[300px] space-y-4">
           <BalanceWidget />
           <RecentPaymentsWidget />
           <h2 className="text-lg font-bold">Performance</h2>
-          <MonthToDateWidget chartWidth={125} />
-          <CustomersWidget chartWidth={125} />
+          <MonthToDateWidget />
+          <CustomersWidget />
         </div>
       </div>
     </>
