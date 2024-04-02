@@ -732,7 +732,7 @@ def update_account_status(account):
 
     if is_restricted_account(account):
         # The account should already be restricted
-        log.info("Account {account.id} is restricted")
+        log.info(f"Account {account.id} is restricted")
         stripe.Account.modify(
             account.id,
             business_profile={
