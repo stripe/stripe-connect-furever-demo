@@ -15,7 +15,7 @@ export default function Dashboard() {
         <div className="w-[30%] min-w-[300px] space-y-4">
           <BalanceWidget />
           <RecentPaymentsWidget />
-          <h2 className="text-lg font-bold">Performance</h2>
+          <h2 className="text-lg font-bold pt-4">Performance</h2>
           <MonthToDateWidget />
           <CustomersWidget />
         </div>

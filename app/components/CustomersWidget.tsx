@@ -6,10 +6,10 @@ import {Badge} from '@/components/ui/badge';
 import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 
 type CustomersWidgetProps = {
-  chartWidth?: number;
+  chartMaxWidth?: number;
 };
 
-const CustomersWidget = ({chartWidth}: CustomersWidgetProps) => {
+const CustomersWidget = ({chartMaxWidth}: CustomersWidgetProps) => {
   return (
     <Container>
       <div className="flex flex-row justify-between gap-5">
@@ -24,29 +24,20 @@ const CustomersWidget = ({chartWidth}: CustomersWidgetProps) => {
         </div>
         <div className="relative w-full">
           <div
-            className={`${
-              !chartWidth
-                ? 'w-full'
-                : ''
-            } absolute right-0`}>
+            className={`absolute w-full max-w-[${chartMaxWidth}px] right-0`}>
             <SparkLineChart
               data={[0, 10, 5, 20, 10, 10, 0, 25, 25, 55, 35, 35, 40]}
               height={55}
-              width={chartWidth}
               colors={['#DEDDE1']}
               curve="natural"
+              showHighlight={true}
             />
           </div>
           <div
-            className={`${
-              !chartWidth
-                ? 'w-full'
-                : ''
-            } absolute right-0`}>
+            className={`absolute w-full max-w-[${chartMaxWidth}px] right-0`}>
             <SparkLineChart
               data={[15, 20, 20, 0, 15, 30, 30, 55, 45, 45, 35, 50, 45, 55]}
               height={55}
-              width={chartWidth}
               colors={['#221B35']}
               curve="natural"
             />

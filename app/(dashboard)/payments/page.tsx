@@ -12,10 +12,10 @@ export default function Payouts() {
       <h1 className="text-3xl font-bold">Payments</h1>
       <div className="flex flex-row space-x-5">
         <div className="flex-1">
-          <MonthToDateWidget chartWidth={300} />
+          <MonthToDateWidget chartMaxWidth={300} />
         </div>
         <div className="flex-1">
-          <CustomersWidget chartWidth={300} />
+          <CustomersWidget chartMaxWidth={300} />
         </div>
       </div>
       <Container>
