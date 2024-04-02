@@ -577,12 +577,26 @@ def rebalance_account_statuses():
     accounts = list(stripe.Account.list().auto_paging_iter())
 
     # Ensure the first few accounts are protected and with other tags
-    stripe.Account.modify(account[0].id, metadata={PROTECTED_TAG: True})
+    stripe.Account.modify(accounts[0].id, metadata={PROTECTED_TAG: True})
     stripe.Account.modify(
-        account[1].id, metadata={PROTECTED_TAG: True, ELEVATED_FRAUD_TAG: True}
+        accounts[1].id,
+        metadata={
+            PROTECTED_TAG: True,
+            HIGH_FRAUD_TAG: True,
+            REJECTED_TAG: None,
+            HIGH_FRAUD_TAG: None,
+            RESTRICTED_TAG: None,
+        },
     )
     stripe.Account.modify(
-        account[2].id, metadata={PROTECTED_TAG: True, HIGH_FRAUD_TAG: True}
+        accounts[2].id,
+        metadata={
+            PROTECTED_TAG: True,
+            HIGH_FRAUD_TAG: None,
+            REJECTED_TAG: None,
+            ELEVATED_FRAUD_TAG: True,
+            RESTRICTED_TAG: None,
+        },
     )
 
     high_fraud = [a for a in accounts if is_high_fraud_account(a)]
@@ -610,7 +624,15 @@ def rebalance_account_statuses():
         for _ in range(to_add):
             random.shuffle(rest)
             account = rest.pop()
-            stripe.Account.modify(account.id, metadata={HIGH_FRAUD_TAG: True})
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    HIGH_FRAUD_TAG: True,
+                    REJECTED_TAG: None,
+                    ELEVATED_FRAUD_TAG: None,
+                    RESTRICTED_TAG: None,
+                },
+            )
 
     if len(elevated_fraud) < ELEVATED_FRAUD_COUNT:
         to_add = ELEVATED_FRAUD_COUNT - len(elevated_fraud)
@@ -618,7 +640,15 @@ def rebalance_account_statuses():
         for _ in range(to_add):
             random.shuffle(rest)
             account = rest.pop()
-            stripe.Account.modify(account.id, metadata={ELEVATED_FRAUD_TAG: True})
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    ELEVATED_FRAUD_TAG: True,
+                    HIGH_FRAUD_TAG: None,
+                    REJECTED_TAG: None,
+                    RESTRICTED_TAG: None,
+                },
+            )
 
     if len(rejected) < REJECTED_COUNT:
         to_add = REJECTED_COUNT - len(rejected)
@@ -626,7 +656,15 @@ def rebalance_account_statuses():
         for _ in range(to_add):
             random.shuffle(rest)
             account = rest.pop()
-            stripe.Account.modify(account.id, metadata={REJECTED_TAG: True})
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    REJECTED_TAG: True,
+                    HIGH_FRAUD_TAG: None,
+                    ELEVATED_FRAUD_TAG: None,
+                    RESTRICTED_TAG: None,
+                },
+            )
 
     if len(restricted) < RESTRICTED_COUNT:
         to_add = RESTRICTED_COUNT - len(restricted)
@@ -634,7 +672,15 @@ def rebalance_account_statuses():
         for _ in range(to_add):
             random.shuffle(rest)
             account = rest.pop()
-            stripe.Account.modify(account.id, metadata={RESTRICTED_TAG: True})
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    RESTRICTED_TAG: True,
+                    HIGH_FRAUD_TAG: None,
+                    REJECTED_TAG: None,
+                    ELEVATED_FRAUD_TAG: None,
+                },
+            )
 
 
 def update_account_status(account):
@@ -794,10 +840,11 @@ def delete_accounts():
 
         account.delete()
 
+
 def create_cardholder_and_card(account):
     assert isinstance(account, stripe.Account)
 
-    try: 
+    try:
         cardholder = stripe.issuing.Cardholder.create(
             type="individual",
             name=f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
@@ -854,7 +901,9 @@ def generate_cardholders_and_cards(account):
     if is_restricted_account(account):
         # Skip cardholder generation on this account if card issuing is disabled
         if not account.capabilities.card_issuing:
-            log.info(f"Skipping cardholder generation on restricted account {account.id}")
+            log.info(
+                f"Skipping cardholder generation on restricted account {account.id}"
+            )
             return
 
     # Get the existing cards
