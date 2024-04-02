@@ -62,6 +62,7 @@ const config = {
         },
         success: {
           DEFAULT: 'var(--success)',
+          border: 'var(--success-border)',
           foreground: 'var(--success-foreground)',
         },
       },
