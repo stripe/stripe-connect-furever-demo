@@ -288,6 +288,17 @@ ELEVATED_FRAUD_TAG = "elevated_fraud"
 HIGH_FRAUD_TAG = "high_fraud"
 PROTECTED_TAG = "protected"
 
+# The following are weights for the tags
+(
+    HIGH_FRAUD_COUNT,
+    ELEVATED_FRAUD_COUNT,
+    REJECTED_COUNT,
+    RESTRICTED_COUNT,
+) = (8, 9, 4, 8)
+NORMAL_COUNT = 100 - (
+    HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT + RESTRICTED_COUNT
+)
+
 
 def is_protected_account(account):
     return account.metadata.get(PROTECTED_TAG, False)
@@ -353,23 +364,32 @@ def ensure_accounts():
         used_studio_names.add(business_name)
 
         # Select the tag for this account
-        tag_weight = random.randint(0, 100)
+        tag_weight = random.randint(
+            0,
+            sum(
+                [
+                    HIGH_FRAUD_COUNT,
+                    ELEVATED_FRAUD_COUNT,
+                    REJECTED_COUNT,
+                    RESTRICTED_COUNT,
+                    NORMAL_COUNT,
+                ]
+            ),
+        )
 
         identity_mismatch = False
         inaccessible = False
 
         metadata = {}
-        if tag_weight < 5:
-            # 5% chance
+        if tag_weight < HIGH_FRAUD_COUNT:
             metadata[HIGH_FRAUD_TAG] = True
-        elif tag_weight < (5 + 6):
-            # 6% chance
+        elif tag_weight < (HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT):
             metadata[ELEVATED_FRAUD_TAG] = True
-        elif tag_weight < (5 + 6 + 2):
-            # 2% chance
+        elif tag_weight < (HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT):
             metadata[REJECTED_TAG] = True
-        elif tag_weight < (5 + 6 + 2 + 8):
-            # 8% chance
+        elif tag_weight < (
+            HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT + RESTRICTED_COUNT
+        ):
             metadata[RESTRICTED_TAG] = True
 
             # Pick which kind of restricted we'll use
@@ -553,6 +573,60 @@ def ensure_financial_account(account):
     )
 
 
+def rebalance_account_statuses():
+    accounts = list(stripe.Account.list().auto_paging_iter())
+
+    high_fraud = [a for a in accounts if is_high_fraud_account(a)]
+    elevated_fraud = [a for a in accounts if is_elevated_fraud_account(a)]
+    rejected = [a for a in accounts if is_rejected_account(a)]
+    restricted = [a for a in accounts if is_restricted_account(a)]
+    rest = [
+        a
+        for a in accounts
+        if not any(
+            [
+                is_high_fraud_account(a),
+                is_elevated_fraud_account(a),
+                is_rejected_account(a),
+                is_restricted_account(a),
+            ]
+        )
+    ]
+
+    # For now, assume we only _add_ to each category by taking away from the rest
+    if len(high_fraud) < HIGH_FRAUD_COUNT:
+        to_add = HIGH_FRAUD_COUNT - len(high_fraud)
+        log.info(f"Adding {to_add} high fraud accounts")
+        for _ in range(to_add):
+            random.shuffle(rest)
+            account = rest.pop()
+            stripe.Account.modify(account.id, metadata={HIGH_FRAUD_TAG: True})
+
+    if len(elevated_fraud) < ELEVATED_FRAUD_COUNT:
+        to_add = ELEVATED_FRAUD_COUNT - len(elevated_fraud)
+        log.info(f"Adding {to_add} elevated fraud accounts")
+        for _ in range(to_add):
+            random.shuffle(rest)
+            account = rest.pop()
+            stripe.Account.modify(account.id, metadata={ELEVATED_FRAUD_TAG: True})
+
+    if len(rejected) < REJECTED_COUNT:
+        to_add = REJECTED_COUNT - len(rejected)
+        log.info(f"Adding {to_add} rejected accounts")
+        for _ in range(to_add):
+            random.shuffle(rest)
+            account = rest.pop()
+            stripe.Account.modify(account.id, metadata={REJECTED_TAG: True})
+
+    if len(restricted) < RESTRICTED_COUNT:
+        to_add = RESTRICTED_COUNT - len(restricted)
+        log.info(f"Adding {to_add} restricted accounts")
+        for _ in range(to_add):
+            random.shuffle(rest)
+            account = rest.pop()
+            stripe.Account.modify(account.id, metadata={RESTRICTED_TAG: True})
+
+
 def update_account_status(account):
     """
     Update the status of a connected account
@@ -560,13 +634,16 @@ def update_account_status(account):
     assert isinstance(account, stripe.Account)
 
     if is_protected_account(account):
+        log.info(f"Skipping status update for protected account {account.id}")
         return
 
     if is_restricted_account(account):
         # The account should already be restricted
+        log.info("Account {account.id} is restricted")
         if not account.requirements.past_due:
             log.warning(f"Account {account.id} is not restricted")
     elif is_rejected_account(account):
+        log.info(f"Account {account.id} is a rejected account, so doing that")
         if not account.payouts_enabled:
             return
         log.info(f"Rejecting account {account.id}")
@@ -626,16 +703,20 @@ def generate_charges(account):
             log.info(f"Skipping charges on restricted account {account.id}")
             return
 
-    success_count, dispute_count, decline_count, refund_count = 99, 0, 0, 2
+    success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
     if is_elevated_fraud_account(account):
         log.info(f"Generating charge data for elevated fraud account {account.id}")
-        success_count, dispute_count, decline_count, refund_count = 83, 1, 10, 6
+        success_count, dispute_count, decline_count, refund_count = 41, 1, 5, 3
     elif is_high_fraud_account(account):
         log.info(f"Generating charge data for high fraud account {account.id}")
-        success_count, dispute_count, decline_count, refund_count = 65, 10, 25, 30
+        success_count, dispute_count, decline_count, refund_count = 18, 5, 12, 15
     else:
         log.info(f"Generating charge data for regular account {account.id}")
+
+    assert (
+        success_count + dispute_count + decline_count + refund_count == 50
+    ), "Totals should add up to 50"
 
     # Get the charges from the last 24 hours.
     charges = list(
@@ -711,21 +792,31 @@ def main():
 
     stripe.api_key = config["STRIPE_SECRET_KEY"]
 
+    # Reset if we need to
+    # delete_accounts()
+
     ensure_accounts()
+
+    rebalance_account_statuses()
 
     accounts = list(stripe.Account.list().auto_paging_iter())
 
     for account in accounts:
         resolve_requirements(account)
 
+    for account in accounts:
         # Ensure each account has a financial account
         ensure_financial_account(account)
 
+    for account in accounts:
+        # Update the status of the account
         update_account_status(account)
 
+    for account in accounts:
         # Populate charges
         generate_charges(account)
 
+    for account in accounts:
         # Populate payouts
         generate_payouts(account)
 
