@@ -282,6 +282,20 @@ YOGA_STUDIO_NAMES = [
     "Zensa Yoga",
 ]
 
+EXTERNAL_BUSINESS_NAMES = [
+    "Green Peace Yoga Mats",
+    "Zen Garden Incense Store",
+    "Tranquil Harmony Meditation Cushions",
+    "Serenity Sounds Audio Equipment",
+    "Enlightened Spaces Interior Design",
+    "PureLife Eco Cleaning Supplies",
+    "Natural Elements Water Delivery",
+    "Wholesome Energies Snack Distributor",
+    "Inner Calm Tea Suppliers",
+    "Mindful Media Marketing Agency",
+    "Sun Salutation Solar Power Solutions"
+]
+
 RESTRICTED_TAG = "restricted"
 REJECTED_TAG = "rejected"
 ELEVATED_FRAUD_TAG = "elevated_fraud"
@@ -903,8 +917,6 @@ def generate_financial_account_transactions(account):
     financial_account = get_default_financial_account(account)
     financial_account_id = financial_account.id
 
-    transactions_count = 20
-
     transactions = list(
         stripe.treasury.Transaction.list(
             financial_account=financial_account_id,
@@ -912,7 +924,7 @@ def generate_financial_account_transactions(account):
         ).auto_paging_iter()
     )
 
-    received_credit_count, received_debit_count, card_authorization_count = 12, 7, 1
+    received_credit_count, received_debit_count, card_authorization_count = 24, 14, 2
 
     actual_received_credit_count = len(
         [t for t in transactions if t.flow_type == "received_credit"]
@@ -931,6 +943,12 @@ def generate_financial_account_transactions(account):
             currency="usd",
             financial_account=financial_account_id,
             network="ach",
+            initiating_payment_method_details={
+                "type": "us_bank_account",
+                "us_bank_account": {
+                    "account_holder_name": random.choice(EXTERNAL_BUSINESS_NAMES),
+                },
+            },
             stripe_account=account.id,
         )
 
@@ -941,6 +959,12 @@ def generate_financial_account_transactions(account):
             currency="usd",
             financial_account=financial_account_id,
             network="ach",
+            initiating_payment_method_details={
+                "type": "us_bank_account",
+                "us_bank_account": {
+                    "account_holder_name": random.choice(EXTERNAL_BUSINESS_NAMES),
+                },
+            },
             stripe_account=account.id,
         )
 
@@ -959,6 +983,9 @@ def generate_financial_account_transactions(account):
             amount=amount,
             card = card.id,
             stripe_account=account.id,
+            merchant_data={
+                "name": random.choice(EXTERNAL_BUSINESS_NAMES),
+            },
         )
 
 def main():
