@@ -1,0 +1,3 @@
+python-dotenv==1.0.1
+stripe==8.9.0
+black
