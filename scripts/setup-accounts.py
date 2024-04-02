@@ -574,10 +574,18 @@ def ensure_financial_account(account):
 
 
 def rebalance_account_statuses():
-    accounts = list(stripe.Account.list().auto_paging_iter())
+    accounts = sorted(
+        stripe.Account.list().auto_paging_iter(), key=lambda a: a.created, reverse=True
+    )
 
     # Ensure the first few accounts are protected and with other tags
+    log.info(
+        f"Marking account {accounts[0].id} / {accounts[0].business_profile.name} as protected"
+    )
     stripe.Account.modify(accounts[0].id, metadata={PROTECTED_TAG: True})
+    log.info(
+        f"Marking account {accounts[1].id} / {accounts[1].business_profile.name} as high fraud"
+    )
     stripe.Account.modify(
         accounts[1].id,
         metadata={
@@ -588,6 +596,9 @@ def rebalance_account_statuses():
             RESTRICTED_TAG: None,
         },
     )
+    log.info(
+        f"Marking account {accounts[2].id} / {accounts[2].business_profile.name} as elevated fraud"
+    )
     stripe.Account.modify(
         accounts[2].id,
         metadata={
@@ -595,6 +606,36 @@ def rebalance_account_statuses():
             HIGH_FRAUD_TAG: None,
             REJECTED_TAG: None,
             ELEVATED_FRAUD_TAG: True,
+            RESTRICTED_TAG: None,
+        },
+    )
+
+    # Get a restricted account on the front page
+    log.info(
+        f"Marking account {accounts[9].id} / {accounts[9].business_profile.name} as rejected"
+    )
+    stripe.Account.modify(
+        accounts[9].id,
+        metadata={
+            PROTECTED_TAG: True,
+            HIGH_FRAUD_TAG: None,
+            REJECTED_TAG: True,
+            ELEVATED_FRAUD_TAG: None,
+            RESTRICTED_TAG: None,
+        },
+    )
+
+    # Get a rejected account on the front page
+    log.info(
+        f"Marking account {accounts[14].id} / {accounts[14].business_profile.name} as rejected"
+    )
+    stripe.Account.modify(
+        accounts[14].id,
+        metadata={
+            PROTECTED_TAG: True,
+            HIGH_FRAUD_TAG: None,
+            REJECTED_TAG: True,
+            ELEVATED_FRAUD_TAG: None,
             RESTRICTED_TAG: None,
         },
     )
@@ -689,15 +730,29 @@ def update_account_status(account):
     """
     assert isinstance(account, stripe.Account)
 
-    if is_protected_account(account):
-        log.info(f"Skipping status update for protected account {account.id}")
-        return
-
     if is_restricted_account(account):
         # The account should already be restricted
         log.info("Account {account.id} is restricted")
-        if not account.requirements.past_due:
-            log.warning(f"Account {account.id} is not restricted")
+        stripe.Account.modify(
+            account.id,
+            business_profile={
+                "url": "https://inaccessible.stripe.com",
+                "support_address": {
+                    "line1": "address_no_match",
+                    "city": "South San Francisco",
+                    "state": "CA",
+                    "postal_code": "94080",
+                },
+            },
+            company={
+                "tax_id": "111111111",
+            },
+            individual={
+                "address": {
+                    "line1": "address_no_match",
+                },
+            },
+        )
     elif is_rejected_account(account):
         log.info(f"Account {account.id} is a rejected account, so doing that")
         if not account.payouts_enabled:
@@ -711,6 +766,26 @@ def update_account_status(account):
         pass
     elif is_high_fraud_account(account):
         pass
+
+
+def ensure_account_configuration(account):
+    """
+    Ensure some stuff is set up right (manual payouts, etc).
+    """
+    assert isinstance(account, stripe.Account)
+
+    if not account.settings.payouts.schedule.interval == "manual":
+        log.info(f"Setting manual payouts for {account.id}")
+        stripe.Account.modify(
+            account.id,
+            settings={
+                "payouts": {
+                    "schedule": {
+                        "interval": "manual",
+                    }
+                }
+            },
+        )
 
 
 def create_charge(account, token):
@@ -948,6 +1023,8 @@ def main():
     for account in accounts:
         resolve_requirements(account)
 
+        ensure_account_configuration(account)
+
     for account in accounts:
         # Ensure each account has a financial account
         ensure_financial_account(account)
@@ -955,6 +1032,9 @@ def main():
     for account in accounts:
         # Update the status of the account
         update_account_status(account)
+
+    # Update the statuses
+    accounts = list(stripe.Account.list().auto_paging_iter())
 
     for account in accounts:
         # Populate charges
