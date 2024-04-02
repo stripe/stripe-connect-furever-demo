@@ -10,7 +10,7 @@ export default function Payouts() {
   return (
     <>
       <h1 className="text-3xl font-bold">Payments</h1>
-      <div className="flex flex-row space-x-5">
+      <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex-1">
           <MonthToDateWidget chartMaxWidth={300} />
         </div>
