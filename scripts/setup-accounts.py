@@ -784,6 +784,91 @@ def delete_accounts():
 
         account.delete()
 
+def create_cardholder_and_card(account):
+    assert isinstance(account, stripe.Account)
+
+    try: 
+        cardholder = stripe.issuing.Cardholder.create(
+            type="individual",
+            name=f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
+            email=f"{random.choice(FIRST_NAMES).lower()}.{random.choice(LAST_NAMES).lower()}@example.com",
+            phone_number="+18888675309",
+            billing={
+                "address": {
+                    "line1": "354 Oyster Point Blvd",
+                    "city": "South San Francisco",
+                    "state": "CA",
+                    "postal_code": "94080",
+                    "country": "US",
+                },
+            },
+            stripe_account=account.id,
+        )
+
+        # Mark card inactive 20% of the time
+        inactive = random.randint(1, 5) == 1
+
+        return stripe.issuing.Card.create(
+            cardholder=cardholder.id,
+            currency="usd",
+            type="physical",
+            status="inactive" if inactive else "active",
+            shipping={
+                "name": cardholder.name,
+                "address": {
+                    "line1": "354 Oyster Point Blvd",
+                    "city": "South San Francisco",
+                    "state": "CA",
+                    "postal_code": "94080",
+                    "country": "US",
+                },
+            },
+            stripe_account=account.id,
+        )
+    except Exception as e:
+        log.error(f"Got an error creating a cardholder: {e}")
+        return None
+
+
+def generate_cardholders_and_cards(account):
+    """
+    Generate cardholders and cards for a connected account
+    """
+    assert isinstance(account, stripe.Account)
+
+    if is_rejected_account(account):
+        log.info(f"Skipping cardholder generation on rejected account {account.id}")
+        # Skip cardholder generation on this account
+        return
+
+    if is_restricted_account(account):
+        # Skip cardholder generation on this account if card issuing is disabled
+        if not account.capabilities.card_issuing:
+            log.info(f"Skipping cardholder generation on restricted account {account.id}")
+            return
+
+    # Get the existing cards
+    cards = list(
+        stripe.issuing.Card.list(
+            stripe_account=account.id,
+        ).auto_paging_iter()
+    )
+
+    log.info(f"Generating cardholders and cards for {account.id}")
+
+    cards_count = 10
+    for _ in range(cards_count - len(cards)):
+        create_cardholder_and_card(account)
+
+
+def generate_financial_account_transactions(account):
+    """
+    Generate financial account transactions for a connected account
+    """
+    assert isinstance(account, stripe.Account)
+
+    log.info(f"Generating financial account transactions for {account.id}")
+
 
 def main():
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
@@ -819,6 +904,14 @@ def main():
     for account in accounts:
         # Populate payouts
         generate_payouts(account)
+
+    for account in accounts:
+        # Populate cardholders and cards
+        generate_cardholders_and_cards(account)
+
+    for account in accounts:
+        # Populate financial account transactions
+        generate_financial_account_transactions(account)
 
 
 if __name__ == "__main__":
