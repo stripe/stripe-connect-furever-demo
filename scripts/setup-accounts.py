@@ -576,6 +576,15 @@ def ensure_financial_account(account):
 def rebalance_account_statuses():
     accounts = list(stripe.Account.list().auto_paging_iter())
 
+    # Ensure the first few accounts are protected and with other tags
+    stripe.Account.modify(account[0].id, metadata={PROTECTED_TAG: True})
+    stripe.Account.modify(
+        account[1].id, metadata={PROTECTED_TAG: True, ELEVATED_FRAUD_TAG: True}
+    )
+    stripe.Account.modify(
+        account[2].id, metadata={PROTECTED_TAG: True, HIGH_FRAUD_TAG: True}
+    )
+
     high_fraud = [a for a in accounts if is_high_fraud_account(a)]
     elevated_fraud = [a for a in accounts if is_elevated_fraud_account(a)]
     rejected = [a for a in accounts if is_rejected_account(a)]
@@ -589,6 +598,7 @@ def rebalance_account_statuses():
                 is_elevated_fraud_account(a),
                 is_rejected_account(a),
                 is_restricted_account(a),
+                is_protected_account(a),
             ]
         )
     ]
