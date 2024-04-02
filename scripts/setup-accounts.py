@@ -784,14 +784,17 @@ def delete_accounts():
 
         account.delete()
 
-def create_cardholder_and_card(account):
+def create_cardholder_and_card(account, financial_account_id):
     assert isinstance(account, stripe.Account)
 
-    try: 
+    first_name = random.choice(FIRST_NAMES)
+    last_name = random.choice(LAST_NAMES)
+
+    try:
         cardholder = stripe.issuing.Cardholder.create(
             type="individual",
-            name=f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
-            email=f"{random.choice(FIRST_NAMES).lower()}.{random.choice(LAST_NAMES).lower()}@example.com",
+            name=f"{first_name} {last_name}",
+            email=f"{first_name.lower()}.{last_name.lower()}@example.com",
             phone_number="+18888675309",
             billing={
                 "address": {
@@ -800,6 +803,16 @@ def create_cardholder_and_card(account):
                     "state": "CA",
                     "postal_code": "94080",
                     "country": "US",
+                },
+            },
+            individual={
+                "first_name": first_name,
+                "last_name": last_name,
+                "card_issuing": {
+                    "user_terms_acceptance": {
+                        "date": int(time.time()),
+                        "ip": "108.36.155.218",
+                    },
                 },
             },
             stripe_account=account.id,
@@ -813,6 +826,7 @@ def create_cardholder_and_card(account):
             currency="usd",
             type="physical",
             status="inactive" if inactive else "active",
+            financial_account=financial_account_id,
             shipping={
                 "name": cardholder.name,
                 "address": {
@@ -829,6 +843,19 @@ def create_cardholder_and_card(account):
         log.error(f"Got an error creating a cardholder: {e}")
         return None
 
+def get_default_financial_account(account):
+    """
+    Get the default financial account for a connected account
+    """
+    assert isinstance(account, stripe.Account)
+
+    financial_accounts = list(
+        stripe.treasury.FinancialAccount.list(
+            limit=1,
+            stripe_account=account.id
+        )
+    )
+    return financial_accounts[0]
 
 def generate_cardholders_and_cards(account):
     """
@@ -856,9 +883,13 @@ def generate_cardholders_and_cards(account):
 
     log.info(f"Generating cardholders and cards for {account.id}")
 
-    cards_count = 10
+    financial_account = get_default_financial_account(account)
+    financial_account_id = financial_account.id
+
+    cards_count = 12
+
     for _ in range(cards_count - len(cards)):
-        create_cardholder_and_card(account)
+        create_cardholder_and_card(account, financial_account_id)
 
 
 def generate_financial_account_transactions(account):
@@ -869,6 +900,66 @@ def generate_financial_account_transactions(account):
 
     log.info(f"Generating financial account transactions for {account.id}")
 
+    financial_account = get_default_financial_account(account)
+    financial_account_id = financial_account.id
+
+    transactions_count = 20
+
+    transactions = list(
+        stripe.treasury.Transaction.list(
+            financial_account=financial_account_id,
+            stripe_account=account.id,
+        ).auto_paging_iter()
+    )
+
+    received_credit_count, received_debit_count, card_authorization_count = 12, 7, 1
+
+    actual_received_credit_count = len(
+        [t for t in transactions if t.flow_type == "received_credit"]
+    )
+    actual_received_debit_count = len(
+        [t for t in transactions if t.flow_type == "received_debit"]
+    )
+    actual_card_authorization_count = len(
+        [t for t in transactions if t.flow_type == "issuing_authorization"]
+    )
+
+    for _ in range(received_credit_count - actual_received_credit_count):
+        amount = random.randint(5000, 100000)
+        stripe.treasury.ReceivedCredit.TestHelpers.create(
+            amount=amount,
+            currency="usd",
+            financial_account=financial_account_id,
+            network="ach",
+            stripe_account=account.id,
+        )
+
+    for _ in range(received_debit_count - actual_received_debit_count):
+        amount = random.randint(500, 10000)
+        stripe.treasury.ReceivedDebit.TestHelpers.create(
+            amount=amount,
+            currency="usd",
+            financial_account=financial_account_id,
+            network="ach",
+            stripe_account=account.id,
+        )
+
+    for _ in range(card_authorization_count - actual_card_authorization_count):
+        amount = random.randint(500, 10000)
+        cards = list(
+            stripe.issuing.Card.list(
+                limit=100,
+                status='active',
+                stripe_account=account.id,
+            )
+        )
+        card = random.choice(cards)
+
+        stripe.issuing.Authorization.TestHelpers.create(
+            amount=amount,
+            card = card.id,
+            stripe_account=account.id,
+        )
 
 def main():
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
