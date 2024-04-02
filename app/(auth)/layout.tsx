@@ -16,7 +16,7 @@ export default function AuthLayout({
   let header = 'Manage your studio with ease.';
   let subheader = `Pose is the world's leading health and wellness platform.`;
 
-  if (pathname !== '/login') {
+  if (pathname === '/onboarding') {
     header = 'Sign up';
     subheader = 'Fill out the form to set up your account.';
   }
