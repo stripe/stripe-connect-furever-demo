@@ -11,7 +11,7 @@ from dotenv import dotenv_values
 import stripe
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONNECTED_ACCOUNT_COUNT = 8  # 84
+CONNECTED_ACCOUNT_COUNT = 84
 
 file_handler = logging.StreamHandler()
 file_handler.addFilter(logging.Filter(name=__name__))
@@ -337,6 +337,12 @@ def ensure_accounts():
     ]
 
     # Create any accounts to reach the limit
+    to_create = CONNECTED_ACCOUNT_COUNT - len(account_ids)
+    if to_create <= 0:
+        return
+
+    log.info(f"Creating {to_create} connected accounts")
+
     for i in range(CONNECTED_ACCOUNT_COUNT - len(account_ids)):
         identity = identities[i % len(identities)]
 
