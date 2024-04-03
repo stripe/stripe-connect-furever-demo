@@ -92,7 +92,7 @@ const Schedule = () => {
           {studios.map(({id: studioId, name}) => (
             <h2
               key={studioId}
-              className="ml-10 flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
+              className="ml-8 flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
             >
               <div>{name}</div>
               <ChevronDown color="#6c7688" />
@@ -117,7 +117,7 @@ const Schedule = () => {
               return (
                 <div
                   key={studioId}
-                  className="relative ml-1 mr-5 flex flex-1 flex-col"
+                  className="relative first:ml-5 mr-5 flex flex-1 flex-col"
                 >
                   {classes.map(
                     ({
