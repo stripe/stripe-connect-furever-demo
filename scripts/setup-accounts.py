@@ -301,6 +301,7 @@ REJECTED_TAG = "rejected"
 ELEVATED_FRAUD_TAG = "elevated_fraud"
 HIGH_FRAUD_TAG = "high_fraud"
 PROTECTED_TAG = "protected"
+SUPPORT_TICKET_TAG = "support_ticket"
 
 # The following are weights for the tags
 (
@@ -332,6 +333,10 @@ def is_elevated_fraud_account(account):
 
 def is_high_fraud_account(account):
     return account.metadata.get(HIGH_FRAUD_TAG, False)
+
+
+def has_support_ticket(account):
+    return account.metadata.get(SUPPORT_TICKET_TAG, False)
 
 
 def ensure_accounts():
@@ -1122,6 +1127,37 @@ def generate_financial_account_transactions(account):
         )
 
 
+def generate_support_ticket(account):
+    """
+    Generate a support ticket for a connected account, but only ever create a single one.
+    """
+    assert isinstance(account, stripe.Account)
+
+    if has_support_ticket(account):
+        return
+
+    log.info(f"Generating support ticket for {account.id}")
+
+    try:
+        response = stripe.raw_request(
+            "post",
+            "/v1/test_helpers/demo/support_ticket",
+            account=account.token,
+        )
+
+        # TODO - validate the response
+
+        # Mark this account as having a support ticket
+        stripe.Account.modify(
+            account.id,
+            metadata={
+                SUPPORT_TICKET_TAG: True,
+            },
+        )
+    except stripe.error.StripeError as e:
+        log.error(f"Got an error creating a support ticket: {e}")
+
+
 def main():
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
     if "STRIPE_SECRET_KEY" not in config:
@@ -1169,6 +1205,10 @@ def main():
     for account in accounts:
         # Populate financial account transactions
         generate_financial_account_transactions(account)
+
+    for account in accounts:
+        # Generate a support ticket
+        generate_support_ticket(account)
 
 
 if __name__ == "__main__":
