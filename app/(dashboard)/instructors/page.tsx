@@ -24,7 +24,7 @@ export default function Instructors() {
         {
           instructors.map((instructor) => {
             return (
-              <Container className="flex flex-col items-center gap-4 hover:shadow-lg transition cursor-pointer" key={instructor.id}>
+              <Container className="relative flex flex-col items-center gap-4 hover:shadow-lg transition cursor-pointer" key={instructor.id}>
                 <Image
                   className="w-[80px] h-[80px] relative rounded-full shadow"
                   fill

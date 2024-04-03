@@ -29,8 +29,7 @@ const renderClassRow = (
     endTime: string,
     teacher: string,
     profilePhoto: string
-  },
-  key: number) => {
+  }) => {
     return (
       <Container className="flex py-4 gap-5 hover:shadow-lg cursor-pointer transition items-center">
         <div className="font-medium text-secondary w-[180px]">{item.startTime} - {item.endTime}</div>
@@ -38,7 +37,7 @@ const renderClassRow = (
           <div className="font-bold">{item.name}</div>
           <div className="text-subdued">Studio {item.studio}</div>
         </div>
-        <div className="flex flex-1 items-center gap-2">
+        <div className="flex flex-1 items-center relative gap-2">
           <Image
             className="w-7 h-7 relative rounded-full"
             fill
@@ -79,8 +78,8 @@ export default function Classes() {
       </div>
       <div className="flex flex-col gap-y-3">
         {
-          classes.map((item, key) => {
-            return renderClassRow(item, key);
+          classes.map((item) => {
+            return renderClassRow(item);
           })
         }
       </div>
@@ -90,8 +89,8 @@ export default function Classes() {
       </div>
       <div className="flex flex-col gap-y-3">
         {
-          classes.map((item, key) => {
-            return renderClassRow(item, key);
+          classes.map((item) => {
+            return renderClassRow(item);
           })
         }
       </div>
