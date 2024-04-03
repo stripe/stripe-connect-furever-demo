@@ -63,12 +63,6 @@ export const useConnect = () => {
     const instance = loadConnectAndInitialize({
       // @ts-ignore
       publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
-      fonts: [
-        {
-          src: 'url(/fonts/Sohne-Buch.otf) format(\'opentype\')',
-          family: 'Sohne'
-        }
-      ],
       appearance: {
         overlays: 'dialog',
         variables: appearanceVariables,
