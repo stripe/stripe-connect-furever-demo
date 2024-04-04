@@ -29,6 +29,8 @@ logging.basicConfig(
 
 log = logging.getLogger(__name__)
 
+EMAIL_DOMAIN = "yubasoft.net"
+
 FIRST_NAMES = [
     "David",
     "Elizabeth",
@@ -301,6 +303,7 @@ REJECTED_TAG = "rejected"
 ELEVATED_FRAUD_TAG = "elevated_fraud"
 HIGH_FRAUD_TAG = "high_fraud"
 PROTECTED_TAG = "protected"
+SUPPORT_TICKET_TAG = "support_ticket"
 
 # The following are weights for the tags
 (
@@ -334,6 +337,10 @@ def is_high_fraud_account(account):
     return account.metadata.get(HIGH_FRAUD_TAG, False)
 
 
+def has_support_ticket(account):
+    return account.metadata.get(SUPPORT_TICKET_TAG, False)
+
+
 def ensure_accounts():
     """
     Create or update connected accounts to reach the limit
@@ -350,7 +357,7 @@ def ensure_accounts():
         {
             "first_name": first_name,
             "last_name": last_name,
-            "email": f"{first_name.lower()}.{last_name.lower()}@example.com",
+            "email": f"{first_name.lower()}.{last_name.lower()}@{EMAIL_DOMAIN}",
         }
         for first_name, last_name in NAMES
     ]
@@ -788,6 +795,17 @@ def ensure_account_configuration(account):
     """
     assert isinstance(account, stripe.Account)
 
+    # Email is a valid email address
+    email = f"{account.individual.first_name.lower()}.{account.individual.last_name.lower()}@{EMAIL_DOMAIN}"
+    if account.email != email:
+        log.info(f"Updating email for {account.id}")
+        stripe.Account.modify(
+            account.id,
+            email=email,
+            individual={"email": email},
+        )
+
+    # Manual payouts
     if not account.settings.payouts.schedule.interval == "manual":
         log.info(f"Setting manual payouts for {account.id}")
         stripe.Account.modify(
@@ -940,6 +958,7 @@ def create_cardholder_and_card(account, financial_account_id):
         cardholder = stripe.issuing.Cardholder.create(
             type="individual",
             name=f"{first_name} {last_name}",
+            # Use example.com here, since we don't actually email them
             email=f"{first_name.lower()}.{last_name.lower()}@example.com",
             phone_number="+18888675309",
             billing={
@@ -1015,7 +1034,7 @@ def generate_cardholders_and_cards(account):
 
     if is_restricted_account(account):
         # Skip cardholder generation on this account if card issuing is disabled
-        if not account.capabilities.card_issuing:
+        if account.capabilities.card_issuing != "active":
             log.info(
                 f"Skipping cardholder generation on restricted account {account.id}"
             )
@@ -1122,6 +1141,37 @@ def generate_financial_account_transactions(account):
         )
 
 
+def generate_support_ticket(account):
+    """
+    Generate a support ticket for a connected account, but only ever create a single one.
+    """
+    assert isinstance(account, stripe.Account)
+
+    if has_support_ticket(account):
+        return
+
+    log.info(f"Generating support ticket for {account.id}")
+
+    try:
+        response = stripe.raw_request(
+            "post",
+            "/v1/test_helpers/demo/support_ticket",
+            account=account.token,
+        )
+
+        # TODO - validate the response
+
+        # Mark this account as having a support ticket
+        stripe.Account.modify(
+            account.id,
+            metadata={
+                SUPPORT_TICKET_TAG: True,
+            },
+        )
+    except stripe.error.StripeError as e:
+        log.error(f"Got an error creating a support ticket: {e}")
+
+
 def main():
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
     if "STRIPE_SECRET_KEY" not in config:
@@ -1169,6 +1219,10 @@ def main():
     for account in accounts:
         # Populate financial account transactions
         generate_financial_account_transactions(account)
+
+    for account in accounts:
+        # Generate a support ticket
+        generate_support_ticket(account)
 
 
 if __name__ == "__main__":
