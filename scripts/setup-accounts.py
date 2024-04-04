@@ -477,7 +477,7 @@ def ensure_accounts():
                 "support_url": "https://pose.dev",
                 "estimated_worker_count": 10,
                 "annual_revenue": {
-                    "amount": 1000000,
+                    "amount": 10000_00,
                     "currency": "usd",
                     "fiscal_year_end": "2023-12-31",
                 },
@@ -608,20 +608,24 @@ def rebalance_account_statuses():
     )
 
     # Ensure the first few accounts are protected and with other tags
-    if not is_protected_account(accounts[0]) and not is_demo_account(accounts[0]):
+    demo_account = accounts[0]
+    if not is_protected_account(demo_account) and not is_demo_account(demo_account):
         log.info(
-            f"Marking account {accounts[0].id} / {accounts[0].business_profile.name} as protected"
+            f"Marking account {demo_account.id} / {demo_account.business_profile.name} as protected"
         )
         stripe.Account.modify(
-            accounts[0].id, metadata={PROTECTED_TAG: True, DEMO_ACCOUNT_TAG: True}
+            demo_account.id, metadata={PROTECTED_TAG: True, DEMO_ACCOUNT_TAG: True}
         )
 
-    if not is_protected_account(accounts[1]) and not is_high_fraud_account(accounts[1]):
+    high_fraud_account = accounts[1]
+    if not is_protected_account(high_fraud_account) and not is_high_fraud_account(
+        high_fraud_account
+    ):
         log.info(
-            f"Marking account {accounts[1].id} / {accounts[1].business_profile.name} as high fraud"
+            f"Marking account {high_fraud_account.id} / {high_fraud_account.business_profile.name} as high fraud"
         )
         stripe.Account.modify(
-            accounts[1].id,
+            high_fraud_account.id,
             metadata={
                 PROTECTED_TAG: True,
                 HIGH_FRAUD_TAG: True,
@@ -631,14 +635,15 @@ def rebalance_account_statuses():
             },
         )
 
-    if not is_protected_account(accounts[2]) and not is_elevated_fraud_account(
-        accounts[2]
-    ):
+    elevated_fraud_account = accounts[2]
+    if not is_protected_account(
+        elevated_fraud_account
+    ) and not is_elevated_fraud_account(elevated_fraud_account):
         log.info(
-            f"Marking account {accounts[2].id} / {accounts[2].business_profile.name} as elevated fraud"
+            f"Marking account {elevated_fraud_account.id} / {elevated_fraud_account.business_profile.name} as elevated fraud"
         )
         stripe.Account.modify(
-            accounts[2].id,
+            elevated_fraud_account.id,
             metadata={
                 PROTECTED_TAG: True,
                 HIGH_FRAUD_TAG: None,
@@ -649,12 +654,15 @@ def rebalance_account_statuses():
         )
 
     # Get a restricted account on the front page
-    if not is_protected_account(accounts[3]) and not is_restricted_account(accounts[3]):
+    restricted_fraud_account = accounts[9]
+    if not is_protected_account(restricted_fraud_account) and not is_restricted_account(
+        restricted_fraud_account
+    ):
         log.info(
-            f"Marking account {accounts[9].id} / {accounts[9].business_profile.name} as restricted"
+            f"Marking account {restricted_fraud_account.id} / {restricted_fraud_account.business_profile.name} as restricted"
         )
         stripe.Account.modify(
-            accounts[9].id,
+            restricted_fraud_account.id,
             metadata={
                 PROTECTED_TAG: True,
                 HIGH_FRAUD_TAG: None,
@@ -665,12 +673,15 @@ def rebalance_account_statuses():
         )
 
     # Get a rejected account on the front page
-    if not is_protected_account(accounts[4]) and not is_rejected_account(accounts[4]):
+    rejected_account = accounts[14]
+    if not is_protected_account(rejected_account) and not is_rejected_account(
+        rejected_account
+    ):
         log.info(
-            f"Marking account {accounts[14].id} / {accounts[14].business_profile.name} as rejected"
+            f"Marking account {rejected_account.id} / {rejected_account.business_profile.name} as rejected"
         )
         stripe.Account.modify(
-            accounts[14].id,
+            rejected_account.id,
             metadata={
                 PROTECTED_TAG: True,
                 HIGH_FRAUD_TAG: None,
@@ -844,7 +855,7 @@ def create_charge(account, token):
     assert isinstance(account, stripe.Account)
     assert isinstance(token, str)
 
-    amount = random.randint(500, 1000)
+    amount = random.randint(5_00, 10_00)
     app_fee = math.ceil(max((amount * 2.9 + 30) * 0.1, amount * 0.1))
 
     try:
@@ -884,14 +895,14 @@ def generate_charges(account):
 
     success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
+    account_tag = "regular"
+
     if is_elevated_fraud_account(account):
-        log.info(f"Generating charge data for elevated fraud account {account.id}")
+        account_tag = "elevated fraud"
         success_count, dispute_count, decline_count, refund_count = 41, 1, 5, 3
     elif is_high_fraud_account(account):
-        log.info(f"Generating charge data for high fraud account {account.id}")
+        account_tag = "high fraud"
         success_count, dispute_count, decline_count, refund_count = 18, 5, 12, 15
-    else:
-        log.info(f"Generating charge data for regular account {account.id}")
 
     assert (
         success_count + dispute_count + decline_count + refund_count == 50
@@ -937,21 +948,25 @@ def generate_charges(account):
     # Randomize the order
     random.shuffle(tokens)
 
-    # The most recent charge should be successful
-    tokens += ["tok_bypassPending"]
+    if tokens and token[-1] == "tok_bypassPending":
+        # The most recent charge should be successful
+        tokens += ["tok_bypassPending"]
 
-    log.info(f"Adding {len(tokens)} charges to {account.id}")
-    for token in tokens:
-        log.info(f"Creating {token} charge on {account.id}")
+    if tokens:
+        log.info(
+            f"Generating {len(tokens)} charges for {account_tag} account {account.id}"
+        )
+        for token in tokens:
+            log.info(f"Creating {token} charge on {account.id}")
 
-        charge = create_charge(account, token)
+            charge = create_charge(account, token)
 
-        if token == "tok_pendingRefund" and charge:
-            stripe.Refund.create(
-                charge=charge.id,
-                refund_application_fee=False,
-                stripe_account=account.id,
-            )
+            if token == "tok_pendingRefund" and charge:
+                stripe.Refund.create(
+                    charge=charge.id,
+                    refund_application_fee=False,
+                    stripe_account=account.id,
+                )
 
 
 def generate_payouts(account):
@@ -960,7 +975,38 @@ def generate_payouts(account):
     """
     assert isinstance(account, stripe.Account)
 
+    # Skip payouts on this account if payouts are disabled
+    if not account.payouts_enabled:
+        log.info(f"Skipping payouts on account {account.id} as they are disabled")
+        return
+
     log.info(f"Generating payouts for {account.id}")
+
+    # Try to create a single payout, but leave some kind of minimum balance for demoing with
+    min_balance = 250_00
+    min_payout = 50_00
+
+    # Get the account balance
+    balance = stripe.Balance.retrieve(stripe_account=account.id)
+    available = balance.available[0].amount
+    if available <= min_balance:
+        log.info(f"Account {account.id} has insufficient funds for a payout")
+        return
+
+    max_payout = available - min_balance
+    if max_payout < min_payout:
+        log.info(f"Account {account.id} has insufficient funds for a minimum payout")
+        return
+
+    # Create a payout
+
+    amount = random.randint(min_payout, max_payout)
+
+    stripe.Payout.create(
+        amount=amount,
+        currency="usd",
+        stripe_account=account.id,
+    )
 
 
 def delete_accounts():
@@ -1118,7 +1164,7 @@ def generate_financial_account_transactions(account):
     )
 
     for _ in range(received_credit_count - actual_received_credit_count):
-        amount = random.randint(5000, 100000)
+        amount = random.randint(50_00, 1000_00)
         stripe.treasury.ReceivedCredit.TestHelpers.create(
             amount=amount,
             currency="usd",
@@ -1134,7 +1180,7 @@ def generate_financial_account_transactions(account):
         )
 
     for _ in range(received_debit_count - actual_received_debit_count):
-        amount = random.randint(500, 10000)
+        amount = random.randint(5_00, 100_00)
         stripe.treasury.ReceivedDebit.TestHelpers.create(
             amount=amount,
             currency="usd",
@@ -1149,25 +1195,29 @@ def generate_financial_account_transactions(account):
             stripe_account=account.id,
         )
 
-    for _ in range(card_authorization_count - actual_card_authorization_count):
-        amount = random.randint(500, 10000)
-        cards = list(
-            stripe.issuing.Card.list(
-                limit=100,
-                status="active",
-                stripe_account=account.id,
-            )
-        )
-        card = random.choice(cards)
-
-        stripe.issuing.Authorization.TestHelpers.create(
-            amount=amount,
-            card=card.id,
+    cards = list(
+        stripe.issuing.Card.list(
+            limit=100,
+            status="active",
             stripe_account=account.id,
-            merchant_data={
-                "name": random.choice(EXTERNAL_BUSINESS_NAMES),
-            },
         )
+    )
+
+    if cards:
+        log.info(f"Generating card authorizations for {account.id}")
+        for _ in range(card_authorization_count - actual_card_authorization_count):
+            amount = random.randint(5_00, 100_00)
+
+            card = random.choice(cards)
+
+            stripe.issuing.Authorization.TestHelpers.create(
+                amount=amount,
+                card=card.id,
+                stripe_account=account.id,
+                merchant_data={
+                    "name": random.choice(EXTERNAL_BUSINESS_NAMES),
+                },
+            )
 
 
 def generate_support_ticket(account):
