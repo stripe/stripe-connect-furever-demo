@@ -29,6 +29,8 @@ logging.basicConfig(
 
 log = logging.getLogger(__name__)
 
+EMAIL_DOMAIN = "yubasoft.net"
+
 FIRST_NAMES = [
     "David",
     "Elizabeth",
@@ -355,7 +357,7 @@ def ensure_accounts():
         {
             "first_name": first_name,
             "last_name": last_name,
-            "email": f"{first_name.lower()}.{last_name.lower()}@example.com",
+            "email": f"{first_name.lower()}.{last_name.lower()}@{EMAIL_DOMAIN}",
         }
         for first_name, last_name in NAMES
     ]
@@ -793,6 +795,17 @@ def ensure_account_configuration(account):
     """
     assert isinstance(account, stripe.Account)
 
+    # Email is a valid email address
+    email = f"{account.individual.first_name.lower()}.{account.individual.last_name.lower()}@{EMAIL_DOMAIN}"
+    if account.email != email:
+        log.info(f"Updating email for {account.id}")
+        stripe.Account.modify(
+            account.id,
+            email=email,
+            individual={"email": email},
+        )
+
+    # Manual payouts
     if not account.settings.payouts.schedule.interval == "manual":
         log.info(f"Setting manual payouts for {account.id}")
         stripe.Account.modify(
@@ -945,6 +958,7 @@ def create_cardholder_and_card(account, financial_account_id):
         cardholder = stripe.issuing.Cardholder.create(
             type="individual",
             name=f"{first_name} {last_name}",
+            # Use example.com here, since we don't actually email them
             email=f"{first_name.lower()}.{last_name.lower()}@example.com",
             phone_number="+18888675309",
             billing={
