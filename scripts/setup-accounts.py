@@ -753,7 +753,9 @@ def update_account_status(account):
 
     if is_restricted_account(account):
         # The account should already be restricted
-        log.info(f"Account {account.id} is restricted")
+        if account.business_profile.url != "https://inaccessible.stripe.com":
+            return
+        log.info(f"Restricting account {account.id}")
         stripe.Account.modify(
             account.id,
             business_profile={
@@ -775,7 +777,6 @@ def update_account_status(account):
             },
         )
     elif is_rejected_account(account):
-        log.info(f"Account {account.id} is a rejected account, so doing that")
         if not account.payouts_enabled:
             return
         log.info(f"Rejecting account {account.id}")
