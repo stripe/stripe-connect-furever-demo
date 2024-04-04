@@ -7,6 +7,9 @@ export const useConnect = () => {
   const [stripeConnectInstance, setStripeConnectInstance] =
     useState<StripeConnectInstance | null>(null);
 
+  // TODO - support changing this
+  const locale = 'en-US';
+
   const fetchClientSecret = async () => {
     // Fetch the AccountSession client secret
     const response = await fetch('/api/account_session', {
@@ -55,6 +58,7 @@ export const useConnect = () => {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
+        locale,
       });
     }
   }, [stripeConnectInstance, appearanceVariables]);
@@ -67,6 +71,7 @@ export const useConnect = () => {
         overlays: 'dialog',
         variables: appearanceVariables,
       },
+      locale,
       fetchClientSecret: async () => {
         return await fetchClientSecret();
       },
