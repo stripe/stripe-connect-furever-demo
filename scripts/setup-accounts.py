@@ -1034,7 +1034,7 @@ def generate_cardholders_and_cards(account):
 
     if is_restricted_account(account):
         # Skip cardholder generation on this account if card issuing is disabled
-        if not account.capabilities.card_issuing:
+        if account.capabilities.card_issuing != "active":
             log.info(
                 f"Skipping cardholder generation on restricted account {account.id}"
             )
