@@ -1,16 +1,8 @@
 import Link from 'next/link';
-import {getServerSession} from 'next-auth';
-import {redirect} from 'next/navigation';
 import {ArrowRight} from 'lucide-react';
 import Form from './form';
 
-export default async function Select() {
-  const session = await getServerSession();
-
-  if (session) {
-    return redirect('/');
-  }
-
+export default async function LoginAs() {
   return (
     <>
       <div>

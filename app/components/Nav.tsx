@@ -1,6 +1,6 @@
 'use client';
 
-import {signOut} from 'next-auth/react';
+import {useSession} from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
@@ -57,16 +57,13 @@ const navigationMenuItems = [
 
 const Nav = () => {
   const pathname = usePathname();
+  const {data: session} = useSession();
+
+  const accountID = session?.user?.stripeAccount?.id;
 
   return (
     <div className="fixed z-40 h-screen w-64 bg-primary p-3">
-      <Image
-        className="p-5"
-        src={PoseRed}
-        alt="Pose"
-        width={150}
-        height={23}
-      />
+      <Image className="p-5" src={PoseRed} alt="Pose" width={150} height={23} />
       <nav>
         <ul className="flex-col items-start space-x-0">
           {navigationMenuItems.map((item) => (
@@ -98,7 +95,7 @@ const Nav = () => {
                   <AvatarImage src="/avatar.png" alt="profile" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>{' '}
-                My studio
+                <span title={accountID}>My studio</span>
               </Button>
             </Link>
           </li>

@@ -23,7 +23,7 @@ const formSchema = z.object({
   password: z.string().min(8),
 });
 
-export default function SelectForm() {
+export default function LoginAsForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,7 +36,7 @@ export default function SelectForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log('Selecting the account');
+      console.log('Logging in as the account');
       await signIn('account', {
         accountId: values.accountId,
         password: values.password,
@@ -45,7 +45,7 @@ export default function SelectForm() {
 
       router.push('/');
     } catch (error: any) {
-        console.error('An error occurred when selecting the account', error);
+      console.error('An error occurred when selecting the account', error);
     }
   };
 
