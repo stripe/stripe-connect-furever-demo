@@ -54,7 +54,7 @@ export const EmbeddedComponentBorderProvider = ({
     // Keyboard shortcut to enable/disable border
     document.addEventListener('keydown', handleToggleBorder);
     () => document.removeEventListener('keydown', handleToggleBorder);
-  }, []);
+  }, [handleToggleBorder]);
 
   return (
     <EmbeddedComponentBorderContext.Provider
