@@ -303,7 +303,11 @@ REJECTED_TAG = "rejected"
 ELEVATED_FRAUD_TAG = "elevated_fraud"
 HIGH_FRAUD_TAG = "high_fraud"
 PROTECTED_TAG = "protected"
-SUPPORT_TICKET_TAG = "support_ticket"
+
+# For the account we're going to use for the embedded demo
+DEMO_ACCOUNT_TAG = "demo_account"
+SUPPORT_TICKET_ADDEDTAG = "support_ticket"
+
 
 # The following are weights for the tags
 (
@@ -315,6 +319,10 @@ SUPPORT_TICKET_TAG = "support_ticket"
 NORMAL_COUNT = 100 - (
     HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT + RESTRICTED_COUNT
 )
+
+
+def is_demo_account(account):
+    return account.metadata.get(DEMO_ACCOUNT_TAG, False)
 
 
 def is_protected_account(account):
@@ -338,7 +346,7 @@ def is_high_fraud_account(account):
 
 
 def has_support_ticket(account):
-    return account.metadata.get(SUPPORT_TICKET_TAG, False)
+    return account.metadata.get(SUPPORT_TICKET_ADDEDTAG, False)
 
 
 def ensure_accounts():
@@ -600,66 +608,77 @@ def rebalance_account_statuses():
     )
 
     # Ensure the first few accounts are protected and with other tags
-    log.info(
-        f"Marking account {accounts[0].id} / {accounts[0].business_profile.name} as protected"
-    )
-    stripe.Account.modify(accounts[0].id, metadata={PROTECTED_TAG: True})
-    log.info(
-        f"Marking account {accounts[1].id} / {accounts[1].business_profile.name} as high fraud"
-    )
-    stripe.Account.modify(
-        accounts[1].id,
-        metadata={
-            PROTECTED_TAG: True,
-            HIGH_FRAUD_TAG: True,
-            REJECTED_TAG: None,
-            HIGH_FRAUD_TAG: None,
-            RESTRICTED_TAG: None,
-        },
-    )
-    log.info(
-        f"Marking account {accounts[2].id} / {accounts[2].business_profile.name} as elevated fraud"
-    )
-    stripe.Account.modify(
-        accounts[2].id,
-        metadata={
-            PROTECTED_TAG: True,
-            HIGH_FRAUD_TAG: None,
-            REJECTED_TAG: None,
-            ELEVATED_FRAUD_TAG: True,
-            RESTRICTED_TAG: None,
-        },
-    )
+    if not is_protected_account(accounts[0]) and not is_demo_account(accounts[0]):
+        log.info(
+            f"Marking account {accounts[0].id} / {accounts[0].business_profile.name} as protected"
+        )
+        stripe.Account.modify(
+            accounts[0].id, metadata={PROTECTED_TAG: True, DEMO_ACCOUNT_TAG: True}
+        )
+
+    if not is_protected_account(accounts[1]) and not is_high_fraud_account(accounts[1]):
+        log.info(
+            f"Marking account {accounts[1].id} / {accounts[1].business_profile.name} as high fraud"
+        )
+        stripe.Account.modify(
+            accounts[1].id,
+            metadata={
+                PROTECTED_TAG: True,
+                HIGH_FRAUD_TAG: True,
+                REJECTED_TAG: None,
+                HIGH_FRAUD_TAG: None,
+                RESTRICTED_TAG: None,
+            },
+        )
+
+    if not is_protected_account(accounts[2]) and not is_elevated_fraud_account(
+        accounts[2]
+    ):
+        log.info(
+            f"Marking account {accounts[2].id} / {accounts[2].business_profile.name} as elevated fraud"
+        )
+        stripe.Account.modify(
+            accounts[2].id,
+            metadata={
+                PROTECTED_TAG: True,
+                HIGH_FRAUD_TAG: None,
+                REJECTED_TAG: None,
+                ELEVATED_FRAUD_TAG: True,
+                RESTRICTED_TAG: None,
+            },
+        )
 
     # Get a restricted account on the front page
-    log.info(
-        f"Marking account {accounts[9].id} / {accounts[9].business_profile.name} as rejected"
-    )
-    stripe.Account.modify(
-        accounts[9].id,
-        metadata={
-            PROTECTED_TAG: True,
-            HIGH_FRAUD_TAG: None,
-            REJECTED_TAG: True,
-            ELEVATED_FRAUD_TAG: None,
-            RESTRICTED_TAG: None,
-        },
-    )
+    if not is_protected_account(accounts[3]) and not is_restricted_account(accounts[3]):
+        log.info(
+            f"Marking account {accounts[9].id} / {accounts[9].business_profile.name} as restricted"
+        )
+        stripe.Account.modify(
+            accounts[9].id,
+            metadata={
+                PROTECTED_TAG: True,
+                HIGH_FRAUD_TAG: None,
+                REJECTED_TAG: None,
+                ELEVATED_FRAUD_TAG: None,
+                RESTRICTED_TAG: True,
+            },
+        )
 
     # Get a rejected account on the front page
-    log.info(
-        f"Marking account {accounts[14].id} / {accounts[14].business_profile.name} as rejected"
-    )
-    stripe.Account.modify(
-        accounts[14].id,
-        metadata={
-            PROTECTED_TAG: True,
-            HIGH_FRAUD_TAG: None,
-            REJECTED_TAG: True,
-            ELEVATED_FRAUD_TAG: None,
-            RESTRICTED_TAG: None,
-        },
-    )
+    if not is_protected_account(accounts[4]) and not is_rejected_account(accounts[4]):
+        log.info(
+            f"Marking account {accounts[14].id} / {accounts[14].business_profile.name} as rejected"
+        )
+        stripe.Account.modify(
+            accounts[14].id,
+            metadata={
+                PROTECTED_TAG: True,
+                HIGH_FRAUD_TAG: None,
+                REJECTED_TAG: True,
+                ELEVATED_FRAUD_TAG: None,
+                RESTRICTED_TAG: None,
+            },
+        )
 
     high_fraud = [a for a in accounts if is_high_fraud_account(a)]
     elevated_fraud = [a for a in accounts if is_elevated_fraud_account(a)]
@@ -753,7 +772,7 @@ def update_account_status(account):
 
     if is_restricted_account(account):
         # The account should already be restricted
-        if account.business_profile.url != "https://inaccessible.stripe.com":
+        if account.business_profile.url == "https://inaccessible.stripe.com":
             return
         log.info(f"Restricting account {account.id}")
         stripe.Account.modify(
@@ -825,10 +844,6 @@ def create_charge(account, token):
     assert isinstance(account, stripe.Account)
     assert isinstance(token, str)
 
-    # 10% of the time, skip
-    if random.randint(1, 10) <= 1:
-        return None
-
     amount = random.randint(500, 1000)
     app_fee = math.ceil(max((amount * 2.9 + 30) * 0.1, amount * 0.1))
 
@@ -890,40 +905,53 @@ def generate_charges(account):
         ).auto_paging_iter()
     )
 
-    successful_charge_count = len([ch for ch in charges if ch.status == "succeeded"])
-    successful_to_add = success_count - successful_charge_count
-    if successful_to_add > 0:
-        log.info(f"Adding {successful_to_add} successful charges to {account.id}")
-        for _ in range(successful_to_add):
-            create_charge(account, "tok_bypassPending")
-
     disputed_charge_count = len([ch for ch in charges if ch.disputed])
-    disputed_to_add = dispute_count - disputed_charge_count
-    if disputed_to_add > 0:
-        log.info(f"Adding {disputed_to_add} disputed charges to {account.id}")
-        for _ in range(disputed_to_add):
-            create_charge(account, "tok_createDispute")
-
     declined_charge_count = len([ch for ch in charges if ch.status == "failed"])
-    declined_to_add = decline_count - declined_charge_count
-    if declined_to_add > 0:
-        log.info(f"Adding {declined_to_add} declined charges to {account.id}")
-        for _ in range(declined_to_add):
-            create_charge(account, "tok_visa_chargeDeclined")
-
     refunded_charge_count = len([ch for ch in charges if ch.refunded])
-    refunded_to_add = refund_count - refunded_charge_count
-    if refunded_to_add > 0:
-        log.info(f"Adding {refunded_to_add} refunded charges to {account.id}")
-        for _ in range(refunded_to_add):
-            charge = create_charge(account, "tok_pendingRefund")
+    successful_charge_count = len([ch for ch in charges if ch.status == "succeeded"])
 
-            if charge:
-                stripe.Refund.create(
-                    charge=charge.id,
-                    refund_application_fee=False,
-                    stripe_account=account.id,
-                )
+    if is_demo_account(account):
+        # Ensure there is at least one dispute and decline on this account.
+        dispute_count = (
+            dispute_count if disputed_charge_count > 0 else max(dispute_count, 1)
+        )
+        decline_count = (
+            decline_count if declined_charge_count > 0 else max(decline_count, 1)
+        )
+
+    disputed_to_add = dispute_count - disputed_charge_count
+    declined_to_add = decline_count - declined_charge_count
+    refunded_to_add = refund_count - refunded_charge_count
+    successful_to_add = success_count - successful_charge_count
+
+    tokens = []
+    if disputed_to_add > 0:
+        tokens += ["tok_createDispute"] * disputed_to_add
+    if declined_to_add > 0:
+        tokens += ["tok_visa_chargeDeclined"] * declined_to_add
+    if refunded_to_add > 0:
+        tokens += ["tok_pendingRefund"] * refunded_to_add
+    if successful_to_add > 1:
+        tokens += ["tok_bypassPending"] * (successful_to_add - 1)
+
+    # Randomize the order
+    random.shuffle(tokens)
+
+    # The most recent charge should be successful
+    tokens += ["tok_bypassPending"]
+
+    log.info(f"Adding {len(tokens)} charges to {account.id}")
+    for token in tokens:
+        log.info(f"Creating {token} charge on {account.id}")
+
+        charge = create_charge(account, token)
+
+        if token == "tok_pendingRefund" and charge:
+            stripe.Refund.create(
+                charge=charge.id,
+                refund_application_fee=False,
+                stripe_account=account.id,
+            )
 
 
 def generate_payouts(account):
@@ -1166,7 +1194,7 @@ def generate_support_ticket(account):
         stripe.Account.modify(
             account.id,
             metadata={
-                SUPPORT_TICKET_TAG: True,
+                SUPPORT_TICKET_ADDEDTAG: True,
             },
         )
     except stripe.error.StripeError as e:
