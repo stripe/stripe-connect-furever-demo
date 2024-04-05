@@ -8,16 +8,11 @@ export const useConnect = () => {
   const [stripeConnectInstance, setStripeConnectInstance] =
     useState<StripeConnectInstance | null>(null);
 
-<<<<<<< HEAD
   const settings = useSettings();
   console.log(settings);
 
   // TODO - support changing this
   // const locale = 'en-US';
-=======
-  // TODO - support changing this
-  const locale = 'en-US';
->>>>>>> onboarding
 
   const fetchClientSecret = async () => {
     // Fetch the AccountSession client secret
@@ -67,12 +62,8 @@ export const useConnect = () => {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
-<<<<<<< HEAD
         // @ts-ignore
         locale: settings.locale,
-=======
-        locale,
->>>>>>> onboarding
       });
     }
   }, [stripeConnectInstance, appearanceVariables, settings]);
@@ -85,12 +76,8 @@ export const useConnect = () => {
         overlays: 'dialog',
         variables: appearanceVariables,
       },
-<<<<<<< HEAD
       // @ts-ignore
       locale: settings.locale,
-=======
-      locale,
->>>>>>> onboarding
       fetchClientSecret: async () => {
         return await fetchClientSecret();
       },
