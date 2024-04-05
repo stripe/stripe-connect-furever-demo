@@ -20,9 +20,11 @@ const createPaymentLink = async () => {
   }
 };
 
-export default {
+const config = {
   name: 'Create Checkout Session',
   icon: Link,
   description: 'Create a Checkout Session.',
   action: createPaymentLink,
 };
+
+export default config;

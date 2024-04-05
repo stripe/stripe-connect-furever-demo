@@ -20,6 +20,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@stripe/connect-js": "^3.3.2-beta-1",
     "@stripe/react-connect-js": "^3.3.5-beta-1",
