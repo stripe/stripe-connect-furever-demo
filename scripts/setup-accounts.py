@@ -306,7 +306,7 @@ PROTECTED_TAG = "protected"
 
 # For the account we're going to use for the embedded demo
 DEMO_ACCOUNT_TAG = "demo_account"
-SUPPORT_TICKET_ADDEDTAG = "support_ticket"
+SUPPORT_TICKET_ADDED_TAG = "support_ticket"
 
 
 # The following are weights for the tags
@@ -346,7 +346,7 @@ def is_high_fraud_account(account):
 
 
 def has_support_ticket(account):
-    return account.metadata.get(SUPPORT_TICKET_ADDEDTAG, False)
+    return account.metadata.get(SUPPORT_TICKET_ADDED_TAG, False)
 
 
 def ensure_accounts():
@@ -411,15 +411,15 @@ def ensure_accounts():
 
         metadata = {}
         if tag_weight < HIGH_FRAUD_COUNT:
-            metadata[HIGH_FRAUD_TAG] = True
+            metadata[HIGH_FRAUD_TAG] = "true"
         elif tag_weight < (HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT):
-            metadata[ELEVATED_FRAUD_TAG] = True
+            metadata[ELEVATED_FRAUD_TAG] = "true"
         elif tag_weight < (HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT):
-            metadata[REJECTED_TAG] = True
+            metadata[REJECTED_TAG] = "true"
         elif tag_weight < (
             HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT + RESTRICTED_COUNT
         ):
-            metadata[RESTRICTED_TAG] = True
+            metadata[RESTRICTED_TAG] = "true"
 
             # Pick which kind of restricted we'll use
             if random.randint(0, 100) >= 50:
@@ -614,7 +614,7 @@ def rebalance_account_statuses():
             f"Marking account {demo_account.id} / {demo_account.business_profile.name} as protected"
         )
         stripe.Account.modify(
-            demo_account.id, metadata={PROTECTED_TAG: True, DEMO_ACCOUNT_TAG: True}
+            demo_account.id, metadata={PROTECTED_TAG: "true", DEMO_ACCOUNT_TAG: "true"}
         )
 
     high_fraud_account = accounts[1]
@@ -627,11 +627,11 @@ def rebalance_account_statuses():
         stripe.Account.modify(
             high_fraud_account.id,
             metadata={
-                PROTECTED_TAG: True,
-                HIGH_FRAUD_TAG: True,
-                REJECTED_TAG: None,
-                HIGH_FRAUD_TAG: None,
-                RESTRICTED_TAG: None,
+                PROTECTED_TAG: "true",
+                HIGH_FRAUD_TAG: "true",
+                REJECTED_TAG: "",
+                HIGH_FRAUD_TAG: "",
+                RESTRICTED_TAG: "",
             },
         )
 
@@ -645,11 +645,11 @@ def rebalance_account_statuses():
         stripe.Account.modify(
             elevated_fraud_account.id,
             metadata={
-                PROTECTED_TAG: True,
-                HIGH_FRAUD_TAG: None,
-                REJECTED_TAG: None,
-                ELEVATED_FRAUD_TAG: True,
-                RESTRICTED_TAG: None,
+                PROTECTED_TAG: "true",
+                HIGH_FRAUD_TAG: "",
+                REJECTED_TAG: "",
+                ELEVATED_FRAUD_TAG: "true",
+                RESTRICTED_TAG: "",
             },
         )
 
@@ -664,11 +664,11 @@ def rebalance_account_statuses():
         stripe.Account.modify(
             restricted_fraud_account.id,
             metadata={
-                PROTECTED_TAG: True,
-                HIGH_FRAUD_TAG: None,
-                REJECTED_TAG: None,
-                ELEVATED_FRAUD_TAG: None,
-                RESTRICTED_TAG: True,
+                PROTECTED_TAG: "true",
+                HIGH_FRAUD_TAG: "",
+                REJECTED_TAG: "",
+                ELEVATED_FRAUD_TAG: "",
+                RESTRICTED_TAG: "true",
             },
         )
 
@@ -683,11 +683,11 @@ def rebalance_account_statuses():
         stripe.Account.modify(
             rejected_account.id,
             metadata={
-                PROTECTED_TAG: True,
-                HIGH_FRAUD_TAG: None,
-                REJECTED_TAG: True,
-                ELEVATED_FRAUD_TAG: None,
-                RESTRICTED_TAG: None,
+                PROTECTED_TAG: "true",
+                HIGH_FRAUD_TAG: "",
+                REJECTED_TAG: "true",
+                ELEVATED_FRAUD_TAG: "",
+                RESTRICTED_TAG: "",
             },
         )
 
@@ -719,10 +719,10 @@ def rebalance_account_statuses():
             stripe.Account.modify(
                 account.id,
                 metadata={
-                    HIGH_FRAUD_TAG: True,
-                    REJECTED_TAG: None,
-                    ELEVATED_FRAUD_TAG: None,
-                    RESTRICTED_TAG: None,
+                    HIGH_FRAUD_TAG: "true",
+                    REJECTED_TAG: "",
+                    ELEVATED_FRAUD_TAG: "",
+                    RESTRICTED_TAG: "",
                 },
             )
 
@@ -735,10 +735,10 @@ def rebalance_account_statuses():
             stripe.Account.modify(
                 account.id,
                 metadata={
-                    ELEVATED_FRAUD_TAG: True,
-                    HIGH_FRAUD_TAG: None,
-                    REJECTED_TAG: None,
-                    RESTRICTED_TAG: None,
+                    ELEVATED_FRAUD_TAG: "true",
+                    HIGH_FRAUD_TAG: "",
+                    REJECTED_TAG: "",
+                    RESTRICTED_TAG: "",
                 },
             )
 
@@ -751,10 +751,10 @@ def rebalance_account_statuses():
             stripe.Account.modify(
                 account.id,
                 metadata={
-                    REJECTED_TAG: True,
-                    HIGH_FRAUD_TAG: None,
-                    ELEVATED_FRAUD_TAG: None,
-                    RESTRICTED_TAG: None,
+                    REJECTED_TAG: "true",
+                    HIGH_FRAUD_TAG: "",
+                    ELEVATED_FRAUD_TAG: "",
+                    RESTRICTED_TAG: "",
                 },
             )
 
@@ -767,10 +767,10 @@ def rebalance_account_statuses():
             stripe.Account.modify(
                 account.id,
                 metadata={
-                    RESTRICTED_TAG: True,
-                    HIGH_FRAUD_TAG: None,
-                    REJECTED_TAG: None,
-                    ELEVATED_FRAUD_TAG: None,
+                    RESTRICTED_TAG: "true",
+                    HIGH_FRAUD_TAG: "",
+                    REJECTED_TAG: "",
+                    ELEVATED_FRAUD_TAG: "",
                 },
             )
 
@@ -825,6 +825,59 @@ def ensure_account_configuration(account):
     Ensure some stuff is set up right (manual payouts, etc).
     """
     assert isinstance(account, stripe.Account)
+
+    # Metadata has the right format
+    metadata = {}
+    metadata_updated = False
+    for key in [
+        RESTRICTED_TAG,
+        PROTECTED_TAG,
+        HIGH_FRAUD_TAG,
+        ELEVATED_FRAUD_TAG,
+        REJECTED_TAG,
+        DEMO_ACCOUNT_TAG,
+        SUPPORT_TICKET_ADDED_TAG,
+    ]:
+        if key in account.metadata:
+            if account.metadata[key] == "True" or account.metadata[key] == True:
+                metadata_updated = True
+                # Set to true, the string
+                metadata[key] = "true"
+            elif account.metadata[key] == "None" or account.metadata[key] == None:
+                metadata_updated = True
+                # Unset
+                metadata[key] = ""
+
+    if is_rejected_account(account):
+        metadata_updated = True
+        metadata[HIGH_FRAUD_TAG] = ""
+        metadata[ELEVATED_FRAUD_TAG] = ""
+        metadata[RESTRICTED_TAG] = ""
+
+    elif is_restricted_account(account):
+        metadata_updated = True
+        metadata[HIGH_FRAUD_TAG] = ""
+        metadata[ELEVATED_FRAUD_TAG] = ""
+        metadata[REJECTED_TAG] = ""
+
+    elif is_elevated_fraud_account(account):
+        metadata_updated = True
+        metadata[HIGH_FRAUD_TAG] = ""
+        metadata[RESTRICTED_TAG] = ""
+        metadata[REJECTED_TAG] = ""
+
+    elif is_high_fraud_account(account):
+        metadata_updated = True
+        metadata[ELEVATED_FRAUD_TAG] = ""
+        metadata[RESTRICTED_TAG] = ""
+        metadata[REJECTED_TAG] = ""
+
+    if metadata_updated:
+        log.info(f"Updating metadata for {account.id}")
+        stripe.Account.modify(
+            account.id,
+            metadata=metadata,
+        )
 
     # Email is a valid email address
     email = f"{account.individual.first_name.lower()}.{account.individual.last_name.lower()}@{EMAIL_DOMAIN}"
@@ -948,7 +1001,7 @@ def generate_charges(account):
     # Randomize the order
     random.shuffle(tokens)
 
-    if tokens and token[-1] == "tok_bypassPending":
+    if tokens and tokens[-1] == "tok_bypassPending":
         # The most recent charge should be successful
         tokens += ["tok_bypassPending"]
 
@@ -1244,7 +1297,7 @@ def generate_support_ticket(account):
         stripe.Account.modify(
             account.id,
             metadata={
-                SUPPORT_TICKET_ADDEDTAG: True,
+                SUPPORT_TICKET_ADDED_TAG: True,
             },
         )
     except stripe.error.StripeError as e:
