@@ -51,7 +51,7 @@ const navigationMenuItems = [
     label: 'Finances',
     href: '/finances',
     icon: LandmarkIcon,
-    paths: ['/finances/cards', '/finances/loans'],
+    paths: ['/finances/cards'],
   },
 ];
 

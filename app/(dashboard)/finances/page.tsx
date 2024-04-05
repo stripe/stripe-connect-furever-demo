@@ -2,11 +2,21 @@
 
 import React, {useState, useEffect} from 'react';
 import {
+  useCreateComponent,
   ConnectFinancialAccount,
   ConnectFinancialAccountTransactions,
 } from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+
+const ConnectCapitalOverview = () => {
+  const {wrapper} = useCreateComponent(
+    // @ts-ignore
+    'stripe-connect-capital-overview'
+  );
+
+  return wrapper;
+};
 
 const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
@@ -44,6 +54,11 @@ export default function Finances() {
 
   return (
     <>
+      <Container>
+        <EmbeddedComponentContainer>
+          <ConnectCapitalOverview />
+        </EmbeddedComponentContainer>
+      </Container>
       <Container>
         <h1 className="mb-2 text-lg font-bold">Financial account</h1>
         <EmbeddedComponentContainer>

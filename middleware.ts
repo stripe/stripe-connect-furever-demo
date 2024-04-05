@@ -9,7 +9,6 @@ export const config = {
     '/payouts',
     '/finances',
     '/finances/cards',
-    '/finances/loans',
     '/settings',
     '/settings/paymentmethods',
     '/finance',
