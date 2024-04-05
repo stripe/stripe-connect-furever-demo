@@ -1,11 +1,18 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useState, useContext} from 'react';
 import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
+import {useSettings} from '@/app/hooks/useSettings';
 
 export const useConnect = () => {
   const [hasError, setHasError] = useState(false);
   const [stripeConnectInstance, setStripeConnectInstance] =
     useState<StripeConnectInstance | null>(null);
+
+  const settings = useSettings();
+  console.log(settings);
+
+  // TODO - support changing this
+  // const locale = 'en-US';
 
   const fetchClientSecret = async () => {
     // Fetch the AccountSession client secret
@@ -55,9 +62,11 @@ export const useConnect = () => {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
+        // @ts-ignore
+        locale: settings.locale,
       });
     }
-  }, [stripeConnectInstance, appearanceVariables]);
+  }, [stripeConnectInstance, appearanceVariables, settings]);
 
   useEffect(() => {
     const instance = loadConnectAndInitialize({
@@ -67,6 +76,8 @@ export const useConnect = () => {
         overlays: 'dialog',
         variables: appearanceVariables,
       },
+      // @ts-ignore
+      locale: settings.locale,
       fetchClientSecret: async () => {
         return await fetchClientSecret();
       },

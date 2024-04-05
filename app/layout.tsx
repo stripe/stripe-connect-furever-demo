@@ -5,6 +5,7 @@ import {cn} from '@/lib/utils';
 import './globals.css';
 import NextAuthProvider from './auth';
 import DebugMenu from '@/app/components/debug/DebugMenu';
+import {SettingsProvider, SettingsConsumer} from '@/app/contexts/settings';
 import {EmbeddedComponentBorderProvider} from '@/app/hooks/EmbeddedComponentBorderProvider';
 
 const fontSans = FontSans({
@@ -29,10 +30,20 @@ export default function RootLayout({
         )}
       >
         <NextAuthProvider>
-          <EmbeddedComponentBorderProvider>
-            {children}
-          </EmbeddedComponentBorderProvider>
-          <DebugMenu />
+          <SettingsProvider>
+            <SettingsConsumer>
+              {(settings) => {
+                return (
+                  <>
+                    <EmbeddedComponentBorderProvider>
+                      {children}
+                    </EmbeddedComponentBorderProvider>
+                    <DebugMenu settings={settings} />
+                  </>
+                );
+              }}
+            </SettingsConsumer>
+          </SettingsProvider>
         </NextAuthProvider>
       </body>
     </html>

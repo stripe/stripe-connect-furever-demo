@@ -15,9 +15,11 @@ const createIssuingCardAuthorization = async () => {
   }
 };
 
-export default {
+const config = {
   name: 'Create Issuing Card Authorization',
   icon: CreditCard,
   description: 'Create an issuing card authorization.',
   action: createIssuingCardAuthorization,
 };
+
+export default config;

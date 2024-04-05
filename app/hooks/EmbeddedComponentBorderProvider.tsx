@@ -1,6 +1,6 @@
 'use client';
 
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 
 type IEmbeddedComponentBorderContext = {
   enableBorder: boolean;
@@ -40,17 +40,17 @@ export const EmbeddedComponentBorderProvider = ({
     }
   };
 
-  const handleToggleBorder = (e: KeyboardEvent) => {
-    if (e.key === 'b' && e.metaKey) {
-      if (Number(window.localStorage.getItem('enableBorder'))) {
-        handleEnableBorderChange(false);
-      } else {
-        handleEnableBorderChange(true);
+  useEffect(() => {
+    const handleToggleBorder = (e: KeyboardEvent) => {
+      if (e.key === 'b' && e.metaKey) {
+        if (Number(window.localStorage.getItem('enableBorder'))) {
+          handleEnableBorderChange(false);
+        } else {
+          handleEnableBorderChange(true);
+        }
       }
-    }
-  };
+    };
 
-  React.useEffect(() => {
     // Keyboard shortcut to enable/disable border
     document.addEventListener('keydown', handleToggleBorder);
     () => document.removeEventListener('keydown', handleToggleBorder);

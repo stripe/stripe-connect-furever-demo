@@ -19,7 +19,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({user}) {
       // Ensure the user exists on Stripe
-      console.log("Signing in user", user);
+      console.log('Signing in user', user);
 
       return true;
     },
@@ -42,9 +42,7 @@ export const authOptions: AuthOptions = {
 
       let stripeAccount;
       try {
-        stripeAccount = await stripe.accounts.retrieve(
-          studio.stripeAccountId
-        );
+        stripeAccount = await stripe.accounts.retrieve(studio.stripeAccountId);
       } catch (err) {
         console.error('Could not retrieve stripe account for user', err);
         throw err;
@@ -119,9 +117,8 @@ export const authOptions: AuthOptions = {
           user = await Studio.findOne({stripeAccountId: stripeAccountId});
           if (!user) {
             // See if they exist on the platform
-            const stripeAccount = await stripe.accounts.retrieve(
-              stripeAccountId
-            );
+            const stripeAccount =
+              await stripe.accounts.retrieve(stripeAccountId);
             if (stripeAccount?.email) {
               // Create the account locally
               user = new Studio({
