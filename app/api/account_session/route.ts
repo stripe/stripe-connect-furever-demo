@@ -8,7 +8,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.stripeAccount?.id) {
+    const stripeAccountId = session?.user?.stripeAccount?.id;
+
+    // TODO -allow taking in the account id as a parameter
+
+    if (!stripeAccountId) {
       return new Response(
         JSON.stringify({
           error: 'No Stripe account found for this user',
@@ -18,7 +22,7 @@ export async function POST() {
     }
 
     const accountSession = await stripe.accountSessions.create({
-      account: session?.user?.stripeAccount?.id,
+      account: stripeAccountId,
       components: {
         // Payments
         payments: {

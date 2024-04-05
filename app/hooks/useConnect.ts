@@ -11,9 +11,6 @@ export const useConnect = () => {
   const settings = useSettings();
   console.log(settings);
 
-  // TODO - support changing this
-  // const locale = 'en-US';
-
   const fetchClientSecret = async () => {
     // Fetch the AccountSession client secret
     const response = await fetch('/api/account_session', {

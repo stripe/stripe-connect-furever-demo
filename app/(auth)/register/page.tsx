@@ -1,0 +1,17 @@
+'use client';
+
+import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import React from 'react';
+
+export default function Onboarding() {
+  return (
+    <EmbeddedComponentContainer>
+      <ConnectAccountOnboarding
+        onExit={() => {
+          window.location.href = '/';
+        }}
+      />
+    </EmbeddedComponentContainer>
+  );
+}

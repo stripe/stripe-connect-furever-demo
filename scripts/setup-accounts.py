@@ -306,6 +306,7 @@ PROTECTED_TAG = "protected"
 
 # For the account we're going to use for the embedded demo
 DEMO_ACCOUNT_TAG = "demo_account"
+DEMO_ONBOARDING_ACCOUNT_TAG = "demo_onboarding_account"
 SUPPORT_TICKET_ADDED_TAG = "support_ticket"
 
 
@@ -323,6 +324,10 @@ NORMAL_COUNT = 100 - (
 
 def is_demo_account(account):
     return account.metadata.get(DEMO_ACCOUNT_TAG, False)
+
+
+def is_demo_onboarding_account(account):
+    return account.metadata.get(DEMO_ONBOARDING_ACCOUNT_TAG, False)
 
 
 def is_protected_account(account):
@@ -375,6 +380,39 @@ def ensure_accounts():
         for name in random.sample(YOGA_STUDIO_NAMES, k=len(YOGA_STUDIO_NAMES))
         if name not in used_studio_names
     ]
+
+    controller = {
+        "losses": {"payments": "application"},
+        "fees": {"payer": "application"},
+        "requirement_collection": "application",
+        "stripe_dashboard": {"type": "none"},
+    }
+    capabilities = {
+        "card_payments": {"requested": True},
+        "transfers": {"requested": True},
+        "card_issuing": {"requested": True},
+        "treasury": {"requested": True},
+    }
+
+    # Ensure we have a demo onboarding account
+    demo_onboarding_accounts = [
+        account for account in accounts if is_demo_onboarding_account(account)
+    ]
+    if not demo_onboarding_accounts:
+        # Create one
+        account = stripe.Account.create(
+            controller=controller,
+            capabilities=capabilities,
+            metadata={
+                PROTECTED_TAG: "true",
+                DEMO_ONBOARDING_ACCOUNT_TAG: "true",
+            },
+        )
+        demo_onboarding_accounts.append(account)
+
+    log.info(f"---------------------")
+    log.info(f"Demo onboarding account: {demo_onboarding_accounts[0].id}")
+    log.info(f"---------------------")
 
     # Create any accounts to reach the limit
     to_create = CONNECTED_ACCOUNT_COUNT - len(account_ids)
@@ -441,21 +479,11 @@ def ensure_accounts():
         )
 
         # Create an account
-        account = stripe.Account.create(
-            controller={
-                "losses": {"payments": "application"},
-                "fees": {"payer": "application"},
-                "requirement_collection": "application",
-                "stripe_dashboard": {"type": "none"},
-            },
+        stripe.Account.create(
+            controller=controller,
             country="US",
             email=identity["email"],
-            capabilities={
-                "card_payments": {"requested": True},
-                "transfers": {"requested": True},
-                "card_issuing": {"requested": True},
-                "treasury": {"requested": True},
-            },
+            capabilities=capabilities,
             external_account=bank_account.id,
             business_profile={
                 "name": business_name,
