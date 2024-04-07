@@ -1,3 +1,4 @@
+import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 
@@ -5,12 +6,32 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2022-08-01; embedded_connect_beta=v2',
 });
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const stripeAccountId = session?.user?.stripeAccount?.id;
 
-    // TODO -allow taking in the account id as a parameter
+    const json = await req.json();
+
+    const useDemoOnboardingAccountId = json.demoOnboarding !== undefined;
+
+    let stripeAccountId = session?.user?.stripeAccount?.id;
+
+    if (useDemoOnboardingAccountId) {
+      console.log('Looking for the demo onboarding account');
+      // Look for the demo onboarding account
+      const accounts = await stripe.accounts.list({limit: 40});
+      const demoOnboardingAccount = accounts.data.find(
+        (account: any) => account.metadata.demo_onboarding_account === 'true'
+      );
+      if (demoOnboardingAccount) {
+        console.log(
+          `Using demo onboarding account: ${demoOnboardingAccount.id}`
+        );
+        stripeAccountId = demoOnboardingAccount.id;
+      } else {
+        console.log('No demo onboarding account found');
+      }
+    }
 
     if (!stripeAccountId) {
       return new Response(
@@ -39,7 +60,6 @@ export async function POST() {
         // Connect
         account_management: {enabled: true},
         account_onboarding: {enabled: true},
-        // apps: { enabled: true },
         payment_method_settings: {enabled: true},
         // InB
         issuing_cards_list: {

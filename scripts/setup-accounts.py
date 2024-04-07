@@ -431,9 +431,9 @@ def ensure_accounts(create=False):
         "treasury": {"requested": True},
     }
 
-    # Ensure we have a demo onboarding account somewhere
+    # Ensure we have a demo onboarding account in the first 40
     demo_onboarding_accounts = [
-        account for account in accounts if is_demo_onboarding_account(account)
+        account for account in accounts[:40] if is_demo_onboarding_account(account)
     ]
     if not demo_onboarding_accounts:
         # Create one
@@ -673,8 +673,10 @@ def rebalance_account_statuses():
 
     accounts = fetch_accounts()
 
-    # Ensure there's a demo onboarding account somewhere
-    demo_onboarding_accounts = [a for a in accounts if is_demo_onboarding_account(a)]
+    # Ensure there's a demo onboarding account in the first 40
+    demo_onboarding_accounts = [
+        a for a in accounts[:40] if is_demo_onboarding_account(a)
+    ]
     if not demo_onboarding_accounts:
         log.error("No demo account found")
         raise Exception
@@ -1029,6 +1031,11 @@ def ensure_account_configuration(account):
                 "document": {
                     "requested": False,
                     "apply_to": ["representative"],
+                    "upfront": [
+                        {
+                            "disables": "payouts_and_payments",
+                        },
+                    ],
                 }
             },
         )

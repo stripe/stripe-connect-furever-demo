@@ -1,14 +1,15 @@
-import AuthenticatedRoute from '@/app/components/AuthenticatedRoute';
 import {EmbeddedComponentWrapper} from '@/app/hooks/EmbeddedComponentWrapper';
 
-export default function DashboardLayout({
+// This is the layout that we show to demonstrate onboarding
+// a specific connected account
+export default function RegisterLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <AuthenticatedRoute>
-      <EmbeddedComponentWrapper>{children}</EmbeddedComponentWrapper>
-    </AuthenticatedRoute>
+    <EmbeddedComponentWrapper demoOnboarding={true}>
+      {children}
+    </EmbeddedComponentWrapper>
   );
 }
