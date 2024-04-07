@@ -1122,6 +1122,10 @@ def create_charge(account, token):
     assert isinstance(account, stripe.Account)
     assert isinstance(token, str)
 
+    if not account.charges_enabled:
+        log.info(f"Charges are disabled for account {account.id}")
+        return
+
     amount = random.randint(5_00, 10_00)
     app_fee = math.ceil(max((amount * 2.9 + 30) * 0.1, amount * 0.1))
 
@@ -1159,6 +1163,10 @@ def generate_charges(account):
         if not account.charges_enabled:
             log.info(f"Skipping charges on restricted account {account.id}")
             return
+
+    if not account.charges_enabled:
+        log.info(f"Charges are disabled for account {account.id}")
+        return
 
     success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
