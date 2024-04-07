@@ -2,10 +2,7 @@ import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
 import Studio, {IStudio} from '../app/models/studio';
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16; embedded_connect_beta=v2;unified_accounts_beta=v1',
-});
+import {stripe} from '@/lib/stripe';
 
 export const authOptions: AuthOptions = {
   session: {
@@ -96,11 +93,10 @@ export const authOptions: AuthOptions = {
       },
     }),
     CredentialsProvider({
-      id: 'account',
+      id: 'loginas',
       name: 'Account ID',
       credentials: {
         accountId: {},
-        password: {},
       },
       async authorize(credentials, req) {
         await dbConnect();
@@ -108,8 +104,10 @@ export const authOptions: AuthOptions = {
         let user: IStudio | null = null;
         try {
           const stripeAccountId = credentials?.accountId;
-          const password = credentials?.password;
-          if (!stripeAccountId || !password) {
+          // Login as sets the password if it doesn't exist
+          const password = 'go bears';
+
+          if (!stripeAccountId) {
             console.log('Could not find an account id for provider');
             return null;
           }
@@ -124,7 +122,7 @@ export const authOptions: AuthOptions = {
               user = new Studio({
                 email: stripeAccount.email,
                 password,
-                firstName: stripeAccount.indivdual?.first_name,
+                firstName: stripeAccount.individual?.first_name,
                 lastName: stripeAccount.individual?.last_name,
                 stripeAccountId: stripeAccountId,
               });
@@ -134,10 +132,6 @@ export const authOptions: AuthOptions = {
             } else {
               return null;
             }
-          } else {
-            // Update the password
-            user.password = password;
-            await user!.save();
           }
         } catch (err) {
           console.warn('Got an error authorizing a user during login', err);
