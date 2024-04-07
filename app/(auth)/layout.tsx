@@ -43,7 +43,7 @@ export default function AuthLayout({
               <ArrowRight color="#f26552" size={18} className="mt-[1px]" />
             </Link>
           </div>
-          <div className="ml-auto min-w-96">
+          <div className="ml-auto min-w-[30rem]">
             <Container className="no-scrollbar overflow-scroll rounded-[16px]">
               {children}
             </Container>

@@ -1,6 +1,12 @@
 'use client';
 
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 type IEmbeddedComponentBorderContext = {
   enableBorder: boolean;
@@ -22,28 +28,33 @@ export const EmbeddedComponentBorderProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
+  const localWindow = typeof window !== 'undefined' ? window : null;
 
   const [enableBorder, setEnableBorder] = useState<boolean>(
-    Boolean(Number(window.localStorage.getItem('enableBorder')))
+    Boolean(Number(localWindow?.localStorage.getItem('enableBorder')))
   );
 
-  const handleEnableBorderChange = (enableBorder: boolean) => {
-    if (enableBorder) {
-      window.localStorage.setItem('enableBorder', '1');
-      setEnableBorder(true);
-    } else {
-      window.localStorage.setItem('enableBorder', '0');
-      setEnableBorder(false);
-    }
-  };
+  const handleEnableBorderChange = useCallback(
+    (enableBorder: boolean) => {
+      if (!localWindow) {
+        return;
+      }
+
+      if (enableBorder) {
+        localWindow.localStorage.setItem('enableBorder', '1');
+        setEnableBorder(true);
+      } else {
+        localWindow.localStorage.setItem('enableBorder', '0');
+        setEnableBorder(false);
+      }
+    },
+    [localWindow]
+  );
 
   useEffect(() => {
     const handleToggleBorder = (e: KeyboardEvent) => {
-      if (e.key === 'b' && e.metaKey) {
-        if (Number(window.localStorage.getItem('enableBorder'))) {
+      if (e.key === 'b' && e.metaKey && localWindow) {
+        if (Number(localWindow.localStorage.getItem('enableBorder'))) {
           handleEnableBorderChange(false);
         } else {
           handleEnableBorderChange(true);
@@ -54,7 +65,7 @@ export const EmbeddedComponentBorderProvider = ({
     // Keyboard shortcut to enable/disable border
     document.addEventListener('keydown', handleToggleBorder);
     () => document.removeEventListener('keydown', handleToggleBorder);
-  }, []);
+  }, [handleEnableBorderChange, localWindow]);
 
   return (
     <EmbeddedComponentBorderContext.Provider

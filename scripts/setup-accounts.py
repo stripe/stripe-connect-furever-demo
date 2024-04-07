@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import logging
 import itertools
 import math
@@ -306,6 +307,7 @@ PROTECTED_TAG = "protected"
 
 # For the account we're going to use for the embedded demo
 DEMO_ACCOUNT_TAG = "demo_account"
+DEMO_ONBOARDING_ACCOUNT_TAG = "demo_onboarding_account"
 SUPPORT_TICKET_ADDED_TAG = "support_ticket"
 
 
@@ -322,7 +324,19 @@ NORMAL_COUNT = 100 - (
 
 
 def is_demo_account(account):
+    """
+    Is this account used to demo something (onboarding, embedded, sonar, etc).
+    """
     return account.metadata.get(DEMO_ACCOUNT_TAG, False)
+
+
+def is_demo_onboarding_account(account):
+    """
+    Is this account used to demo onboarding.
+
+    This account should not be completed.
+    """
+    return account.metadata.get(DEMO_ONBOARDING_ACCOUNT_TAG, False)
 
 
 def is_protected_account(account):
@@ -330,38 +344,65 @@ def is_protected_account(account):
 
 
 def is_restricted_account(account):
+    """
+    Is this account a restricted account?
+
+    This account should have outstanding requirements.
+    """
     return account.metadata.get(RESTRICTED_TAG, False)
 
 
 def is_rejected_account(account):
+    """
+    Is this account rejected, or will be rejected?
+    """
     return account.metadata.get(REJECTED_TAG, False)
 
 
 def is_elevated_fraud_account(account):
+    """
+    Is this account one with elevated fraud?
+    """
     return account.metadata.get(ELEVATED_FRAUD_TAG, False)
 
 
 def is_high_fraud_account(account):
+    """
+    Is this account one with high fraud?
+    """
     return account.metadata.get(HIGH_FRAUD_TAG, False)
 
 
 def has_support_ticket(account):
+    """
+    Is this account one with a support ticket?
+
+    This is used to not add another support ticket.
+    """
     return account.metadata.get(SUPPORT_TICKET_ADDED_TAG, False)
 
 
-def ensure_accounts():
+def fetch_accounts():
+    """
+    Fetch all connected accounts, ordered by most recent first.
+
+    This should match the order that is shown by default in the CAL
+    """
+    log.info("Fetching all connected accounts...")
+    return sorted(
+        stripe.Account.list().auto_paging_iter(), key=lambda a: a.created, reverse=True
+    )
+
+
+def ensure_accounts(create=False):
     """
     Create or update connected accounts to reach the limit
     """
     # Get existing connected accounts
-    accounts = list(stripe.Account.list().auto_paging_iter())
+    accounts = fetch_accounts()
+    log.info(f"Have {len(accounts)} connected accounts")
 
-    account_ids = [account.id for account in accounts]
-    used_studio_names = set([account.business_profile.name for account in accounts])
-
-    log.info(f"Have {len(account_ids)} connected accounts")
-
-    identities = [
+    possible_identities = [
         {
             "first_name": first_name,
             "last_name": last_name,
@@ -370,21 +411,55 @@ def ensure_accounts():
         for first_name, last_name in NAMES
     ]
 
+    used_studio_names = set([account.business_profile.name for account in accounts])
     studio_names = [
         name
         for name in random.sample(YOGA_STUDIO_NAMES, k=len(YOGA_STUDIO_NAMES))
         if name not in used_studio_names
     ]
 
-    # Create any accounts to reach the limit
-    to_create = CONNECTED_ACCOUNT_COUNT - len(account_ids)
-    if to_create <= 0:
+    controller = {
+        "losses": {"payments": "application"},
+        "fees": {"payer": "application"},
+        "requirement_collection": "application",
+        "stripe_dashboard": {"type": "none"},
+    }
+    capabilities = {
+        "card_payments": {"requested": True},
+        "transfers": {"requested": True},
+        "card_issuing": {"requested": True},
+        "treasury": {"requested": True},
+    }
+
+    # Ensure we have a demo onboarding account in the first 40
+    demo_onboarding_accounts = [
+        account for account in accounts[:40] if is_demo_onboarding_account(account)
+    ]
+    if not demo_onboarding_accounts:
+        # Create one
+        log.info("Creating a demo onboarding account")
+        account = stripe.Account.create(
+            country="US",
+            business_type="individual",
+            controller=controller,
+            capabilities=capabilities,
+            metadata={
+                PROTECTED_TAG: "true",
+                DEMO_ONBOARDING_ACCOUNT_TAG: "true",
+            },
+        )
+        demo_onboarding_accounts.append(account)
+
+    if len(accounts) >= CONNECTED_ACCOUNT_COUNT and not create:
+        log.info("Not creating any more accounts")
         return
 
+    # Create some accounts to get to either CONNECTED_ACCOUNT_COUNT or some smaller number
+    to_create = max(CONNECTED_ACCOUNT_COUNT - len(accounts), random.randint(5, 20))
     log.info(f"Creating {to_create} connected accounts")
-
-    for i in range(CONNECTED_ACCOUNT_COUNT - len(account_ids)):
-        identity = identities[i % len(identities)]
+    for i in range(to_create):
+        # Get an identity
+        identity = random.choice(possible_identities)
 
         # Pick an unused business name
         business_name = random.choice(studio_names)
@@ -406,8 +481,7 @@ def ensure_accounts():
             ),
         )
 
-        identity_mismatch = False
-        inaccessible = False
+        restricted = False
 
         metadata = {}
         if tag_weight < HIGH_FRAUD_COUNT:
@@ -420,12 +494,7 @@ def ensure_accounts():
             HIGH_FRAUD_COUNT + ELEVATED_FRAUD_COUNT + REJECTED_COUNT + RESTRICTED_COUNT
         ):
             metadata[RESTRICTED_TAG] = "true"
-
-            # Pick which kind of restricted we'll use
-            if random.randint(0, 100) >= 50:
-                identity_mismatch = True
-            else:
-                inaccessible = True
+            restricted = True
         else:
             tag = None
 
@@ -441,33 +510,25 @@ def ensure_accounts():
         )
 
         # Create an account
-        account = stripe.Account.create(
-            controller={
-                "losses": {"payments": "application"},
-                "fees": {"payer": "application"},
-                "requirement_collection": "application",
-                "stripe_dashboard": {"type": "none"},
-            },
+        stripe.Account.create(
+            controller=controller,
             country="US",
             email=identity["email"],
-            capabilities={
-                "card_payments": {"requested": True},
-                "transfers": {"requested": True},
-                "card_issuing": {"requested": True},
-                "treasury": {"requested": True},
-            },
+            capabilities=capabilities,
             external_account=bank_account.id,
             business_profile={
                 "name": business_name,
                 "mcc": "7299",
                 "url": (
                     "https://inaccessible.stripe.com"
-                    if inaccessible
+                    if restricted
                     else "https://accessible.stripe.com"
                 ),
                 "product_description": "Yoga studio",
                 "support_address": {
-                    "line1": "354 Oyster Point Blvd",
+                    "line1": (
+                        "address_no_match" if restricted else "354 Oyster Point Blvd"
+                    ),
                     "city": "South San Francisco",
                     "state": "CA",
                     "postal_code": "94080",
@@ -484,7 +545,7 @@ def ensure_accounts():
             },
             business_type="individual",
             company={
-                "tax_id": "111111111" if identity_mismatch else "222222222",
+                "tax_id": "111111111" if restricted else "222222222",
             },
             individual={
                 "address": {
@@ -502,12 +563,17 @@ def ensure_accounts():
                 "email": identity["email"],
                 "first_name": identity["first_name"],
                 "last_name": identity["last_name"],
-                "id_number": "111111111" if identity_mismatch else "222222222",
-                "ssn_last_4": "1111" if identity_mismatch else "2222",
+                "id_number": "111111111" if restricted else "222222222",
+                "ssn_last_4": "1111" if restricted else "2222",
                 "phone": "8888675309",
             },
             metadata=metadata,
             settings={
+                "payouts": {
+                    "schedule": {
+                        "interval": "manual",
+                    }
+                },
                 "card_issuing": {
                     "tos_acceptance": {
                         "date": int(time.time()),
@@ -603,94 +669,213 @@ def ensure_financial_account(account):
 
 
 def rebalance_account_statuses():
-    accounts = sorted(
-        stripe.Account.list().auto_paging_iter(), key=lambda a: a.created, reverse=True
+    log.info("Rebalancing account statuses")
+
+    accounts = fetch_accounts()
+
+    # Ensure there's a demo onboarding account in the first 40
+    demo_onboarding_accounts = [
+        a for a in accounts[:40] if is_demo_onboarding_account(a)
+    ]
+    if not demo_onboarding_accounts:
+        log.error("No demo account found")
+        raise Exception
+    else:
+        for account in demo_onboarding_accounts:
+            log.info(f"Demo account found: {account.id}")
+            if not is_protected_account(account):
+                log.info(f"Marking account {account.id} as protected")
+                stripe.Account.modify(
+                    account.id,
+                    metadata={
+                        PROTECTED_TAG: "true",
+                        DEMO_ONBOARDING_ACCOUNT_TAG: "true",
+                    },
+                )
+
+    # Ensure there are demoable accounts in the first couple.
+    good_demo_account, high_fraud_account, elevated_fraud_account = (
+        accounts[0],
+        accounts[1],
+        accounts[2],
     )
 
-    # Ensure the first few accounts are protected and with other tags
-    demo_account = accounts[0]
-    if not is_protected_account(demo_account) and not is_demo_account(demo_account):
-        log.info(
-            f"Marking account {demo_account.id} / {demo_account.business_profile.name} as protected"
-        )
-        stripe.Account.modify(
-            demo_account.id, metadata={PROTECTED_TAG: "true", DEMO_ACCOUNT_TAG: "true"}
-        )
-
-    high_fraud_account = accounts[1]
-    if not is_protected_account(high_fraud_account) and not is_high_fraud_account(
-        high_fraud_account
+    # Ensure the first one is what we expect and is, or can be, a good demo account
+    if (
+        is_demo_account(good_demo_account)
+        and is_protected_account(good_demo_account)
+        and not is_elevated_fraud_account(good_demo_account)
+        and not is_high_fraud_account(good_demo_account)
+        and not is_restricted_account(good_demo_account)
+        and not is_rejected_account(good_demo_account)
+        and good_demo_account.payouts_enabled
+        and good_demo_account.charges_enabled
     ):
+        # This account should be all set up already
+        log.info(f"Good demo account {good_demo_account.id} is already set up")
+    elif (
+        not is_demo_onboarding_account(good_demo_account)
+        and not is_restricted_account(good_demo_account)
+        and not is_rejected_account(good_demo_account)
+        and not is_elevated_fraud_account(good_demo_account)
+        and not is_high_fraud_account(good_demo_account)
+        and good_demo_account.payouts_enabled
+        and good_demo_account.charges_enabled
+    ):
+        # Make this a good demo account
+        log.info(f"Marking account {good_demo_account.id} as a good demo account")
+        stripe.Account.modify(
+            good_demo_account.id,
+            metadata={PROTECTED_TAG: "true", DEMO_ACCOUNT_TAG: "true"},
+        )
+    else:
+        log.error(
+            f"Demo account {good_demo_account.id} is not in the right state to be a good demo account"
+        )
+        raise Exception
+
+    # Ensure the second one is what we expect and is, or can be, a high fraud account
+    if (
+        is_demo_account(high_fraud_account)
+        and is_high_fraud_account(high_fraud_account)
+        and is_protected_account(high_fraud_account)
+        and not is_elevated_fraud_account(high_fraud_account)
+        and not is_restricted_account(high_fraud_account)
+        and not is_rejected_account(high_fraud_account)
+    ):
+        # This account should be all set up already
+        log.info(f"High fraud account {high_fraud_account.id} is already set up")
+    elif (
+        not is_demo_onboarding_account(high_fraud_account)
+        and not is_restricted_account(high_fraud_account)
+        and not is_rejected_account(high_fraud_account)
+        and not is_elevated_fraud_account(high_fraud_account)
+        and high_fraud_account.payouts_enabled
+        and high_fraud_account.charges_enabled
+    ):
+        # Make this a high fraud demo account
         log.info(
-            f"Marking account {high_fraud_account.id} / {high_fraud_account.business_profile.name} as high fraud"
+            f"Marking account {high_fraud_account.id} as a high fraud demo account"
         )
         stripe.Account.modify(
             high_fraud_account.id,
             metadata={
                 PROTECTED_TAG: "true",
+                DEMO_ACCOUNT_TAG: "true",
                 HIGH_FRAUD_TAG: "true",
-                REJECTED_TAG: "",
-                HIGH_FRAUD_TAG: "",
-                RESTRICTED_TAG: "",
             },
         )
+    else:
+        log.error(
+            f"Demo account {high_fraud_account.id} is not in the right state to be a high fraud account"
+        )
+        raise Exception
 
-    elevated_fraud_account = accounts[2]
-    if not is_protected_account(
-        elevated_fraud_account
-    ) and not is_elevated_fraud_account(elevated_fraud_account):
+    # Ensure the third one is what we expect and is, or can be, an elevated fraud account
+    if (
+        is_demo_account(elevated_fraud_account)
+        and is_elevated_fraud_account(elevated_fraud_account)
+        and is_protected_account(elevated_fraud_account)
+        and not is_high_fraud_account(elevated_fraud_account)
+        and not is_restricted_account(elevated_fraud_account)
+        and not is_rejected_account(elevated_fraud_account)
+    ):
+        # This account should be all set up already
         log.info(
-            f"Marking account {elevated_fraud_account.id} / {elevated_fraud_account.business_profile.name} as elevated fraud"
+            f"Elevated fraud account {elevated_fraud_account.id} is already set up"
+        )
+    elif (
+        not is_demo_onboarding_account(elevated_fraud_account)
+        and not is_restricted_account(elevated_fraud_account)
+        and not is_rejected_account(elevated_fraud_account)
+        and not is_high_fraud_account(elevated_fraud_account)
+        and elevated_fraud_account.payouts_enabled
+        and elevated_fraud_account.charges_enabled
+    ):
+        # Make this an elevated fraud demo account
+        log.info(
+            f"Marking account {elevated_fraud_account.id} as an elevated fraud demo account"
         )
         stripe.Account.modify(
             elevated_fraud_account.id,
             metadata={
                 PROTECTED_TAG: "true",
-                HIGH_FRAUD_TAG: "",
-                REJECTED_TAG: "",
+                DEMO_ACCOUNT_TAG: "true",
                 ELEVATED_FRAUD_TAG: "true",
-                RESTRICTED_TAG: "",
             },
         )
+    else:
+        log.error(
+            f"Demo account {elevated_fraud_account.id} is not in the right state to be an elevated fraud account"
+        )
+        raise Exception
 
-    # Get a restricted account on the front page
-    restricted_fraud_account = accounts[9]
-    if not is_protected_account(restricted_fraud_account) and not is_restricted_account(
-        restricted_fraud_account
-    ):
+    front_page_accounts = accounts[:20]
+
+    # Ensure there's a restricted account on the front page
+    restricted_accounts = [a for a in front_page_accounts if is_restricted_account(a)]
+    if restricted_accounts:
+        log.info("A restricted account is on the front page")
+    else:
+        # Find one we can make restricted
+        potential_accounts = [
+            a
+            for a in front_page_accounts
+            # demo accounts include good accounts, high and elevated fraud accounts
+            if not is_demo_account(a)
+            and not is_demo_onboarding_account(a)
+            and not is_rejected_account(a)
+        ]
+        if not potential_accounts:
+            log.error("No potential accounts to make restricted")
+            raise Exception
+        # pick one
+        account = random.choice(potential_accounts)
         log.info(
-            f"Marking account {restricted_fraud_account.id} / {restricted_fraud_account.business_profile.name} as restricted"
+            f"Marking account {account.id} / {account.business_profile.name} as restricted"
         )
         stripe.Account.modify(
-            restricted_fraud_account.id,
+            account.id,
             metadata={
                 PROTECTED_TAG: "true",
-                HIGH_FRAUD_TAG: "",
-                REJECTED_TAG: "",
-                ELEVATED_FRAUD_TAG: "",
                 RESTRICTED_TAG: "true",
             },
         )
 
-    # Get a rejected account on the front page
-    rejected_account = accounts[14]
-    if not is_protected_account(rejected_account) and not is_rejected_account(
-        rejected_account
-    ):
+    # Ensure there's a rejected account on the front page
+    rejected_accounts = [a for a in front_page_accounts if is_rejected_account(a)]
+    if rejected_accounts:
+        log.info("A rejected account is on the front page")
+    else:
+        # Find one we can make rejected
+        potential_accounts = [
+            a
+            for a in front_page_accounts
+            # demo accounts include good accounts, high and elevated fraud accounts
+            if not is_demo_account(a)
+            and not is_demo_onboarding_account(a)
+            and not is_restricted_account(a)
+        ]
+        if not potential_accounts:
+            log.error("No potential accounts to make rejected")
+            raise Exception
+        # pick one
+        account = random.choice(potential_accounts)
         log.info(
-            f"Marking account {rejected_account.id} / {rejected_account.business_profile.name} as rejected"
+            f"Marking account {account.id} / {account.business_profile.name} as rejected"
         )
         stripe.Account.modify(
-            rejected_account.id,
+            account.id,
             metadata={
                 PROTECTED_TAG: "true",
-                HIGH_FRAUD_TAG: "",
                 REJECTED_TAG: "true",
-                ELEVATED_FRAUD_TAG: "",
-                RESTRICTED_TAG: "",
             },
         )
 
+    # Refetch the accounts in case any changed
+    accounts = fetch_accounts()
+
+    # Balance all of the accounts
     high_fraud = [a for a in accounts if is_high_fraud_account(a)]
     elevated_fraud = [a for a in accounts if is_elevated_fraud_account(a)]
     rejected = [a for a in accounts if is_rejected_account(a)]
@@ -700,6 +885,8 @@ def rebalance_account_statuses():
         for a in accounts
         if not any(
             [
+                is_demo_account(a),
+                is_demo_onboarding_account(a),
                 is_high_fraud_account(a),
                 is_elevated_fraud_account(a),
                 is_rejected_account(a),
@@ -825,6 +1012,33 @@ def ensure_account_configuration(account):
     Ensure some stuff is set up right (manual payouts, etc).
     """
     assert isinstance(account, stripe.Account)
+
+    if is_demo_onboarding_account(account):
+        # Ignore this one
+        return
+
+    log.info(f"Ensuring account configuration for {account.id}")
+
+    # Unrequest any AVs
+    if (
+        hasattr(account, "additional_verifications")
+        and account.additional_verifications.document
+    ):
+        log.info(f"Unrequesting additional verifications for {account.id}")
+        stripe.Account.modify(
+            account.id,
+            additional_verifications={
+                "document": {
+                    "requested": False,
+                    "apply_to": ["representative"],
+                    "upfront": [
+                        {
+                            "disables": "payouts_and_payments",
+                        },
+                    ],
+                }
+            },
+        )
 
     # Metadata has the right format
     metadata = {}
@@ -1066,7 +1280,7 @@ def delete_accounts():
     """
     Delete all connected accounts that are not protected
     """
-    accounts = list(stripe.Account.list().auto_paging_iter())
+    accounts = fetch_accounts()
     for account in accounts:
         if is_protected_account(account):
             continue
@@ -1304,21 +1518,30 @@ def generate_support_ticket(account):
         log.error(f"Got an error creating a support ticket: {e}")
 
 
-def main():
+def main(create_accounts=False, rebalance=False, shell=False, delete=False):
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
     if "STRIPE_SECRET_KEY" not in config:
         raise ValueError("STRIPE_SECRET_KEY is not defined in the environment")
 
     stripe.api_key = config["STRIPE_SECRET_KEY"]
 
+    if shell:
+        import pdb
+
+        pdb.set_trace()
+
+        exit()
+
     # Reset if we need to
-    # delete_accounts()
+    if delete:
+        delete_accounts()
 
-    ensure_accounts()
+    ensure_accounts(create=create_accounts)
 
-    rebalance_account_statuses()
+    if rebalance or create_accounts:
+        rebalance_account_statuses()
 
-    accounts = list(stripe.Account.list().auto_paging_iter())
+    accounts = fetch_accounts()
 
     for account in accounts:
         resolve_requirements(account)
@@ -1333,8 +1556,10 @@ def main():
         # Update the status of the account
         update_account_status(account)
 
-    # Update the statuses
-    accounts = list(stripe.Account.list().auto_paging_iter())
+    # Update the most recent 30 accounts, for performance
+    accounts = fetch_accounts()[:30]
+
+    log.info(f"Populating data for the most recent {len(accounts)} accounts")
 
     for account in accounts:
         # Populate charges
@@ -1358,4 +1583,26 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-a",
+        "--create-accounts",
+        help="Create accounts",
+        action="store_true",
+        dest="create_accounts",
+    )
+    parser.add_argument("-s", "--shell", help="Enter a shell", action="store_true")
+    parser.add_argument(
+        "-d", "--delete", help="Delete all accounts", action="store_true"
+    )
+    parser.add_argument(
+        "-r", "--rebalance", help="Rebalance account statuses", action="store_true"
+    )
+    args = parser.parse_args()
+
+    main(
+        create_accounts=args.create_accounts,
+        rebalance=args.rebalance,
+        shell=args.shell,
+        delete=args.delete,
+    )

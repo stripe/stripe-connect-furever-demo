@@ -8,6 +8,7 @@ import {
   Coins as CoinsIcon,
   Landmark as LandmarkIcon,
   Settings as SettingsIcon,
+  Milestone as MilestoneIcon,
 } from 'lucide-react';
 
 import {
@@ -157,6 +158,15 @@ const DebugMenu = (settings: any) => {
                 >
                   <SettingsIcon className="mr-2 h-4 w-4" />
                   <span>Settings</span>
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => {
+                    router.push('/register');
+                    setOpen(false);
+                  }}
+                >
+                  <MilestoneIcon className="mr-2 h-4 w-4" />
+                  <span>Demo Onboarding</span>
                 </CommandItem>
               </CommandGroup>
             </CommandList>

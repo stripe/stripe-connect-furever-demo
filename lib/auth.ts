@@ -192,21 +192,19 @@ export const authOptions: AuthOptions = {
             },
           });
 
-          // const controller = {
-          //   application: {
-          //     loss_liable: false, // Stripe owns loss liability
-          //     onboarding_owner: false, // Stripe is the onboarding owner
-          //     pricing_controls: true, // The platform is the pricing owner
-          //   },
-          //   dashboard: {
-          //     type: "none" as const, // The connected account will not have access to dashboard
-          //   },
-          // };
+          const controller = {
+            losses: {payments: 'application'},
+            fees: {payer: 'application'},
+            requirement_collection: 'application',
+            stripe_dashboard: {
+              type: 'none' as const, // The connected account will not have access to dashboard
+            },
+          };
 
           console.log('Creating stripe account for the email', email);
 
           const account = await stripe.accounts.create({
-            type: 'custom',
+            controller,
             capabilities: {
               card_payments: {
                 requested: true,
@@ -223,44 +221,6 @@ export const authOptions: AuthOptions = {
             },
             country: 'US',
             email: email,
-            external_account: bankAccount.id,
-            business_profile: {
-              name: 'Pose',
-              mcc: '7299',
-              url: 'https://pose.dev',
-              product_description: 'Yoga studio',
-              support_address: {
-                line1: '354 Oyster Point Blvd',
-                city: 'South San Francisco',
-                state: 'CA',
-                postal_code: '94080',
-              },
-              support_email: email,
-              support_phone: '8888675309',
-              support_url: 'https://pose.dev',
-              estimated_worker_count: 10,
-              annual_revenue: {
-                amount: 1000000,
-                currency: 'usd',
-                fiscal_year_end: '2023-12-31',
-              },
-            },
-            business_type: 'company',
-            company: {
-              name: 'Pose',
-              address: {
-                line1: 'address_full_match',
-                city: 'South San Francisco',
-                country: 'US',
-                state: 'CA',
-                postal_code: '94080',
-              },
-              directors_provided: true,
-              executives_provided: true,
-              owners_provided: true,
-              phone: '8888675309',
-              tax_id: '000000000',
-            },
           });
 
           user = new Studio({
@@ -273,56 +233,6 @@ export const authOptions: AuthOptions = {
           console.log('Creating Studio...');
           await user!.save();
           console.log('Studio was created');
-
-          await stripe.accounts.createPerson(account.id, {
-            first_name: firstName,
-            last_name: lastName,
-            address: {
-              line1: 'address_full_match',
-              city: 'South San Francisco',
-              country: 'US',
-              state: 'CA',
-              postal_code: '94080',
-            },
-            dob: {
-              day: 1,
-              month: 1,
-              year: 1901,
-            },
-            email: email,
-            phone: '8888675309',
-            ssn_last_4: '0000',
-            relationship: {
-              director: false,
-              executive: true,
-              owner: true,
-              percent_ownership: 50,
-              representative: true,
-              title: 'CEO',
-            },
-          });
-
-          await stripe.treasury.financialAccounts.create(
-            {
-              supported_currencies: ['usd'],
-              features: {
-                card_issuing: {requested: true},
-                deposit_insurance: {requested: true},
-                financial_addresses: {aba: {requested: true}},
-                inbound_transfers: {ach: {requested: true}},
-                intra_stripe_flows: {requested: true},
-                outbound_payments: {
-                  ach: {requested: true},
-                  us_domestic_wire: {requested: true},
-                },
-                outbound_transfers: {
-                  ach: {requested: true},
-                  us_domestic_wire: {requested: true},
-                },
-              },
-            },
-            {stripeAccount: account.id}
-          );
         } catch (error: any) {
           console.log(
             'Got an error authorizing and creating a user during signup',

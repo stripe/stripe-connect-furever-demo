@@ -3,21 +3,27 @@ import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
 
-export const useConnect = () => {
+export const useConnect = (demoOnboarding: boolean) => {
   const [hasError, setHasError] = useState(false);
   const [stripeConnectInstance, setStripeConnectInstance] =
     useState<StripeConnectInstance | null>(null);
 
   const settings = useSettings();
-  console.log(settings);
-
-  // TODO - support changing this
-  // const locale = 'en-US';
 
   const fetchClientSecret = async () => {
+    if (demoOnboarding) {
+      console.log('Fetching client secret for demo onboarding');
+    }
+    const data = demoOnboarding
+      ? {
+          demoOnboarding: true,
+        }
+      : {};
+
     // Fetch the AccountSession client secret
     const response = await fetch('/api/account_session', {
       method: 'POST',
+      body: JSON.stringify(data),
     });
     if (!response.ok) {
       // Handle errors on the client side here
