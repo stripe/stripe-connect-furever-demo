@@ -20,7 +20,6 @@ import {Input} from '@/components/ui/input';
 
 const formSchema = z.object({
   accountId: z.string().startsWith('acct_'),
-  password: z.string().min(8),
 });
 
 export default function LoginAsForm() {
@@ -30,16 +29,14 @@ export default function LoginAsForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       accountId: '',
-      password: '',
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       console.log('Logging in as the account');
-      await signIn('account', {
+      await signIn('loginas', {
         accountId: values.accountId,
-        password: values.password,
         redirect: false,
       });
 
@@ -63,26 +60,6 @@ export default function LoginAsForm() {
                   <Input
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="acct_1234567890abcdef"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="password"
-            render={({field}) => (
-              <FormItem>
-                <FormLabel className="font-bold">Password</FormLabel>
-                <FormControl>
-                  <Input
-                    className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
-                    placeholder="••••••••"
-                    type="password"
                     {...field}
                   />
                 </FormControl>

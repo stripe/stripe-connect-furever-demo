@@ -1,5 +1,6 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
+import {stripe} from '@/lib/stripe';
 
 const customers = [
   {
@@ -30,10 +31,6 @@ const customers = [
   },
 ];
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2022-08-01; embedded_connect_beta=v2',
-});
-
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -41,7 +38,6 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   let checkoutSession;
   try {
-    // @ts-ignore
     const session = await getServerSession(authOptions);
     const currency = 'usd';
     let redirectUrl;

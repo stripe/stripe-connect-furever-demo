@@ -1,13 +1,9 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2022-08-01; embedded_connect_beta=v2',
-});
+import {stripe} from '@/lib/stripe';
 
 export async function POST() {
   try {
-    // @ts-ignore
     const session = await getServerSession(authOptions);
 
     const issuingCards = await stripe.issuing.cards.list(

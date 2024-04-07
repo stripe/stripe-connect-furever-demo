@@ -1,10 +1,7 @@
 import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2022-08-01; embedded_connect_beta=v2',
-});
+import {stripe} from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,12 +13,16 @@ export async function POST(req: NextRequest) {
 
     let stripeAccountId = session?.user?.stripeAccount?.id;
 
-    if (useDemoOnboardingAccountId) {
-      console.log('Looking for the demo onboarding account');
+    if (
+      useDemoOnboardingAccountId &&
+      process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT
+    ) {
+      console.log(
+        `Looking for the demo onboarding account ${process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT}`
+      );
       // Look for the demo onboarding account
-      const accounts = await stripe.accounts.list({limit: 40});
-      const demoOnboardingAccount = accounts.data.find(
-        (account: any) => account.metadata.demo_onboarding_account === 'true'
+      const demoOnboardingAccount = await stripe.accounts.retrieve(
+        process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT
       );
       if (demoOnboardingAccount) {
         console.log(

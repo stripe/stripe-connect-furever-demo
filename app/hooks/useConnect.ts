@@ -76,8 +76,7 @@ export const useConnect = (demoOnboarding: boolean) => {
 
   useEffect(() => {
     const instance = loadConnectAndInitialize({
-      // @ts-ignore
-      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
       appearance: {
         overlays: 'dialog',
         variables: appearanceVariables,
