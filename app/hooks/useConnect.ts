@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState, useContext} from 'react';
+import {useEffect, useMemo, useState, useCallback} from 'react';
 import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
@@ -10,7 +10,7 @@ export const useConnect = (demoOnboarding: boolean) => {
 
   const settings = useSettings();
 
-  const fetchClientSecret = async () => {
+  const fetchClientSecret = useCallback(async () => {
     if (demoOnboarding) {
       console.log('Fetching client secret for demo onboarding');
     }
@@ -28,7 +28,7 @@ export const useConnect = (demoOnboarding: boolean) => {
     if (!response.ok) {
       // Handle errors on the client side here
       const {error} = await response.json();
-      console.log('An error occurred: ', error);
+      console.warn('An error occurred: ', error);
       setHasError(true);
       return undefined;
     } else {
@@ -36,7 +36,7 @@ export const useConnect = (demoOnboarding: boolean) => {
       setHasError(false);
       return clientSecret;
     }
-  };
+  }, [demoOnboarding]);
 
   const appearanceVariables = useMemo(
     () => ({

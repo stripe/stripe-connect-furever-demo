@@ -1,5 +1,4 @@
 import {useContext, useCallback} from 'react';
-import {Globe} from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -7,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Container from '@/app/components/Container';
 import {LocaleType, Locales} from '@/types/settings';
 import {SettingsContext} from '@/app/contexts/settings';
 
@@ -17,12 +15,11 @@ type LocaleProps = {
 
 const LocaleSelector = ({localeUpdated}: LocaleProps) => {
   const settings = useContext(SettingsContext);
-  console.log('settings', settings);
 
   const setLocale = useCallback(
     (value: LocaleType) => {
       settings.handleUpdate({locale: value});
-      if (typeof localeUpdated === 'function') {
+      if (localeUpdated) {
         localeUpdated();
       }
     },

@@ -34,7 +34,6 @@ export default function LoginAsForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log('Logging in as the account');
       await signIn('loginas', {
         accountId: values.accountId,
         redirect: false,

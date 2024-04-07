@@ -16,8 +16,6 @@ export async function POST() {
       }
     );
 
-    console.log(issuingCards.data);
-
     if (issuingCards.data.length === 0) {
       console.error('No active issuing cards found for user');
       return new Response('No issuing cards found for user', {
@@ -35,8 +33,6 @@ export async function POST() {
           stripeAccount: session?.user?.stripeAccount?.id,
         }
       );
-
-    console.log(authorization);
 
     return new Response(
       JSON.stringify({
