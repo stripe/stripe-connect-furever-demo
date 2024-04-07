@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useRouter} from 'next/navigation';
 import {signIn} from 'next-auth/react';
 
@@ -30,7 +30,6 @@ import changeLocale from '@/app/components/debug/commands/ChangeLocale';
 import CreateReceivedCredit from '@/app/components/debug/commands/CreateReceivedCredit';
 import CreateIssuingCardAuthorization from '@/app/components/debug/commands/CreateIssuingCardAuthorization';
 import CreateCheckoutSession from '@/app/components/debug/commands/CreateCheckoutSession';
-import {set} from 'mongoose';
 
 const settingsCommands = [changeLocale];
 
