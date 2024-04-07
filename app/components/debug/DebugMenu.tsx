@@ -26,6 +26,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 
+import {SettingsContext} from '@/app/contexts/settings';
 import changeLocale from '@/app/components/debug/commands/ChangeLocale';
 import CreateReceivedCredit from '@/app/components/debug/commands/CreateReceivedCredit';
 import CreateIssuingCardAuthorization from '@/app/components/debug/commands/CreateIssuingCardAuthorization';
@@ -39,13 +40,15 @@ const stripeCommands = [
   CreateCheckoutSession,
 ];
 
-const DebugMenu = (settings: any) => {
+const DebugMenu = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [commandError, setCommandError] = React.useState<Error | null>(null);
   const [actionMenu, setActionMenu] = React.useState<React.ReactNode | null>(
     null
   );
+
+  const settings = React.useContext(SettingsContext);
 
   const router = useRouter();
 
@@ -60,8 +63,6 @@ const DebugMenu = (settings: any) => {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
-
-  console.log('$$ debug menu', settings.settings.handleUpdate);
 
   return (
     <>
@@ -92,8 +93,7 @@ const DebugMenu = (settings: any) => {
                         setActionMenu(null);
                       };
 
-                      console.log(settings.handleUpdate);
-                      setActionMenu(ui(exit, settings.settings));
+                      setActionMenu(ui(exit, settings));
                     }}
                     className="aria-selected:text-black aria-selected:opacity-100"
                   >
@@ -198,6 +198,9 @@ const DebugMenu = (settings: any) => {
                         });
 
                         console.log('Logged in as demo account', accountId);
+
+                        // Ensure we're in the en-US locale
+                        settings.handleUpdate({locale: 'en-US'});
 
                         router.push('/');
                         setLoading(false);

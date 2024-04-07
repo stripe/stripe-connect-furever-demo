@@ -15,8 +15,6 @@ export async function POST() {
       }
     );
 
-    console.log(financialAccounts.data);
-
     if (financialAccounts.data.length === 0) {
       console.error('No financial accounts found for user');
       return new Response('No financial accounts found for user', {
@@ -36,8 +34,6 @@ export async function POST() {
           stripeAccount: session?.user?.stripeAccount?.id,
         }
       );
-
-    console.log(receivedCredit);
 
     return new Response(
       JSON.stringify({
