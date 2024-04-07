@@ -198,6 +198,7 @@ export const authOptions: AuthOptions = {
           console.log('Creating stripe account for the email', email);
 
           const account = await stripe.accounts.create({
+            // @ts-ignore
             controller,
             capabilities: {
               card_payments: {

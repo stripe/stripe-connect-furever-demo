@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
           },
         },
         // Connect
+        // @ts-ignore
         account_management: {enabled: true},
         account_onboarding: {enabled: true},
         payment_method_settings: {enabled: true},
