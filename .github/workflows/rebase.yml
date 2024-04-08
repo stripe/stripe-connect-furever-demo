@@ -1,0 +1,21 @@
+name: Rebase Branch
+on:
+  push:
+    branches:
+      - main
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Rebase branch
+        env:
+          FEATURE_BRANCH: 'stevekaliski-vercel'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git fetch origin $FEATURE_BRANCH
+          git checkout $FEATURE_BRANCH
+          git rebase origin/main
+          git push --force-with-lease origin $FEATURE_BRANCH
