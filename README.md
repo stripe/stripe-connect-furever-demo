@@ -12,6 +12,8 @@ This demo is built with
 
 ## Getting Started
 
+Set up a platform with [the scenario](https://admin.corp.stripe.com/scenarios?id=scntmp*AY6-UTXCvgAAAL8d).
+
 Install dependencies using npm (or yarn):
 
 ```
