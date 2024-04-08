@@ -1129,6 +1129,8 @@ def create_charge(account, token):
     amount = random.randint(5_00, 10_00)
     app_fee = math.ceil(max((amount * 2.9 + 30) * 0.1, amount * 0.1))
 
+    # TODO(streeter) - should we set customer details so it shows up in the UI?
+
     try:
         return stripe.Charge.create(
             amount=amount,
@@ -1277,11 +1279,14 @@ def generate_payouts(account):
 
     amount = random.randint(min_payout, max_payout)
 
-    stripe.Payout.create(
-        amount=amount,
-        currency="usd",
-        stripe_account=account.id,
-    )
+    try:
+        stripe.Payout.create(
+            amount=amount,
+            currency="usd",
+            stripe_account=account.id,
+        )
+    except stripe.error.InvalidRequestError as e:
+        log.error(f"Got an error creating a payout: {e}")
 
 
 def delete_accounts():
@@ -1414,6 +1419,14 @@ def generate_financial_account_transactions(account):
     """
     assert isinstance(account, stripe.Account)
 
+    if is_restricted_account(account):
+        log.info(f"Skipping FA transactions on restricted account {account.id}")
+        return
+
+    if not account.charges_enabled:
+        log.info(f"Charges are disabled for account {account.id}")
+        return
+
     log.info(f"Generating financial account transactions for {account.id}")
 
     financial_account = get_default_financial_account(account)
@@ -1507,13 +1520,11 @@ def generate_support_ticket(account):
     log.info(f"Generating support ticket for {account.id}")
 
     try:
-        response = stripe.raw_request(
-            "post",
-            "/v1/test_helpers/demo/support_ticket",
-            account=account.token,
+        stripe.raw_request(
+            "post", "/v1/test_helpers/demo/support_ticket", account=account.id
         )
 
-        # TODO - validate the response
+        # above raises an error if it wasn't successful
 
         # Mark this account as having a support ticket
         stripe.Account.modify(
@@ -1526,7 +1537,57 @@ def generate_support_ticket(account):
         log.error(f"Got an error creating a support ticket: {e}")
 
 
-def main(create_accounts=False, rebalance=False, shell=False, delete=False):
+def generate_sonar_data():
+    accounts = fetch_accounts()
+
+    log.info(f"Generating Sonar data for {len(accounts)} accounts")
+
+    data = (
+        [
+            f"('{account.id}', 'tier_4_high')"
+            for account in accounts
+            if is_high_fraud_account(account)
+        ]
+        + [
+            f"('{account.id}', 'tier_3_elevated')"
+            for account in accounts
+            if is_elevated_fraud_account(account)
+        ]
+        + [
+            f"('{account.id}', '{random.choice(['tier_1_low', 'tier_2_medium'])}')"
+            for account in accounts
+            if not is_elevated_fraud_account(account)
+            and not is_high_fraud_account(account)
+        ]
+    )
+
+    print("Generating hubble query:")
+    print("")
+    print(
+        f"with t (token, fraud_tier) as (VALUES {', '.join(data)}) select token, fraud_tier, case when fraud_tier = 'tier_3_elevated' then 'disputes,behavior,business_model' when fraud_tier = 'tier_4_high' then 'bank_account,transaction_patterns,business_info' else '' end as indicators from t order by token desc"
+    )
+    print("")
+
+    print(
+        "Create a query using at https://hubble.corp.stripe.com/queries using the above"
+    )
+    print(
+        "Then, clone this migration https://admin.corp.stripe.com/migrations/clone/mijob_Pri3K4TcGsSGar"
+    )
+
+
+def main(
+    create_accounts=False,
+    create_charges=False,
+    create_payouts=False,
+    create_issuing=False,
+    create_treasury=False,
+    create_support=False,
+    rebalance=False,
+    shell=False,
+    delete=False,
+    export_sonar_data=False,
+):
     config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
     if "STRIPE_SECRET_KEY" not in config:
         raise ValueError("STRIPE_SECRET_KEY is not defined in the environment")
@@ -1543,6 +1604,11 @@ def main(create_accounts=False, rebalance=False, shell=False, delete=False):
     # Reset if we need to
     if delete:
         delete_accounts()
+
+    if export_sonar_data:
+        generate_sonar_data()
+
+        exit()
 
     ensure_accounts(create=create_accounts)
 
@@ -1569,29 +1635,38 @@ def main(create_accounts=False, rebalance=False, shell=False, delete=False):
 
     log.info(f"Populating data for the most recent {len(accounts)} accounts")
 
-    for account in accounts:
-        # Populate charges
-        generate_charges(account)
+    if create_charges:
+        for account in accounts:
+            # Populate charges
+            generate_charges(account)
 
-    for account in accounts:
-        # Populate payouts
-        generate_payouts(account)
+    if create_payouts:
+        for account in accounts:
+            # Populate payouts
+            generate_payouts(account)
 
-    for account in accounts:
-        # Populate cardholders and cards
-        generate_cardholders_and_cards(account)
+    if create_issuing:
+        for account in accounts:
+            # Populate cardholders and cards
+            generate_cardholders_and_cards(account)
 
-    for account in accounts:
-        # Populate financial account transactions
-        generate_financial_account_transactions(account)
+    if create_treasury:
+        for account in accounts:
+            # Populate financial account transactions
+            generate_financial_account_transactions(account)
 
-    for account in accounts:
-        # Generate a support ticket
-        generate_support_ticket(account)
+    if create_support:
+        for account in accounts:
+            # Generate a support ticket
+            generate_support_ticket(account)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--shell", help="Enter a shell, and then exit after", action="store_true"
+    )
+
     parser.add_argument(
         "-a",
         "--create-accounts",
@@ -1599,7 +1674,26 @@ if __name__ == "__main__":
         action="store_true",
         dest="create_accounts",
     )
-    parser.add_argument("-s", "--shell", help="Enter a shell", action="store_true")
+    parser.add_argument("-c", "--charges", help="Generate charges", action="store_true")
+    parser.add_argument("-p", "--payouts", help="Generate payouts", action="store_true")
+    parser.add_argument(
+        "-i", "--issuing", help="Generate Issuing data", action="store_true"
+    )
+    parser.add_argument(
+        "-t", "--treasury", help="Generate Treasury data", action="store_true"
+    )
+    parser.add_argument(
+        "-s", "--support", help="Generate support ticket data", action="store_true"
+    )
+
+    parser.add_argument(
+        "-e",
+        "--export-sonar-data",
+        help="Export Sonar data",
+        action="store_true",
+        dest="export_sonar_data",
+    )
+
     parser.add_argument(
         "-d", "--delete", help="Delete all accounts", action="store_true"
     )
@@ -1610,7 +1704,13 @@ if __name__ == "__main__":
 
     main(
         create_accounts=args.create_accounts,
+        create_charges=args.charges,
+        create_payouts=args.payouts,
+        create_issuing=args.issuing,
+        create_treasury=args.treasury,
+        create_support=args.support,
         rebalance=args.rebalance,
         shell=args.shell,
         delete=args.delete,
+        export_sonar_data=args.export_sonar_data,
     )

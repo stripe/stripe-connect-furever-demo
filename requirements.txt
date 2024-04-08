@@ -1,3 +1,6 @@
 python-dotenv==1.0.1
-stripe==8.9.0
+
+# pip install --pre stripe
+stripe==8.11.0b1
+
 black
