@@ -130,6 +130,10 @@ export const authOptions: AuthOptions = {
               await user!.save();
               console.log('Studio was created');
             } else {
+              console.log(
+                'Could not find a user for account id',
+                stripeAccountId
+              );
               return null;
             }
           }
