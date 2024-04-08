@@ -8,6 +8,7 @@ import LocaleSelector from '@/app/components/LocaleSelector';
 import {SettingsConsumer} from '@/app/contexts/settings';
 import BackgroundImage from '@/public/background.jpg';
 import {ArrowRight} from 'lucide-react';
+import PoseRed from '@/public/pose_red.svg';
 
 export default function AuthLayout({
   children,
@@ -30,7 +31,7 @@ export default function AuthLayout({
           <div className="fixed min-h-full max-w-sm space-y-4">
             <Image
               className="mb-4 inline-block"
-              src="pose_red.svg"
+              src={PoseRed}
               alt="Pose"
               width={150}
               height={23}
