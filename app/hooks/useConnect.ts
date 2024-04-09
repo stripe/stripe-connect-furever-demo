@@ -84,7 +84,7 @@ export const useConnect = (demoOnboarding: boolean) => {
         metaOptions: {
           flagOverrides: {
             // Hide testmode stuff
-            enable_hide_testmode: true,
+            enable_sessions_demo: true,
           },
         },
       } as any);
