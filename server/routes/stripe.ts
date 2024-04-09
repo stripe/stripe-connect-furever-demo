@@ -316,10 +316,10 @@ app.post('/create-account', userRequired, async (req, res) => {
             first_name: user.firstName || undefined,
             last_name: user.lastName || undefined,
             email: user.email || undefined,
-            id_number: '000000000',
             // Prefill individual information
             ...(shouldPrefill
               ? {
+                  id_number: '000000000',
                   address: {
                     line1: 'address_full_match',
                     city: 'South San Francisco',
