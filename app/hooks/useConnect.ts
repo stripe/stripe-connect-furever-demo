@@ -68,29 +68,30 @@ export const useConnect = (demoOnboarding: boolean) => {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
-        // @ts-ignore
         locale: settings.locale,
       });
+    } else {
+      const instance = loadConnectAndInitialize({
+        publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+        appearance: {
+          overlays: 'dialog',
+          variables: appearanceVariables,
+        },
+        locale: settings.locale,
+        fetchClientSecret: async () => {
+          return await fetchClientSecret();
+        },
+        metaOptions: {
+          flagOverrides: {
+            // Hide testmode stuff
+            enable_sessions_demo: true,
+          },
+        },
+      } as any);
+
+      setStripeConnectInstance(instance);
     }
-  }, [stripeConnectInstance, appearanceVariables, settings]);
-
-  useEffect(() => {
-    const instance = loadConnectAndInitialize({
-      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
-      appearance: {
-        overlays: 'dialog',
-        variables: appearanceVariables,
-      },
-      // @ts-ignore
-      locale: settings.locale,
-      fetchClientSecret: async () => {
-        return await fetchClientSecret();
-      },
-    });
-
-    setStripeConnectInstance(instance);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [stripeConnectInstance, appearanceVariables, settings, fetchClientSecret]);
 
   return {
     hasError,

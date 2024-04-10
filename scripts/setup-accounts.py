@@ -1234,11 +1234,17 @@ def generate_charges(account):
             f"Generating {len(tokens)} charges for {account_tag} account {account.id}"
         )
         for token in tokens:
+            is_refund = token == "tok_pendingRefund"
+
+            # We only use tok_bypassPending to indicate we should do a refund.
+            token = "tok_bypassPending" if is_refund else token
+
             log.info(f"Creating {token} charge on {account.id}")
 
             charge = create_charge(account, token)
 
-            if token == "tok_pendingRefund" and charge:
+            if charge and is_refund:
+                log.info(f"Refunding charge {charge.id} on {account.id}")
                 stripe.Refund.create(
                     charge=charge.id,
                     refund_application_fee=False,
@@ -1508,13 +1514,13 @@ def generate_financial_account_transactions(account):
             )
 
 
-def generate_support_ticket(account):
+def generate_support_ticket(account, skip_existing=True):
     """
     Generate a support ticket for a connected account, but only ever create a single one.
     """
     assert isinstance(account, stripe.Account)
 
-    if has_support_ticket(account):
+    if has_support_ticket(account) and skip_existing:
         return
 
     log.info(f"Generating support ticket for {account.id}")
@@ -1583,6 +1589,7 @@ def main(
     create_issuing=False,
     create_treasury=False,
     create_support=False,
+    untag_support=False,
     rebalance=False,
     shell=False,
     delete=False,
@@ -1655,10 +1662,19 @@ def main(
             # Populate financial account transactions
             generate_financial_account_transactions(account)
 
-    if create_support:
-        for account in accounts:
+    for account in accounts:
+        if untag_support and has_support_ticket(account):
+            # Remove the support ticket tag
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    SUPPORT_TICKET_ADDED_TAG: "",
+                },
+            )
+
+        if create_support:
             # Generate a support ticket
-            generate_support_ticket(account)
+            generate_support_ticket(account, skip_existing=not untag_support)
 
 
 if __name__ == "__main__":
@@ -1681,6 +1697,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-t", "--treasury", help="Generate Treasury data", action="store_true"
+    )
+
+    parser.add_argument(
+        "--untag-support",
+        help="Remove the tags for support tickets, allowing the action to run again",
+        action="store_true",
+        dest="untag_support",
     )
     parser.add_argument(
         "-s", "--support", help="Generate support ticket data", action="store_true"
@@ -1709,6 +1732,7 @@ if __name__ == "__main__":
         create_issuing=args.issuing,
         create_treasury=args.treasury,
         create_support=args.support,
+        untag_support=args.untag_support,
         rebalance=args.rebalance,
         shell=args.shell,
         delete=args.delete,
