@@ -431,9 +431,9 @@ def ensure_accounts(create=False):
         "treasury": {"requested": True},
     }
 
-    # Ensure we have a demo onboarding account in the first 40
+    # Ensure we have a demo onboarding account somewhere
     demo_onboarding_accounts = [
-        account for account in accounts[:40] if is_demo_onboarding_account(account)
+        account for account in accounts if is_demo_onboarding_account(account)
     ]
     if not demo_onboarding_accounts:
         # Create one
@@ -455,7 +455,7 @@ def ensure_accounts(create=False):
         return
 
     # Create some accounts to get to either CONNECTED_ACCOUNT_COUNT or some smaller number
-    to_create = max(CONNECTED_ACCOUNT_COUNT - len(accounts), random.randint(5, 20))
+    to_create = max(CONNECTED_ACCOUNT_COUNT - len(accounts), random.randint(5, 10))
     log.info(f"Creating {to_create} connected accounts")
     for i in range(to_create):
         # Get an identity
@@ -674,9 +674,7 @@ def rebalance_account_statuses():
     accounts = fetch_accounts()
 
     # Ensure there's a demo onboarding account in the first 40
-    demo_onboarding_accounts = [
-        a for a in accounts[:40] if is_demo_onboarding_account(a)
-    ]
+    demo_onboarding_accounts = [a for a in accounts if is_demo_onboarding_account(a)]
     if not demo_onboarding_accounts:
         log.error("No demo account found")
         raise Exception
