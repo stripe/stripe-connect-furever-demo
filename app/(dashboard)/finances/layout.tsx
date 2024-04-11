@@ -14,7 +14,6 @@ export default function FinancesLayout({
           routes={[
             {path: '/finances', label: 'Overview'},
             {path: '/finances/cards', label: 'Cards'},
-            {path: '/finances/loans', label: 'Loans'},
           ]}
         />
       </header>

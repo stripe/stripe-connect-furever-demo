@@ -5,14 +5,10 @@ import Container from './Container';
 import {Badge} from '@/components/ui/badge';
 import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 
-type CustomersWidgetProps = {
-  chartMaxWidth?: number;
-};
-
-const CustomersWidget = ({chartMaxWidth}: CustomersWidgetProps) => {
+const CustomersWidget = () => {
   return (
     <Container>
-      <div className="flex flex-row justify-between gap-5">
+      <div className="flex flex-row justify-between gap-10">
         <div className="space-y-1 min-w-[110px]">
           <h1 className="font-bold text-subdued">Customers</h1>
           <div className="flex flex-row space-x-2 items-center">
@@ -24,7 +20,7 @@ const CustomersWidget = ({chartMaxWidth}: CustomersWidgetProps) => {
         </div>
         <div className="relative w-full">
           <div
-            className={`absolute w-full max-w-[${chartMaxWidth}px] right-0`}>
+            className={`absolute w-full max-w-[250px] right-0`}>
             <SparkLineChart
               data={[0, 10, 5, 20, 10, 10, 0, 25, 25, 55, 35, 35, 40]}
               height={55}
@@ -34,7 +30,7 @@ const CustomersWidget = ({chartMaxWidth}: CustomersWidgetProps) => {
             />
           </div>
           <div
-            className={`absolute w-full max-w-[${chartMaxWidth}px] right-0`}>
+            className={`absolute w-full max-w-[250px] right-0`}>
             <SparkLineChart
               data={[15, 20, 20, 0, 15, 30, 30, 55, 45, 45, 35, 50, 45, 55]}
               height={55}
