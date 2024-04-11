@@ -471,6 +471,10 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         },
         issuing_cards_list: {
           enabled: true,
+          features: {
+            card_management: true,
+            cardholder_management: true,
+          },
         },
         financial_account: {
           enabled: true,
@@ -480,6 +484,9 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         },
         financial_account_transactions: {
           enabled: true,
+          features: {
+            card_spend_dispute_management: true,
+          },
         },
       } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
     });
