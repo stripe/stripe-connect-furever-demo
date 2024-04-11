@@ -5,7 +5,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import {useCreateComponent, useAttachAttribute} from '@stripe/react-connect-js';
+import {
+  ConnectFinancialAccount,
+  ConnectFinancialAccountTransactions,
+  ConnectIssuingCardsList,
+} from '@stripe/react-connect-js';
 import {useSession} from '../hooks/SessionProvider';
 import {
   EmbeddedComponentContainer,
@@ -15,7 +19,6 @@ import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 import {CardFooter} from '../components/CardFooter';
-import {stripe} from '../../server/routes/stripeSdk';
 
 const useCreateReceivedCredit = () => {
   const {financialAccount} = useFinancialAccount();
@@ -59,54 +62,6 @@ const useFinancialAccount = () => {
   }, []);
 
   return {loading, financialAccount, error};
-};
-
-const ConnectFinancialAccount = ({
-  financialAccount,
-}: {
-  financialAccount: string;
-}) => {
-  const {wrapper, component: financialAccountComponent} = useCreateComponent(
-    // @ts-ignore
-    'stripe-connect-financial-account'
-  );
-
-  useAttachAttribute(
-    financialAccountComponent,
-    'financial-account',
-    financialAccount
-  );
-
-  return wrapper;
-};
-
-const ConnectFinancialAccountTransactions = ({
-  financialAccount,
-}: {
-  financialAccount: string;
-}) => {
-  const {wrapper, component: financialAccountTransactionsComponent} =
-    useCreateComponent(
-      // @ts-ignore
-      'stripe-connect-financial-account-transactions'
-    );
-
-  useAttachAttribute(
-    financialAccountTransactionsComponent,
-    'financial-account',
-    financialAccount
-  );
-
-  return wrapper;
-};
-
-const ConnectIssuingCardsList = () => {
-  const {wrapper} = useCreateComponent(
-    // @ts-ignore
-    'stripe-connect-issuing-cards-list'
-  );
-
-  return wrapper;
 };
 
 export const Finance = () => {
