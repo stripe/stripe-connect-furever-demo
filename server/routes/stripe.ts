@@ -162,7 +162,7 @@ function getAccountParams(
   accountConfiguration: string
 ): Stripe.AccountCreateParams {
   let type: Stripe.Account.Type | undefined = undefined;
-  let capabilities: any = {
+  let capabilities: Stripe.AccountCreateParams.Capabilities | undefined = {
     card_payments: {
       requested: true,
     },
@@ -170,7 +170,7 @@ function getAccountParams(
       requested: true,
     },
   };
-  let controller = undefined;
+  let controller: Stripe.AccountCreateParams.Controller | undefined = undefined;
   switch (accountConfiguration) {
     case 'no_dashboard_poll':
       type = 'custom' as const;
