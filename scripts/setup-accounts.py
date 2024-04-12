@@ -586,8 +586,6 @@ def resolve_requirements(account):
         # Nothing due, or we're expecting it to be restricted
         return
 
-    log.info(f"Resolving requirements for {account.id}")
-
     if "settings.card_issuing.tos_acceptance.date" in account.requirements.past_due:
         log.info(f"Accepting card issuing TOS for {account.id}")
         stripe.Account.modify(
@@ -625,6 +623,8 @@ def ensure_financial_account(account):
 
     if "treasury" not in account.capabilities:
         return
+
+    log.info(f"Checking for financial account for {account.id}")
 
     financial_accounts = stripe.treasury.FinancialAccount.list(
         stripe_account=account.id
@@ -1121,7 +1121,26 @@ def create_charge(account, token):
         return None
 
 
-def generate_charges(account):
+def apply_charges(account, token):
+    is_refund = token == "tok_pendingRefund"
+
+    # We only use tok_bypassPending to indicate we should do a refund.
+    token = "tok_bypassPending" if is_refund else token
+
+    log.info(f"Creating {token} charge on {account.id}")
+
+    charge = create_charge(account, token)
+
+    if charge and is_refund:
+        log.info(f"Refunding charge {charge.id} on {account.id}")
+        stripe.Refund.create(
+            charge=charge.id,
+            refund_application_fee=False,
+            stripe_account=account.id,
+        )
+
+
+def generate_charges_args(account):
     """
     Generate charges for a connected account
     """
@@ -1130,17 +1149,17 @@ def generate_charges(account):
     if is_rejected_account(account):
         log.info(f"Skipping charges on rejected account {account.id}")
         # Skip charges on this account
-        return
+        return []
 
     if is_restricted_account(account):
         # Skip charges on this account if charges are disabled
         if not account.charges_enabled:
             log.info(f"Skipping charges on restricted account {account.id}")
-            return
+            return []
 
     if not account.charges_enabled:
         log.info(f"Charges are disabled for account {account.id}")
-        return
+        return []
 
     success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
@@ -1201,27 +1220,7 @@ def generate_charges(account):
         # The most recent charge should be successful
         tokens += ["tok_bypassPending"]
 
-    if tokens:
-        log.info(
-            f"Generating {len(tokens)} charges for {account_tag} account {account.id}"
-        )
-        for token in tokens:
-            is_refund = token == "tok_pendingRefund"
-
-            # We only use tok_bypassPending to indicate we should do a refund.
-            token = "tok_bypassPending" if is_refund else token
-
-            log.info(f"Creating {token} charge on {account.id}")
-
-            charge = create_charge(account, token)
-
-            if charge and is_refund:
-                log.info(f"Refunding charge {charge.id} on {account.id}")
-                stripe.Refund.create(
-                    charge=charge.id,
-                    refund_application_fee=False,
-                    stripe_account=account.id,
-                )
+    return [[account, token] for token in tokens]
 
 
 def generate_payouts(account):
@@ -1622,14 +1621,19 @@ def main(
         update_account_status(account)
 
     # Update the most recent 30 accounts, for performance
-    accounts = fetch_accounts()[:30]
+    accounts = fetch_accounts(limit=30)
 
     log.info(f"Populating data for the most recent {len(accounts)} accounts")
 
     if create_charges:
+        charge_args = []
         for account in accounts:
-            # Populate charges
-            generate_charges(account)
+            charge_args += generate_charges_args(account)
+
+        # Randomize the args
+        random.shuffle(charge_args)
+        for args in charge_args:
+            apply_charges(*args)
 
     if create_payouts:
         for account in accounts:
