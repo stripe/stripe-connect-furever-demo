@@ -1428,7 +1428,7 @@ def generate_financial_account_transactions(account):
         ).auto_paging_iter()
     )
 
-    received_credit_count, received_debit_count, card_authorization_count = 24, 14, 2
+    loan_disbursement_count, received_credit_count, received_debit_count, card_authorization_count = 1, 24, 14, 2
 
     actual_received_credit_count = len(
         [t for t in transactions if t.flow_type == "received_credit"]
@@ -1438,6 +1438,10 @@ def generate_financial_account_transactions(account):
     )
     actual_card_authorization_count = len(
         [t for t in transactions if t.flow_type == "issuing_authorization"]
+    )
+    actual_loan_disbursement_count = len(
+        # this is a hack, but the best way to do this right now
+        [t for t in transactions if t.description == "loan"]
     )
 
     for _ in range(received_credit_count - actual_received_credit_count):
@@ -1495,6 +1499,24 @@ def generate_financial_account_transactions(account):
                     "name": random.choice(EXTERNAL_BUSINESS_NAMES),
                 },
             )
+
+    for _ in range(loan_disbursement_count - actual_loan_disbursement_count):
+        log.info(f"Generating loan disbursement for {account.id}")
+        stripe.treasury.ReceivedCredit.TestHelpers.create(
+            amount=424242,
+            currency="usd",
+            financial_account=financial_account_id,
+            network="ach",
+            description="loan",
+            initiating_payment_method_details={
+                "type": "us_bank_account",
+                "us_bank_account": {
+                    "account_holder_name": "Loan disbursement"
+                },
+            },
+            stripe_account=account.id,
+        )
+
 
 
 def generate_support_ticket(account, skip_existing=True):
