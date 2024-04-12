@@ -9,21 +9,20 @@ export async function POST(req: NextRequest) {
 
     const json = await req.json();
 
-    const useDemoOnboardingAccountId = json.demoOnboarding !== undefined;
+    const {demoOnboarding, locale} = json;
 
     let stripeAccountId = session?.user?.stripeAccount?.id;
 
-    if (
-      useDemoOnboardingAccountId &&
-      process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT
-    ) {
+    if (demoOnboarding !== undefined) {
+      const accountId =
+        locale === 'fr-FR'
+          ? process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_FR!
+          : process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT!;
+
       console.log(
-        `Looking for the demo onboarding account ${process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT}`
+        `Looking for the demo onboarding account ${accountId} for locale ${locale}`
       );
-      // Look for the demo onboarding account
-      const demoOnboardingAccount = await stripe.accounts.retrieve(
-        process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT
-      );
+      const demoOnboardingAccount = await stripe.accounts.retrieve(accountId);
       if (demoOnboardingAccount) {
         console.log(
           `Using demo onboarding account: ${demoOnboardingAccount.id}`

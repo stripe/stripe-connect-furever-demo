@@ -9,6 +9,13 @@ export const useConnect = (demoOnboarding: boolean) => {
     useState<StripeConnectInstance | null>(null);
 
   const settings = useSettings();
+  const locale = settings.locale;
+
+  useEffect(() => {
+    if (locale === 'fr-FR' && demoOnboarding) {
+      setStripeConnectInstance(null);
+    }
+  }, [locale, demoOnboarding]);
 
   const fetchClientSecret = useCallback(async () => {
     if (demoOnboarding) {
@@ -17,6 +24,7 @@ export const useConnect = (demoOnboarding: boolean) => {
     const data = demoOnboarding
       ? {
           demoOnboarding: true,
+          locale,
         }
       : {};
 
@@ -36,7 +44,7 @@ export const useConnect = (demoOnboarding: boolean) => {
       setHasError(false);
       return clientSecret;
     }
-  }, [demoOnboarding]);
+  }, [demoOnboarding, locale]);
 
   const appearanceVariables = useMemo(
     () => ({
@@ -62,13 +70,14 @@ export const useConnect = (demoOnboarding: boolean) => {
   );
 
   useEffect(() => {
+    // If we are demoing onboarding, re-init to get a new secret
     if (stripeConnectInstance) {
       stripeConnectInstance.update({
         appearance: {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
-        locale: settings.locale,
+        locale,
       });
     } else {
       const instance = loadConnectAndInitialize({
@@ -77,7 +86,7 @@ export const useConnect = (demoOnboarding: boolean) => {
           overlays: 'dialog',
           variables: appearanceVariables,
         },
-        locale: settings.locale,
+        locale,
         fetchClientSecret: async () => {
           return await fetchClientSecret();
         },
@@ -91,7 +100,13 @@ export const useConnect = (demoOnboarding: boolean) => {
 
       setStripeConnectInstance(instance);
     }
-  }, [stripeConnectInstance, appearanceVariables, settings, fetchClientSecret]);
+  }, [
+    stripeConnectInstance,
+    locale,
+    fetchClientSecret,
+    demoOnboarding,
+    appearanceVariables,
+  ]);
 
   return {
     hasError,
