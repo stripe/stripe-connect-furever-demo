@@ -27,7 +27,7 @@ export default function AuthLayout({
   return (
     <div className="relative">
       <div className="flex min-h-screen min-w-[926px] justify-center space-x-20 px-6 py-[120px]">
-        <div className="flex w-[850px]">
+        <div className="flex w-[900px]">
           <div className="fixed min-h-full max-w-sm space-y-4">
             <Image
               className="mb-4 inline-block"
