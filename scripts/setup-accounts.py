@@ -1163,13 +1163,9 @@ def generate_charges_args(account):
 
     success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
-    account_tag = "regular"
-
     if is_elevated_fraud_account(account):
-        account_tag = "elevated fraud"
         success_count, dispute_count, decline_count, refund_count = 41, 1, 5, 3
     elif is_high_fraud_account(account):
-        account_tag = "high fraud"
         success_count, dispute_count, decline_count, refund_count = 18, 5, 12, 15
 
     assert (
@@ -1177,9 +1173,10 @@ def generate_charges_args(account):
     ), "Totals should add up to 50"
 
     # Get the charges from the last 24 hours.
+    seconds = 24 * 60 * 60
     charges = list(
         stripe.Charge.list(
-            created={"gte": int(time.time()) - (24 * 60 * 60)},
+            created={"gte": int(time.time()) - seconds},
             stripe_account=account.id,
         ).auto_paging_iter()
     )
@@ -1428,7 +1425,12 @@ def generate_financial_account_transactions(account):
         ).auto_paging_iter()
     )
 
-    loan_disbursement_count, received_credit_count, received_debit_count, card_authorization_count = 1, 24, 14, 2
+    (
+        loan_disbursement_count,
+        received_credit_count,
+        received_debit_count,
+        card_authorization_count,
+    ) = (1, 24, 14, 2)
 
     actual_received_credit_count = len(
         [t for t in transactions if t.flow_type == "received_credit"]
@@ -1510,13 +1512,10 @@ def generate_financial_account_transactions(account):
             description="loan",
             initiating_payment_method_details={
                 "type": "us_bank_account",
-                "us_bank_account": {
-                    "account_holder_name": "Loan disbursement"
-                },
+                "us_bank_account": {"account_holder_name": "Loan disbursement"},
             },
             stripe_account=account.id,
         )
-
 
 
 def generate_support_ticket(account, skip_existing=True):
