@@ -82,7 +82,7 @@ export const CompleteProfile = () => {
     prefill: false,
     salonName: '',
     salonLicense: 'LINC123',
-    salonSpecialty: 'electrical',
+    salonSpecialty: 'dogs',
     accountConfiguration: 'no_dashboard_soll',
   });
   const [searchParams] = useSearchParams();
@@ -123,12 +123,12 @@ export const CompleteProfile = () => {
             <FormControlLabel
               value="individual"
               control={<Radio sx={{paddingY: 0}} />}
-              label={<Typography fontSize={15}>Independent Contractor</Typography>}
+              label={<Typography fontSize={15}>Independent Clinic</Typography>}
             />
             <FormControlLabel
               value="company"
               control={<Radio sx={{paddingY: 0}} />}
-              label={<Typography fontSize={15}>Commercial Business</Typography>}
+              label={<Typography fontSize={15}>Chain of Clinics</Typography>}
             />
             <FormControlLabel
               value="other"
@@ -233,13 +233,12 @@ export const CompleteProfile = () => {
         </FormControl>
 
         <FormControl>
-          <FormBlockHeader>Business information</FormBlockHeader>
+          <FormBlockHeader>Clinic information</FormBlockHeader>
           <FormBlock>
             <TextInput
               label="Business"
               name="salon[name]"
-              placeholder="ServiceTitan Pro"
-              required
+              placeholder="Covetrus Clinic"
               value={formValues.salonName}
               onChange={(event) =>
                 setFormValues((prev) => ({
@@ -276,9 +275,9 @@ export const CompleteProfile = () => {
                 }))
               }
             >
-              <option value="electrical">Electrical</option>
-              <option value="plumbing">Plumbing</option>
-              <option value="homeServices">Home Services</option>
+              <option value="dogs">Dogs</option>
+              <option value="cats">Cats</option>
+              <option value="hamsters">Hamsters</option>
             </SelectInput>
           </FormBlock>
         </FormControl>

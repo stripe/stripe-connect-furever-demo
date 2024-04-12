@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useSession} from '../hooks/SessionProvider';
 import LandingIcon from '../assets/images/st-landing-icon.png';
-import LandingBackground from '../assets/images/st-hero.png';
+import LandingBackground from '../assets/images/hero.png';
 import {LandingNoticeFooter} from '../components/NoticeFooter';
 import {RouterLink} from '../components/RouterLink';
 
@@ -62,7 +62,7 @@ export const Landing = () => {
             }}
             variant="h4"
           >
-            Software that keeps you running while you keep the world running.
+            Covetrus® is a global animal-health company dedicated to keeping veterinarians and their practices thriving.
           </Typography>
           <Typography
             sx={{
@@ -75,7 +75,8 @@ export const Landing = () => {
               },
             }}
           >
-            Our all-in-one solution means you no longer have to sign into multiple platforms. Everything you need to run your business is in one convenient location, wherever you are.
+            Through our comprehensive portfolio of software, supplies and services, we seamlessly connect care in and out of the clinic, helping practices focus on what matters most — the health and wellbeing of animals.
+
           </Typography>
           <Button
             to={user ? '/reservations' : '/signup'}

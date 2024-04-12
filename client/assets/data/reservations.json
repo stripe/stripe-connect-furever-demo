@@ -3,19 +3,19 @@
   {
     "day": "Monday",
     "8": {
-      "title": "Robert",
+      "title": "Pet(s): Robert",
       "subtitle": "Client(s): Kira Fox",
       "description": "Full service - Small",
       "end": 9
     },
-    // "9": {
-    //   "title": "Cody",
-    //   "subtitle": "Client(s): Sandy Capella",
-    //   "description": "Service: Nail dremel",
-    //   "end": 9.75
-    // },
+    "9": {
+      "title": "Pet(s): Cody",
+      "subtitle": "Client(s): Sandy Capella",
+      "description": "Service: Rabies Vaccination",
+      "end": 9.75
+    },
     "12": {
-      "title": "Chloe",
+      "title": "Pet(s): Chloe",
       "subtitle": "Client(s): Jacob Jones",
       "description": "Full service - Large",
       "end": 14
@@ -24,13 +24,13 @@
   {
     "day": "Tuesday",
     "9": {
-      "title": "Huanhuan",
+      "title": "Pet(s): Huanhuan",
       "subtitle": "Client(s): Kathryn Murphy",
       "description": "Full service - Medium",
       "end": 10.5
     },
     "14": {
-      "title": "Jimmy",
+      "title": "Pet(s): Jimmy",
       "subtitle": "Client(s): Annette Black",
       "description": "Full service - Small",
       "end": 15
@@ -39,44 +39,43 @@
   {
     "day": "Wednesday",
     "8": {
-      "title": "Cameron",
+      "title": "Pet(s): Cameron",
       "subtitle": "Client(s): Kira Williamson",
       "description": "Full service - Small",
       "end": 9.5
+    },
+    "16": {
+      "title": "Pet(s): Lulu",
+      "subtitle": "Client(s): John Cameron",
+      "description": "Coat Examination/Flea Remediation",
+      "end": 18
     }
-    //,
-    // "16": {
-    //   "title": "Lulu",
-    //   "subtitle": "Client(s): John Cameron",
-    //   "description": "Fur shampoo",
-    //   "end": 18
-    // }
   },
   {
-    //   "day": "Thursday",
-    //   "10": {
-    //     "title": "Tofu",
-    //     "subtitle": "Client(s): Esther Howard",
-    //     "description": "Dematting",
-    //     "end": 11.5
-    //   },
+    "day": "Thursday",
+    "10": {
+      "title": "Pet(s): Tofu",
+      "subtitle": "Client(s): Esther Howard",
+      "description": "Teeth Cleaning",
+      "end": 11.5
+    },
     "12": {
-      "title": "Micky",
+      "title": "Pet(s): Micky",
       "subtitle": "Client(s): Darlene Johnson",
-      "description": "Drain Repair",
+      "description": "X-ray",
       "end": 14
     }
   },
   {
     "day": "Friday",
     "11": {
-      "title": "Dash",
+      "title": "Pet(s): Dash",
       "subtitle": "Client(s): Michael Jordan",
-      "description": "Clogged Toilet",
+      "description": "Service: Rabies Vaccination",
       "end": 12
     },
     "14": {
-      "title": "Bolt",
+      "title": "Pet(s): Bolt",
       "subtitle": "Client(s): John Travolta",
       "description": "Full service - Large",
       "end": 16
@@ -85,28 +84,28 @@
   {
     "day": "Saturday",
     "9": {
-      "title": "Mr Mittens",
+      "title": "Pet(s): Mr Mittens",
       "subtitle": "Client(s): Susie Essman",
-      "description": "Sewer Clearance",
+      "description": "Coat Examination/Flea Remediation",
       "end": 10
     }
   },
   {
     "day": "Sunday",
     "9": {
-      "title": "Krypto",
+      "title": "Pet(s): Krypto",
       "subtitle": "Client(s): Clark Kent",
       "description": "Full service - Large",
       "end": 11
     },
     "11": {
-      "title": "Ace",
+      "title": "Pet(s): Ace",
       "subtitle": "Client(s): Bruce Wayne",
       "description": "Full service - Large",
       "end": 13
     },
     "13": {
-      "title": "Anubis",
+      "title": "Pet(s): Anubis",
       "subtitle": "Client(s): Teth Adam",
       "description": "Full service - Large",
       "end": 15

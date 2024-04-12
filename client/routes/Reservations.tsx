@@ -152,7 +152,7 @@ export const Reservations = () => {
   function handleAlertDemoSite(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
     alert(
-      '🪠 👨‍🔧 🔩, this is a demo site! This functionality in this website is minimal as this is only a demo, but you can use the payments and payouts tabs, as well as the account page to test Connect Embedded components.'
+      'Woof woof, this is a demo site! This functionality in this website is minimal as this is only a demo, but you can use the payments and payouts tabs, as well as the account page to test Connect Embedded components.'
     );
   }
 

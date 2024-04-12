@@ -14,13 +14,13 @@ export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
       createTheme({
         palette: {
           mode,
-          primary: {main: mode === 'light' ? '#222429' : '#222429'},
-          secondary: {main: mode === 'light' ? '#3860be' : '#3860be'},
+          primary: {main: mode === 'light' ? '#27bdbe' : '#27bdbe'},
+          secondary: {main: mode === 'light' ? '#dd443e' : '#dd443e'},
           background: {
             default: mode === 'light' ? '#ffffff' : '#1A1B25',
           },
           text: {
-            primary: mode === 'light' ? '#414552' : '#3860be',
+            primary: mode === 'light' ? '#414552' : '#dd443e',
             secondary: mode === 'light' ? '#87909f' : '#828A99',
           },
           border: {
@@ -37,7 +37,7 @@ export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
           MuiTypography: {
             styleOverrides: {
               root: {
-                color: mode === 'light' ? '#414552' : '#3860be',
+                color: mode === 'light' ? '#414552' : '#dd443e',
               },
             },
           },

@@ -11,8 +11,8 @@ export const CompleteProfileFooter = () => (
   <NoticeFooter center>
     <Typography variant="body2" color="text.secondary">
       The platform can choose to request additional information from the user
-      before it collects any payments details. Here, ServiceTitan asks a few
-      questions about the user's business. This information will be stored in the
+      before it collects any payments details. Here, Covetrus asks a few
+      questions about the user's clinic. This information will be stored in the
       platform's database
     </Typography>
   </NoticeFooter>
@@ -49,7 +49,7 @@ export const LandingNoticeFooter = () => (
         },
       }}
     >
-      ServiceTitan Demo is a demo for{' '}
+      Covetrus Demo is a demo for{' '}
       <Link href="https://stripe.com/connect" target="_blank" underline="none">
         Stripe Connect
       </Link>{' '}

@@ -92,5 +92,5 @@ app.get('*', (req, res) => {
 
 // Start the server on the correct port
 app.listen(process.env.PORT, () => {
-  console.log('🐾 ServiceTitan Demo server started');
+  console.log('🐾 Covetrus Demo server started');
 });

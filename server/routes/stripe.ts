@@ -269,10 +269,10 @@ app.post('/create-account', userRequired, async (req, res) => {
           // Prefill business profile
           ...(shouldPrefill
             ? {
-                mcc: '7299',
-                url: 'https://servicetitan.com',
-                name: 'Service company',
-                product_description: 'Home Services Professionals',
+                mcc: '0742',
+                url: 'https://covetrus.com',
+                name: 'Veterinary Clinic',
+                product_description: 'Veterinary Professionals',
                 support_address: {
                   line1: '354 Oyster Point Blvd',
                   city: 'South San Francisco',
@@ -281,7 +281,7 @@ app.post('/create-account', userRequired, async (req, res) => {
                 },
                 support_email: user.email,
                 support_phone: '8888675309',
-                support_url: 'https://servicetitan.com',
+                support_url: 'https://covetrus.com',
               }
             : {}),
         },
@@ -290,10 +290,10 @@ app.post('/create-account', userRequired, async (req, res) => {
           ? {
               settings: {
                 card_payments: {
-                  statement_descriptor_prefix: 'ST',
+                  statement_descriptor_prefix: 'CV',
                 },
                 payments: {
-                  statement_descriptor: 'ServiceTitan',
+                  statement_descriptor: 'Covetrus',
                 },
               },
             }
@@ -419,7 +419,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
     const accountSession = await stripe.accountSessions.create({
       account: getStripeAccountId(req),
-      // This should contain a list of all components used in ServiceTitan Demo, otherwise they will be disabled when rendering
+      // This should contain a list of all components used in Covetrus Demo, otherwise they will be disabled when rendering
       components: {
         account_management: {
           enabled: true,
@@ -487,13 +487,13 @@ app.post('/create-intervention', stripeAccountRequired, async (req, res) => {
  */
 const customers = [
   {
-    email: 'pob@stripe.com',
-    name: 'Patrick',
+    email: 'km@stripe.com',
+    name: 'Kevin',
     description: 'Account Executive',
   },
   {
-    email: 'adev@stripe.com',
-    name: 'Aditya',
+    email: 'molson@stripe.com',
+    name: 'Mike',
     description: 'Solutions Architect',
   },
   {

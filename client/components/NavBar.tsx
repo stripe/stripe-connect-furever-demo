@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 import {useTheme} from '@mui/material/styles';
-import logo from '../assets/images/st-logo.svg';
+import logo from '../assets/images/logo.svg';
 import {useSession} from '../hooks/SessionProvider';
 import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
@@ -255,8 +255,8 @@ export const NavBar = () => {
               <Link component={RouterLink} to="/" underline="none">
                 <img
                   src={logo}
-                  title="ServiceTitan logo"
-                  alt="ServiceTitan"
+                  title="Covetrus logo"
+                  alt="Covetrus"
                   style={{height: '40px'}}
                 />
               </Link>
