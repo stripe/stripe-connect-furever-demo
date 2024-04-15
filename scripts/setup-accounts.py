@@ -1704,6 +1704,8 @@ def main(
             # Generate a support ticket
             generate_support_ticket(account, skip_existing=not untag_support)
 
+    log.info("All done")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
