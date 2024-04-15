@@ -13,7 +13,7 @@ import stripe
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONNECTED_ACCOUNT_COUNT = 84
-DEMO_ONBOARDING_COUNTRIES = ["US", "FR"]
+DEMO_ONBOARDING_COUNTRIES = ["US", "FR", "SG", "HK"]
 
 file_handler = logging.StreamHandler()
 file_handler.addFilter(logging.Filter(name=__name__))
@@ -415,7 +415,10 @@ def ensure_accounts(create=False):
     accounts = fetch_accounts()
     log.info(f"Have {len(accounts)} connected accounts")
 
-    used_studio_names = set([account.business_profile.name for account in accounts])
+    # Only look for dup studio names in the most recent 50 accounts
+    used_studio_names = set(
+        [account.business_profile.name for account in accounts[:50]]
+    )
     studio_names = [
         name
         for name in random.sample(YOGA_STUDIO_NAMES, k=len(YOGA_STUDIO_NAMES))
@@ -578,6 +581,13 @@ def ensure_accounts(create=False):
             },
         )
 
+    if to_create:
+        log.info(
+            f"Created {to_create} accounts. Waiting a bit to let their statuses update..."
+        )
+        # Wait 20 seconds to ensure the accounts have time to get ready
+        time.sleep(20)
+
 
 def resolve_requirements(account):
     assert isinstance(account, stripe.Account)
@@ -717,6 +727,9 @@ def rebalance_account_statuses():
         log.error(
             f"Demo account {good_demo_account.id} is not in the right state to be a good demo account"
         )
+        import pdb
+
+        pdb.set_trace()
         raise Exception
 
     # Ensure there is a high fraud accounts on the front page
@@ -772,6 +785,9 @@ def rebalance_account_statuses():
         log.error(
             f"Demo account {high_fraud_account.id} is not in the right state to be a high fraud account"
         )
+        import pdb
+
+        pdb.set_trace()
         raise Exception
 
     # Ensure there is an elevated fraud accounts on the front page
@@ -830,6 +846,9 @@ def rebalance_account_statuses():
         log.error(
             f"Demo account {elevated_fraud_account.id} is not in the right state to be an elevated fraud account"
         )
+        import pdb
+
+        pdb.set_trace()
         raise Exception
 
     front_page_accounts = fetch_accounts(limit=20)

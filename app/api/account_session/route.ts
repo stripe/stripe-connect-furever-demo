@@ -14,10 +14,20 @@ export async function POST(req: NextRequest) {
     let stripeAccountId = session?.user?.stripeAccount?.id;
 
     if (demoOnboarding !== undefined) {
-      const accountId =
-        locale === 'fr-FR'
-          ? process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_FR!
-          : process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT!;
+      const accountId: string = (() => {
+        switch (locale) {
+          case 'fr-FR':
+            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_FR!;
+          case 'en-SG':
+            // This doesn't actually have a locale. So this can never be hit
+            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_SG!;
+          case 'zh-Hant-HK':
+            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_HK!;
+          default:
+            // Ignore
+            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT!;
+        }
+      })();
 
       console.log(
         `Looking for the demo onboarding account ${accountId} for locale ${locale}`
