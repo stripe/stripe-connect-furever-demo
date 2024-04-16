@@ -71,14 +71,8 @@ export async function POST(req: NextRequest) {
         },
         // Connect
         // @ts-ignore
-        account_management: {
-          enabled: true,
-          features: {external_account_collection: false},
-        },
-        account_onboarding: {
-          enabled: true,
-          features: {external_account_collection: false},
-        },
+        account_management: {enabled: true},
+        account_onboarding: {enabled: true},
         payment_method_settings: {enabled: true},
         // InB
         issuing_cards_list: {
@@ -89,7 +83,6 @@ export async function POST(req: NextRequest) {
           enabled: true,
           features: {
             money_movement: true,
-            external_account_collection: false,
           },
         },
         financial_account_transactions: {
