@@ -34,40 +34,103 @@ log = logging.getLogger(__name__)
 EMAIL_DOMAIN = "yubasoft.net"
 
 FIRST_NAMES = [
+    "Aaliyah",
+    "Alejandro",
+    "Amit",
+    "Anjali",
+    "Ayaka",
+    "Bridget",
+    "Conor",
     "David",
+    "Diego",
     "Elizabeth",
     "Emily",
+    "Giuseppe",
+    "Greta",
+    "Hans",
+    "Heidi",
+    "Hiroshi",
+    "Isabella",
+    "Jada",
+    "Jamal",
     "James",
     "Jennifer",
     "Jenny",
     "Jessica",
-    "John",
     "Joseph",
-    "Mary",
-    "Michael",
+    "Jun",
+    "Ling",
+    "Luca",
+    "Malik",
+    "Mei",
+    "Miguel",
+    "Priya",
     "Rebecca",
-    "Robert",
+    "Sachi",
+    "Sanjay",
     "Sarah",
-    "Thomas",
-    "William",
+    "Sean",
+    "Siobhan",
+    "Sofia",
+    "Sophia",
+    "Wei",
+    "Wolfgang",
+    "Yoshi",
 ]
 LAST_NAMES = [
+    "Agrawal",
+    "Andersen",
     "Anderson",
-    "Brown",
+    "Bianchi",
+    "Chen",
+    "Choi",
+    "Christensen",
+    "Davies",
     "Davis",
+    "DiMaggio",
+    "Doherty",
+    "Evans",
     "Harris",
+    "Hernandez",
+    "Horvath",
+    "Ikeda",
     "Jackson",
     "Johnson",
-    "Jones",
+    "Kim",
+    "Kobayashi",
+    "Kovac",
+    "Lee",
+    "Liu",
+    "Lopez",
+    "Martinez",
     "Miller",
+    "Molnar",
     "Moore",
+    "Müller",
+    "Nielsen",
+    "Novak",
+    "O'Sullivan",
+    "Park",
+    "Patel",
+    "Pedersen",
+    "Reilly",
+    "Rodriguez",
+    "Romano",
     "Rosen",
-    "Smith",
+    "Rossi",
+    "Schäfer",
+    "Schneider",
+    "Sharma",
+    "Singh",
+    "Suzuki",
+    "Takahashi",
     "Taylor",
     "Thomas",
-    "White",
+    "Walsh",
+    "Wang",
+    "Weber",
     "Williams",
-    "Wilson",
+    "Zhang",
 ]
 
 NAMES = itertools.product(
@@ -108,13 +171,11 @@ YOGA_STUDIO_NAMES = [
     "Divine Light Yoga",
     "Downtown Yoga",
     "Downward Dog Yoga",
-    "Earth Yoga Village",
     "Easy Breezy Yoga",
     "Enlighten Yoga",
     "Evolation Yoga",
     "Flow Yoga",
     "Fluid Yoga",
-    "Forrest Yoga Circle",
     "Free Spirit Yoga",
     "Gaiam Yoga Studio",
     "Garland Yoga",
@@ -122,32 +183,23 @@ YOGA_STUDIO_NAMES = [
     "Golden Light Yoga",
     "Green Monkey Yoga",
     "Growing Lotus Yoga",
-    "Ha Yoga",
-    "Hamsa Yoga",
-    "Happy Soul Studio",
     "Happy Soul Yoga",
     "Happy Space Yoga",
     "Happy Yoga Place",
     "Harmony Yoga",
-    "High Vibe Yoga",
     "Hilltop Yoga Retreat",
     "Himalayan High Yoga",
     "Humble Heart Yoga",
     "Humble Warrior Yoga",
-    "Infinite Light Yoga & Wellness",
     "Infinity Balance Yoga",
     "Infinity Yoga Studio",
     "Inhale Yoga Exhale Stress",
     "Inward Bound Yoga",
     "Iyengar Yoga Center",
     "Iyengar Yogaworx",
-    "Jai! Yoga",
-    "Jivamukti Yoga School",
     "Just Breathe Yoga & Pilates",
-    "Kali Natha Yoga School",
     "Kali Yuga Yoga",
     "Karma Yoga Studio",
-    "Krishnamacharya Yoga Mandiram",
     "Kundalini Yoga Works",
     "Laughing Lotus Yoga",
     "Levitate Yoga",
@@ -157,7 +209,6 @@ YOGA_STUDIO_NAMES = [
     "Living Yoga",
     "Lotus Yoga Studio",
     "Magic Carpet Yoga",
-    "MahaDevi Yoga",
     "Majestic Yoga",
     "Mandala Yoga",
     "Mudita Yoga",
@@ -238,7 +289,6 @@ YOGA_STUDIO_NAMES = [
     "Yoga Flow Studio",
     "Yoga Flow",
     "Yoga for Everybody",
-    "Yoga Friendly",
     "Yoga Garden & Juice Bar",
     "Yoga Grid",
     "Yoga Ground",
@@ -258,7 +308,6 @@ YOGA_STUDIO_NAMES = [
     "Yoga Mosaic Studio",
     "Yoga Nest",
     "Yoga Oasis",
-    "Yoga Om",
     "Yoga Pulse",
     "Yoga Sanctuary",
     "Yoga Six",
@@ -271,14 +320,11 @@ YOGA_STUDIO_NAMES = [
     "Yoga Village",
     "Yoga Well Studio",
     "Yogabar",
-    "Yogabarre",
-    "Yogafaith",
     "Yogafied Collective",
     "Yogafied",
     "Yogalaya",
     "Yogalife Studio",
     "Yogaloft",
-    "Yogalux",
     "Yogamojo",
     "Yogamotion",
     "YogaOne studio",
@@ -287,12 +333,7 @@ YOGA_STUDIO_NAMES = [
     "Yogavibes Studio",
     "YogaWorks",
     "Yogi Tree Yoga Studio",
-    "Yogic Alchemy",
-    "Yogic Bliss",
-    "Zen Yoga Co-op",
     "Zen Yoga",
-    "Zenko Yoga",
-    "Zensa Yoga",
 ]
 
 EXTERNAL_BUSINESS_NAMES = [
@@ -1108,6 +1149,18 @@ def ensure_account_configuration(account):
             },
         )
 
+    # Ensure the account has an icon
+    if not account.settings.branding.icon:
+        # create a file
+        file_name = random.choice(["logo1.png", "logo2.png"])
+        log.info(f"Adding branding icon {file_name} to {account.id}")
+        try:
+            with open(os.path.join(os.path.dirname(__file__), file_name), "rb") as fp:
+                file = stripe.File.create(purpose="business_icon", file=fp)
+            stripe.Account.modify(account.id, settings={"branding": {"icon": file.id}})
+        except Exception as e:
+            log.error(f"Error uploading icon for {account.id}: {e}")
+
 
 def create_charge(account, token):
     assert isinstance(account, stripe.Account)
@@ -1564,6 +1617,15 @@ def generate_support_ticket(account, skip_existing=True):
         )
     except stripe.error.StripeError as e:
         log.error(f"Got an error creating a support ticket: {e}")
+
+    # Generate 5 account sessions to hide the support ticket API log
+    for _ in range(5):
+        try:
+            stripe.AccountSession.create(
+                account=account.id, components={"account_onboarding": {"enabled": True}}
+            )
+        except stripe.error.StripeError as e:
+            pass
 
 
 def generate_sonar_data():
