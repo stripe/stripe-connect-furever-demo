@@ -17,8 +17,13 @@ const LocaleSelector = ({localeUpdated}: LocaleProps) => {
   const settings = useContext(SettingsContext);
 
   const setLocale = useCallback(
-    (value: LocaleType) => {
-      settings.handleUpdate({locale: value});
+    (value: string) => {
+      const locale = Locales.find((l) => `${l.locale}-${l.label}` === value);
+      if (!locale) {
+        return;
+      }
+
+      settings.handleUpdate({locale: locale.locale});
       if (localeUpdated) {
         localeUpdated();
       }
@@ -36,9 +41,9 @@ const LocaleSelector = ({localeUpdated}: LocaleProps) => {
         <SelectValue placeholder="Locale">{locale.label}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {Locales.map(({locale, label}) => (
-          <SelectItem value={locale} key={locale}>
-            {label}
+        {Locales.map((locale, index) => (
+          <SelectItem value={`${locale.locale}-${locale.label}`} key={index}>
+            {locale.label}
           </SelectItem>
         ))}
       </SelectContent>

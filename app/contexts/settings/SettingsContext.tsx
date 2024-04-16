@@ -2,8 +2,6 @@ import {createContext} from 'react';
 
 import type {Settings} from '@/types/settings';
 
-type LocaleType = 'en-US' | 'fr-FR' | 'ko-KR';
-
 export const defaultSettings: Settings = {
   locale: 'en-US',
 };

@@ -47,6 +47,7 @@ export const Locales: Array<{locale: LocaleType; label: string}> = [
   {label: 'Dansk', locale: 'da-DK'},
   {label: 'Deutsch', locale: 'de-DE'},
   {label: 'Eesti', locale: 'et-EE'},
+  {label: 'English (Hong Kong) ', locale: 'en-GB'},
   {label: 'English (UK)', locale: 'en-GB'},
   {label: 'Español (América Latina)', locale: 'es-419'},
   {label: 'Español (España)', locale: 'es-ES'},

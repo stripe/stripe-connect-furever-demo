@@ -12,8 +12,16 @@ export const useConnect = (demoOnboarding: boolean) => {
   const locale = settings.locale;
 
   useEffect(() => {
-    if (locale === 'fr-FR' && demoOnboarding) {
-      setStripeConnectInstance(null);
+    switch (locale) {
+      case 'fr-FR':
+      case 'zh-Hant-HK':
+      case 'en-GB':
+        if (demoOnboarding) {
+          setStripeConnectInstance(null);
+        }
+        break;
+      default:
+        break;
     }
   }, [locale, demoOnboarding]);
 

@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
           case 'en-SG':
             // This doesn't actually have a locale. So this can never be hit
             return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_SG!;
+          case 'en-GB':
+          // Use GB english for Hong Kong so fall through
           case 'zh-Hant-HK':
             return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_HK!;
           default:
@@ -69,8 +71,14 @@ export async function POST(req: NextRequest) {
         },
         // Connect
         // @ts-ignore
-        account_management: {enabled: true},
-        account_onboarding: {enabled: true},
+        account_management: {
+          enabled: true,
+          features: {external_account_collection: false},
+        },
+        account_onboarding: {
+          enabled: true,
+          features: {external_account_collection: false},
+        },
         payment_method_settings: {enabled: true},
         // InB
         issuing_cards_list: {
@@ -81,6 +89,7 @@ export async function POST(req: NextRequest) {
           enabled: true,
           features: {
             money_movement: true,
+            external_account_collection: false,
           },
         },
         financial_account_transactions: {
