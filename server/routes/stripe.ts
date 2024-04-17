@@ -608,7 +608,7 @@ app.post('/create-payments', stripeAccountRequired, async (req, res) => {
                 payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
-                statement_descriptor_suffix: process.env.APP_NAME,
+                statement_descriptor: process.env.APP_NAME,
                 confirmation_method: 'manual',
                 confirm: true,
                 ...(status === 'card_uncaptured'
