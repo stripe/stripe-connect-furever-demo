@@ -11,19 +11,44 @@ export const useConnect = (demoOnboarding: boolean) => {
   const settings = useSettings();
   const locale = settings.locale;
 
+  const [localLocale, setLocalLocale] = useState(settings.locale);
+
   useEffect(() => {
+    if (locale === localLocale) {
+      return;
+    }
+
+    let newAccountSessionRequired: boolean = false;
+
     switch (locale) {
       case 'fr-FR':
+        newAccountSessionRequired = true;
+        break;
       case 'zh-Hant-HK':
       case 'en-GB':
-        if (demoOnboarding) {
-          setStripeConnectInstance(null);
+        if (localLocale === 'zh-Hant-HK' || localLocale === 'en-GB') {
+          // No need to get a new account session here
+        } else {
+          newAccountSessionRequired = true;
         }
         break;
       default:
+        if (['fr-FR', 'zh-Hant-HK', 'en-GB'].includes(localLocale)) {
+          // We need a new account session
+          newAccountSessionRequired = true;
+        }
+
         break;
     }
-  }, [locale, demoOnboarding]);
+
+    if (locale !== localLocale) {
+      setLocalLocale(locale);
+    }
+
+    if (demoOnboarding && newAccountSessionRequired) {
+      setStripeConnectInstance(null);
+    }
+  }, [locale, localLocale, demoOnboarding]);
 
   const fetchClientSecret = useCallback(async () => {
     if (demoOnboarding) {

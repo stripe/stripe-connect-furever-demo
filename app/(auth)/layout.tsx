@@ -5,7 +5,6 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import Container from '@/app/components/Container';
 import LocaleSelector from '@/app/components/LocaleSelector';
-import {SettingsConsumer} from '@/app/contexts/settings';
 import BackgroundImage from '@/public/background.jpg';
 import {ArrowRight} from 'lucide-react';
 import PoseRed from '@/public/pose_red.svg';
@@ -45,7 +44,7 @@ export default function AuthLayout({
               <div className="font-bold text-secondary">Contact support</div>
               <ArrowRight color="#f26552" size={18} className="mt-[1px]" />
             </Link>
-            <p className="absolute bottom-20 left-0 h-24 w-24">
+            <p className="w-34 absolute bottom-20 left-0 h-24">
               <LocaleSelector />
             </p>
           </div>

@@ -1252,9 +1252,15 @@ def generate_charges_args(account):
     success_count, dispute_count, decline_count, refund_count = 48, 0, 0, 2
 
     if is_elevated_fraud_account(account):
-        success_count, dispute_count, decline_count, refund_count = 41, 1, 5, 3
+        dispute_count = random.randint(1, 2)
+        decline_count = random.randint(5, 7)
+        refund_count = random.randint(3, 4)
+        success_count = 50 - dispute_count - decline_count - refund_count
     elif is_high_fraud_account(account):
-        success_count, dispute_count, decline_count, refund_count = 18, 5, 12, 15
+        dispute_count = random.randint(4, 7)
+        decline_count = random.randint(11, 14)
+        refund_count = random.randint(14, 17)
+        success_count = 50 - dispute_count - decline_count - refund_count
 
     assert (
         success_count + dispute_count + decline_count + refund_count == 50
