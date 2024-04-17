@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useMutation} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -10,7 +10,6 @@ import {
   ConnectFinancialAccountTransactions,
   ConnectIssuingCardsList,
 } from '@stripe/react-connect-js';
-import {useSession} from '../hooks/SessionProvider';
 import {
   EmbeddedComponentContainer,
   EmbeddedContainer,
@@ -19,9 +18,11 @@ import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 import {CardFooter} from '../components/CardFooter';
+import {FullScreenLoading} from '../components/FullScreenLoading';
+import {ErrorState} from '../components/ErrorState';
 
 const useCreateReceivedCredit = () => {
-  const {financialAccount} = useFinancialAccount();
+  const {data: financialAccount} = useFinancialAccount();
 
   return useMutation<void, Error>('createReceivedCredit', async () => {
     const response = await fetch('/create-received-credit', {
@@ -41,38 +42,27 @@ const useCreateReceivedCredit = () => {
 };
 
 const useFinancialAccount = () => {
-  const [financialAccount, setFinancialAccount] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/financial-account');
-        const json = await response.json();
-        setFinancialAccount(json.financial_account);
-        setLoading(false);
-      } catch (error: any) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  return {loading, financialAccount, error};
+  return useQuery<string, Error>('financialAccount', async () => {
+    const response = await fetch('/financial-account');
+    const jsonResponse = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        jsonResponse?.error ?? 'An error ocurred, please try again.'
+      );
+    }
+    return jsonResponse.financial_account;
+  });
 };
 
 export const Finance = () => {
   const {
-    loading,
-    financialAccount,
+    data: financialAccount,
+    isLoading: loading,
     error: useFinancialAccountError,
+    refetch,
   } = useFinancialAccount();
 
   const navigate = useNavigate();
-  const {stripeAccount} = useSession();
 
   const {
     status,
@@ -92,9 +82,15 @@ export const Finance = () => {
     }
   }, [status]);
 
-  if (!financialAccount || loading || useFinancialAccountError) {
-    return null;
+  if (useFinancialAccountError) {
+    return (
+      <ErrorState
+        errorMessage={useFinancialAccountError.message}
+        retry={refetch}
+      />
+    );
   }
+  if (loading || !financialAccount) return <FullScreenLoading />;
 
   const disabled = !financialAccount;
 
@@ -104,6 +100,8 @@ export const Finance = () => {
     }
     return 'Create a test received credit';
   };
+
+  console.log(financialAccount);
 
   const renderFooter = () => {
     return (
