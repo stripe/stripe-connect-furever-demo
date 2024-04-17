@@ -176,7 +176,7 @@ function getAccountParams(
       type = 'custom' as const;
       controller = undefined;
 
-      // Issuing and Banking products only work on UA3 aka Custom accounts aka no_dashboard_poll.
+      // Issuing and Banking products only work on accounts where the platform owns requirements collection
       capabilities = {
         ...capabilities,
         card_issuing: {
