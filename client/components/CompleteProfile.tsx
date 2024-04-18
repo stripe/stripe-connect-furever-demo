@@ -359,15 +359,15 @@ export const CompleteProfile = () => {
             >
               <option value="no_dashboard_soll">
                 No Stripe dashboard access + Stripe owns loss liability (fully
-                embedded, stripe managed)
+                embedded, stripe managed risk, stripe owns pricing)
               </option>
               <option value="no_dashboard_poll">
-                No Stripe dashboard access + Platform owns loss liability
-                (custom)
+                No Stripe dashboard access + Platform owns loss liability (no
+                dashboard, platform managed risk, platform owns pricing)
               </option>
               <option value="dashboard_soll">
                 Stripe standard dashboard access + Stripe owns loss liability
-                (standard dashboard, stripe managed)
+                (standard dashboard, stripe managed risk, stripe owns pricing)
               </option>
             </SelectInput>
           </FormBlock>

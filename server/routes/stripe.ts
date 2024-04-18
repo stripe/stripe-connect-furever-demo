@@ -173,34 +173,50 @@ function getAccountParams(
   let controller: Stripe.AccountCreateParams.Controller | undefined = undefined;
   switch (accountConfiguration) {
     case 'no_dashboard_poll':
-      type = 'custom' as const;
-      controller = undefined;
+      controller = {
+        losses: {
+          payments: 'application', // platform owns loss liability
+        },
+        requirement_collection: 'application', // platform is onboarding owner
+        fees: {
+          payer: 'application', // The platform is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'none', // The connected account will not have access to dashboard
+        },
+      };
       break;
     case 'dashboard_soll':
       capabilities = undefined;
       controller = {
-        application: {
-          loss_liable: false, // Stripe owns loss liability
-          onboarding_owner: false, // Stripe is the onboarding owner
-          pricing_controls: true, // The platform is the pricing owner
+        losses: {
+          payments: 'stripe', // Stripe owns loss liability
         },
-        dashboard: {
-          type: 'full' as const, // Standard dash
+        requirement_collection: 'stripe', // Stripe is onboarding owner
+        fees: {
+          payer: 'account', // Stripe is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'full', // Standard dashboard
+        },
+      };
+      break;
+    case 'no_dashboard_soll':
+      controller = {
+        losses: {
+          payments: 'stripe', // stripe owns loss liability
+        },
+        requirement_collection: 'stripe', // stripe is onboarding owner
+        fees: {
+          payer: 'application', // The platform is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'none', // The connected account will not have access to dashboard
         },
       };
       break;
     default:
-      // "no_dashboard_soll"
-      controller = {
-        application: {
-          loss_liable: false, // Stripe owns loss liability
-          onboarding_owner: false, // Stripe is the onboarding owner
-          pricing_controls: true, // The platform is the pricing owner
-        },
-        dashboard: {
-          type: 'none' as const, // The connected account will not have access to dashboard
-        },
-      };
+      throw new Error('Invalid account configuration:' + accountConfiguration);
   }
 
   return {
