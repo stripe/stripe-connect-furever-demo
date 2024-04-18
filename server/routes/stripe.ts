@@ -185,6 +185,17 @@ function getAccountParams(
           type: 'none', // The connected account will not have access to dashboard
         },
       };
+
+      // Issuing and Banking products only work on accounts where the platform owns requirements collection
+      capabilities = {
+        ...capabilities,
+        card_issuing: {
+          requested: true,
+        },
+        treasury: {
+          requested: true,
+        },
+      };
       break;
     case 'dashboard_soll':
       capabilities = undefined;
@@ -298,6 +309,12 @@ app.post('/create-account', userRequired, async (req, res) => {
                 support_email: user.email,
                 support_phone: '8888675309',
                 support_url: 'https://furever.dev',
+                estimated_worker_count: 10,
+                annual_revenue: {
+                  amount: 1000000,
+                  currency: 'usd',
+                  fiscal_year_end: '2023-12-31',
+                },
               }
             : {}),
         },
@@ -400,6 +417,31 @@ app.post('/create-account', userRequired, async (req, res) => {
           },
         });
       }
+
+      // If the account is no_dashboard_poll, create a financial account.
+      if (accountConfiguration === 'no_dashboard_poll') {
+        const financialAccount = await stripe.treasury.financialAccounts.create(
+          {
+            supported_currencies: ['usd'],
+            features: {
+              card_issuing: {requested: true},
+              deposit_insurance: {requested: true},
+              financial_addresses: {aba: {requested: true}},
+              inbound_transfers: {ach: {requested: true}},
+              intra_stripe_flows: {requested: true},
+              outbound_payments: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+              outbound_transfers: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+            },
+          },
+          {stripeAccount: accountId}
+        );
+      }
     }
 
     return res.status(200).end();
@@ -442,6 +484,25 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         },
         payment_method_settings: {
           enabled: true,
+        },
+        issuing_cards_list: {
+          enabled: true,
+          features: {
+            card_management: true,
+            cardholder_management: true,
+          },
+        },
+        financial_account: {
+          enabled: true,
+          features: {
+            money_movement: true,
+          },
+        },
+        financial_account_transactions: {
+          enabled: true,
+          features: {
+            card_spend_dispute_management: true,
+          },
         },
       } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
     });
@@ -700,6 +761,33 @@ app.post('/create-payout', stripeAccountRequired, async (req, res) => {
 });
 
 /**
+ * POST /create-received-credit
+ *
+ * Generate a received credit applied to the FinancialAccount.
+ */
+app.post('/create-received-credit', stripeAccountRequired, async (req, res) => {
+  const user = req.user!;
+  try {
+    await stripe.testHelpers.treasury.receivedCredits.create(
+      {
+        amount: 1000,
+        currency: 'usd',
+        financial_account: req.body.financial_account,
+        network: 'ach',
+      },
+      {
+        stripeAccount: user.stripeAccountId,
+      }
+    );
+    return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
+/**
  * GET /onboarded
  *
  * Returns a boolean indicating whether onboarding has been completed
@@ -757,6 +845,42 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
     });
 
     return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
+/**
+ * GET /financial-account
+ *
+ * Returns the first financial account for the connected account.
+ * Multi-FA support is only limited to a subset of users, so we'll
+ * just return the first one for simplicity.
+ */
+app.get('/financial-account', stripeAccountRequired, async (req, res) => {
+  const user = req.user!;
+
+  try {
+    const financialAccounts = await stripe.treasury.financialAccounts.list(
+      {
+        limit: 3,
+      },
+      {
+        stripeAccount: user.stripeAccountId,
+      }
+    );
+
+    if (financialAccounts.data.length === 0) {
+      console.error('No financial accounts found for user');
+      res.status(400);
+      return res.send({error: 'No financial accounts found for user'});
+    }
+
+    res.json({
+      financial_account: financialAccounts.data[0].id,
+    });
   } catch (error: any) {
     console.error(error);
     res.status(500);
