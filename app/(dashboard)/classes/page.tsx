@@ -63,7 +63,7 @@ export default function Classes() {
     <>
       <div className="flex gap-3">
         <h1 className="text-3xl font-bold flex-1">Classes</h1>
-        <Button className="bg-secondary font-bold gap-2 shadow text-base hover:shadow-md transition">
+        <Button className="bg-primary font-bold gap-2 shadow text-base hover:shadow-md transition">
           <PlusIcon className="w-5 h-5"></PlusIcon>
           Create class
         </Button>

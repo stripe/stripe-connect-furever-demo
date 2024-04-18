@@ -80,9 +80,9 @@ const Schedule = () => {
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
-            <ChevronLeft color="#f26552" />
-            <div className="font-bold text-secondary">{getCurrentDate()}</div>
-            <ChevronRight color="#f26552" />
+            <ChevronLeft color="#221b35" />
+            <div className="font-bold text-primary">{getCurrentDate()}</div>
+            <ChevronRight color="#221b35" />
           </div>
         </div>
         <div className="relative left-20 z-20 -ml-20 flex flex-row pl-20">
@@ -135,7 +135,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-primary-foreground p-3 shadow transition duration-150 hover:bg-[#FFF5E5] hover:shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-primary-foreground p-3 shadow transition duration-150 hover:bg-[#FEF0EE] hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
