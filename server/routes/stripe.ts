@@ -673,6 +673,11 @@ app.post(
 
     const account = await stripe.accounts.retrieve(user.stripeAccountId);
 
+    const taxSettings = await stripe.tax.settings.retrieve({
+      stripeAccount: user.stripeAccountId,
+    });
+    const automaticTaxEnabled = taxSettings.status === 'active';
+
     const {
       amount,
       currency,
@@ -698,6 +703,7 @@ app.post(
                   name: nameAndDescription,
                   description: nameAndDescription,
                 },
+                tax_behavior: automaticTaxEnabled ? 'exclusive' : undefined,
               },
               quantity: 1,
             },
@@ -705,6 +711,9 @@ app.post(
           payment_intent_data: {
             description: nameAndDescription,
             statement_descriptor: process.env.APP_NAME,
+          },
+          automatic_tax: {
+            enabled: automaticTaxEnabled,
           },
           mode: 'payment',
           success_url: redirectUrl,
