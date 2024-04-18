@@ -507,9 +507,6 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
       accountSessionComponentsParams as any;
     accountSessionComponentsParamsAsAny.payment_method_settings = {
       enabled: true,
-      features: {
-        payment_method_management: true,
-      },
     };
 
     const accountSession = await stripe.accountSessions.create({
