@@ -463,10 +463,9 @@ function getStripeAccountId(req: any) {
  */
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
-    const accountSession = await stripe.accountSessions.create({
-      account: getStripeAccountId(req),
-      // This should contain a list of all components used in FurEver, otherwise they will be disabled when rendering
-      components: {
+    // This should contain a list of all components used in FurEver
+    const accountSessionComponentsParams: Stripe.AccountSessionCreateParams.Components =
+      {
         account_management: {
           enabled: true,
         },
@@ -480,9 +479,6 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
           enabled: true,
         },
         payouts: {
-          enabled: true,
-        },
-        payment_method_settings: {
           enabled: true,
         },
         issuing_cards_list: {
@@ -504,7 +500,21 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
             card_spend_dispute_management: true,
           },
         },
-      } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
+      };
+
+    // TODO: Move up once payment_method_settings is in the SDK
+    const accountSessionComponentsParamsAsAny =
+      accountSessionComponentsParams as any;
+    accountSessionComponentsParamsAsAny.payment_method_settings = {
+      enabled: true,
+      features: {
+        payment_method_management: true,
+      },
+    };
+
+    const accountSession = await stripe.accountSessions.create({
+      account: getStripeAccountId(req),
+      components: accountSessionComponentsParamsAsAny,
     });
     res.json({
       client_secret: accountSession.client_secret,
