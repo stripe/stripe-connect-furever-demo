@@ -38,12 +38,18 @@ const useLogout = () => {
 type Page = {
   name: string;
   href: string;
+  requiredCapabilities?: string[];
 };
 
 const authenticatedRoutes: Page[] = [
   {name: 'Reservations', href: '/reservations'},
   {name: 'Payments', href: '/payments'},
   {name: 'Payouts', href: '/payouts'},
+  {
+    name: 'Finance',
+    href: '/finance',
+    requiredCapabilities: ['card_issuing', 'treasury'],
+  },
 ];
 const unauthenticatedRoutes: Page[] = [
   {name: 'Sign up', href: '/signup'},
@@ -92,24 +98,41 @@ export const NavBar = () => {
           justifyContent: user ? 'flex-start' : 'flex-end',
         }}
       >
-        {routes.map(({name, href}) => (
-          <Link component={RouterLink} key={name} to={href} underline="none">
-            <Typography
-              textAlign="center"
-              sx={{
-                fontSize: 16,
-                fontWeight: 600,
-                '&:hover': {
-                  color: theme.palette.primary.main,
-                },
-                textDecoration: 'none',
-              }}
-              color={pathname === href ? 'primary' : 'secondary'}
-            >
-              {name}
-            </Typography>
-          </Link>
-        ))}
+        {routes
+          // For paths that have required capabilities, filter out
+          // the ones that have yet to be requested. In the case
+          // a capability is not active, the Page is responsible for
+          // calling-out or re-directing the user to the appropriate
+          // page to resolve the requirement.
+          .filter(({requiredCapabilities}) => {
+            // Not all pages require capabalities. If none provided, continue.
+            if (!requiredCapabilities) {
+              return true;
+            }
+
+            const capabilities = Object.keys(stripeAccount?.capabilities || []);
+            return requiredCapabilities.every((capability) =>
+              capabilities.includes(capability)
+            );
+          })
+          .map(({name, href}) => (
+            <Link component={RouterLink} key={name} to={href} underline="none">
+              <Typography
+                textAlign="center"
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  '&:hover': {
+                    color: theme.palette.primary.main,
+                  },
+                  textDecoration: 'none',
+                }}
+                color={pathname === href ? 'primary' : 'secondary'}
+              >
+                {name}
+              </Typography>
+            </Link>
+          ))}
       </Box>
     );
   };
