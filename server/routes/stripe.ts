@@ -677,6 +677,9 @@ app.post(
       stripeAccount: user.stripeAccountId,
     });
     const automaticTaxEnabled = taxSettings.status === 'active';
+    const taxCode = taxSettings.defaults.tax_code
+      ? taxSettings.defaults.tax_code
+      : 'txcd_99999999';
 
     const {
       amount,
@@ -702,6 +705,7 @@ app.post(
                 product_data: {
                   name: nameAndDescription,
                   description: nameAndDescription,
+                  tax_code: automaticTaxEnabled ? taxCode : undefined,
                 },
                 tax_behavior: automaticTaxEnabled ? 'exclusive' : undefined,
               },

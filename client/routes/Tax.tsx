@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import {
   ConnectTaxSettings,
@@ -25,19 +24,13 @@ export const Tax = () => {
         marginBottom: 2,
       }}
     >
-      <Typography
-        variant="h5"
-        sx={{
-          textAlign: 'center',
-        }}
-      >
-        Tax
-      </Typography>
       <StripeConnectDebugUtils />
       <EmbeddedContainer>
+        <Typography variant="h6">Tax settings</Typography>
         <EmbeddedComponentContainer>
           <ConnectTaxSettings />
         </EmbeddedComponentContainer>
+        <Typography variant="h6">Tax registrations</Typography>
         <EmbeddedComponentContainer>
           <ConnectTaxRegistrations />
         </EmbeddedComponentContainer>
