@@ -502,7 +502,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         },
       };
 
-    // TODO: Move up once payment_method_settings is in the SDK
+    // TODO: Move up once payment_method_settings is in the beta SDK
     const accountSessionComponentsParamsAsAny =
       accountSessionComponentsParams as any;
     accountSessionComponentsParamsAsAny.payment_method_settings = {

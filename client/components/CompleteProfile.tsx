@@ -358,16 +358,19 @@ export const CompleteProfile = () => {
               }
             >
               <option value="no_dashboard_soll">
-                No Stripe dashboard access + Stripe owns loss liability (fully
-                embedded, stripe managed risk, stripe owns pricing)
+                Connected account without Stripe dashboard access + Stripe is
+                liable for paying back negative balances + Stripe collects fees
+                directly from connected accounts
               </option>
               <option value="no_dashboard_poll">
-                No Stripe dashboard access + Platform owns loss liability (no
-                dashboard, platform managed risk, platform owns pricing)
+                Connected account without Stripe dashboard access + FurEver is
+                liable for paying back negative balances + Stripe collects fees
+                from FurEver
               </option>
               <option value="dashboard_soll">
-                Stripe standard dashboard access + Stripe owns loss liability
-                (standard dashboard, stripe managed risk, stripe owns pricing)
+                Connected account with Stripe Dashboard access + Stripe is
+                liable for paying back negative balances + Stripe collects fees
+                directly from Connected accounts
               </option>
             </SelectInput>
           </FormBlock>
