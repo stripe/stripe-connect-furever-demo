@@ -5,7 +5,10 @@ import Link from '@mui/material/Link';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import {ConnectPayments} from '@stripe/react-connect-js';
+import {
+  ConnectNotificationBanner,
+  ConnectPayments,
+} from '@stripe/react-connect-js';
 import {CardFooter} from '../components/CardFooter';
 import {useSession} from '../hooks/SessionProvider';
 import {
@@ -14,7 +17,6 @@ import {
 } from '../components/EmbeddedComponentContainer';
 import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
-import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 import {CreatePaymentsForm} from '../components/CreatePaymentsForm';
 import {LaunchCheckoutForm} from '../components/CreateCheckoutSessionForm';
 

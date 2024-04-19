@@ -11,8 +11,8 @@ import {
   EmbeddedContainer,
 } from '../components/EmbeddedComponentContainer';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
-import {ConnectPaymentMethodSettings} from '../components/internal/ConnectJsPrivateComponents';
 import {useSession} from '../hooks/SessionProvider';
+import {ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
 
 export const PaymentMethods = () => {
   const {stripeAccount} = useSession();
