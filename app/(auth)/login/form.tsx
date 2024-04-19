@@ -93,7 +93,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className={'w-full rounded-md bg-secondary p-2 font-bold text-white'}
+          className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
         >
           {!form.formState.isSubmitting && <>Continue</>}
           {form.formState.isSubmitting && (

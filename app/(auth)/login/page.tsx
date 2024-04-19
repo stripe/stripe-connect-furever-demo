@@ -17,7 +17,7 @@ export default async function Login() {
         <h2 className="text-2xl font-bold">Login</h2>
         <div>
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="font-bold text-secondary">
+          <Link href="/signup" className="font-bold text-primary underline">
             Sign up{' '}
             <ArrowRight className="mb-0.5 inline w-4" strokeWidth={2.5} />
           </Link>

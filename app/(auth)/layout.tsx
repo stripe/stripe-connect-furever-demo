@@ -41,8 +41,8 @@ export default function AuthLayout({
               href="mailto:support@pose.dev"
               className="flex flex-row items-center gap-x-1"
             >
-              <div className="font-bold text-secondary">Contact support</div>
-              <ArrowRight color="#f26552" size={18} className="mt-[1px]" />
+              <div className="font-bold text-primary">Contact support</div>
+              <ArrowRight color="#221b35" size={18} className="mt-[1px]" />
             </Link>
             <p className="w-34 absolute bottom-20 left-0 h-24">
               <LocaleSelector />
