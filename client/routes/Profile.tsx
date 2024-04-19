@@ -17,7 +17,7 @@ import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {
   ConnectAccountManagement,
   ConnectNotificationBanner,
-} from '../components/internal/ConnectJsPrivateComponents';
+} from '@stripe/react-connect-js';
 
 const useCreateIntervention = () => {
   return useMutation<void, Error>('createIntervention', async () => {

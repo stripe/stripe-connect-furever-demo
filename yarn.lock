@@ -1096,15 +1096,15 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.6.1.tgz#3a3a408481a3796f45223a549c2571517bc8af2d"
   integrity sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==
 
-"@stripe/connect-js@^3.3.4-beta-1":
-  version "3.3.4-beta-1"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.4-beta-1.tgz#ab0d015e084b7633297431f50e4418829eea2b87"
-  integrity sha512-YQUXzPdg806PXW0eRPKToNj9XP6ZJHmRLrXiudiQkEV4+a96+ZfKVkubR5INTMZzGmI5OjZ0pcKg2yqmXCquMg==
-
-"@stripe/react-connect-js@^3.3.6-beta-1":
+"@stripe/connect-js@^3.3.6-beta-1":
   version "3.3.6-beta-1"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.6-beta-1.tgz#daef0116441202ca2e76fd10708112329d41630f"
-  integrity sha512-Wt6Knzon6jKM+30X4GKvhoAD8Aqslerq/zvHBsjVd6FHNDJ/7+fw0Kvr++p8J4I0+02bdFbQ7ZBAVj1EgjKw8g==
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.6-beta-1.tgz#3bf51a60dad789c8515810d38753f958bca5ca6f"
+  integrity sha512-1Oo2lSpHeQ7kNgdav80arw8KXqjhrzAOlBun2h6dMjGT+8b05lbbwkurv9bI9IMSR6fAxz1JlqiBJhgY50Rh2Q==
+
+"@stripe/react-connect-js@^3.3.10-beta-1":
+  version "3.3.10-beta-1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.10-beta-1.tgz#6b245070c41a45d46eb5ebe4df51388a1249294b"
+  integrity sha512-8JnxoGRAGDCHsDFP7YBLSqQM3BQjYcVAuvrCLs/qRQvlTzOl9LPt/J2mz47e7xuvvU1zAO8Dv6MR2/Fc5F5XPQ==
 
 "@swc/helpers@^0.4.12":
   version "0.4.14"

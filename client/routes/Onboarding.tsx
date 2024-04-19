@@ -12,7 +12,7 @@ import {
 import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
-import {ConnectAccountOnboarding} from '../components/internal/ConnectJsPrivateComponents';
+import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 
 const useOnboarded = () => {
   const {refetch, stripeAccount} = useSession();
@@ -57,7 +57,7 @@ export const Onboarding = () => {
               privacyPolicyUrl="https://stripe.com/privacy?utm_campaign=woof"
               fullTermsOfServiceUrl="https://stripe.com/legal/connect-account?utm_campaign=woof"
               recipientTermsOfServiceUrl="https://stripe.com/legal/connect-account/recipient?utm_campaign=woof"
-              onOnboardingExited={() => {
+              onExit={() => {
                 console.log(
                   'Onboarding exited! We redirect the user to the next page...'
                 );

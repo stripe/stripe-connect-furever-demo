@@ -13,11 +13,11 @@ import Typography from '@mui/material/Typography';
 import {useTheme, Theme} from '@mui/system';
 import reservations from '../assets/data/reservations.json';
 import {Container} from '../components/Container';
-import {ConnectNotificationBanner} from '../components/internal/ConnectJsPrivateComponents';
 import {
   EmbeddedContainer,
   EmbeddedComponentContainer,
 } from '../components/EmbeddedComponentContainer';
+import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 
 const createStyles = (theme: Theme) => ({
   table: {
