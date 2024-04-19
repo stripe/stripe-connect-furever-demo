@@ -162,7 +162,7 @@ function getAccountParams(
   accountConfiguration: string
 ): Stripe.AccountCreateParams {
   let type: Stripe.Account.Type | undefined = undefined;
-  let capabilities: any = {
+  let capabilities: Stripe.AccountCreateParams.Capabilities | undefined = {
     card_payments: {
       requested: true,
     },
@@ -170,11 +170,21 @@ function getAccountParams(
       requested: true,
     },
   };
-  let controller = undefined;
+  let controller: Stripe.AccountCreateParams.Controller | undefined = undefined;
   switch (accountConfiguration) {
     case 'no_dashboard_poll':
-      type = 'custom' as const;
-      controller = undefined;
+      controller = {
+        losses: {
+          payments: 'application', // platform owns loss liability
+        },
+        requirement_collection: 'application', // platform is onboarding owner
+        fees: {
+          payer: 'application', // The platform is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'none', // The connected account will not have access to dashboard
+        },
+      };
 
       // Issuing and Banking products only work on accounts where the platform owns requirements collection
       capabilities = {
@@ -190,28 +200,34 @@ function getAccountParams(
     case 'dashboard_soll':
       capabilities = undefined;
       controller = {
-        application: {
-          loss_liable: false, // Stripe owns loss liability
-          onboarding_owner: false, // Stripe is the onboarding owner
-          pricing_controls: true, // The platform is the pricing owner
+        losses: {
+          payments: 'stripe', // Stripe owns loss liability
         },
-        dashboard: {
-          type: 'full' as const, // Standard dash
+        requirement_collection: 'stripe', // Stripe is onboarding owner
+        fees: {
+          payer: 'account', // Stripe is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'full', // Standard dashboard
+        },
+      };
+      break;
+    case 'no_dashboard_soll':
+      controller = {
+        losses: {
+          payments: 'stripe', // stripe owns loss liability
+        },
+        requirement_collection: 'stripe', // stripe is onboarding owner
+        fees: {
+          payer: 'application', // The platform is the pricing owner
+        },
+        stripe_dashboard: {
+          type: 'none', // The connected account will not have access to dashboard
         },
       };
       break;
     default:
-      // "no_dashboard_soll"
-      controller = {
-        application: {
-          loss_liable: false, // Stripe owns loss liability
-          onboarding_owner: false, // Stripe is the onboarding owner
-          pricing_controls: true, // The platform is the pricing owner
-        },
-        dashboard: {
-          type: 'none' as const, // The connected account will not have access to dashboard
-        },
-      };
+      throw new Error('Invalid account configuration:' + accountConfiguration);
   }
 
   return {
@@ -447,10 +463,9 @@ function getStripeAccountId(req: any) {
  */
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
-    const accountSession = await stripe.accountSessions.create({
-      account: getStripeAccountId(req),
-      // This should contain a list of all components used in FurEver, otherwise they will be disabled when rendering
-      components: {
+    // This should contain a list of all components used in FurEver
+    const accountSessionComponentsParams: Stripe.AccountSessionCreateParams.Components =
+      {
         account_management: {
           enabled: true,
         },
@@ -464,9 +479,6 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
           enabled: true,
         },
         payouts: {
-          enabled: true,
-        },
-        payment_method_settings: {
           enabled: true,
         },
         issuing_cards_list: {
@@ -488,7 +500,18 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
             card_spend_dispute_management: true,
           },
         },
-      } as any, // Some of these components are in private beta, so they aren't published in the beta SDK
+      };
+
+    // TODO: Move up once payment_method_settings is in the beta SDK
+    const accountSessionComponentsParamsAsAny =
+      accountSessionComponentsParams as any;
+    accountSessionComponentsParamsAsAny.payment_method_settings = {
+      enabled: true,
+    };
+
+    const accountSession = await stripe.accountSessions.create({
+      account: getStripeAccountId(req),
+      components: accountSessionComponentsParamsAsAny,
     });
     res.json({
       client_secret: accountSession.client_secret,
