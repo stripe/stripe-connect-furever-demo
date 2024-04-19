@@ -19,7 +19,7 @@ export default function Payouts() {
         </div>
       </div>
       <Container>
-        <h1 className="text-lg font-bold">Recent payments</h1>
+        <h1 className="text-xl font-bold">Recent payments</h1>
         <EmbeddedComponentContainer>
           <ConnectPayments />
         </EmbeddedComponentContainer>

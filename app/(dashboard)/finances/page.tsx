@@ -51,7 +51,7 @@ export default function Finances() {
         </EmbeddedComponentContainer>
       </Container>
       <Container>
-        <h1 className="mb-2 text-lg font-bold">Financial account</h1>
+        <h1 className="mb-2 text-xl font-bold">Financial account</h1>
         <EmbeddedComponentContainer>
           {displayFinancialAccount && (
             <ConnectFinancialAccount financialAccount={financialAccount} />
@@ -59,7 +59,7 @@ export default function Finances() {
         </EmbeddedComponentContainer>
       </Container>
       <Container>
-        <h1 className="text-lg font-bold">Transactions</h1>
+        <h1 className="text-xl font-bold">Transactions</h1>
         <EmbeddedComponentContainer>
           {displayFinancialAccount && (
             <ConnectFinancialAccountTransactions
