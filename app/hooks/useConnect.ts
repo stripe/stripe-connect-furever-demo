@@ -83,9 +83,10 @@ export const useConnect = (demoOnboarding: boolean) => {
     () => ({
       fontFamily: 'Sohne, inherit',
 
-      colorPrimary: '#F26552',
+      colorPrimary: '#221b35',
 
-      buttonPrimaryColorText: '#FFFFFF',
+      buttonPrimaryColorBackground: '#221b35', //#221B35
+      buttonPrimaryColorText: '#f4f4f5',
 
       badgeSuccessColorBackground: '#D7F4CC',
       badgeSuccessColorText: '#264F47',
