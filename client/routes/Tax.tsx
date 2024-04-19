@@ -26,11 +26,11 @@ export const Tax = () => {
     >
       <StripeConnectDebugUtils />
       <EmbeddedContainer>
-        <Typography variant="h6">Tax settings</Typography>
+        <Typography variant="h5">Tax settings</Typography>
         <EmbeddedComponentContainer>
           <ConnectTaxSettings />
         </EmbeddedComponentContainer>
-        <Typography variant="h6">Tax registrations</Typography>
+        <Typography variant="h5">Tax registrations</Typography>
         <EmbeddedComponentContainer>
           <ConnectTaxRegistrations />
         </EmbeddedComponentContainer>
