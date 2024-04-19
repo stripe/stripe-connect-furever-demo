@@ -5,7 +5,7 @@ import {ChevronRight} from 'lucide-react';
 
 const BalanceWidget = () => {
   return (
-    <Container>
+    <Container className="px-5">
       <div className="space-y-1">
         <div className="flex flex-row justify-between">
           <div>

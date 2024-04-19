@@ -7,7 +7,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 export default function Settings() {
   return (
     <>
-      <Container>
+      <Container className="px-5 py-4">
         <h1 className="text-xl font-semibold mb-4">Basic details</h1>
         <div className="flex flex-row space-x-20">
           <div>
@@ -25,7 +25,7 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
-        <header className="mb-8">
+        <header className="mb-8 ml-2">
           <h1 className="text-xl font-semibold">Account settings</h1>
           <h2 className="text-subdued">
             Manage account and business settings.

@@ -49,7 +49,7 @@ export default function AuthLayout({
             </p>
           </div>
           <div className="ml-auto min-w-[30rem]">
-            <Container className="no-scrollbar overflow-scroll rounded-[16px]">
+            <Container className="no-scrollbar overflow-scroll rounded-[16px] px-5 py-5">
               {children}
             </Container>
           </div>
