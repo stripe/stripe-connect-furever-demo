@@ -185,17 +185,6 @@ function getAccountParams(
           type: 'none', // The connected account will not have access to dashboard
         },
       };
-
-      // Issuing and Banking products only work on accounts where the platform owns requirements collection
-      capabilities = {
-        ...capabilities,
-        card_issuing: {
-          requested: true,
-        },
-        treasury: {
-          requested: true,
-        },
-      };
       break;
     case 'dashboard_soll':
       capabilities = undefined;
@@ -416,31 +405,6 @@ app.post('/create-account', userRequired, async (req, res) => {
             title: 'CEO',
           },
         });
-      }
-
-      // If the account is no_dashboard_poll, create a financial account.
-      if (accountConfiguration === 'no_dashboard_poll') {
-        const financialAccount = await stripe.treasury.financialAccounts.create(
-          {
-            supported_currencies: ['usd'],
-            features: {
-              card_issuing: {requested: true},
-              deposit_insurance: {requested: true},
-              financial_addresses: {aba: {requested: true}},
-              inbound_transfers: {ach: {requested: true}},
-              intra_stripe_flows: {requested: true},
-              outbound_payments: {
-                ach: {requested: true},
-                us_domestic_wire: {requested: true},
-              },
-              outbound_transfers: {
-                ach: {requested: true},
-                us_domestic_wire: {requested: true},
-              },
-            },
-          },
-          {stripeAccount: accountId}
-        );
       }
     }
 
@@ -850,6 +814,64 @@ app.post('/create-bank-account', stripeAccountRequired, async (req, res) => {
     await stripe.accounts.createExternalAccount(user.stripeAccountId, {
       external_account: token.id,
     });
+
+    return res.status(200).end();
+  } catch (error: any) {
+    console.error(error);
+    res.status(500);
+    return res.send({error: error.message});
+  }
+});
+
+/**
+ * POST /request-capabilities
+ *
+ * Enables requesting the specified capabilities.
+ */
+app.post('/request-capabilities', stripeAccountRequired, async (req, res) => {
+  const user = req.user!;
+  const {capabilities} = req.body;
+
+  try {
+    await stripe.accounts.update(user.stripeAccountId, {
+      capabilities,
+    });
+
+    // If the user requested Treasury, create a financial account if none exists
+    if (capabilities.treasury?.requested) {
+      const financialAccounts = await stripe.treasury.financialAccounts.list(
+        {
+          limit: 1,
+        },
+        {
+          stripeAccount: user.stripeAccountId,
+        }
+      );
+
+      if (financialAccounts.data.length === 0) {
+        await stripe.treasury.financialAccounts.create(
+          {
+            supported_currencies: ['usd'],
+            features: {
+              card_issuing: {requested: true},
+              deposit_insurance: {requested: true},
+              financial_addresses: {aba: {requested: true}},
+              inbound_transfers: {ach: {requested: true}},
+              intra_stripe_flows: {requested: true},
+              outbound_payments: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+              outbound_transfers: {
+                ach: {requested: true},
+                us_domestic_wire: {requested: true},
+              },
+            },
+          },
+          {stripeAccount: user.stripeAccountId}
+        );
+      }
+    }
 
     return res.status(200).end();
   } catch (error: any) {

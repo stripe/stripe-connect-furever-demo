@@ -1,6 +1,7 @@
 import React from 'react';
 import {useLocation} from 'react-router-dom';
 import {useMutation} from 'react-query';
+import Stripe from 'stripe';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,6 +20,7 @@ import {useDisplayShortName} from '../hooks/useDisplayName';
 import {OnboardingNotice} from './OnboardingNotice';
 import {RouterLink} from './RouterLink';
 import {useConnectJSContext} from '../hooks/ConnectJSProvider';
+import {stripe} from '../../server/routes/stripeSdk';
 
 const useLogout = () => {
   const {search} = useLocation();
@@ -38,7 +40,7 @@ const useLogout = () => {
 type Page = {
   name: string;
   href: string;
-  requiredCapabilities?: string[];
+  shouldDisplayFilter?: (stripeAccount: Stripe.Account) => boolean;
 };
 
 const authenticatedRoutes: Page[] = [
@@ -48,7 +50,10 @@ const authenticatedRoutes: Page[] = [
   {
     name: 'Finance',
     href: '/finance',
-    requiredCapabilities: ['card_issuing', 'treasury'],
+    shouldDisplayFilter: (stripeAccount) =>
+      stripeAccount.controller?.dashboard?.type === 'none' &&
+      stripeAccount.controller?.application?.loss_liable === true &&
+      stripeAccount.controller?.application?.onboarding_owner === true,
   },
 ];
 const unauthenticatedRoutes: Page[] = [
@@ -86,6 +91,7 @@ export const NavBar = () => {
     if (user && !stripeAccount) {
       return null;
     }
+
     return (
       <Box
         sx={{
@@ -99,21 +105,14 @@ export const NavBar = () => {
         }}
       >
         {routes
-          // For paths that have required capabilities, filter out
-          // the ones that have yet to be requested. In the case
-          // a capability is not active, the Page is responsible for
-          // calling-out or re-directing the user to the appropriate
-          // page to resolve the requirement.
-          .filter(({requiredCapabilities}) => {
-            // Not all pages require capabalities. If none provided, continue.
-            if (!requiredCapabilities) {
+          // For paths that only support certain controller shapes, filter out the ones that don't match.
+          .filter(({shouldDisplayFilter}) => {
+            // Not all pages require a filter.
+            if (!shouldDisplayFilter || !stripeAccount) {
               return true;
             }
 
-            const capabilities = Object.keys(stripeAccount?.capabilities || []);
-            return requiredCapabilities.every((capability) =>
-              capabilities.includes(capability)
-            );
+            return shouldDisplayFilter(stripeAccount);
           })
           .map(({name, href}) => (
             <Link component={RouterLink} key={name} to={href} underline="none">

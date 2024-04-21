@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useMutation, useQuery} from 'react-query';
+import {useTheme} from '@mui/system';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -11,6 +12,7 @@ import {
   ConnectIssuingCardsList,
   ConnectNotificationBanner,
 } from '@stripe/react-connect-js';
+import {useSession} from '../hooks/SessionProvider';
 import {
   EmbeddedComponentContainer,
   EmbeddedContainer,
@@ -20,6 +22,7 @@ import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {CardFooter} from '../components/CardFooter';
 import {FullScreenLoading} from '../components/FullScreenLoading';
 import {ErrorState} from '../components/ErrorState';
+import {RequestCapabilities} from '../components/RequestCapabilities';
 
 const useCreateReceivedCredit = () => {
   const {data: financialAccount} = useFinancialAccount();
@@ -55,14 +58,47 @@ const useFinancialAccount = () => {
 };
 
 export const Finance = () => {
+  const navigate = useNavigate();
+  const {stripeAccount} = useSession();
+
+  if (!stripeAccount || !stripeAccount.details_submitted) {
+    return <div>To enable Finance, please complete onboarding.</div>;
+  }
+
+  const hasIssuingAndTreasury = ['card_issuing', 'treasury'].every(
+    (capability) =>
+      Object.keys(stripeAccount?.capabilities || []).includes(capability)
+  );
+
+  if (!hasIssuingAndTreasury) {
+    return (
+      <RequestCapabilities
+        title={'Enable Finance'}
+        description={
+          'Click "Enable" to get started with a financial account and access to spend cards.'
+        }
+        capabilities={{
+          card_issuing: {
+            requested: true,
+          },
+          treasury: {
+            requested: true,
+          },
+        }}
+        onSuccess={async () => {
+          await navigate('/onboarding');
+          navigate(0);
+        }}
+      />
+    );
+  }
+
   const {
     data: financialAccount,
     isLoading: loading,
     error: useFinancialAccountError,
     refetch,
   } = useFinancialAccount();
-
-  const navigate = useNavigate();
 
   const {
     status,
@@ -100,8 +136,6 @@ export const Finance = () => {
     }
     return 'Create a test received credit';
   };
-
-  console.log(financialAccount);
 
   const renderFooter = () => {
     return (
