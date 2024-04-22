@@ -1456,7 +1456,7 @@ def get_default_financial_account(account):
     financial_accounts = list(
         stripe.treasury.FinancialAccount.list(limit=1, stripe_account=account.id)
     )
-    return financial_accounts[0]
+    return financial_accounts[0] if financial_accounts else None
 
 
 def generate_cardholders_and_cards(account):
@@ -1491,6 +1491,9 @@ def generate_cardholders_and_cards(account):
     log.info(f"Generating cardholders and cards for {account.id}")
 
     financial_account = get_default_financial_account(account)
+    if not financial_account:
+        return
+
     financial_account_id = financial_account.id
 
     cards_count = 12
@@ -1519,6 +1522,9 @@ def generate_financial_account_transactions(account):
     log.info(f"Generating financial account transactions for {account.id}")
 
     financial_account = get_default_financial_account(account)
+    if not financial_account:
+        return
+
     financial_account_id = financial_account.id
 
     transactions = list(
