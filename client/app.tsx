@@ -27,6 +27,7 @@ import {Profile} from './routes/Profile';
 import {NotFound} from './routes/NotFound';
 import {Settings} from './routes/Settings';
 import {BankAccountForm} from './routes/BankAccountForm';
+import {Tax} from './routes/Tax';
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,14 @@ const router = createBrowserRouter([
         element: (
           <AuthenticatedAndOnboardedRoute>
             {() => <Payouts />}
+          </AuthenticatedAndOnboardedRoute>
+        ),
+      },
+      {
+        path: '/tax',
+        element: (
+          <AuthenticatedAndOnboardedRoute>
+            {() => <Tax />}
           </AuthenticatedAndOnboardedRoute>
         ),
       },

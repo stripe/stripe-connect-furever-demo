@@ -464,6 +464,12 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
             card_spend_dispute_management: true,
           },
         },
+        tax_settings: {
+          enabled: true,
+        },
+        tax_registrations: {
+          enabled: true,
+        },
       };
 
     // TODO: Move up once payment_method_settings is in the beta SDK
@@ -637,6 +643,14 @@ app.post(
 
     const account = await stripe.accounts.retrieve(user.stripeAccountId);
 
+    const taxSettings = await stripe.tax.settings.retrieve({
+      stripeAccount: user.stripeAccountId,
+    });
+    const automaticTaxEnabled = taxSettings.status === 'active';
+    const taxCode = taxSettings.defaults.tax_code
+      ? taxSettings.defaults.tax_code
+      : 'txcd_99999999';
+
     const {
       amount,
       currency,
@@ -661,7 +675,9 @@ app.post(
                 product_data: {
                   name: nameAndDescription,
                   description: nameAndDescription,
+                  tax_code: automaticTaxEnabled ? taxCode : undefined,
                 },
+                tax_behavior: automaticTaxEnabled ? 'exclusive' : undefined,
               },
               quantity: 1,
             },
@@ -669,6 +685,9 @@ app.post(
           payment_intent_data: {
             description: nameAndDescription,
             statement_descriptor: process.env.APP_NAME,
+          },
+          automatic_tax: {
+            enabled: automaticTaxEnabled,
           },
           mode: 'payment',
           success_url: redirectUrl,
