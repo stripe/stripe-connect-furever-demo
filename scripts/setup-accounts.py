@@ -672,6 +672,9 @@ def ensure_financial_account(account):
     """
     assert isinstance(account, stripe.Account)
 
+    if is_rejected_account(account) or account.capabilities.card_payments != "active":
+        return
+
     if "treasury" not in account.capabilities:
         return
 
@@ -1125,15 +1128,21 @@ def ensure_account_configuration(account):
             },
         )
 
-    # Email is a valid email address. This allows us to change the email domain
-    email = f"{account.individual.first_name.lower()}.{account.individual.last_name.lower()}@{EMAIL_DOMAIN}"
-    if account.email != email:
-        log.info(f"Updating email for {account.id}")
-        stripe.Account.modify(
-            account.id,
-            email=email,
-            individual={"email": email},
-        )
+    if (
+        hasattr(account, "individual")
+        and account.individual
+        and account.individual.first_name
+        and account.individual.last_name
+    ):
+        # Email is a valid email address. This allows us to change the email domain
+        email = f"{account.individual.first_name.lower()}.{account.individual.last_name.lower()}@{EMAIL_DOMAIN}"
+        if account.email != email:
+            log.info(f"Updating email for {account.id}")
+            stripe.Account.modify(
+                account.id,
+                email=email,
+                individual={"email": email},
+            )
 
     # Ensure they're on manual payouts
     if not account.settings.payouts.schedule.interval == "manual":
@@ -1655,7 +1664,7 @@ def generate_account_sessions(account):
 
 
 def generate_sonar_data():
-    accounts = fetch_accounts()
+    accounts = [a for a in fetch_accounts() if a.controller.is_controller]
 
     log.info(f"Generating Sonar data for {len(accounts)} accounts")
 
@@ -1705,8 +1714,11 @@ def main(
     shell=False,
     delete=False,
     export_sonar_data=False,
+    demo_desk=False,
 ):
-    config = dotenv_values(os.path.join(ROOT_DIR, ".env.local"))
+    config = dotenv_values(
+        os.path.join(ROOT_DIR, ".env.demo" if demo_desk else ".env.local")
+    )
     if "STRIPE_SECRET_KEY" not in config:
         raise ValueError("STRIPE_SECRET_KEY is not defined in the environment")
 
@@ -1844,6 +1856,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "-r", "--rebalance", help="Rebalance account statuses", action="store_true"
     )
+
+    parser.add_argument(
+        "--demo-desk",
+        help="Use the demo desk env variables",
+        action="store_true",
+        dest="demo_desk",
+    )
+
     args = parser.parse_args()
 
     main(
@@ -1858,4 +1878,5 @@ if __name__ == "__main__":
         shell=args.shell,
         delete=args.delete,
         export_sonar_data=args.export_sonar_data,
+        demo_desk=args.demo_desk,
     )
