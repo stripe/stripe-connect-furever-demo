@@ -452,6 +452,9 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
             cardholder_management: true,
           },
         },
+        payment_method_settings: {
+          enabled: true,
+        },
         financial_account: {
           enabled: true,
           features: {
@@ -472,16 +475,9 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         },
       };
 
-    // TODO: Move up once payment_method_settings is in the beta SDK
-    const accountSessionComponentsParamsAsAny =
-      accountSessionComponentsParams as any;
-    accountSessionComponentsParamsAsAny.payment_method_settings = {
-      enabled: true,
-    };
-
     const accountSession = await stripe.accountSessions.create({
       account: getStripeAccountId(req),
-      components: accountSessionComponentsParamsAsAny,
+      components: accountSessionComponentsParams,
     });
     res.json({
       client_secret: accountSession.client_secret,
