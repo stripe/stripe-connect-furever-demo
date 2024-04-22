@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import {
   ConnectTaxSettings,
   ConnectTaxRegistrations,
-} from '../components/internal/ConnectJsPrivateComponents';
+} from '@stripe/react-connect-js';
 import {useSession} from '../hooks/SessionProvider';
 import {
   EmbeddedComponentContainer,

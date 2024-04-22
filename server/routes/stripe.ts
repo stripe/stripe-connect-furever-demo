@@ -500,6 +500,12 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
             card_spend_dispute_management: true,
           },
         },
+        tax_settings: {
+          enabled: true,
+        },
+        tax_registrations: {
+          enabled: true,
+        },
       };
 
     // TODO: Move up once payment_method_settings is in the beta SDK
