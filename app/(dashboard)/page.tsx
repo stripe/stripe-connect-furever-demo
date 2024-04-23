@@ -7,7 +7,7 @@ import CustomersWidget from '@/app/components/CustomersWidget';
 export default function Dashboard() {
   return (
     <>
-      <h1 className="text-3xl font-bold">Welcome, Steve!</h1>
+      <h1 className="text-3xl font-bold">Welcome, Jenny!</h1>
       <div className="flex flex-row items-start space-x-5">
         <div className="min-w-[700px] flex-1">
           <Schedule />
@@ -15,7 +15,7 @@ export default function Dashboard() {
         <div className="w-[30%] min-w-[300px] space-y-4">
           <BalanceWidget />
           <RecentPaymentsWidget />
-          <h2 className="text-lg font-bold pt-4">Performance</h2>
+          <h2 className="pt-4 text-lg font-bold">Performance</h2>
           <MonthToDateWidget />
           <CustomersWidget />
         </div>
