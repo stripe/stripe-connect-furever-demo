@@ -133,9 +133,11 @@ LAST_NAMES = [
     "Zhang",
 ]
 
-NAMES = itertools.product(
-    random.sample(FIRST_NAMES, k=len(FIRST_NAMES)),
-    random.sample(LAST_NAMES, k=len(LAST_NAMES)),
+NAMES = list(
+    itertools.product(
+        random.sample(FIRST_NAMES, k=len(FIRST_NAMES)),
+        random.sample(LAST_NAMES, k=len(LAST_NAMES)),
+    )
 )
 
 POSSIBLE_IDENTITIES = [
@@ -143,6 +145,15 @@ POSSIBLE_IDENTITIES = [
         "first_name": first_name,
         "last_name": last_name,
         "email": f"{first_name.lower()}.{last_name.lower()}@{EMAIL_DOMAIN}",
+    }
+    for first_name, last_name in NAMES
+]
+
+POSSIBLE_CUSTOMER_IDENTITIES = [
+    {
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": f"{first_name.lower()}.{last_name.lower()}@example.com",
     }
     for first_name, last_name in NAMES
 ]
@@ -1187,9 +1198,31 @@ def ensure_account_configuration(account):
             log.error(f"Error uploading icon for {account.id}: {e}")
 
 
-def create_charge(account, token):
+def get_or_create_customer(account, identity):
+    """
+    Get or create a customer for the given email
+    """
     assert isinstance(account, stripe.Account)
-    assert isinstance(token, str)
+    assert isinstance(identity, dict)
+
+    email = identity["email"]
+    assert isinstance(email, str)
+
+    customers = stripe.Customer.list(email=email, stripe_account=account.id)
+    if customers and customers.data:
+        return customers.data[0]
+
+    log.info(f"Creating customer for {email}")
+    return stripe.Customer.create(
+        email=email,
+        name=f"{identity['first_name']} {identity['last_name']}",
+        stripe_account=account.id,
+    )
+
+
+def create_charge(account, payment_method):
+    assert isinstance(account, stripe.Account)
+    assert isinstance(payment_method, str)
 
     if not account.charges_enabled:
         log.info(f"Charges are disabled for account {account.id}")
@@ -1198,40 +1231,54 @@ def create_charge(account, token):
     amount = random.randint(5_00, 10_00)
     app_fee = math.ceil(max((amount * 2.9 + 30) * 0.1, amount * 0.1))
 
-    # TODO(streeter) - should we set customer details so it shows up in the UI?
+    # Get an identity
+    identity = random.choice(POSSIBLE_CUSTOMER_IDENTITIES)
+
+    # Get or create a customer
+    customer = get_or_create_customer(account, identity)
 
     try:
-        return stripe.Charge.create(
+        pi = stripe.PaymentIntent.create(
             amount=amount,
+            customer=customer.id,
+            payment_method=payment_method,
             currency="usd",
-            source=token,
             application_fee_amount=app_fee,
-            capture=True,
+            automatic_payment_methods={
+                "enabled": True,
+                "allow_redirects": "never",
+            },
+            confirm=True,
             stripe_account=account.id,
         )
+
+        return pi.latest_charge
     except stripe.error.CardError as e:
-        if e.code == "card_declined" and token == "tok_visa_chargeDeclined":
+        if (
+            e.code == "card_declined"
+            and payment_method == "pm_card_visa_chargeDeclined"
+        ):
             # Ignore
             return None
 
-        log.error(f"Got an error creating a charge with token {token}: {e}")
+        log.error(f"Got an error creating a PI with PM {payment_method}: {e}")
         return None
 
 
-def apply_charges(account, token):
-    is_refund = token == "tok_pendingRefund"
+def apply_charges(account, payment_method):
+    is_refund = payment_method == "pm_card_pendingRefund"
 
-    # We only use tok_bypassPending to indicate we should do a refund.
-    token = "tok_bypassPending" if is_refund else token
+    # We only use pm_card_bypassPending to indicate we should do a refund.
+    payment_method = "pm_card_bypassPending" if is_refund else payment_method
 
-    log.info(f"Creating {token} charge on {account.id}")
+    log.info(f"Creating {payment_method} charge on {account.id}")
 
-    charge = create_charge(account, token)
+    charge_id = create_charge(account, payment_method)
 
-    if charge and is_refund:
-        log.info(f"Refunding charge {charge.id} on {account.id}")
+    if charge_id and is_refund:
+        log.info(f"Refunding charge {charge_id} on {account.id}")
         stripe.Refund.create(
-            charge=charge.id,
+            charge=charge_id,
             refund_application_fee=False,
             stripe_account=account.id,
         )
@@ -1303,24 +1350,24 @@ def generate_charges_args(account):
     refunded_to_add = refund_count - refunded_charge_count
     successful_to_add = success_count - successful_charge_count
 
-    tokens = []
+    payment_methods = []
     if disputed_to_add > 0:
-        tokens += ["tok_createDispute"] * disputed_to_add
+        payment_methods += ["pm_card_createDispute"] * disputed_to_add
     if declined_to_add > 0:
-        tokens += ["tok_visa_chargeDeclined"] * declined_to_add
+        payment_methods += ["pm_card_visa_chargeDeclined"] * declined_to_add
     if refunded_to_add > 0:
-        tokens += ["tok_pendingRefund"] * refunded_to_add
+        payment_methods += ["pm_card_pendingRefund"] * refunded_to_add
     if successful_to_add > 1:
-        tokens += ["tok_bypassPending"] * (successful_to_add - 1)
+        payment_methods += ["pm_card_bypassPending"] * (successful_to_add - 1)
 
     # Randomize the order
-    random.shuffle(tokens)
+    random.shuffle(payment_methods)
 
-    if tokens and tokens[-1] == "tok_bypassPending":
+    if payment_methods and payment_methods[-1] == "pm_card_bypassPending":
         # The most recent charge should be successful
-        tokens += ["tok_bypassPending"]
+        payment_methods += ["pm_card_bypassPending"]
 
-    return [[account, token] for token in tokens]
+    return [[account, pms] for pms in payment_methods]
 
 
 def generate_payouts(account):
