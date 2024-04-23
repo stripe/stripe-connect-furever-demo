@@ -1669,7 +1669,7 @@ def generate_account_sessions(account):
             pass
 
 
-def generate_sonar_data():
+def generate_sonar_data(demo_desk=False):
     accounts = [a for a in fetch_accounts() if a.controller.is_controller]
 
     log.info(f"Generating Sonar data for {len(accounts)} accounts")
@@ -1703,9 +1703,14 @@ def generate_sonar_data():
     print(
         "Create a query using at https://hubble.corp.stripe.com/queries using the above"
     )
-    print(
-        "Then, clone this migration https://admin.corp.stripe.com/migrations/clone/mijob_Pri3K4TcGsSGar"
+
+    migration_link = (
+        "https://admin.corp.stripe.com/migrations/clone/mijob_PyiKrEisTaNvpD"
+        if demo_desk
+        else "https://admin.corp.stripe.com/migrations/clone/mijob_Pri3K4TcGsSGar"
     )
+
+    print(f"Then, clone this migration {migration_link}")
 
 
 def main(
@@ -1742,7 +1747,7 @@ def main(
         delete_accounts()
 
     if export_sonar_data:
-        generate_sonar_data()
+        generate_sonar_data(demo_desk=demo_desk)
 
         exit()
 
