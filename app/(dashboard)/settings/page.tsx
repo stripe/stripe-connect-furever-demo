@@ -8,19 +8,15 @@ export default function Settings() {
   return (
     <>
       <Container className="px-5 py-4">
-        <h1 className="text-xl font-semibold mb-4">Basic details</h1>
+        <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
         <div className="flex flex-row space-x-20">
           <div>
             <div className="text-subdued">Studio name</div>
-            <div className="font-medium">Steve Yoga Studio</div>
+            <div className="font-medium">Practice Yoga Studio</div>
           </div>
           <div>
             <div className="text-subdued">Email</div>
-            <div className="font-medium">stevekaliski@stripe.com</div>
-          </div>
-          <div>
-            <div className="text-subdued">Business name</div>
-            <div className="font-medium">Greatest Yoga Studio</div>
+            <div className="font-medium">jenny@example.com</div>
           </div>
         </div>
       </Container>
