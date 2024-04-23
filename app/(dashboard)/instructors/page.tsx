@@ -15,7 +15,7 @@ export default function Instructors() {
     <>
       <div className="flex">
         <h1 className="text-3xl font-bold flex-1">Instructors</h1>
-        <Button className="bg-primary font-bold gap-2 shadow text-base hover:shadow-md transition">
+        <Button className="bg-[#312356] font-bold gap-2 shadow text-base hover:shadow-md transition">
           <PlusIcon className="w-5 h-5"></PlusIcon>
           Add instructor
         </Button>
