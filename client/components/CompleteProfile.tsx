@@ -25,7 +25,7 @@ type FormValues = {
   salonName: string;
   salonLicense: string;
   salonSpecialty: string;
-  accountConfiguration: string;
+  accountConfig: string;
 };
 
 const FormControl = ({children}: {children: React.ReactNode}) => (
@@ -83,7 +83,7 @@ export const CompleteProfile = () => {
     salonName: '',
     salonLicense: 'LINC123',
     salonSpecialty: 'dogs',
-    accountConfiguration: 'no_dashboard_soll',
+    accountConfig: 'no_dashboard_soll',
   });
   const [searchParams] = useSearchParams();
   const {mutate, isLoading, error} = useCreateStripeAccount();
@@ -348,12 +348,12 @@ export const CompleteProfile = () => {
           <FormBlock>
             <SelectInput
               type="select"
-              name="accountConfiguration"
-              value={formValues.accountConfiguration}
+              name="accountConfig"
+              value={formValues.accountConfig}
               onChange={(event) =>
                 setFormValues((prev) => ({
                   ...prev,
-                  accountConfiguration: event.target.value,
+                  accountConfig: event.target.value,
                 }))
               }
             >

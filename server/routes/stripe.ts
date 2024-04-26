@@ -158,9 +158,7 @@ const createPaymentIntentForNonCardPayments = async (
   }
 };
 
-function getAccountParams(
-  accountConfiguration: string
-): Stripe.AccountCreateParams {
+function getAccountParams(accountConfig: string): Stripe.AccountCreateParams {
   let type: Stripe.Account.Type | undefined = undefined;
   let capabilities: Stripe.AccountCreateParams.Capabilities | undefined = {
     card_payments: {
@@ -171,7 +169,7 @@ function getAccountParams(
     },
   };
   let controller: Stripe.AccountCreateParams.Controller | undefined = undefined;
-  switch (accountConfiguration) {
+  switch (accountConfig) {
     case 'no_dashboard_poll':
       controller = {
         losses: {
@@ -216,7 +214,7 @@ function getAccountParams(
       };
       break;
     default:
-      throw new Error('Invalid account configuration:' + accountConfiguration);
+      throw new Error('Invalid account configuration:' + accountConfig);
   }
 
   return {
@@ -238,7 +236,7 @@ interface Test extends Request {
 app.post('/create-account', userRequired, async (req, res) => {
   try {
     const user = req.user!;
-    user.set(req.body); // Try to update the logged-in salon using the newly entered profile data
+    user.set(req.body); // Update the logged-in salon using the newly entered profile data
     await user.save();
 
     let accountId = user.stripeAccountId;
@@ -249,7 +247,7 @@ app.post('/create-account', userRequired, async (req, res) => {
     }
 
     const shouldPrefill = req.body.prefill;
-    const accountConfiguration = req.body.accountConfiguration;
+    const accountConfig = req.body.accountConfig;
 
     // Create a Stripe account for this user if one does not exist already
     if (accountId == undefined) {
@@ -267,7 +265,7 @@ app.post('/create-account', userRequired, async (req, res) => {
         });
       }
 
-      const accountConfigParams = getAccountParams(accountConfiguration);
+      const accountConfigParams = getAccountParams(accountConfig);
 
       // Define the parameters to create a new Stripe account with
       let accountParams: Stripe.AccountCreateParams = {
@@ -427,17 +425,32 @@ function getStripeAccountId(req: any) {
  */
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
+    const user = req.user!;
+
+    // FurEver enables external account collection for all accounts except ones where the platform owns requirements collection (otherwise known as custom)
+    const external_account_collection =
+      user.accountConfig !== 'no_dashboard_poll';
+
     // This should contain a list of all components used in FurEver
     const accountSessionComponentsParams: Stripe.AccountSessionCreateParams.Components =
       {
         account_management: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         account_onboarding: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         notification_banner: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         payments: {
           enabled: true,
@@ -456,6 +469,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
           enabled: true,
           features: {
             money_movement: true,
+            external_account_collection,
           },
         },
         financial_account_transactions: {

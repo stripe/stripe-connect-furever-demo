@@ -17,6 +17,7 @@ declare global {
       firstName: string;
       lastName: string;
       stripeAccountId: string;
+      accountConfig: string;
 
       // MongoDB methods
       isModified: (field: string) => boolean;

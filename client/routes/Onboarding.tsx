@@ -15,7 +15,7 @@ import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 
 const useOnboarded = () => {
-  const {refetch, stripeAccount} = useSession();
+  const {refetch, user} = useSession();
   const navigate = useNavigate();
   const {search} = useLocation();
 
@@ -27,7 +27,7 @@ const useOnboarded = () => {
     if (onboarded) {
       refetch();
       navigate(`/reservations${search}`);
-    } else if (stripeAccount?.type !== 'custom') {
+    } else if (user?.accountConfig === 'no_dashboard_poll') {
       navigate(0);
     }
   });
@@ -36,7 +36,7 @@ const useOnboarded = () => {
 export const Onboarding = () => {
   const {search} = useLocation();
   const {mutate, error} = useOnboarded();
-  const {stripeAccount} = useSession();
+  const {user} = useSession();
   const navigate = useNavigate();
 
   return (
@@ -62,7 +62,7 @@ export const Onboarding = () => {
                   'Onboarding exited! We redirect the user to the next page...'
                 );
                 mutate();
-                if (stripeAccount?.type === 'custom') {
+                if (user?.accountConfig === 'no_dashboard_poll') {
                   navigate(`/bankaccountform${search}`);
                 }
               }}
