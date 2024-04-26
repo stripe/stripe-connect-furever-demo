@@ -427,17 +427,31 @@ function getStripeAccountId(req: any) {
  */
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
+    const user = req.user!;
+    // FurEver enables external account collection for all accounts except ones where the platform owns requirements collection (otherwise known as custom)
+    const external_account_collection =
+      user.accountConfig === 'no_dashboard_poll';
+
     // This should contain a list of all components used in FurEver
     const accountSessionComponentsParams: Stripe.AccountSessionCreateParams.Components =
       {
         account_management: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         account_onboarding: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         notification_banner: {
           enabled: true,
+          features: {
+            external_account_collection,
+          },
         },
         payments: {
           enabled: true,
@@ -456,6 +470,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
           enabled: true,
           features: {
             money_movement: true,
+            external_account_collection,
           },
         },
         financial_account_transactions: {

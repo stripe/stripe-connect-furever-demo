@@ -364,7 +364,7 @@ export const CompleteProfile = () => {
               </option>
               <option value="no_dashboard_poll">
                 Connected account without Stripe dashboard access + FurEver is
-                liable for paying back negative balances + Stripe collects fees
+                liable for paying back negative balances + FurEver collects fees
                 from FurEver
               </option>
               <option value="dashboard_soll">
