@@ -69,8 +69,8 @@ export const CustomGatedRoute = ({
   children: React.ReactNode;
 }): JSX.Element => {
   const {search} = useLocation();
-  const {stripeAccount} = useSession();
-  if (stripeAccount?.type !== 'custom') {
+  const {user} = useSession();
+  if (user?.accountConfig !== 'no_dashboard_poll') {
     return <Navigate to={`/reservations${search}`} replace />;
   }
   return <>{children}</>;
