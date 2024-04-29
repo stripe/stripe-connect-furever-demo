@@ -9,15 +9,15 @@ import {
   Mail as EmailIcon
 } from 'lucide-react';
 
-export default function Instructors() {
+export default function Pets() {
 
   return (
     <>
       <div className="flex">
-        <h1 className="text-3xl font-bold flex-1">Instructors</h1>
-        <Button className="bg-[#312356] font-bold gap-2 shadow text-base hover:shadow-md transition">
-          <PlusIcon className="w-5 h-5"></PlusIcon>
-          Add instructor
+        <h1 className="text-3xl font-bold flex-1">Pets</h1>
+        <Button className="bg-accent text-accent-foreground font-bold gap-2 shadow text-base hover:shadow-md transition">
+          <PlusIcon size={20}></PlusIcon>
+          Add Pet
         </Button>
       </div>
       <div className="grid sm:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -37,8 +37,8 @@ export default function Instructors() {
                   <p className="text-subdued text-sm">{instructor.numClasses} class{instructor.numClasses == 1 ? '' : 'es'} this week</p>
                 </div>
                 <div className="flex gap-5">
-                  <PhoneIcon color="var(--secondary)"></PhoneIcon>
-                  <EmailIcon color="var(--secondary)"></EmailIcon>
+                  <PhoneIcon size={20} color="var(--accent)" />
+                  <EmailIcon size={20} color="var(--accent)" />
                 </div>
               </Container>
             )

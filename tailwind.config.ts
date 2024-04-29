@@ -44,21 +44,10 @@ const config = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
         accent: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: 'var(--accent)',
+          subdued: 'var(--accent-subdued)',
+          foreground: 'var(--accent-foreground)',
         },
         success: {
           DEFAULT: 'var(--success)',
@@ -78,6 +67,9 @@ const config = {
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
+    backgroundImage: {
+      'paw-pattern': "url('/pattern.png')",
+    }
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;

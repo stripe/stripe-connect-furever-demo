@@ -49,12 +49,12 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-secondary pl-20"
+      className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-accent pl-20"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY}px`,
       }}
     >
-      <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-secondary bg-secondary"></div>
+      <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-accent bg-accent"></div>
     </div>
   );
 };
@@ -80,9 +80,9 @@ const Schedule = () => {
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
-            <ChevronLeft color="#221b35" />
-            <div className="font-bold text-primary">{getCurrentDate()}</div>
-            <ChevronRight color="#221b35" />
+            <ChevronLeft color="var(--accent)" />
+            <div className="font-bold text-accent">{getCurrentDate()}</div>
+            <ChevronRight color="var(--accent)" />
           </div>
         </div>
         <div className="relative left-20 z-20 -ml-20 flex flex-row pl-20">
@@ -135,7 +135,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-primary-foreground p-3 shadow transition duration-150 hover:bg-[#FEF0EE] hover:shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset p-3 shadow transition duration-150 hover:bg-accent-subdued hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -149,7 +149,7 @@ const Schedule = () => {
                           }}
                         >
                           <div>
-                            <div className="text-md font-medium text-secondary">
+                            <div className="text-md font-medium text-accent">
                               {startTime} - {endTime}
                             </div>
                             <div className="text-md font-bold">{name}</div>

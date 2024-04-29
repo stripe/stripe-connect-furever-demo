@@ -34,7 +34,7 @@ const CustomersWidget = () => {
             <SparkLineChart
               data={[15, 20, 20, 0, 15, 30, 30, 55, 45, 45, 35, 50, 45, 55]}
               height={55}
-              colors={['#221B35']}
+              colors={['var(--accent)']}
               curve="natural"
             />
           </div>

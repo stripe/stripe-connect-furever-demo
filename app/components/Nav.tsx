@@ -10,7 +10,8 @@ import {
   Wallet as WalletIcon,
   Coins as CoinsIcon,
   Landmark as LandmarkIcon,
-  Users as UsersIcon,
+  Dog as PetsIcon,
+  Settings as SettingsIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
@@ -24,15 +25,9 @@ const navigationMenuItems = [
     paths: [],
   },
   {
-    label: 'Classes',
-    href: '/classes',
-    icon: CalendarIcon,
-    paths: [],
-  },
-  {
-    label: 'Instructors',
-    href: '/instructors',
-    icon: UsersIcon,
+    label: 'Pets',
+    href: '/pets',
+    icon: PetsIcon,
     paths: [],
   },
   {
@@ -53,6 +48,12 @@ const navigationMenuItems = [
     icon: LandmarkIcon,
     paths: ['/finances/cards'],
   },
+  {
+    label: 'Settings',
+    href: '/settings',
+    icon: SettingsIcon,
+    paths: [],
+  }
 ];
 
 const Nav = () => {
@@ -62,43 +63,30 @@ const Nav = () => {
   const accountID = session?.user?.stripeAccount?.id;
 
   return (
-    <div className="fixed z-40 h-screen w-64 bg-primary p-3">
-      <Image className="p-5" src={PoseRed} alt="Pose" width={150} height={23} />
+    <div className="fixed z-40 h-screen w-64 bg-white border-r p-3">
+      {/* <Image className="p-5" src={PoseRed} alt="Pose" width={150} height={23} /> */}
       <nav>
         <ul className="flex-col items-start space-x-0">
           {navigationMenuItems.map((item) => (
             <li key={item.label} className="p-1">
               <Link href={item.href}>
                 <Button
-                  className={`w-full justify-start text-lg text-white hover:bg-white ${
+                  className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
                     pathname === item.href || item.paths.includes(pathname)
-                      ? 'bg-white bg-opacity-15 hover:bg-opacity-15'
-                      : 'bg-none hover:bg-opacity-10'
+                      ? 'bg-accent-subdued text-accent'
+                      : 'bg-white'
                   }`}
                 >
-                  <item.icon className="mr-2 h-5 w-5" color="white" />{' '}
+                  <item.icon className="mr-2" size={20} color={`${
+                    pathname === item.href || item.paths.includes(pathname)
+                      ? 'var(--accent)'
+                      : 'var(--primary)'
+                  }`} />{' '}
                   {item.label}
                 </Button>
               </Link>
             </li>
           ))}
-          <li>
-            <Link href="/settings">
-              <Button
-                className={`fixed bottom-5 justify-start text-lg text-white hover:bg-white ${
-                  pathname.startsWith('/settings')
-                    ? 'bg-white bg-opacity-15 hover:bg-opacity-15'
-                    : 'bg-none hover:bg-opacity-10'
-                }`}
-              >
-                <Avatar className="mr-2 h-5 w-5">
-                  <AvatarImage src="/avatar.png" alt="profile" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>{' '}
-                <span title={accountID}>My studio</span>
-              </Button>
-            </Link>
-          </li>
         </ul>
       </nav>
     </div>

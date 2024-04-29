@@ -83,18 +83,18 @@ export const useConnect = (demoOnboarding: boolean) => {
     () => ({
       fontFamily: 'Sohne, inherit',
 
-      colorPrimary: '#312356',
+      colorPrimary: '#27AE60',
 
-      buttonPrimaryColorBackground: '#312356',
+      buttonPrimaryColorBackground: '#27AE60',
       buttonPrimaryColorText: '#f4f4f5',
 
-      badgeSuccessColorBackground: '#D7F4CC',
-      badgeSuccessColorText: '#264F47',
-      badgeSuccessColorBorder: '#BDDAB3',
+      badgeSuccessColorBackground: '#D6FCE6',
+      badgeSuccessColorText: '#1E884B',
+      badgeSuccessColorBorder: '#94D5AF',
 
-      badgeWarningColorBackground: '#FFEACC',
-      badgeWarningColorText: '#C95B4D',
-      badgeWarningColorBorder: '#FFD28C',
+      badgeWarningColorBackground: '#FCEEB5',
+      badgeWarningColorText: '#B13600',
+      badgeWarningColorBorder: '#E4D07E',
 
       badgeDangerColorBackground: '#FFEACC',
       badgeDangerColorText: '#C95B4D',
