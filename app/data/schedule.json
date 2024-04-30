@@ -1,0 +1,94 @@
+[
+  {
+    "id": "1",
+    "groomer": "Catherine",
+    "sessions": [
+      {
+        "id": 1,
+        "name": "Wash and groom",
+        "startTime": "9:30am",
+        "endTime": "10:20am",
+        "startTimeMinutes": 30,
+        "endTimeMinutes": 80,
+        "pet": "Udon",
+        "profilePhoto": "udon"
+      },
+      {
+        "id": 2,
+        "name": "Deluxe wash and groom",
+        "startTime": "10:30am",
+        "endTime": "11:20am",
+        "startTimeMinutes": 90,
+        "endTimeMinutes": 140,
+        "pet": "Kiba",
+        "profilePhoto": "kiba"
+      },
+      {
+        "id": 3,
+        "name": "Full service – small dog",
+        "startTime": "12:30pm",
+        "endTime": "1:20pm",
+        "startTimeMinutes": 210,
+        "endTimeMinutes": 260,
+        "pet": "Rowdy",
+        "profilePhoto": "rowdy"
+      },
+      {
+        "id": 4,
+        "name": "Dematting",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
+        "pet": "Mochi",
+        "profilePhoto": "default-3"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "groomer": "Michael",
+    "sessions": [
+      {
+        "id": 1,
+        "name": "Full service – medium dog",
+        "startTime": "10:00am",
+        "endTime": "10:45am",
+        "startTimeMinutes": 60,
+        "endTimeMinutes": 105,
+        "pet": "Daisy",
+        "profilePhoto": "default-2"
+      },
+      {
+        "id": 2,
+        "name": "Wash and groom",
+        "startTime": "11:00am",
+        "endTime": "11:50am",
+        "startTimeMinutes": 120,
+        "endTimeMinutes": 170,
+        "pet": "Mika",
+        "profilePhoto": "default-1"
+      },
+      {
+        "id": 3,
+        "name": "Full service – medium cat",
+        "startTime": "12:00pm",
+        "endTime": "12:50pm",
+        "startTimeMinutes": 180,
+        "endTimeMinutes": 230,
+        "pet": "Bisco",
+        "profilePhoto": "bisco"
+      },
+      {
+        "id": 4,
+        "name": "Dematting",
+        "startTime": "2:00pm",
+        "endTime": "2:50pm",
+        "startTimeMinutes": 300,
+        "endTimeMinutes": 350,
+        "pet": "Goku",
+        "profilePhoto": "default-2"
+      }
+    ]
+  }
+]

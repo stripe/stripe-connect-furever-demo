@@ -25,7 +25,7 @@ export default function SubNav({base, routes}: SubNavProps) {
             href={path}
             className={`${
               path === pathname
-                ? 'bg-white font-bold text-primary shadow-md'
+                ? 'bg-white border font-bold text-accent'
                 : 'font-medium hover:bg-white/80'
             } rounded-md p-2 transition`}
           >

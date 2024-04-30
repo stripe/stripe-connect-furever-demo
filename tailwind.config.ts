@@ -30,8 +30,7 @@ const config = {
           foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          DEFAULT: 'var(--subdued)',
         },
         offset: {
           DEFAULT: 'var(--offset)',
@@ -41,24 +40,13 @@ const config = {
           foreground: 'var(--subdued-foreground)',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)',
         },
         accent: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: 'var(--accent)',
+          subdued: 'var(--accent-subdued)',
+          foreground: 'var(--accent-foreground)',
         },
         success: {
           DEFAULT: 'var(--success)',
@@ -74,6 +62,12 @@ const config = {
       transitionProperty: {
         border: 'border-color',
       },
+      backgroundImage: {
+        'paw-pattern': "url('/pattern.png')",
+      },
+      boxShadow: {
+        'md': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08);',
+      }
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],

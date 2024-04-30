@@ -1,4 +1,4 @@
-import studios from '@/app/data/studios.json';
+import schedule from '@/app/data/schedule.json';
 import Container from '@/app/components/Container';
 import Image from 'next/image';
 import {ChevronLeft, ChevronRight, ChevronDown} from 'lucide-react';
@@ -49,12 +49,12 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-secondary pl-20"
+      className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-accent pl-20"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY}px`,
       }}
     >
-      <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-secondary bg-secondary"></div>
+      <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-accent bg-accent"></div>
     </div>
   );
 };
@@ -80,21 +80,21 @@ const Schedule = () => {
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
-            <ChevronLeft color="#221b35" />
-            <div className="font-bold text-primary">{getCurrentDate()}</div>
-            <ChevronRight color="#221b35" />
+            <ChevronLeft color="var(--accent)" />
+            <div className="font-bold text-accent">{getCurrentDate()}</div>
+            <ChevronRight color="var(--accent)" />
           </div>
         </div>
         <div className="relative left-20 z-20 -ml-20 flex flex-row pl-20">
           {renderDayProgressBar()}
         </div>
         <div className="ml-20 flex flex-row">
-          {studios.map(({id: studioId, name}) => (
+          {schedule.map(({id: id, groomer}) => (
             <h2
-              key={studioId}
+              key={id}
               className="ml-8 flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
             >
-              <div>{name}</div>
+              <div>{groomer}</div>
               <ChevronDown color="#6c7688" />
             </h2>
           ))}
@@ -113,13 +113,13 @@ const Schedule = () => {
             {renderHourBlock('6:00pm')}
           </div>
           <div className="absolute left-20 top-0 z-20 -ml-20 flex w-full flex-row pl-20">
-            {studios.map(({id: studioId, classes}) => {
+            {schedule.map(({id: id, sessions}) => {
               return (
                 <div
-                  key={studioId}
+                  key={id}
                   className="relative first:ml-5 mr-5 flex flex-1 flex-col"
                 >
-                  {classes.map(
+                  {sessions.map(
                     ({
                       id: classId,
                       name,
@@ -127,15 +127,13 @@ const Schedule = () => {
                       endTime,
                       startTimeMinutes,
                       endTimeMinutes,
-                      teacher,
-                      attendees,
-                      capacity,
+                      pet,
                       profilePhoto,
                     }) => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-primary-foreground p-3 shadow transition duration-150 hover:bg-[#FEF0EE] hover:shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset p-3 transition duration-150 hover:bg-accent-subdued hover:shadow-lg hover:scale-[1.01]"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -149,25 +147,20 @@ const Schedule = () => {
                           }}
                         >
                           <div>
-                            <div className="text-md font-medium text-secondary">
+                            <div className="text-md font-medium text-accent">
                               {startTime} - {endTime}
                             </div>
-                            <div className="text-md font-bold">{name}</div>
+                            <div className="text-md font-medium">{name}</div>
                           </div>
-                          <div className="flex flex-row items-center justify-between">
-                            <div className="text-md flex gap-2 items-center">
-                              <Image
-                                className="w-5 h-5 relative rounded-full"
-                                fill
-                                quality={100}
-                                src={`/headshots/${profilePhoto}.jpg`}
-                                alt={`Profile photo of ${name}`}
-                              />
-                              {teacher}
-                            </div>
-                            <div className="text-sm text-subdued">
-                              {attendees}/{capacity} attendees
-                            </div>
+                          <div className="text-md flex gap-2 items-center">
+                            <Image
+                              className="w-6 h-6 relative rounded-full"
+                              fill
+                              quality={100}
+                              src={`/pet_photos/${profilePhoto}.jpg`}
+                              alt={`Photo of ${name}`}
+                            />
+                            {pet}
                           </div>
                         </div>
                       );

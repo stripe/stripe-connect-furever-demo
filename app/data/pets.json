@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Kiba",
+    "birthday": "June 12",
+    "profilePhoto": "kiba"
+  },
+  {
+    "name": "Udon",
+    "birthday": "Apr 24",
+    "profilePhoto": "udon"
+  },
+  {
+    "name": "Rowdy",
+    "birthday": "Jan 31",
+    "profilePhoto": "rowdy"
+  },
+  {
+    "name": "Bisco",
+    "birthday": "Jun 18",
+    "profilePhoto": "bisco"
+  },
+  {
+    "name": "Apple",
+    "birthday": "Mar 22",
+    "profilePhoto": "apple"
+  },
+  {
+    "name": "Dug",
+    "birthday": "Jan 4",
+    "profilePhoto": "default-1"
+  },
+  {
+    "name": "Mochi",
+    "birthday": "Aug 31",
+    "profilePhoto": "default-3"
+  },
+  {
+    "name": "Mika",
+    "birthday": "Feb 29",
+    "profilePhoto": "default-2"
+  },
+  {
+    "name": "Bud",
+    "birthday": "Sept 1",
+    "profilePhoto": "default-1"
+  },
+  {
+    "name": "Chester",
+    "birthday": "Nov 22",
+    "profilePhoto": "default-2"
+  },
+  {
+    "name": "Daisy",
+    "birthday": "Oct 9",
+    "profilePhoto": "default-1"
+  }
+]
