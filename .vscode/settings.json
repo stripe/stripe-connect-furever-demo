@@ -6,10 +6,4 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "[typescriptreact]": {
-    "editor.formatOnSave": true
-},
-"[typescript]": {
-  "editor.formatOnSave": true
-}
 }
