@@ -6,7 +6,6 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import {
   Home as HomeIcon,
-  Calendar as CalendarIcon,
   Wallet as WalletIcon,
   Coins as CoinsIcon,
   Landmark as LandmarkIcon,
