@@ -30,8 +30,8 @@
         "endTime": "1:20pm",
         "startTimeMinutes": 210,
         "endTimeMinutes": 260,
-        "pet": "Goose",
-        "profilePhoto": "default-1"
+        "pet": "Rowdy",
+        "profilePhoto": "rowdy"
       },
       {
         "id": 4,
@@ -71,13 +71,13 @@
       },
       {
         "id": 3,
-        "name": "Full service – large dog",
+        "name": "Full service – medium cat",
         "startTime": "12:00pm",
         "endTime": "12:50pm",
         "startTimeMinutes": 180,
         "endTimeMinutes": 230,
-        "pet": "Callie",
-        "profilePhoto": "default-3"
+        "pet": "Bisco",
+        "profilePhoto": "bisco"
       },
       {
         "id": 4,

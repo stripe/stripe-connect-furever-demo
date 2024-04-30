@@ -10,6 +10,21 @@
     "profilePhoto": "udon"
   },
   {
+    "name": "Rowdy",
+    "birthday": "Jan 31",
+    "profilePhoto": "rowdy"
+  },
+  {
+    "name": "Bisco",
+    "birthday": "Jun 18",
+    "profilePhoto": "bisco"
+  },
+  {
+    "name": "Apple",
+    "birthday": "Mar 22",
+    "profilePhoto": "apple"
+  },
+  {
     "name": "Dug",
     "birthday": "Jan 4",
     "profilePhoto": "default-1"
