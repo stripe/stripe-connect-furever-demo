@@ -21,6 +21,9 @@
     --success: #D6FCE6;
     --success-border: #94D5AF;
     --success-foreground: #1E884B;
+
+    --destructive: #DC2626;
+    --destructive-foreground: #E9F7EF;
   }
 }
 

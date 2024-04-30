@@ -12,10 +12,10 @@ import {
   Landmark as LandmarkIcon,
   Dog as PetsIcon,
   Settings as SettingsIcon,
+  Sparkles as SparklesIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-import PoseRed from '@/public/pose_red.svg';
+import FureverLogo from '@/public/furever_logo.png';
 
 const navigationMenuItems = [
   {
@@ -63,9 +63,12 @@ const Nav = () => {
   const accountID = session?.user?.stripeAccount?.id;
 
   return (
-    <div className="fixed z-40 h-screen w-64 bg-white border-r p-3">
-      {/* <Image className="p-5" src={PoseRed} alt="Pose" width={150} height={23} /> */}
-      <nav>
+    <div className="fixed flex flex-col z-40 h-screen w-64 bg-white border-r p-3">
+      <div className="p-3 mb-4 flex gap-3 items-center text-xl text-primary font-bold">
+        <Image src={FureverLogo} alt="Furever Logo" width={40} height={40} />
+        Furever
+      </div>
+      <nav className="flex-1">
         <ul className="flex-col items-start space-x-0">
           {navigationMenuItems.map((item) => (
             <li key={item.label} className="p-1">
@@ -89,6 +92,14 @@ const Nav = () => {
           ))}
         </ul>
       </nav>
+      <div className="w-full bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 border-2 border-black/5 rounded-lg">
+        <div className="flex items-center gap-2 text-lg text-primary font-bold">
+          <SparklesIcon size={20} />
+          <p className="text-secondary">Tools</p>
+        </div>
+        <p className="mb-4">Explore embedded components and blah blah blah</p>
+        <Button size="sm" className="w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow">Open tools</Button>
+      </div>
     </div>
   );
 };

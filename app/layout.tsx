@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Pose</title>
+        <title>Furever</title>
       </head>
       <body
         className={cn(

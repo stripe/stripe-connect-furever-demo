@@ -41,8 +41,8 @@ const config = {
           foreground: 'var(--subdued-foreground)',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)',
         },
         accent: {
           DEFAULT: 'var(--accent)',
@@ -63,13 +63,13 @@ const config = {
       transitionProperty: {
         border: 'border-color',
       },
+      backgroundImage: {
+        'paw-pattern': "url('/pattern.png')",
+      }
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
-    backgroundImage: {
-      'paw-pattern': "url('/pattern.png')",
-    }
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;

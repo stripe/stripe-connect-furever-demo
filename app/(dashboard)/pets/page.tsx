@@ -1,10 +1,10 @@
 import {Button} from '@/components/ui/button';
 import Image from 'next/image';
 import Container from '@/app/components/Container';
-import instructors from '@/app/data/instructors.json';
+import pets from '@/app/data/pets.json';
 
 import {
-  UserRoundPlus as PlusIcon,
+  Plus as PlusIcon,
   Phone as PhoneIcon,
   Mail as EmailIcon
 } from 'lucide-react';
@@ -17,28 +17,30 @@ export default function Pets() {
         <h1 className="text-3xl font-bold flex-1">Pets</h1>
         <Button className="bg-accent text-accent-foreground font-bold gap-2 shadow text-base hover:shadow-md transition">
           <PlusIcon size={20}></PlusIcon>
-          Add Pet
+          New Pet
         </Button>
       </div>
-      <div className="grid sm:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-3 xl:grid-cols-3 gap-4">
         {
-          instructors.map((instructor) => {
+          pets.map((pet, key) => {
             return (
-              <Container className="relative flex flex-col items-center gap-4 hover:shadow-lg transition cursor-pointer" key={instructor.id}>
+              <Container className="relative flex px-0 py-0 items-center hover:shadow-lg transition cursor-pointer overflow-hidden" key={key}>
                 <Image
-                  className="w-[80px] h-[80px] relative rounded-full shadow"
+                  className="w-[120px] h-[120px] relative object-cover"
                   fill
                   quality={100}
-                  src={`/headshots/${instructor.profilePhoto}.jpg`}
-                  alt={`Profile photo of ${instructor.name}`}
+                  src={`/pet_photos/${pet.profilePhoto}.jpg`}
+                  alt={`Profile photo of ${pet.name}`}
                 />
-                <div className="flex flex-col items-center">
-                  <h3 className="font-medium text-lg">{instructor.name}</h3>
-                  <p className="text-subdued text-sm">{instructor.numClasses} class{instructor.numClasses == 1 ? '' : 'es'} this week</p>
-                </div>
-                <div className="flex gap-5">
-                  <PhoneIcon size={20} color="var(--accent)" />
-                  <EmailIcon size={20} color="var(--accent)" />
+                <div className="p-4 flex flex-1 items-center gap-4">
+                  <div className="flex-1">
+                    <h3 className="font-medium text-lg">{pet.name}</h3>
+                    <p className="text-subdued text-sm">Birthday: {pet.birthday}</p>
+                  </div>
+                  <div className="flex gap-5">
+                    <PhoneIcon size={24} color="var(--accent)" />
+                    <EmailIcon size={24} color="var(--accent)" />
+                  </div>
                 </div>
               </Container>
             )
