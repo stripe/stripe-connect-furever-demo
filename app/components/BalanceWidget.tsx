@@ -13,10 +13,12 @@ const BalanceWidget = () => {
         </div>
         <div>
           <Link href="/payouts" className="flex flex-row items-center">
-            <div className="text-sm font-bold text-accent">
-              Pay out to bank
-            </div>
-            <ChevronRight color="var(--accent)" size={20} className="mt-[1px]" />
+            <div className="text-sm font-bold text-accent">Pay out to bank</div>
+            <ChevronRight
+              color="var(--accent)"
+              size={20}
+              className="mt-[1px]"
+            />
           </Link>
         </div>
       </div>

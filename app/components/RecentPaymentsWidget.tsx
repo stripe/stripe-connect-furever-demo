@@ -14,7 +14,11 @@ const BalanceWidget = () => {
           <div>
             <Link href="/payments" className="flex flex-row items-center">
               <div className="text-sm font-bold text-accent">View all</div>
-              <ChevronRight color="var(--accent)" size={20} className="mt-[1px]" />
+              <ChevronRight
+                color="var(--accent)"
+                size={20}
+                className="mt-[1px]"
+              />
             </Link>
           </div>
         </div>

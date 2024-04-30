@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
-import {ArrowRight} from 'lucide-react';
 import Form from './form';
 
 export default async function Login() {
@@ -14,16 +13,17 @@ export default async function Login() {
   return (
     <>
       <div>
-        <h2 className="text-2xl font-bold">Login</h2>
-        <div>
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="font-bold text-primary underline">
-            Sign up{' '}
-            <ArrowRight className="mb-0.5 inline w-4" strokeWidth={2.5} />
-          </Link>
-        </div>
+        <h2 className="text-2xl font-semibold pb-2">Log in</h2>
       </div>
+      <div className="flex flex-col gap-y-[24px]"> 
       <Form />
+      <div className="text-secondary"> 
+        New user?{' '}
+        <Link href="/signup" className="font-semibold text-primary">
+          Create an account{' '}
+        </Link>
+      </div>
+      </div>
     </>
   );
 }

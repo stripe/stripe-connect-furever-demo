@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import {Loader2} from 'lucide-react';
+import {ArrowRight, Loader2} from 'lucide-react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
@@ -38,7 +38,6 @@ export default function LoginAsForm() {
         accountId: values.accountId,
         redirect: false,
       });
-
       router.push('/');
     } catch (error: any) {
       console.error('An error occurred when selecting the account', error);
@@ -71,7 +70,12 @@ export default function LoginAsForm() {
           type="submit"
           className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
         >
-          {!form.formState.isSubmitting && <>Continue</>}
+          {!form.formState.isSubmitting && (
+            <div className="flex flex-col space-y-2">
+              Log in {' '}
+              <ArrowRight className="mb-0.5 inline" strokeWidth={2.5} />
+            </div>
+          )}
           {form.formState.isSubmitting && (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...

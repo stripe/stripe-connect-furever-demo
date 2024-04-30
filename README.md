@@ -31,7 +31,7 @@ Install MongoDB Community Edition. Refer to the [official documentation](https:/
 ```
 brew tap mongodb/brew && brew update
 brew install mongodb-community@7.0
-brew services start mongodb-community@7.0
+
 ```
 
 Run the app:

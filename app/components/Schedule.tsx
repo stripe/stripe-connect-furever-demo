@@ -117,7 +117,7 @@ const Schedule = () => {
               return (
                 <div
                   key={id}
-                  className="relative first:ml-5 mr-5 flex flex-1 flex-col"
+                  className="relative mr-5 flex flex-1 flex-col first:ml-5"
                 >
                   {sessions.map(
                     ({
@@ -133,7 +133,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset p-3 transition duration-150 hover:bg-accent-subdued hover:shadow-lg hover:scale-[1.01]"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-accent-subdued hover:shadow-lg"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -152,9 +152,9 @@ const Schedule = () => {
                             </div>
                             <div className="text-md font-medium">{name}</div>
                           </div>
-                          <div className="text-md flex gap-2 items-center">
+                          <div className="text-md flex items-center gap-2">
                             <Image
-                              className="w-6 h-6 relative rounded-full"
+                              className="relative h-6 w-6 rounded-full"
                               fill
                               quality={100}
                               src={`/pet_photos/${profilePhoto}.jpg`}
