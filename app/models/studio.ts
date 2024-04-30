@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const studioSchemaName = 'StudioV1';
 
 export interface IStudio extends Document {
+  _id: string;
   email: string;
   password: string;
 
@@ -13,7 +14,7 @@ export interface IStudio extends Document {
   lastName: string;
 
   // Stripe account ID to send payments obtained with Stripe Connect.
-  stripeAccountId: string;
+  stripeAccountId?: string;
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: string;
 

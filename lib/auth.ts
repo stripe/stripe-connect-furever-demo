@@ -29,6 +29,7 @@ export const authOptions: AuthOptions = {
         throw err;
       }
 
+      console.log('looking for studio for email', session.user?.email);
       const studio: IStudio = await Studio.findOne({
         email: session.user?.email,
       });
@@ -38,17 +39,19 @@ export const authOptions: AuthOptions = {
       }
 
       let stripeAccount;
-      try {
-        stripeAccount = await stripe.accounts.retrieve(studio.stripeAccountId);
-      } catch (err) {
-        console.error('Could not retrieve stripe account for user', err);
-        throw err;
+      if (studio.stripeAccountId) {
+        try {
+          stripeAccount = await stripe.accounts.retrieve(
+            studio.stripeAccountId
+          );
+        } catch (err) {
+          console.error('Could not retrieve stripe account for user', err);
+          throw err;
+        }
+        session.user.stripeAccount = stripeAccount;
       }
 
-      session.user.stripeAccount = stripeAccount;
-      console.log(
-        `Got session for user ${studio.email} and stripe account ${stripeAccount.id}`
-      );
+      console.log(`Got session for user ${studio.email}`);
 
       return session;
     },
@@ -87,7 +90,7 @@ export const authOptions: AuthOptions = {
         }
 
         return {
-          id: user.stripeAccountId,
+          id: user._id,
           email: user.email,
         };
       },
@@ -143,8 +146,62 @@ export const authOptions: AuthOptions = {
         }
 
         return {
-          id: user!.stripeAccountId,
+          id: user!._id,
           email: user!.email,
+        };
+      },
+    }),
+    CredentialsProvider({
+      id: 'createaccount',
+      name: 'Create a Stripe account',
+      credentials: {
+        email: {},
+        businessType: {},
+        businessName: {},
+        country: {},
+        stripeDashboardAccess: {},
+        paymentLosses: {},
+        feePayer: {},
+      },
+      async authorize(credentials, req) {
+        await dbConnect();
+        console.log('Signing up');
+
+        const email = credentials?.email;
+        if (!email) {
+          console.log('Could not find an email to create a Stripe account for');
+          return null;
+        }
+
+        let user: IStudio | null = null;
+        try {
+          // Look for existing user.
+          user = await Studio.findOne({email});
+          if (!user) {
+            console.log('Could not find an existing user for the email', email);
+            return null;
+          }
+
+          console.log('Creating stripe account for the email', email);
+
+          const account = await stripe.accounts.create({
+            country: 'US',
+            email: email,
+          });
+
+          user.stripeAccountId = account.id;
+          console.log('Updating Studio...');
+          await user!.save();
+          console.log('Studio was updated');
+        } catch (error: any) {
+          console.log('Got an error creating a Stripe account', error);
+          return null;
+        }
+
+        return {
+          id: user!._id,
+          email: user!.email,
+          stripeAccountId: user!.stripeAccountId,
         };
       },
     }),
@@ -175,59 +232,9 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          const firstName = 'Steve';
-          const lastName = 'Kaliski';
-
-          // Register the Stripe account
-          const bankAccount = await stripe.tokens.create({
-            bank_account: {
-              country: 'US',
-              currency: 'usd',
-              account_holder_name: `${firstName} ${lastName}`,
-              // account_holder_type: businessType,
-              routing_number: '110000000',
-              account_number: '000123456789',
-            },
-          });
-
-          const controller = {
-            losses: {payments: 'application'},
-            fees: {payer: 'application'},
-            requirement_collection: 'application',
-            stripe_dashboard: {
-              type: 'none' as const, // The connected account will not have access to dashboard
-            },
-          };
-
-          console.log('Creating stripe account for the email', email);
-
-          const account = await stripe.accounts.create({
-            // @ts-ignore
-            controller,
-            capabilities: {
-              card_payments: {
-                requested: true,
-              },
-              transfers: {
-                requested: true,
-              },
-              card_issuing: {
-                requested: true,
-              },
-              treasury: {
-                requested: true,
-              },
-            },
-            country: 'US',
-            email: email,
-          });
-
           user = new Studio({
             email,
             password,
-            firstName,
-            lastName,
-            stripeAccountId: account.id,
           });
           console.log('Creating Studio...');
           await user!.save();
@@ -241,7 +248,7 @@ export const authOptions: AuthOptions = {
         }
 
         return {
-          id: user!.stripeAccountId,
+          id: user!._id,
           email: user!.email,
         };
       },

@@ -42,7 +42,7 @@ export default function SignupForm() {
         redirect: false,
       });
 
-      router.push('/onboarding');
+      router.push('/business');
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
     }
@@ -50,7 +50,7 @@ export default function SignupForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-3 space-y-4">
         <div className="flex flex-col space-y-2">
           <FormField
             control={form.control}

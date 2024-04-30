@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import Container from '@/app/components/Container';
 import LocaleSelector from '@/app/components/LocaleSelector';
-import BackgroundImage from '@/public/background.jpg';
+import BackgroundImage from '@/public/pattern-green.png';
 import {ArrowRight} from 'lucide-react';
 import PoseRed from '@/public/pose_red.svg';
 
@@ -26,29 +26,8 @@ export default function AuthLayout({
   return (
     <div className="relative">
       <div className="flex min-h-screen min-w-[926px] justify-center space-x-20 px-6 py-[120px]">
-        <div className="flex w-[900px]">
-          <div className="fixed min-h-full max-w-sm space-y-4">
-            <Image
-              className="mb-4 inline-block"
-              src={PoseRed}
-              alt="Pose"
-              width={150}
-              height={23}
-            />
-            <h1 className="text-4xl font-bold">{header}</h1>
-            <p className="text-xl text-subdued">{subheader}</p>
-            <Link
-              href="mailto:support@pose.dev"
-              className="flex flex-row items-center gap-x-1"
-            >
-              <div className="font-bold text-primary">Contact support</div>
-              <ArrowRight color="#221b35" size={18} className="mt-[1px]" />
-            </Link>
-            <p className="w-34 absolute bottom-20 left-0 h-24">
-              <LocaleSelector />
-            </p>
-          </div>
-          <div className="ml-auto min-w-[30rem]">
+        <div className="flex w-[448px]">
+          <div className="min-w-[30rem]">
             <Container className="no-scrollbar overflow-scroll rounded-[16px] px-5 py-5">
               {children}
             </Container>
