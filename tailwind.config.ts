@@ -30,8 +30,7 @@ const config = {
           foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          DEFAULT: 'var(--subdued)',
         },
         offset: {
           DEFAULT: 'var(--offset)',
@@ -65,6 +64,9 @@ const config = {
       },
       backgroundImage: {
         'paw-pattern': "url('/pattern.png')",
+      },
+      boxShadow: {
+        'md': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08);',
       }
     },
     fontFamily: {

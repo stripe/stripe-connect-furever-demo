@@ -14,18 +14,15 @@ export default function SettingsLayout({
     <>
       <header className="flex flex-row justify-between">
         <div className="flex flex-row">
-          <Avatar className="mr-5 h-10 w-10">
-            <AvatarImage src="/avatar.png" alt="profile" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>{' '}
-          <h1 className="text-3xl font-bold">My studio</h1>
+          <h1 className="text-3xl font-bold">Your account</h1>
         </div>
         <div className="flex flex-row justify-between">
           <SubNav
             base="/settings"
             routes={[
-              {path: '/settings', label: 'Settings'},
-              {path: '/settings/paymentmethods', label: 'Payment methods'},
+              {path: '/settings', label: 'General'},
+              // {path: '/settings/paymentmethods', label: 'Payment methods'},
+              {path: '/settings/documents', label: 'Documents'},
             ]}
           />
           <div>

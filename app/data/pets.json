@@ -12,31 +12,31 @@
   {
     "name": "Dug",
     "birthday": "Jan 4",
-    "profilePhoto": ""
+    "profilePhoto": "default-1"
   },
   {
     "name": "Mochi",
     "birthday": "Aug 31",
-    "profilePhoto": ""
+    "profilePhoto": "default-3"
   },
   {
     "name": "Mika",
     "birthday": "Feb 29",
-    "profilePhoto": ""
+    "profilePhoto": "default-2"
   },
   {
     "name": "Bud",
     "birthday": "Sept 1",
-    "profilePhoto": ""
+    "profilePhoto": "default-1"
   },
   {
     "name": "Chester",
     "birthday": "Nov 22",
-    "profilePhoto": ""
+    "profilePhoto": "default-2"
   },
   {
     "name": "Daisy",
     "birthday": "Oct 9",
-    "profilePhoto": ""
+    "profilePhoto": "default-1"
   }
 ]

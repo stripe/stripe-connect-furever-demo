@@ -49,7 +49,7 @@ const navigationMenuItems = [
     paths: ['/finances/cards'],
   },
   {
-    label: 'Settings',
+    label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
     paths: [],
@@ -93,11 +93,11 @@ const Nav = () => {
         </ul>
       </nav>
       <div className="w-full bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 border-2 border-black/5 rounded-lg">
-        <div className="flex items-center gap-2 text-lg text-primary font-bold">
-          <SparklesIcon size={20} />
-          <p className="text-secondary">Tools</p>
+        <div className="flex items-center gap-2 font-bold">
+          <SparklesIcon size={20} color="var(--primary)" />
+          <p className="text-primary">Tools</p>
         </div>
-        <p className="mb-4">Explore embedded components and blah blah blah</p>
+        <p className="mb-4 text-[15px]">Explore embedded components and blah blah.</p>
         <Button size="sm" className="w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow">Open tools</Button>
       </div>
     </div>
