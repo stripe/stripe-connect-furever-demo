@@ -19,7 +19,7 @@ export default async function Login() {
       <Form />
       <div className="text-secondary"> 
         New user?{' '}
-        <Link href="/signup" className="font-semibold text-primary">
+        <Link href="/signup" className="font-medium text-primary">
           Create an account{' '}
         </Link>
       </div>

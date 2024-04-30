@@ -23,8 +23,7 @@ export default async function Signup() {
       </div>
       <div className='flex flex-col gap-y-[16px]'>
       <Form />
-      <Alert>
-        <div  className='flex flex-row gap-x-[12px]'>
+      <Alert className='bg-offset'>
         <SparklesIcon className="h-6 w-6 stroke-primary" />
         <div>
         <AlertTitle>Use a demo account</AlertTitle>
@@ -38,11 +37,10 @@ export default async function Signup() {
           </div>
         </Link>
         </div>
-        </div>
 
       </Alert>
       </div>
-      <div>
+      <div className="mt-4 text-subdued">
         Already have an account?{' '}
         <Link href="/login" className="text-primary font-semibold">
           Log in
