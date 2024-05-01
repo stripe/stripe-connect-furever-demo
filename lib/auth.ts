@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
 import Studio, {IStudio} from '../app/models/studio';
 import {stripe} from '@/lib/stripe';
+import {resolveControllerParams} from './utils';
 
 export const authOptions: AuthOptions = {
   session: {
@@ -159,7 +160,7 @@ export const authOptions: AuthOptions = {
         businessType: {},
         businessName: {},
         country: {},
-        stripeDashboardAccess: {},
+        stripeDashboardType: {},
         paymentLosses: {},
         feePayer: {},
       },
@@ -183,11 +184,16 @@ export const authOptions: AuthOptions = {
           }
 
           console.log('Creating stripe account for the email', email);
-
           const account = await stripe.accounts.create({
             country: 'US',
             email: email,
+            controller: resolveControllerParams({
+              feePayer: credentials.feePayer,
+              paymentLosses: credentials.paymentLosses,
+              stripeDashboardType: credentials.stripeDashboardType,
+            }),
           });
+          console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;
           console.log('Updating Studio...');

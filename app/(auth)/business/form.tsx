@@ -4,7 +4,7 @@ import * as React from 'react';
 import {useRouter} from 'next/navigation';
 import {signIn} from 'next-auth/react';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useForm} from 'react-hook-form';
+import {ControllerRenderProps, useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {Button} from '@/components/ui/button';
 import {
@@ -26,38 +26,144 @@ import {Input} from '@/components/ui/input';
 import {Collapsible} from '@/components/ui/collapsible';
 import {ChevronUp, ChevronDown, ArrowRight, Loader2} from 'lucide-react';
 import {Link} from '@/components/ui/link';
+import {
+  businessTypes,
+  countries,
+  stripeDashboardTypes,
+  paymentLosses,
+  feePayers,
+} from '@/types/account';
+import type {FeePayer, StripeDashboardType} from '@/types/account';
 
-const businessTypes = [
-  'independent_salon',
-  'chain_of_salons',
-  'other',
-] as const;
 const businessTypeLabels = {
   independent_salon: 'Independent salon',
   chain_of_salons: 'Chain of salons',
   other: 'Other',
 };
 
-const countries = ['US', 'CA'] as const;
 const countryLabels = {
-  US: 'United States',
+  AE: 'United Arab Emirates',
+  AG: 'Antigua and Barbuda',
+  AL: 'Albania',
+  AM: 'Armenia',
+  AR: 'Argentina',
+  AT: 'Austria',
+  AU: 'Australia',
+  BA: 'Bosnia and Herzegovina',
+  BE: 'Belgium',
+  BG: 'Bulgaria',
+  BH: 'Bahrain',
+  BJ: 'Benin',
+  BN: 'Brunei Darussalam',
+  BO: 'Bolivia',
+  BR: 'Brazil',
+  BS: 'Bahamas',
+  BW: 'Botswana',
   CA: 'Canada',
+  CH: 'Switzerland',
+  CI: "Côte D'Ivoire",
+  CL: 'Chile',
+  CO: 'Colombia',
+  CR: 'Costa Rica',
+  CY: 'Cyprus',
+  CZ: 'Czech Republic',
+  DE: 'Germany',
+  DK: 'Denmark',
+  DO: 'Dominican Republic',
+  EC: 'Ecuador',
+  EE: 'Estonia',
+  EG: 'Egypt',
+  ES: 'Spain',
+  ET: 'Ethiopia',
+  FI: 'Finland',
+  FR: 'France',
+  GB: 'United Kingdom',
+  GH: 'Ghana',
+  GM: 'Gambia',
+  GR: 'Greece',
+  GT: 'Guatemala',
+  GY: 'Guyana',
+  HK: 'Hong Kong',
+  HR: 'Croatia',
+  HU: 'Hungary',
+  ID: 'Indonesia',
+  IE: 'Ireland',
+  IL: 'Israel',
+  IN: 'India',
+  IS: 'Iceland',
+  IT: 'Italy',
+  JM: 'Jamaica',
+  JO: 'Jordan',
+  JP: 'Japan',
+  KE: 'Kenya',
+  KH: 'Cambodia',
+  KR: 'Republic of Korea',
+  KW: 'Kuwait',
+  LC: 'Saint Lucia',
+  LI: 'Liechtenstein',
+  LK: 'Sri Lanka',
+  LT: 'Lithuania',
+  LU: 'Luxembourg',
+  LV: 'Latvia',
+  MA: 'Morocco',
+  MC: 'Monaco',
+  MD: 'Republic of Moldolva',
+  MG: 'Madagascar',
+  MK: 'North Macedonia',
+  MN: 'Mongolia',
+  MO: 'Macau',
+  MT: 'Malta',
+  MU: 'Mauritius',
+  MX: 'Mexico',
+  MY: 'Malaysia',
+  NA: 'Namibia',
+  NG: 'Nigeria',
+  NL: 'Netherlands',
+  NO: 'Norway',
+  NZ: 'New Zealand',
+  OM: 'Oman',
+  PA: 'Panama',
+  PE: 'Peru',
+  PH: 'Philippines',
+  PK: 'Pakistan',
+  PL: 'Poland',
+  PT: 'Portugal',
+  PY: 'Paraguay',
+  QA: 'Qatar',
+  RO: 'Romania',
+  RS: 'Serbia',
+  RW: 'Rwanda',
+  SA: 'Saudi Arabia',
+  SE: 'Sweden',
+  SG: 'Singapore',
+  SI: 'Slovenia',
+  SK: 'Slovakia',
+  SN: 'Senegal',
+  SV: 'El Salvador',
+  TH: 'Thailand',
+  TN: 'Tunisia',
+  TR: 'Turkey',
+  TT: 'Trinidad and Tobago',
+  TW: 'Taiwan',
+  TZ: 'United Republic of Tanzania',
+  US: 'United States',
+  UY: 'Uruguay',
+  UZ: 'Uzbekistan',
+  VN: 'Vietnam',
+  ZA: 'South Africa',
 };
 
-const stripeDashboardAccess = ['none', 'full', 'express'] as const;
-const stripeDashboardAccessLabels = {
+const stripeDashboardTypeLabels = {
   none: 'No access for connected accounts',
-  full: 'Full access for connected accounts',
-  express: 'Express access for connected accounts',
+  full: 'Full Stripe Dashboard',
+  express: 'Express Dashboard',
 };
 
-const paymentLosses = ['stripe', 'application'] as const;
 const paymentLossesLabels = {
   stripe: 'Stripe',
   application: 'Furever',
 };
 
-const feePayer = ['account', 'application'] as const;
 const feePayerLabels = {
   account: 'Stripe collects fees from connected accounts',
   application: 'Stripe collects fees from Furever',
@@ -67,10 +173,94 @@ const formSchema = z.object({
   businessType: z.enum(businessTypes),
   businessName: z.string().min(3),
   country: z.enum(countries),
-  stripeDashboardAccess: z.enum(stripeDashboardAccess),
+  stripeDashboardType: z.enum(stripeDashboardTypes),
   paymentLosses: z.enum(paymentLosses),
-  feePayer: z.enum(feePayer),
+  feePayer: z.enum(feePayers),
 });
+
+function StripeFeeCollectionSelect({
+  field,
+  feePayerLabels,
+  validFeePayers,
+}: {
+  field: ControllerRenderProps<z.infer<typeof formSchema>, 'feePayer'>;
+  feePayerLabels: Record<string, string>;
+  validFeePayers: readonly FeePayer[];
+}) {
+  return (
+    <Select {...field} onValueChange={(value) => field.onChange(value)}>
+      <SelectTrigger>
+        <SelectValue>{feePayerLabels[field.value]}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {feePayers.map((option) => (
+          <SelectItem
+            key={option}
+            value={option}
+            disabled={!validFeePayers.includes(option)}
+          >
+            {feePayerLabels[option]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+function NegativeBalanceLiabilitySelect({
+  field,
+  validPaymentLosses,
+}: {
+  field: ControllerRenderProps<z.infer<typeof formSchema>, 'paymentLosses'>;
+  validPaymentLosses: readonly string[];
+}) {
+  return (
+    <Select {...field} onValueChange={(value) => field.onChange(value)}>
+      <SelectTrigger>
+        <SelectValue>{paymentLossesLabels[field.value]}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {paymentLosses.map((option) => (
+          <SelectItem
+            key={option}
+            value={option}
+            disabled={!validPaymentLosses.includes(option)}
+          >
+            {paymentLossesLabels[option]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+function StripeDashboardTypeSelect({
+  field,
+  stripeDashboardTypes,
+  stripeDashboardTypeLabels,
+}: {
+  field: ControllerRenderProps<
+    z.infer<typeof formSchema>,
+    'stripeDashboardType'
+  >;
+  stripeDashboardTypes: readonly StripeDashboardType[];
+  stripeDashboardTypeLabels: Record<StripeDashboardType, string>;
+}) {
+  return (
+    <Select {...field} onValueChange={(value) => field.onChange(value)}>
+      <SelectTrigger>
+        <SelectValue>{stripeDashboardTypeLabels[field.value]}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {stripeDashboardTypes.map((option) => (
+          <SelectItem key={option} value={option}>
+            {stripeDashboardTypeLabels[option]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
 
 export default function BusinessDetailsForm({email}: {email: string}) {
   const router = useRouter();
@@ -82,11 +272,41 @@ export default function BusinessDetailsForm({email}: {email: string}) {
       businessType: 'independent_salon',
       businessName: '',
       country: 'US',
-      stripeDashboardAccess: 'none',
+      stripeDashboardType: 'none',
       paymentLosses: 'stripe',
       feePayer: 'account',
     },
   });
+
+  const watchAccountControllerProperties = form.watch([
+    'stripeDashboardType',
+    'paymentLosses',
+    'feePayer',
+  ]);
+  React.useEffect(() => {
+    if (
+      form.getValues('stripeDashboardType') === 'full' &&
+      (form.getValues('paymentLosses') !== 'stripe' ||
+        form.getValues('feePayer') !== 'account')
+    ) {
+      form.setValue('paymentLosses', 'stripe');
+      form.setValue('feePayer', 'account');
+    } else if (
+      form.getValues('stripeDashboardType') === 'express' &&
+      (form.getValues('paymentLosses') !== 'application' ||
+        form.getValues('feePayer') !== 'application')
+    ) {
+      form.setValue('paymentLosses', 'application');
+      form.setValue('feePayer', 'application');
+    } else {
+      if (
+        form.getValues('paymentLosses') === 'application' &&
+        form.getValues('feePayer') !== 'application'
+      ) {
+        form.setValue('feePayer', 'application');
+      }
+    }
+  }, [form, watchAccountControllerProperties]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -95,7 +315,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
         businessType: values.businessType,
         businessName: values.businessName,
         country: values.country,
-        stripeDashboardAccess: values.stripeDashboardAccess,
+        stripeDashboardType: values.stripeDashboardType,
         paymentLosses: values.paymentLosses,
         feePayer: values.feePayer,
         redirect: false,
@@ -106,6 +326,26 @@ export default function BusinessDetailsForm({email}: {email: string}) {
       console.error('An error occured', error);
     }
   };
+
+  const formValues = form.getValues();
+  const validPaymentLosses = paymentLosses.filter((option) => {
+    if (option === 'application') {
+      return formValues.stripeDashboardType !== 'full';
+    } else if (option === 'stripe') {
+      return formValues.stripeDashboardType !== 'express';
+    }
+  });
+  const validFeePayers = feePayers.filter((option) => {
+    if (option === 'application') {
+      return formValues.stripeDashboardType !== 'full';
+    } else if (option === 'account') {
+      return (
+        formValues.stripeDashboardType === 'full' ||
+        (formValues.stripeDashboardType === 'none' &&
+          formValues.paymentLosses === 'stripe')
+      );
+    }
+  });
 
   return (
     <Form {...form}>
@@ -210,30 +450,18 @@ export default function BusinessDetailsForm({email}: {email: string}) {
             <div>
               <FormField
                 control={form.control}
-                name="stripeDashboardAccess"
+                name="stripeDashboardType"
                 render={({field}) => (
                   <>
                     <FormLabel className="text-base font-bold text-primary">
                       Stripe dashboard access
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        {...field}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue>
-                            {stripeDashboardAccessLabels[field.value]}
-                          </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {stripeDashboardAccess.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {stripeDashboardAccessLabels[option]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <StripeDashboardTypeSelect
+                        field={field}
+                        stripeDashboardTypes={stripeDashboardTypes}
+                        stripeDashboardTypeLabels={stripeDashboardTypeLabels}
+                      />
                     </FormControl>
                   </>
                 )}
@@ -249,28 +477,16 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                       Negative balance liability
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        {...field}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue>
-                            {paymentLossesLabels[field.value]}
-                          </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {paymentLosses.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {paymentLossesLabels[option]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <NegativeBalanceLiabilitySelect
+                        field={field}
+                        validPaymentLosses={validPaymentLosses}
+                      />
                     </FormControl>
                   </>
                 )}
               />
             </div>
+
             <div>
               <FormField
                 control={form.control}
@@ -281,23 +497,11 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                       Stripe fee collection
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        {...field}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue>
-                            {feePayerLabels[field.value]}
-                          </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {feePayer.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {feePayerLabels[option]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <StripeFeeCollectionSelect
+                        field={field}
+                        feePayerLabels={feePayerLabels}
+                        validFeePayers={validFeePayers}
+                      />
                     </FormControl>
                   </>
                 )}
@@ -319,7 +523,6 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 </>
               ) : (
                 <>
-                  {' '}
                   <p className="pr-[6px] text-sm">Continue</p>
                   <ArrowRight size="16" />
                 </>
