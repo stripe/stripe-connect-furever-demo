@@ -1,28 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import {usePathname} from 'next/navigation';
 import Container from '@/app/components/Container';
-import LocaleSelector from '@/app/components/LocaleSelector';
 import BackgroundImage from '@/public/pattern-green.png';
-import {ArrowRight} from 'lucide-react';
-import PoseRed from '@/public/pose_red.svg';
 
 export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  let header = 'Manage your studio with ease.';
-  let subheader = `Pose is the world's leading health and wellness platform.`;
-
-  if (pathname === '/onboarding') {
-    header = 'Sign up';
-    subheader = 'Fill out the form to set up your account.';
-  }
-
   return (
     <div className="relative">
       <div className="flex min-h-screen min-w-[926px] justify-center space-x-20 px-6 py-[120px]">
