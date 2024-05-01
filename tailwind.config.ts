@@ -24,6 +24,7 @@ const config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
+        banner: '#0e5b2f',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'var(--primary)',
