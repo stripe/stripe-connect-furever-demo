@@ -184,7 +184,6 @@ export const authOptions: AuthOptions = {
           }
 
           console.log('Creating stripe account for the email', email);
-
           const account = await stripe.accounts.create({
             country: 'US',
             email: email,
@@ -194,18 +193,7 @@ export const authOptions: AuthOptions = {
               stripeDashboardType: credentials.stripeDashboardType,
             }),
           });
-
-          console.log('Created a Stripe account', account.id);
-          console.log('Fee payer', account.controller?.fees?.payer);
-          console.log('Payment losses', account.controller?.losses?.payments);
-          console.log(
-            'Stripe dashboard type',
-            account.controller?.stripe_dashboard?.type
-          );
-          console.log(
-            'Requirement collection',
-            account.controller?.requirement_collection
-          );
+          console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;
           console.log('Updating Studio...');
