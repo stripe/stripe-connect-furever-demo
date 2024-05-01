@@ -1,9 +1,10 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import {ArrowRight, Loader2} from 'lucide-react';
+import {ArrowRight,Loader2} from 'lucide-react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
@@ -17,6 +18,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
+import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
+import {
+SparklesIcon
+} from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -43,6 +48,27 @@ export default function SignupForm() {
       });
 
       router.push('/business');
+    } catch (error: any) {
+      console.error('An error occurred when signing in', error);
+    }
+  };
+
+  const onClick = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await signIn('signup', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      await signIn('createprefilledaccount', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      router.push('/');
+
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
     }
@@ -106,6 +132,22 @@ export default function SignupForm() {
           </div>
           )}
         </Button>
+        <Alert className='bg-offset'>
+  <SparklesIcon className="h-6 w-6 stroke-primary" />
+  <div>
+    <AlertTitle>Use a demo account</AlertTitle>
+    <AlertDescription>
+      Skip onboarding and go directly to dashboard.
+    </AlertDescription>
+    <Link href="#" onClick={() => onClick(form.getValues())} className="text-accent">
+      <div className="flex flex-row gap-x-[4px] font-medium pt-2">
+        <p>Continue</p>
+        <ArrowRight className="size-5 inline mt-0.5" />
+      </div>
+    </Link>
+  </div>
+
+</Alert>
       </form>
     </Form>
   );

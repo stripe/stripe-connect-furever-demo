@@ -23,22 +23,6 @@ export default async function Signup() {
       </div>
       <div className='flex flex-col gap-y-[16px]'>
       <Form />
-      <Alert className='bg-offset'>
-        <SparklesIcon className="h-6 w-6 stroke-primary" />
-        <div>
-        <AlertTitle>Use a demo account</AlertTitle>
-        <AlertDescription>
-          Skip onboarding and go directly to dashboard.
-        </AlertDescription>
-        <Link href="/login" className="text-accent">
-        <div className="flex flex-row gap-x-[4px] font-medium pt-2">
-            <p>          Continue</p>
-            <ArrowRight className="size-5 inline mt-0.5" />
-          </div>
-        </Link>
-        </div>
-
-      </Alert>
       </div>
       <div className="mt-4 text-subdued">
         Already have an account?{' '}
