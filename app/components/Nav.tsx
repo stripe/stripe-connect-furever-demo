@@ -52,7 +52,7 @@ const navigationMenuItems = [
     href: '/settings',
     icon: SettingsIcon,
     paths: [],
-  }
+  },
 ];
 
 const Nav = () => {
@@ -62,8 +62,8 @@ const Nav = () => {
   const accountID = session?.user?.stripeAccount?.id;
 
   return (
-    <div className="fixed flex flex-col z-40 h-screen w-64 bg-white border-r p-3">
-      <div className="p-3 mb-4 flex gap-3 items-center text-xl text-primary font-bold">
+    <div className="fixed z-40 flex h-screen w-64 flex-col border-r bg-white p-3">
+      <div className="mb-4 flex items-center gap-3 p-3 text-xl font-bold text-primary">
         <Image src={FureverLogo} alt="Furever Logo" width={40} height={40} />
         Furever
       </div>
@@ -79,11 +79,15 @@ const Nav = () => {
                       : 'bg-white'
                   }`}
                 >
-                  <item.icon className="mr-2" size={20} color={`${
-                    pathname === item.href || item.paths.includes(pathname)
-                      ? 'var(--accent)'
-                      : 'var(--primary)'
-                  }`} />{' '}
+                  <item.icon
+                    className="mr-2"
+                    size={20}
+                    color={`${
+                      pathname === item.href || item.paths.includes(pathname)
+                        ? 'var(--accent)'
+                        : 'var(--primary)'
+                    }`}
+                  />{' '}
                   {item.label}
                 </Button>
               </Link>
@@ -91,13 +95,20 @@ const Nav = () => {
           ))}
         </ul>
       </nav>
-      <div className="w-full bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 border-2 border-black/5 rounded-lg">
+      <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3">
         <div className="flex items-center gap-2 font-bold">
           <SparklesIcon size={20} color="var(--primary)" />
           <p className="text-primary">Tools</p>
         </div>
-        <p className="mb-4 text-[15px]">Explore embedded components and blah blah.</p>
-        <Button size="sm" className="w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow">Open tools</Button>
+        <p className="mb-4 text-[15px]">
+          Explore embedded components and blah blah.
+        </p>
+        <Button
+          size="sm"
+          className="w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow"
+        >
+          Open tools
+        </Button>
       </div>
     </div>
   );

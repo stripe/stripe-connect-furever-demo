@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import {Loader2} from 'lucide-react';
+import {ArrowRight, Loader2} from 'lucide-react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
@@ -57,7 +57,7 @@ export default function SignupForm() {
             name="email"
             render={({field}) => (
               <FormItem>
-                <FormLabel className="font-bold">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
@@ -70,13 +70,13 @@ export default function SignupForm() {
             )}
           />
         </div>
-        <div className="flex flex-col space-y-2 pb-3">
+        <div className="pb-3">
           <FormField
             control={form.control}
             name="password"
             render={({field}) => (
               <FormItem>
-                <FormLabel className="font-bold">Password</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
@@ -93,14 +93,17 @@ export default function SignupForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
+          className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
         >
           {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
             </>
           ) : (
-            <>Continue</>
+            <div className="flex flex-row gap-x-[6px] text-base font-medium">
+            <p>          Create account</p>
+            <ArrowRight className="size-5 inline mt-0.5" />
+          </div>
           )}
         </Button>
       </form>

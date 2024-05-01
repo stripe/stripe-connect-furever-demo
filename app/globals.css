@@ -9,21 +9,21 @@
 
     --offset: #f5f6f8;
 
-    --accent: #27AE60;
+    --accent: #27ae60;
     --accent-foreground: #f4f4f5;
-    --accent-subdued: #E9F7EF;
+    --accent-subdued: #e9f7ef;
 
     --primary: #353A44;
     --subdued: #596171;
 
     --radius: 0.5rem;
 
-    --success: #D6FCE6;
-    --success-border: #94D5AF;
-    --success-foreground: #1E884B;
+    --success: #d6fce6;
+    --success-border: #94d5af;
+    --success-foreground: #1e884b;
 
-    --destructive: #DC2626;
-    --destructive-foreground: #E9F7EF;
+    --destructive: #dc2626;
+    --destructive-foreground: #e9f7ef;
   }
 }
 

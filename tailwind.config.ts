@@ -53,6 +53,7 @@ const config = {
           border: 'var(--success-border)',
           foreground: 'var(--success-foreground)',
         },
+        fill: 'var(--primary)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -66,8 +67,8 @@ const config = {
         'paw-pattern': "url('/pattern.png')",
       },
       boxShadow: {
-        'md': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08);',
-      }
+        md: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08);',
+      },
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
