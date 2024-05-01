@@ -159,7 +159,7 @@ export const authOptions: AuthOptions = {
         businessType: {},
         businessName: {},
         country: {},
-        stripeDashboardAccess: {},
+        stripeDashboardType: {},
         paymentLosses: {},
         feePayer: {},
       },
@@ -185,6 +185,16 @@ export const authOptions: AuthOptions = {
           console.log('Creating stripe account for the email', email);
 
           const account = await stripe.accounts.create({
+            controller: {
+              fees: {payer: credentials.feePayer},
+              losses: {payments: credentials.paymentLosses},
+              stripe_dashboard: {type: credentials.stripeDashboardType},
+              requirement_collection:
+                credentials.paymentLosses === 'application' &&
+                credentials.stripeDashboardType === 'none'
+                  ? 'application'
+                  : 'stripe',
+            },
             country: 'US',
             email: email,
           });

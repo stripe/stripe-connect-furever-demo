@@ -41,7 +41,7 @@ export default function AuthLayout({
         quality={100}
         fill
         sizes="100vw"
-        className="fixed z-[-1] h-full w-full min-w-[926px] overflow-hidden object-cover"
+        className="z-[-1] h-full w-full min-w-[926px] overflow-hidden bg-left object-cover"
       />
     </div>
   );
