@@ -140,18 +140,7 @@ function StripeDashboardTypeSelect({
   stripeDashboardTypeLabels: Record<StripeDashboardType, string>;
 }) {
   return (
-    <Select
-      {...field}
-      onValueChange={(value) => {
-        // if (value === 'express') {
-        //   form.setValue('paymentLosses', 'application');
-        // } else if (value === 'full') {
-        //   form.setValue('paymentLosses', 'stripe');
-        // }
-
-        field.onChange(value);
-      }}
-    >
+    <Select {...field} onValueChange={(value) => field.onChange(value)}>
       <SelectTrigger>
         <SelectValue>{stripeDashboardTypeLabels[field.value]}</SelectValue>
       </SelectTrigger>
