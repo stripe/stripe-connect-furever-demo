@@ -30,7 +30,7 @@ export default async function Signup() {
         <AlertDescription>
           Skip onboarding and go directly to dashboard.
         </AlertDescription>
-        <Link href="/login" className="text-primary">
+        <Link href="/login" className="text-accent">
         <div className="flex flex-row gap-x-[4px] font-medium pt-2">
             <p>          Continue</p>
             <ArrowRight className="size-5 inline mt-0.5" />
@@ -42,7 +42,7 @@ export default async function Signup() {
       </div>
       <div className="mt-4 text-subdued">
         Already have an account?{' '}
-        <Link href="/login" className="text-primary font-semibold">
+        <Link href="/login" className="text-accent font-semibold">
           Log in
         </Link>
       </div>

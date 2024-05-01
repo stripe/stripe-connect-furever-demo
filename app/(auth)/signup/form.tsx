@@ -93,7 +93,7 @@ export default function SignupForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className={'w-full rounded-md bg-primary p-2 font-bold text-white'}
+          className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
         >
           {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>
