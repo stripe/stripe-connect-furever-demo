@@ -171,16 +171,16 @@ export const authOptions: AuthOptions = {
         const bankAccountToken = (
           await stripe.tokens.create({
             bank_account: {
-              country: "US",
-              currency: "usd",
-              account_holder_name: "Jenny Rosen",
-              account_holder_type: "individual",
-              routing_number: "110000000",
-              account_number: "000123456789",
+              country: 'US',
+              currency: 'usd',
+              account_holder_name: 'Jenny Rosen',
+              account_holder_type: 'individual',
+              routing_number: '110000000',
+              account_number: '000123456789',
             },
           })
-        ).id
-        console.log("Creating bank account token")
+        ).id;
+        console.log('Creating bank account token');
 
         const email = credentials?.email;
         if (!email) {
@@ -207,72 +207,72 @@ export const authOptions: AuthOptions = {
               paymentLosses: 'application',
               stripeDashboardType: 'none',
             }),
-            business_type: "individual",
+            business_type: 'individual',
             business_profile: {
-              mcc: "7299",
-              name: "Furever salon",
-              product_description: "Description",
+              mcc: '7299',
+              name: 'Furever salon',
+              product_description: 'Description',
               support_address: {
-                line1: "354 Oyster Point Blvd",
-                city: "South San Francisco",
-                state: "CA",
-                postal_code: "94080",
+                line1: '354 Oyster Point Blvd',
+                city: 'South San Francisco',
+                state: 'CA',
+                postal_code: '94080',
               },
-              support_email: "furever@stripe.com",
-              support_phone: "8581234567",
-              support_url: "https://furever.dev",
-              url: "https://furever.dev",
+              support_email: 'furever@stripe.com',
+              support_phone: '8581234567',
+              support_url: 'https://furever.dev',
+              url: 'https://furever.dev',
             },
-        individual: {
-          first_name: "Jenny",
-          last_name: "Rosen",
-          id_number: "000000000",
-          email: "jenny.rosen@example.com",
-          address: {
-            line1: "354 Oyster Point Blvd",
-            city: "South San Francisco",
-            state: "CA",
-            postal_code: "94080",
-          },
-          dob: {
-            day: 1,
-            month: 1,
-            year: 1901,
-          },
-          phone: "8581234567",
-          ssn_last_4: "0000",
-        },
-        company: {
-          tax_id: "000000000", // There is a bug where prefilling id_number for individual is not working
-          name: "Jenny Rosen", // There is a bug with prefilling that also requires this field for GS
-        },
-        settings: {
-          card_payments: {
-            statement_descriptor_prefix: "FurEver",
-            statement_descriptor_prefix_kana: null,
-            statement_descriptor_prefix_kanji: null,
-          },
-          payments: {
-            statement_descriptor: "FurEver",
-            statement_descriptor_kana: undefined,
-            statement_descriptor_kanji: undefined,
-          },
-        },
-        tos_acceptance: {
-          date: Math.floor(Date.now() / 1000),
-          ip: "50.123.109.237",
-          service_agreement: "full",
-          user_agent:
-            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36",
-        },
-        capabilities: {
-          card_payments: {
-          requested: true,
-        },
-        transfers: {
-          requested: true,
-        },
-      },
+            individual: {
+              first_name: 'Jenny',
+              last_name: 'Rosen',
+              id_number: '000000000',
+              email: 'jenny.rosen@example.com',
+              address: {
+                line1: '354 Oyster Point Blvd',
+                city: 'South San Francisco',
+                state: 'CA',
+                postal_code: '94080',
+              },
+              dob: {
+                day: 1,
+                month: 1,
+                year: 1901,
+              },
+              phone: '8581234567',
+              ssn_last_4: '0000',
+            },
+            company: {
+              tax_id: '000000000', // There is a bug where prefilling id_number for individual is not working
+              name: 'Jenny Rosen', // There is a bug with prefilling that also requires this field for GS
+            },
+            settings: {
+              card_payments: {
+                statement_descriptor_prefix: 'FurEver',
+                statement_descriptor_prefix_kana: null,
+                statement_descriptor_prefix_kanji: null,
+              },
+              payments: {
+                statement_descriptor: 'FurEver',
+                statement_descriptor_kana: undefined,
+                statement_descriptor_kanji: undefined,
+              },
+            },
+            tos_acceptance: {
+              date: Math.floor(Date.now() / 1000),
+              ip: '50.123.109.237',
+              service_agreement: 'full',
+              user_agent:
+                'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
+            },
+            capabilities: {
+              card_payments: {
+                requested: true,
+              },
+              transfers: {
+                requested: true,
+              },
+            },
           });
           console.log('Created stripe account', account.id);
 
