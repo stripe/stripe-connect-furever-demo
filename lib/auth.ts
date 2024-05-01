@@ -220,6 +220,60 @@ export const authOptions: AuthOptions = {
       },
     }),
     CredentialsProvider({
+      id: 'createprefilledaccount',
+      name: 'Create a prefilled Stripe account',
+      credentials: {
+        email: {},
+        businessType: {},
+        businessName: {},
+        country: {},
+        stripeDashboardAccess: {},
+        paymentLosses: {},
+        feePayer: {},
+      },
+      async authorize(credentials, req) {
+        await dbConnect();
+        console.log('Signing up');
+
+        const email = credentials?.email;
+        if (!email) {
+          console.log('Could not find an email to create a Stripe account for');
+          return null;
+        }
+
+        let user: IStudio | null = null;
+        try {
+          // Look for existing user.
+          user = await Studio.findOne({email});
+          if (!user) {
+            console.log('Could not find an existing user for the email', email);
+            return null;
+          }
+
+          console.log('Creating stripe account for the email', email);
+
+          const account = await stripe.accounts.create({
+            country: 'US',
+            email: email,
+          });
+
+          user.stripeAccountId = account.id;
+          console.log('Updating Studio...');
+          await user!.save();
+          console.log('Studio was updated');
+        } catch (error: any) {
+          console.log('Got an error creating a Stripe account', error);
+          return null;
+        }
+
+        return {
+          id: user!._id,
+          email: user!.email,
+          stripeAccountId: user!.stripeAccountId,
+        };
+      },
+    }),
+    CredentialsProvider({
       id: 'signup',
       name: 'Email & Password',
       credentials: {
