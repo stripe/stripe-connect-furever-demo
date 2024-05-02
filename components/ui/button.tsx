@@ -5,23 +5,23 @@ import {cva, type VariantProps} from 'class-variance-authority';
 import {cn} from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring ring-[#D3D1D7] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring ring-[#D3D1D7] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 hover:opacity-90',
   {
     variants: {
       variant: {
-        default: 'bg-accent text-accent-foreground hover:opacity-90',
+        default: 'bg-accent text-accent-foreground',
         destructive:
-          'bg-destructive text-destructive-foreground hover:opacity-90',
+          'bg-destructive text-destructive-foreground',
         outline:
           'border border-2 border-accent bg-background text-accent hover:bg-accent-subdued hover:text-accent-foreground',
-        secondary: 'bg-offset text-secondary-foreground hover:bg-secondary/80',
+        secondary: 'bg-offset text-secondary-foreground',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
+        default: 'px-4 py-2 text-base',
+        sm: 'rounded-md px-3 py-2 text-sm',
+        lg: 'rounded-md px-5 py-3 text-lg',
         icon: 'h-10 w-10',
       },
     },
