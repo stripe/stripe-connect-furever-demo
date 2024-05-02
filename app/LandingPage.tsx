@@ -82,8 +82,8 @@ export default function LandingPage() {
               className="gap-x-1 items-center flex"
               role="link"
             >
-                Get started
-                <ArrowRight />
+              Get started
+              <ArrowRight />
             </Button>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function LandingPage() {
       {/* Get started section */}
       <div className="relative items-center bg-accent bg-paw-pattern-white bg-[size:426px]">
         <div className="max-w-screen-lg mx-auto px-4">
-          <div className="flex items-center gap-20 py-20">
+          <div className="flex items-center gap-20 pt-20 pb-32">
             <div className="flex-1 text-offset drop-shadow-sm">
               <h2 className="text-left text-4xl mb-2 font-bold">
                 Get started today.
@@ -176,29 +176,31 @@ export default function LandingPage() {
       </div>
 
       {/* Footer */}
-      <div className="bg-banner py-6">
-        <div className="max-w-screen-lg px-4 mx-auto flex justify-between items-center">
-          <a href="https://stripe.com">
-            <Image src={Stripe} alt="stripe logo" />
+      <div className="fixed w-[1000px] bottom-5 bg-gradient-to-tr from-[#9160F1] to-[#11DFD4] py-3 px-6 right-[50%] translate-x-2/4 shadow-xl rounded-lg flex flex-row">
+        <div className="flex flex-1 gap-6 items-center">
+          <a href="https://stripe.com" target="_blank">
+            <Image src={Stripe} alt="stripe logo" height={20} color="var(--accent)" />
           </a>
-          <p className="text-white text-sm opacity-90">
-            FurEver is a demo for{' '}
-            <Link
-              className="text-white border-b"
-              href="https://stripe.com/connect"
-            >
-              Stripe Connect
-            </Link>{' '}
-            and{' '}
-            <Link
-              className="text-white border-b"
+          <p className="text-sm text-white">
+            This site is a demo for{' '}
+            <a
+              className="text-white border-b border-white/60 hover:border-white/90 transition"
               href="https://docs.stripe.com/connect/get-started-connect-embedded-components"
+              target="_blank"
             >
               Stripe Connect embedded components
-            </Link>
-            . It is not a real product.
+            </a>
+            . Furever is not a real product.
           </p>
         </div>
+        <a
+          className="text-white font-medium flex items-center gap-1 hover:opacity-80 transition"
+          href="https://github.com/stripe/stripe-connect-furever-demo"
+          target="_blank"
+        >
+          View on Github
+          <ArrowRight size={16} />
+        </a>
       </div>
     </div>
   );
