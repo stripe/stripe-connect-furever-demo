@@ -189,18 +189,18 @@ const QuickstartLink = () => {
     const passwordNumber = Math.floor(Math.random() * 1001);
     const passwordWords = generate({exactly: 2, minLength: 5, maxLength: 12});
 
-    /* await signIn('signup', {
-        email: `${salonName}_${emailNumber}@stripe.com`,
-        password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
-        redirect: false,
-        });
+    await signIn('signup', {
+      email: `${salonName}_${emailNumber}@stripe.com`,
+      password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
+      redirect: false,
+    });
 
-        await signIn('createprefilledaccount', {
-        email: `${salonName}_${emailNumber}@stripe.com`,
-        password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
-        businessName: salonName,
-        redirect: true,
-        }); */
+    await signIn('createprefilledaccount', {
+      email: `${salonName}_${emailNumber}@stripe.com`,
+      password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
+      businessName: salonName,
+      redirect: true,
+    });
   }
 
   const onClick = async () => {
