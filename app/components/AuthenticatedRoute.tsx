@@ -10,7 +10,7 @@ export default async function AuthenticatedRoute({
   const session = await getServerSession();
 
   if (!session || !session.user) {
-    return redirect('/login');
+    return null;
   }
 
   return <>{children}</>;
