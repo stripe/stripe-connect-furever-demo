@@ -1,5 +1,4 @@
 'use client';
-import {Link} from '@/components/ui/link';
 import Dog from '@/public/landing-page.jpeg';
 import FureverLogo from '@/public/furever_logo.png';
 import Image from 'next/image';
