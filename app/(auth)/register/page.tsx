@@ -11,7 +11,7 @@ export default function Register() {
     <EmbeddedComponentContainer>
       <ConnectAccountOnboarding
         onExit={() => {
-          window.location.href = '/';
+          window.location.href = '/home';
         }}
       />
     </EmbeddedComponentContainer>

@@ -7,7 +7,7 @@ export default async function Login() {
   const session = await getServerSession();
 
   if (session) {
-    return redirect('/');
+    redirect('/home');
   }
 
   return (
@@ -15,9 +15,9 @@ export default async function Login() {
       <div>
         <h2 className="text-2xl font-semibold pb-2">Log in</h2>
       </div>
-      <div className="flex flex-col gap-y-[24px]"> 
+      <div className="flex flex-col gap-y-[24px]">
       <Form />
-      <div className="text-secondary"> 
+      <div className="text-secondary">
         New user?{' '}
         <Link href="/signup" className="font-medium text-accent">
           Create an account{' '}

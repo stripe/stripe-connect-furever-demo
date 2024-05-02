@@ -19,7 +19,7 @@ import FureverLogo from '@/public/furever_logo.png';
 const navigationMenuItems = [
   {
     label: 'Home',
-    href: '/',
+    href: '/home',
     icon: HomeIcon,
     paths: [],
   },
