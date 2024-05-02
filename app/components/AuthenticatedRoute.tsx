@@ -1,5 +1,6 @@
 import React from 'react';
 import {getServerSession} from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AuthenticatedRoute({
   children,
@@ -9,7 +10,7 @@ export default async function AuthenticatedRoute({
   const session = await getServerSession();
 
   if (!session || !session.user) {
-    return null;
+    return redirect('/login');
   }
 
   return <>{children}</>;

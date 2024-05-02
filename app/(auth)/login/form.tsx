@@ -42,7 +42,7 @@ export default function LoginForm() {
         redirect: false,
       });
 
-      router.push('/');
+      router.push('/home');
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
     }

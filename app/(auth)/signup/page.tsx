@@ -13,7 +13,7 @@ export default async function Signup() {
   const session = await getServerSession();
 
   if (session) {
-    redirect('/');
+    redirect('/home');
   }
 
   return (

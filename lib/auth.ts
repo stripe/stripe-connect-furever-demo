@@ -192,6 +192,14 @@ export const authOptions: AuthOptions = {
               paymentLosses: credentials.paymentLosses,
               stripeDashboardType: credentials.stripeDashboardType,
             }),
+            capabilities: {
+              card_payments: {
+                requested: true,
+              },
+              transfers: {
+                requested: true,
+              },
+            },
           });
           console.log('Created stripe account', account.id);
 

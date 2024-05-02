@@ -29,7 +29,7 @@ export default function SettingsLayout({
             <Button
               className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
               variant="ghost"
-              onClick={() => signOut()}
+              onClick={() => signOut({callbackUrl: "/"})}
             >
               Sign out
             </Button>
