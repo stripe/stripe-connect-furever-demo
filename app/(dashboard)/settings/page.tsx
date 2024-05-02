@@ -4,10 +4,10 @@ import {ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
 import {ConnectAccountManagement} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import { useSession } from 'next-auth/react';
+import {useSession} from 'next-auth/react';
 
 export default function Settings() {
-  const { data: session } = useSession();
+  const {data: session} = useSession();
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   return (

@@ -56,7 +56,7 @@ function StudioEmailValidator(email: string) {
     // @ts-ignore - 'this' implicitly has type 'any' because it does not have a type annotation.ts(2683)
     if (this.isNew || this.isModified('email')) {
       // Try to find a matching salon
-      Studio.findOne({ email }).exec((err, studio) => {
+      Studio.findOne({email}).exec((err, studio) => {
         // Handle errors
         if (err) {
           console.log(err);

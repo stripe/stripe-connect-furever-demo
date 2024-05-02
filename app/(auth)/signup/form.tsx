@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import {ArrowRight,Loader2} from 'lucide-react';
+import {ArrowRight, Loader2} from 'lucide-react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
@@ -19,9 +19,7 @@ import {
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
-import {
-SparklesIcon
-} from 'lucide-react';
+import {SparklesIcon} from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -38,7 +36,6 @@ export default function SignupForm() {
       password: '',
     },
   });
-
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -107,13 +104,12 @@ export default function SignupForm() {
             </>
           ) : (
             <div className="flex flex-row gap-x-[6px] text-base font-medium">
-            <p>Create account</p>
-            <ArrowRight className="size-5 inline mt-0.5" />
-          </div>
+              <p>Create account</p>
+              <ArrowRight className="mt-0.5 inline size-5" />
+            </div>
           )}
         </Button>
       </form>
     </Form>
   );
-  
 }

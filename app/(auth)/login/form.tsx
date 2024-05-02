@@ -95,11 +95,11 @@ export default function LoginForm() {
           disabled={form.formState.isSubmitting}
           className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
         >
-                    {!form.formState.isSubmitting && (
+          {!form.formState.isSubmitting && (
             <div className="flex flex-row gap-x-[6px] text-base font-medium">
-            <p>Log in</p>
-            <ArrowRight className="size-5 inline mt-0.5"/>
-          </div>
+              <p>Log in</p>
+              <ArrowRight className="mt-0.5 inline size-5" />
+            </div>
           )}
           {form.formState.isSubmitting && (
             <>

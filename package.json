@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && npm run prettier-check",
-    "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
-    "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check"
+    "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
+    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

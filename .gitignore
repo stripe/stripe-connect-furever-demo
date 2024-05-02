@@ -20,7 +20,7 @@
 .DS_Store
 *.pem
 .python-version
-.vscode
+/.vscode
 
 # debug
 npm-debug.log*

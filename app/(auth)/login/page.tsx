@@ -23,6 +23,14 @@ export default async function Login() {
           Create an account{' '}
         </Link>
       </div>
+      <div className="flex flex-col gap-y-[24px]">
+        <Form />
+        <div className="text-secondary">
+          New user?{' '}
+          <Link href="/signup" className="font-medium text-accent">
+            Create an account{' '}
+          </Link>
+        </div>
       </div>
     </>
   );
