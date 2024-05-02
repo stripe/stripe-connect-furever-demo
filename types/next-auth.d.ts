@@ -1,4 +1,4 @@
-import NextAuth, {DefaultSession} from 'next-auth';
+import NextAuth, { DefaultSession } from 'next-auth';
 import Stripe from 'stripe';
 
 declare module 'next-auth' {
@@ -9,6 +9,8 @@ declare module 'next-auth' {
     user: {
       /** The user's Stripe account. */
       stripeAccount: Stripe.Account;
+      businessName?: string | null;
+
     } & DefaultSession['user'];
   }
 }
