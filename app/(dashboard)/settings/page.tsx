@@ -4,8 +4,12 @@ import {ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
 import {ConnectAccountManagement} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import {useSession} from 'next-auth/react';
 
 export default function Settings() {
+  const {data: session} = useSession();
+  const email = session?.user.email;
+  const businessName = session?.user.businessName;
   return (
     <>
       <Container>
@@ -13,11 +17,11 @@ export default function Settings() {
         <div className="flex flex-row space-x-20">
           <div>
             <div className="text-subdued">Business name</div>
-            <div className="font-medium">Best Dog Groomers</div>
+            <div className="font-medium">{businessName}</div>
           </div>
           <div>
             <div className="text-subdued">Email</div>
-            <div className="font-medium">jenny@example.com</div>
+            <div className="font-medium">{email}</div>
           </div>
         </div>
       </Container>

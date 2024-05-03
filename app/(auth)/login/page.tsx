@@ -13,16 +13,16 @@ export default async function Login() {
   return (
     <>
       <div>
-        <h2 className="text-2xl font-semibold pb-2">Log in</h2>
+        <h2 className="pb-2 text-2xl font-semibold">Log in</h2>
       </div>
       <div className="flex flex-col gap-y-[24px]">
-      <Form />
-      <div className="text-secondary">
-        New user?{' '}
-        <Link href="/signup" className="font-medium text-accent">
-          Create an account{' '}
-        </Link>
-      </div>
+        <Form />
+        <div className="text-secondary">
+          New user?{' '}
+          <Link href="/signup" className="font-medium text-accent">
+            Create an account{' '}
+          </Link>
+        </div>
       </div>
     </>
   );

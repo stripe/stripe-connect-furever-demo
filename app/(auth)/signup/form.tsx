@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {ArrowRight, Loader2} from 'lucide-react';
@@ -17,6 +18,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
+import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
+import {SparklesIcon} from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -50,7 +53,7 @@ export default function SignupForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-3 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col space-y-2">
           <FormField
             control={form.control}
@@ -93,17 +96,17 @@ export default function SignupForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
+          className={'w-full rounded-md font-bold text-white'}
         >
           {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
             </>
           ) : (
-            <div className="flex flex-row gap-x-[6px] text-base font-medium">
-            <p>          Create account</p>
-            <ArrowRight className="size-5 inline mt-0.5" />
-          </div>
+            <div className="flex items-center gap-2 text-base font-medium">
+              <p>Create account</p>
+              <ArrowRight size={20} />
+            </div>
           )}
         </Button>
       </form>

@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && npm run prettier-check",
-    "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
-    "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check"
+    "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
+    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -23,6 +23,7 @@
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@stripe/connect-js": "^3.3.5-beta-1",
     "@stripe/react-connect-js": "^3.3.7-beta-1",
     "bcrypt": "^5.1.1",
@@ -33,6 +34,7 @@
     "mongoose": "^5.11.9",
     "next": "14.1.4",
     "next-auth": "^4.24.7",
+    "random-words": "^2.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",

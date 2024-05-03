@@ -38,6 +38,7 @@ export const authOptions: AuthOptions = {
         console.error('Could not find a user for email in login');
         throw new Error('Could not find a user for email in login');
       }
+      console.log('Found studio', studio);
 
       let stripeAccount;
       if (studio.stripeAccountId) {
@@ -50,6 +51,7 @@ export const authOptions: AuthOptions = {
           throw err;
         }
         session.user.stripeAccount = stripeAccount;
+        session.user.businessName = studio.businessName;
       }
 
       console.log(`Got session for user ${studio.email}`);
@@ -153,6 +155,165 @@ export const authOptions: AuthOptions = {
       },
     }),
     CredentialsProvider({
+      id: 'createprefilledaccount',
+      name: 'Create a prefilled Stripe account and Furever account',
+      credentials: {
+        email: {},
+        password: {},
+        businessName: {},
+      },
+      async authorize(credentials, req) {
+        await dbConnect();
+
+        const bankAccountToken = (
+          await stripe.tokens.create({
+            bank_account: {
+              country: 'US',
+              currency: 'usd',
+              account_holder_name: 'Jenny Rosen',
+              account_holder_type: 'individual',
+              routing_number: '110000000',
+              account_number: '000123456789',
+            },
+          })
+        ).id;
+        console.log('Creating bank account token');
+
+        const email = credentials?.email;
+        const password = credentials?.password;
+        if (!email) {
+          console.log('Could not find an email to create an account for');
+          return null;
+        }
+
+        console.log('Signing up');
+        let user: IStudio | null = null;
+        try {
+          // Look for existing user.
+          user = await Studio.findOne({email});
+          if (user) {
+            console.log('Found an existing user, cannot sign up again');
+            return null;
+          }
+
+          user = new Studio({
+            email,
+            password,
+          });
+          console.log('Creating Studio...');
+          await user!.save();
+          console.log('Studio was created');
+        } catch (error: any) {
+          console.log(
+            'Got an error authorizing and creating a user during signup',
+            error
+          );
+          return null;
+        }
+
+        try {
+          if (!user) {
+            console.log('Could not find an existing user for the email', email);
+            return null;
+          }
+          console.log('Creating stripe account for the email', email);
+          const account = await stripe.accounts.create({
+            country: 'US',
+            email: email,
+            external_account: bankAccountToken,
+            controller: resolveControllerParams({
+              feePayer: 'application',
+              paymentLosses: 'application',
+              stripeDashboardType: 'none',
+            }),
+            business_type: 'individual',
+            business_profile: {
+              mcc: '7299',
+              name: credentials?.businessName || 'Furever',
+              product_description: 'Description',
+              support_address: {
+                line1: '354 Oyster Point Blvd',
+                city: 'South San Francisco',
+                state: 'CA',
+                postal_code: '94080',
+              },
+              support_email: 'furever@stripe.com',
+              support_phone: '8581234567',
+              support_url: 'https://furever.dev',
+              url: 'https://furever.dev',
+            },
+            individual: {
+              first_name: 'Jenny',
+              last_name: 'Rosen',
+              id_number: '000000000',
+              email: email,
+              address: {
+                line1: '354 Oyster Point Blvd',
+                city: 'South San Francisco',
+                state: 'CA',
+                postal_code: '94080',
+              },
+              dob: {
+                day: 1,
+                month: 1,
+                year: 1901,
+              },
+              phone: '8581234567',
+              ssn_last_4: '0000',
+            },
+            company: {
+              tax_id: '000000000', // There is a bug where prefilling id_number for individual is not working
+              name: 'Jenny Rosen', // There is a bug with prefilling that also requires this field for GS
+            },
+            settings: {
+              card_payments: {
+                statement_descriptor_prefix: 'FurEver',
+                statement_descriptor_prefix_kana: null,
+                statement_descriptor_prefix_kanji: null,
+              },
+              payments: {
+                statement_descriptor: 'FurEver',
+                statement_descriptor_kana: undefined,
+                statement_descriptor_kanji: undefined,
+              },
+            },
+            tos_acceptance: {
+              date: Math.floor(Date.now() / 1000),
+              ip: '50.123.109.237',
+              service_agreement: 'full',
+              user_agent:
+                'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
+            },
+            capabilities: {
+              card_payments: {
+                requested: true,
+              },
+              transfers: {
+                requested: true,
+              },
+            },
+          });
+          console.log('Created stripe account', account.id);
+
+          user.stripeAccountId = account.id;
+          user.businessName = credentials?.businessName;
+          console.log('Updating Studio...');
+          await user!.save();
+          console.log('Studio was updated and updated studio is', user);
+        } catch (error: any) {
+          console.log('Got an error creating a Stripe account', error);
+          return null;
+        }
+
+        return {
+          id: user!._id,
+          email: user!.email,
+          stripeAccountId: user!.stripeAccountId,
+          businessName: user!.businessName,
+        };
+      },
+    }),
+    CredentialsProvider({
       id: 'createaccount',
       name: 'Create a Stripe account',
       credentials: {
@@ -216,6 +377,7 @@ export const authOptions: AuthOptions = {
           id: user!._id,
           email: user!.email,
           stripeAccountId: user!.stripeAccountId,
+          businessName: user!.businessName,
         };
       },
     }),

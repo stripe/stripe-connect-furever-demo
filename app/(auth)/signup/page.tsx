@@ -1,16 +1,16 @@
+'use client';
+
 import Link from 'next/link';
-import {getServerSession} from 'next-auth';
-import {redirect} from 'next/navigation';
-import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
-import {
-SparklesIcon
-} from 'lucide-react';
-
+import {Button} from '@/components/ui/button';
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import {Sparkles, KeyRound, Pencil, ArrowRight} from 'lucide-react';
 import Form from './form';
-import {ArrowRight} from 'lucide-react';
+import {useSession} from 'next-auth/react';
+import {redirect} from 'next/navigation';
+import QuickstartButton from '@/app/components/QuickstartButton';
 
-export default async function Signup() {
-  const session = await getServerSession();
+export default function Signup() {
+  const {data: session} = useSession();
 
   if (session) {
     redirect('/home');
@@ -18,31 +18,49 @@ export default async function Signup() {
 
   return (
     <>
-      <div>
-        <h2 className="text-2xl font-semibold pb-2">Get started</h2>
+      <div className="flex flex-col gap-y-[16px]">
+        <h1 className="mb-1 text-2xl font-semibold">Get started</h1>
+        <Tabs defaultValue="create" className="w-full">
+          <TabsList className="mb-4 w-full">
+            <TabsTrigger className="flex-1" value="create">
+              Create an account
+            </TabsTrigger>
+            <TabsTrigger className="flex-1" value="quickstart">
+              Quickstart
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="create">
+            <Form />
+          </TabsContent>
+          <TabsContent
+            value="quickstart"
+            className="flex flex-col gap-5 text-primary"
+          >
+            <div className="flex gap-3">
+              <Sparkles size={24} color="var(--primary)" />
+              <p className="flex-1">
+                You’ll skip account onboarding and go straight to dashboard.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <KeyRound size={24} color="var(--primary)" />
+              <p className="flex-1">
+                A random username and password will be chosen for you.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Pencil size={24} color="var(--primary)" />
+              <p className="flex-1">
+                You can update the username and password to something memorable.
+              </p>
+            </div>
+            <QuickstartButton />
+          </TabsContent>
+        </Tabs>
       </div>
-      <div className='flex flex-col gap-y-[16px]'>
-      <Form />
-      <Alert className='bg-offset'>
-        <SparklesIcon className="h-6 w-6 stroke-primary" />
-        <div>
-        <AlertTitle>Use a demo account</AlertTitle>
-        <AlertDescription>
-          Skip onboarding and go directly to dashboard.
-        </AlertDescription>
-        <Link href="/login" className="text-accent">
-        <div className="flex flex-row gap-x-[4px] font-medium pt-2">
-            <p>          Continue</p>
-            <ArrowRight className="size-5 inline mt-0.5" />
-          </div>
-        </Link>
-        </div>
-
-      </Alert>
-      </div>
-      <div className="mt-4 text-subdued">
+      <div className="mt-6 text-subdued">
         Already have an account?{' '}
-        <Link href="/login" className="text-accent font-semibold">
+        <Link href="/login" className="font-semibold text-accent">
           Log in
         </Link>
       </div>

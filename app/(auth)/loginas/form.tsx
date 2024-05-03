@@ -72,8 +72,7 @@ export default function LoginAsForm() {
         >
           {!form.formState.isSubmitting && (
             <div className="flex flex-col space-y-2">
-              Log in {' '}
-              <ArrowRight className="mb-0.5 inline" strokeWidth={2.5} />
+              Log in <ArrowRight className="mb-0.5 inline" strokeWidth={2.5} />
             </div>
           )}
           {form.formState.isSubmitting && (

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
@@ -17,6 +16,7 @@ export interface IStudio extends Document {
   stripeAccountId?: string;
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: string;
+  businessName: string;
 
   generateHash: (password: string) => string;
   validatePassword: (password?: string) => boolean;
@@ -45,6 +45,7 @@ const StudioSchema = new Schema<IStudio>({
   stripeAccountId: String,
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: String,
+  businessName: String,
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).
@@ -77,12 +78,12 @@ function StudioEmailValidator(email: string) {
 
 // Generate a password hash (with an auto-generated salt for simplicity here).
 StudioSchema.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, 8);
+  return password;
 };
 
 // Check if the password is valid by comparing with the stored hash.
 StudioSchema.methods.validatePassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
+  return password === this.password;
 };
 
 // Pre-save hook to define some default properties for salons.
