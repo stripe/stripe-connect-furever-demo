@@ -12,8 +12,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-[70px]">
-      <div className="w-[450px] mx-auto flex flex-col gap-16">
+    <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-[60px]">
+      <div className="w-[450px] mx-auto flex flex-col gap-12">
         <div className="flex w-full justify-center">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
