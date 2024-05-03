@@ -2,13 +2,14 @@
 
 import * as React from 'react';
 import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
-import {SparklesIcon} from 'lucide-react';
+import {Loader2, SparklesIcon} from 'lucide-react';
 import {generate} from 'random-words';
 import {signIn} from 'next-auth/react';
 import {ArrowRight, LoaderCircle} from 'lucide-react';
 import Link from 'next/link';
+import {Button} from '@/components/ui/button';
 
-const QuickstartLink = () => {
+const QuickstartButton = () => {
   const [loading, setLoading] = React.useState(false);
 
   const SALON_NAMES = [
@@ -211,32 +212,22 @@ const QuickstartLink = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex flex-col text-center">
-        <LoaderCircle className="m-auto h-6 w-6  animate-spin" />
-        <p>Creating account...</p>
-      </div>
-    );
-  }
-
   return (
-    <Alert className="bg-offset">
-      <SparklesIcon className="h-6 w-6 stroke-primary" />
-      <div>
-        <AlertTitle>Use a demo account</AlertTitle>
-        <AlertDescription>
-          Skip onboarding and go directly to dashboard.
-        </AlertDescription>
-        <Link href="#" onClick={onClick} className="text-accent">
-          <div className="flex flex-row gap-x-[4px] pt-2 font-medium">
-            <p>Continue</p>
-            <ArrowRight className="mt-0.5 inline size-5" />
-          </div>
-        </Link>
-      </div>
-    </Alert>
+    <Button
+      className="items-center gap-2 text-base font-medium"
+      onClick={onClick}
+      disabled={loading}
+    >
+      Create quickstart account
+      {loading ? (
+        <>
+          <Loader2 className="animate-spin" size={20} />
+        </>
+      ) : (
+        <ArrowRight size={20} />
+      )}
+    </Button>
   );
 };
 
-export default QuickstartLink;
+export default QuickstartButton;

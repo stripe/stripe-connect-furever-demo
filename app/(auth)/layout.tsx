@@ -13,24 +13,29 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-[60px]">
-      <div className="w-[450px] mx-auto flex flex-col gap-12">
+      <div className="mx-auto flex w-[450px] flex-col gap-12">
         <div className="flex w-full justify-center">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
-              <Image src={FureverLogo} alt="Furever Logo" width={56} height={56} />
+              <Image
+                src={FureverLogo}
+                alt="Furever Logo"
+                width={56}
+                height={56}
+              />
               Furever
             </div>
           </Link>
         </div>
-        <Container className="w-full no-scrollbar overflow-scroll rounded-xl px-5 py-5">
+        <Container className="no-scrollbar w-full overflow-scroll rounded-xl px-5 py-5">
           {children}
         </Container>
 
-        <div className="w-full flex flex-col gap-2 items-center">
+        <div className="flex w-full flex-col items-center gap-2">
           <a href="https://stripe.com" target="_blank">
             <Image src={Stripe} alt="stripe logo" height={24} />
           </a>
-          <p className="text-sm text-subdued text-center">
+          <p className="text-center text-sm text-subdued">
             This site is a demo for{' '}
             <a
               className="border-b border-black/20"

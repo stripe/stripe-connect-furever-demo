@@ -103,15 +103,9 @@ export default function SignupForm() {
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
             </>
           ) : (
-<<<<<<< HEAD
-            <div className="flex flex-row gap-x-[6px] text-base font-medium">
-              <p>Create account</p>
-              <ArrowRight className="mt-0.5 inline size-5" />
-=======
             <div className="flex items-center gap-2 text-base font-medium">
               <p>Create account</p>
               <ArrowRight size={20} />
->>>>>>> a7c3a22 (get started page update)
             </div>
           )}
         </Button>
