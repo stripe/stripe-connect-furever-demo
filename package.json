@@ -23,6 +23,7 @@
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@stripe/connect-js": "^3.3.5-beta-1",
     "@stripe/react-connect-js": "^3.3.7-beta-1",
     "bcrypt": "^5.1.1",

@@ -53,7 +53,7 @@ export default function SignupForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-3 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col space-y-2">
           <FormField
             control={form.control}
@@ -96,16 +96,22 @@ export default function SignupForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
+          className={'w-full rounded-md font-bold text-white'}
         >
           {form.formState.isSubmitting || form.formState.isSubmitSuccessful ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
             </>
           ) : (
+<<<<<<< HEAD
             <div className="flex flex-row gap-x-[6px] text-base font-medium">
               <p>Create account</p>
               <ArrowRight className="mt-0.5 inline size-5" />
+=======
+            <div className="flex items-center gap-2 text-base font-medium">
+              <p>Create account</p>
+              <ArrowRight size={20} />
+>>>>>>> a7c3a22 (get started page update)
             </div>
           )}
         </Button>
