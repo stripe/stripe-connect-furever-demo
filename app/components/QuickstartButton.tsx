@@ -1,12 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
-import {Loader2, SparklesIcon} from 'lucide-react';
+import {Loader2} from 'lucide-react';
 import {generate} from 'random-words';
 import {signIn} from 'next-auth/react';
-import {ArrowRight, LoaderCircle} from 'lucide-react';
-import Link from 'next/link';
+import {ArrowRight} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useRouter} from 'next/navigation';
 
