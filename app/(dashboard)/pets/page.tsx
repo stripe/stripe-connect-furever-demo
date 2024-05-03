@@ -9,7 +9,22 @@ import {
   Mail as EmailIcon,
 } from 'lucide-react';
 
+const shuffle = (array: object[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
+}
+
+const toBase64 = (str: string) =>
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
+    : window.btoa(str);
+
 export default function Pets() {
+  shuffle(pets);
+
   return (
     <>
       <div className="flex">
@@ -27,17 +42,18 @@ export default function Pets() {
               key={key}
             >
               <Image
-                className="relative h-[200px] w-full rounded-lg object-cover"
+                className="relative h-[200px] w-full rounded-lg object-cover border"
                 fill
                 quality={100}
                 src={`/pet_photos/${pet.profilePhoto}.jpg`}
-                alt={`Profile photo of ${pet.name}`}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                alt={`Photo of ${pet.name}`}
               />
               <div className="flex w-full items-center gap-4">
                 <div className="flex-1">
                   <h3 className="text-lg font-medium">{pet.name}</h3>
                   <p className="text-sm text-subdued">
-                    Birthday: {pet.birthday}
+                    Member since: {pet.date}
                   </p>
                 </div>
                 <div className="flex gap-5">

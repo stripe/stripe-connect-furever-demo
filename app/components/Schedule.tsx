@@ -1,6 +1,7 @@
 import schedule from '@/app/data/schedule.json';
 import Container from '@/app/components/Container';
 import Image from 'next/image';
+import {Badge} from '@/components/ui/badge';
 import {ChevronLeft, ChevronRight, ChevronDown} from 'lucide-react';
 
 const SCHEDULE_HEIGHT = 1296;
@@ -128,12 +129,16 @@ const Schedule = () => {
                       startTimeMinutes,
                       endTimeMinutes,
                       pet,
+                      petType,
                       profilePhoto,
                     }) => {
+                      const badge = petType == "dog"
+                        ? <Badge variant="blue">Dog</Badge>
+                        : <Badge variant="red">Cat</Badge>;
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-accent-subdued hover:shadow-lg"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset border p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -152,15 +157,18 @@ const Schedule = () => {
                             </div>
                             <div className="text-md font-medium">{name}</div>
                           </div>
-                          <div className="text-md flex items-center gap-2">
-                            <Image
-                              className="relative h-6 w-6 rounded-full"
-                              fill
-                              quality={100}
-                              src={`/pet_photos/${profilePhoto}.jpg`}
-                              alt={`Photo of ${name}`}
-                            />
-                            {pet}
+                          <div className="text-md flex items-end gap-2">
+                            <div className="flex flex-1 gap-2 font-medium items-center">
+                              <Image
+                                className="relative h-7 w-7 rounded-full border border-gray-300"
+                                fill
+                                quality={100}
+                                src={`/pet_photos/${profilePhoto}.jpg`}
+                                alt={`Photo of ${name}`}
+                              />
+                              {pet}
+                            </div>
+                            {badge}
                           </div>
                         </div>
                       );
