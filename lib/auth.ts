@@ -156,14 +156,14 @@ export const authOptions: AuthOptions = {
     }),
     CredentialsProvider({
       id: 'createprefilledaccount',
-      name: 'Create a prefilled Stripe account',
+      name: 'Create a prefilled Stripe account and Furever account',
       credentials: {
         email: {},
+        password: {},
         businessName: {},
       },
       async authorize(credentials, req) {
         await dbConnect();
-        console.log('Signing up');
 
         const bankAccountToken = (
           await stripe.tokens.create({
@@ -180,20 +180,42 @@ export const authOptions: AuthOptions = {
         console.log('Creating bank account token');
 
         const email = credentials?.email;
+        const password = credentials?.password;
         if (!email) {
-          console.log('Could not find an email to create a Stripe account for');
+          console.log('Could not find an email to create an account for');
           return null;
         }
 
+        console.log('Signing up');
         let user: IStudio | null = null;
         try {
           // Look for existing user.
           user = await Studio.findOne({email});
+          if (user) {
+            console.log('Found an existing user, cannot sign up again');
+            return null;
+          }
+
+          user = new Studio({
+            email,
+            password,
+          });
+          console.log('Creating Studio...');
+          await user!.save();
+          console.log('Studio was created');
+        } catch (error: any) {
+          console.log(
+            'Got an error authorizing and creating a user during signup',
+            error
+          );
+          return null;
+        }
+
+        try {
           if (!user) {
             console.log('Could not find an existing user for the email', email);
             return null;
           }
-
           console.log('Creating stripe account for the email', email);
           const account = await stripe.accounts.create({
             country: 'US',

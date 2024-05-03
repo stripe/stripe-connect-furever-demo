@@ -8,9 +8,11 @@ import {signIn} from 'next-auth/react';
 import {ArrowRight, LoaderCircle} from 'lucide-react';
 import Link from 'next/link';
 import {Button} from '@/components/ui/button';
+import {useRouter} from 'next/navigation';
 
 const QuickstartButton = () => {
   const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
 
   const SALON_NAMES = [
     'PawsnPampering',
@@ -190,17 +192,11 @@ const QuickstartButton = () => {
     const passwordNumber = Math.floor(Math.random() * 1001);
     const passwordWords = generate({exactly: 2, minLength: 5, maxLength: 12});
 
-    await signIn('signup', {
-      email: `${salonName}_${emailNumber}@stripe.com`,
-      password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
-      redirect: false,
-    });
-
     await signIn('createprefilledaccount', {
       email: `${salonName}_${emailNumber}@stripe.com`,
       password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
       businessName: salonName,
-      redirect: true,
+      callbackUrl: '/home',
     });
   }
 
@@ -218,13 +214,14 @@ const QuickstartButton = () => {
       onClick={onClick}
       disabled={loading}
     >
-      Create quickstart account
       {loading ? (
         <>
-          <Loader2 className="animate-spin" size={20} />
+          Creating <Loader2 className="animate-spin" size={20} />
         </>
       ) : (
-        <ArrowRight size={20} />
+        <>
+          Create quickstart account <ArrowRight size={20} />
+        </>
       )}
     </Button>
   );
