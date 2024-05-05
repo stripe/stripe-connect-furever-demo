@@ -2,115 +2,96 @@
   {
     "name": "Kiba",
     "date": "June 12",
-    "profilePhoto": "kiba",
-    "type": "dog"
+    "profilePhoto": "kiba"
   },
   {
     "name": "Udon",
     "date": "Apr 24",
-    "profilePhoto": "udon",
-    "type": "dog"
+    "profilePhoto": "udon"
   },
   {
     "name": "Rowdy",
     "date": "Jan 31",
-    "profilePhoto": "rowdy",
-    "type": "dog"
+    "profilePhoto": "rowdy"
   },
   {
     "name": "Bisco",
     "date": "Jun 18",
-    "profilePhoto": "bisco",
-    "type": "cat"
+    "profilePhoto": "bisco"
   },
   {
     "name": "Apple",
     "date": "Mar 22",
-    "profilePhoto": "apple",
-    "type": "cat"
+    "profilePhoto": "apple"
   },
   {
     "name": "Waffles",
     "date": "Jan 4",
-    "profilePhoto": "waffles",
-    "type": "dog"
+    "profilePhoto": "waffles"
   },
   {
     "name": "Hot Fudge",
     "date": "April 19",
-    "profilePhoto": "hot-fudge",
-    "type": "cat"
+    "profilePhoto": "hot-fudge"
   },
   {
     "name": "Stephen",
     "date": "May 7",
-    "profilePhoto": "stephen",
-    "type": "cat"
+    "profilePhoto": "stephen"
   },
   {
     "name": "Coco",
     "date": "Aug 31",
-    "profilePhoto": "coco",
-    "type": "dog"
+    "profilePhoto": "coco"
   },
   {
     "name": "Pebbleton",
     "date": "Feb 29",
-    "profilePhoto": "pebbleton",
-    "type": "rock"
+    "profilePhoto": "pebbleton"
   },
   {
     "name": "Dahlia",
     "date": "Sept 1",
-    "profilePhoto": "dahlia",
-    "type": "dog"
+    "profilePhoto": "dahlia"
   },
   {
     "name": "Misiu",
     "date": "Nov 22",
-    "profilePhoto": "misiu",
-    "type": "dog"
+    "profilePhoto": "misiu"
   },
   {
     "name": "Hobbes",
     "date": "Oct 9",
-    "profilePhoto": "hobbes",
-    "type": "dog"
+    "profilePhoto": "hobbes"
   },
   {
     "name": "Jasper",
     "date": "Dec 10",
-    "profilePhoto": "jasper",
-    "type": "dog"
+    "profilePhoto": "jasper"
   },
   {
     "name": "M",
     "date": "Feb 3",
-    "profilePhoto": "m",
-    "type": "dog"
+    "profilePhoto": "m"
   },
   {
     "name": "Maple",
     "date": "Aug 9",
-    "profilePhoto": "maple",
-    "type": "dog"
+    "profilePhoto": "maple"
   },
   {
     "name": "Shorty",
     "date": "Aug 13",
-    "profilePhoto": "shorty",
-    "type": "dog"
+    "profilePhoto": "shorty"
   },
   {
     "name": "Juney",
     "date": "Oct 14",
-    "profilePhoto": "juney",
-    "type": "dog"
+    "profilePhoto": "juney"
   },
   {
     "name": "Jake",
     "date": "Mar 1",
-    "profilePhoto": "jake",
-    "type": "dog"
+    "profilePhoto": "jake"
   }
 ]
