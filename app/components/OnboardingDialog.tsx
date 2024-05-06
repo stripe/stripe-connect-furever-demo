@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import ImageStep1 from '@/public/onboarding-images/step-1.png';
 import ImageStep2 from '@/public/onboarding-images/step-2.png';
+import PointingHand from '@/public/pointingHand.svg';
 import { ArrowRight } from "lucide-react";
 import * as React from 'react';
 
@@ -22,16 +23,19 @@ const OnboardingDialog = () => {
       "title": "Take a quick tour to learn more.",
       "description": "Welcome to Furever, a demo site for Stripe Connect embedded components!",
       "imageClassName": "scale-[0.85]",
+      "cursorClassName": "opacity-0",
       "imageURL": ImageStep1,
     }, {
       "title": "Use the sidebar to explore different components.",
       "description": "blah blah components are located on different pages.",
       "imageClassName": "scale-[1.6] translate-x-[280px] translate-y-[25px]",
+      "cursorClassName": "opacity-100 translate-x-[30px] translate-y-[-100px]",
       "imageURL": ImageStep2,
     }, {
       "title": "Open tools to access more options",
-      "description": "View embedded component borders, change the theme, and access more configuration.",
+      "description": "View embedded component borders, change the theme, and more.",
       "imageClassName": "scale-[1.8] translate-x-[360px] translate-y-[-450px]",
+      "cursorClassName": "opacity-100 translate-x-[90px] translate-y-[-85px]",
       "imageURL": ImageStep2,
     }
   ]
@@ -109,7 +113,7 @@ const OnboardingDialog = () => {
           <div className="w-full h-[300px] overflow-hidden border-b relative bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
               src={onboardingSteps[currentStep].imageURL}
-              alt="hug dog"
+              alt="Image of the Furever website"
               placeholder="blur"
               quality={100}
               sizes="100vw"
@@ -117,6 +121,12 @@ const OnboardingDialog = () => {
               className={`overflow-hidden rounded-xl object-cover shadow-lg transition duration-500 ease-in-out
                 ${onboardingSteps[currentStep].imageClassName}`
               }
+            />
+            <Image
+              src={PointingHand}
+              alt="Pointer cursor"
+              priority
+              className={`w-4.5 h-4.5 absolute shadow-lg transition duration-500 right-3/4 bottom-0 ${onboardingSteps[currentStep].cursorClassName}`}
             />
           </div>
           <DialogHeader className="p-5">
