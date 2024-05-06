@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import ImageStep1 from '@/public/onboarding-images/step-1.png';
 import ImageStep2 from '@/public/onboarding-images/step-2.png';
-import PointingHand from '@/public/pointingHand.svg';
+import PointingHand from '@/public/onboarding-images/pointinghand.png';
 import { ArrowRight } from "lucide-react";
 import * as React from 'react';
 
@@ -29,13 +29,13 @@ const OnboardingDialog = () => {
       "title": "Use the sidebar to explore different components.",
       "description": "blah blah components are located on different pages.",
       "imageClassName": "scale-[1.6] translate-x-[280px] translate-y-[25px]",
-      "cursorClassName": "opacity-100 translate-x-[35px] translate-y-[-140px]",
+      "cursorClassName": "opacity-100 translate-x-[60px] translate-y-[-120px]",
       "imageURL": ImageStep2,
     }, {
       "title": "Open tools to access more options",
       "description": "View embedded component borders, change the theme, and more.",
       "imageClassName": "scale-[1.8] translate-x-[450px] translate-y-[-450px]",
-      "cursorClassName": "opacity-100 translate-x-[185px] translate-y-[-105px]",
+      "cursorClassName": "opacity-100 translate-x-[208px] translate-y-[-75px]",
       "imageURL": ImageStep2,
     }
   ]
@@ -126,7 +126,7 @@ const OnboardingDialog = () => {
               src={PointingHand}
               alt="Pointer cursor"
               priority
-              className={`w-5 h-5 absolute shadow-lg transition duration-700 right-3/4 bottom-[-20px] ${onboardingSteps[currentStep].cursorClassName}`}
+              className={`w-14 h-14 absolute transition duration-700 right-3/4 bottom-[-20px] ${onboardingSteps[currentStep].cursorClassName}`}
             />
           </div>
           <DialogHeader className="p-5">
