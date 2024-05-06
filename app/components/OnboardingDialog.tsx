@@ -65,7 +65,9 @@ const OnboardingDialog = () => {
     if (currentStep == onboardingSteps.length - 1) {
       return (
         <DialogClose asChild>
-          <Button type="button" className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90">
+          <Button
+            className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90"
+          >
             Finish
             <ArrowRight size={20} />
           </Button>
@@ -85,7 +87,6 @@ const OnboardingDialog = () => {
   }
 
   const ProgressIndicator = () => {
-
     const progressDot = (isActive: boolean) => {
       const bg = isActive ? "bg-[#675DFF]" : "bg-neutral-200"
       return <div className={`w-2.5 h-2.5 rounded-full ${bg}`}></div>
