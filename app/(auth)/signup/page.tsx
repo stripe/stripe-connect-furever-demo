@@ -1,20 +1,37 @@
-'use client';
+"use client";
 
 import Link from 'next/link';
-import {Button} from '@/components/ui/button';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
 import {Sparkles, KeyRound, Pencil, ArrowRight} from 'lucide-react';
 import Form from './form';
-import {useSession} from 'next-auth/react';
+import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
 import QuickstartButton from '@/app/components/QuickstartButton';
+import {useEffect} from 'react';
+import {useSession} from 'next-auth/react';
+import {useRouter} from 'next/navigation';
 
 export default function Signup() {
+  // const session = await getServerSession();
+
+  // console.log(session)
+
+  // if (session) {
+  //   redirect('/');
+  // }
+
+  const router = useRouter();
   const {data: session} = useSession();
 
-  if (session) {
-    redirect('/home');
-  }
+  useEffect(() => {
+    console.log(session)
+    if (session?.user?.stripeAccount?.details_submitted === false) {
+      router.push('/onboarding');
+    }
+    // if (session) {
+    //   router.push('/home')
+    // }
+  }, [session, router]);
 
   return (
     <>
