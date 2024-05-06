@@ -1,57 +1,97 @@
 [
   {
     "name": "Kiba",
-    "birthday": "June 12",
+    "date": "June 12",
     "profilePhoto": "kiba"
   },
   {
     "name": "Udon",
-    "birthday": "Apr 24",
+    "date": "Apr 24",
     "profilePhoto": "udon"
   },
   {
     "name": "Rowdy",
-    "birthday": "Jan 31",
+    "date": "Jan 31",
     "profilePhoto": "rowdy"
   },
   {
     "name": "Bisco",
-    "birthday": "Jun 18",
+    "date": "Jun 18",
     "profilePhoto": "bisco"
   },
   {
     "name": "Apple",
-    "birthday": "Mar 22",
+    "date": "Mar 22",
     "profilePhoto": "apple"
   },
   {
-    "name": "Dug",
-    "birthday": "Jan 4",
-    "profilePhoto": "default-1"
+    "name": "Waffles",
+    "date": "Jan 4",
+    "profilePhoto": "waffles"
   },
   {
-    "name": "Mochi",
-    "birthday": "Aug 31",
-    "profilePhoto": "default-3"
+    "name": "Hot Fudge",
+    "date": "April 19",
+    "profilePhoto": "hot-fudge"
   },
   {
-    "name": "Mika",
-    "birthday": "Feb 29",
-    "profilePhoto": "default-2"
+    "name": "Stephen",
+    "date": "May 7",
+    "profilePhoto": "stephen"
   },
   {
-    "name": "Bud",
-    "birthday": "Sept 1",
-    "profilePhoto": "default-1"
+    "name": "Coco",
+    "date": "Aug 31",
+    "profilePhoto": "coco"
   },
   {
-    "name": "Chester",
-    "birthday": "Nov 22",
-    "profilePhoto": "default-2"
+    "name": "Pebbleton",
+    "date": "Feb 29",
+    "profilePhoto": "pebbleton"
   },
   {
-    "name": "Daisy",
-    "birthday": "Oct 9",
-    "profilePhoto": "default-1"
+    "name": "Dahlia",
+    "date": "Sept 1",
+    "profilePhoto": "dahlia"
+  },
+  {
+    "name": "Misiu",
+    "date": "Nov 22",
+    "profilePhoto": "misiu"
+  },
+  {
+    "name": "Hobbes",
+    "date": "Oct 9",
+    "profilePhoto": "hobbes"
+  },
+  {
+    "name": "Jasper",
+    "date": "Dec 10",
+    "profilePhoto": "jasper"
+  },
+  {
+    "name": "M",
+    "date": "Feb 3",
+    "profilePhoto": "m"
+  },
+  {
+    "name": "Maple",
+    "date": "Aug 9",
+    "profilePhoto": "maple"
+  },
+  {
+    "name": "Shorty",
+    "date": "Aug 13",
+    "profilePhoto": "shorty"
+  },
+  {
+    "name": "Juney",
+    "date": "Oct 14",
+    "profilePhoto": "juney"
+  },
+  {
+    "name": "Jake",
+    "date": "Mar 1",
+    "profilePhoto": "jake"
   }
 ]
