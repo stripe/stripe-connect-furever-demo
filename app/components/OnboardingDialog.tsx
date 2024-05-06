@@ -2,6 +2,7 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -37,21 +38,53 @@ const OnboardingDialog = () => {
 
   const [currentStep, setCurrentStep] = React.useState(0);
 
-  const incrementStep = () => {
-    if (currentStep == onboardingSteps.length - 1) {
-      return;
-    }
-    setCurrentStep(currentStep + 1);
-  }
-
-  const decrementStep = () => {
+  const DecrementButon = () => {
+    // If user is at first step, show a close button
     if (currentStep == 0) {
-      return;
+      return (
+        <DialogClose asChild>
+          <Button type="button" variant="secondary">
+            Close
+          </Button>
+        </DialogClose>
+      )
     }
-    setCurrentStep(currentStep - 1);
+
+    // If not, show a back button
+    return (
+      <Button
+        variant="secondary"
+        onClick={() => setCurrentStep(currentStep - 1)}
+      >
+        Back
+      </Button>
+    )
   }
 
-  const progressIndicator = () => {
+  const IncrementButton = () => {
+    if (currentStep == onboardingSteps.length - 1) {
+      return (
+        <DialogClose asChild>
+          <Button type="button" className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90">
+            Finish
+            <ArrowRight size={20} />
+          </Button>
+        </DialogClose>
+      )
+    }
+
+    return (
+      <Button
+        onClick={() => setCurrentStep(currentStep + 1)}
+        className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90"
+      >
+        Continue
+        <ArrowRight size={20} />
+      </Button>
+    )
+  }
+
+  const ProgressIndicator = () => {
 
     const progressDot = (isActive: boolean) => {
       const bg = isActive ? "bg-[#675DFF]" : "bg-neutral-200"
@@ -69,21 +102,21 @@ const OnboardingDialog = () => {
 
   return (
     <>
-      <Dialog>
+      <Dialog onOpenChange={(open) => open ? setCurrentStep(0) : ''}>
         <DialogTrigger>Open</DialogTrigger>
         <DialogContent className="max-w-[none] w-[700px] p-0 gap-0 overflow-hidden border-0">
           <div className="w-full h-[300px] overflow-hidden border-b relative bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
-                src={onboardingSteps[currentStep].imageURL}
-                alt="hug dog"
-                placeholder="blur"
-                quality={100}
-                sizes="100vw"
-                priority
-                className={`overflow-hidden rounded-xl object-cover shadow-lg transition duration-500 ease-in-out
-                  ${onboardingSteps[currentStep].imageClassName}`
-                }
-              />
+              src={onboardingSteps[currentStep].imageURL}
+              alt="hug dog"
+              placeholder="blur"
+              quality={100}
+              sizes="100vw"
+              priority
+              className={`overflow-hidden rounded-xl object-cover shadow-lg transition duration-500 ease-in-out
+                ${onboardingSteps[currentStep].imageClassName}`
+              }
+            />
           </div>
           <DialogHeader className="p-5">
             <DialogTitle className="text-2xl">{onboardingSteps[currentStep].title}</DialogTitle>
@@ -91,13 +124,10 @@ const OnboardingDialog = () => {
               {onboardingSteps[currentStep].description}
             </DialogDescription>
             <div className="flex flex-1 pt-4 gap-2 items-center justify-between">
-              { progressIndicator() }
+              <ProgressIndicator />
               <div className="flex gap-2">
-                <Button variant="secondary" onClick={decrementStep}>Back</Button>
-                <Button onClick={incrementStep} className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90">
-                  Continue
-                  <ArrowRight size={20} />
-                </Button>
+                <DecrementButon />
+                <IncrementButton />
               </div>
             </div>
 
