@@ -11,7 +11,7 @@ const badgeVariants = cva(
         default:
           'bg-gray-200 border-gray-300 text-primary-foreground',
         blue:
-          'bg-blue-100 border-blue-200 text-blue-700',
+          'bg-sky-100 border-sky-200 text-sky-700',
         red:
           'bg-red-100 border-red-200 text-red-700',
         secondary:
