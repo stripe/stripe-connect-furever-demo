@@ -29,7 +29,7 @@ const OnboardingDialog = () => {
       "title": "Use the sidebar to explore different components.",
       "description": "blah blah components are located on different pages.",
       "imageClassName": "scale-[1.6] translate-x-[280px] translate-y-[25px]",
-      "cursorClassName": "opacity-100 translate-x-[30px] translate-y-[-120px]",
+      "cursorClassName": "opacity-100 translate-x-[35px] translate-y-[-140px]",
       "imageURL": ImageStep2,
     }, {
       "title": "Open tools to access more options",
