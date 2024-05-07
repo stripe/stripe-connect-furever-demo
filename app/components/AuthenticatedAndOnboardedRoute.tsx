@@ -10,7 +10,7 @@ export default function AuthenticatedAndOnboardedRoute({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const {data: session} = useSession();
+  const {data: session, status} = useSession();
 
   useEffect(() => {
     if (session?.user?.stripeAccount?.details_submitted === false) {
@@ -18,8 +18,8 @@ export default function AuthenticatedAndOnboardedRoute({
     }
   }, [session, router]);
 
-  if (!session || !session.user) {
-    return null;
+  if (status == "unauthenticated") {
+    router.push('/');
   }
 
   return <>{children}</>;

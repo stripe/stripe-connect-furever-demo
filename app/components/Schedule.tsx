@@ -158,11 +158,12 @@ const Schedule = () => {
                             <div className="text-md font-medium">{name}</div>
                           </div>
                           <div className="text-md flex items-end gap-2">
-                            <div className="flex flex-1 gap-2 font-medium items-center">
+                            <div className="relative flex flex-1 gap-2 font-medium items-center">
                               <Image
                                 className="relative h-7 w-7 rounded-full border border-gray-300"
                                 fill
                                 quality={100}
+                                sizes='200px'
                                 src={`/pet_photos/${profilePhoto}.jpg`}
                                 alt={`Photo of ${name}`}
                               />

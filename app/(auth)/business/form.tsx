@@ -189,7 +189,7 @@ function StripeFeeCollectionSelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{feePayerLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -216,7 +216,7 @@ function NegativeBalanceLiabilitySelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{paymentLossesLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -248,7 +248,7 @@ function StripeDashboardTypeSelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{stripeDashboardTypeLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -351,7 +351,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-6 w-[448px] space-y-4"
+        className="mt-6 w-full space-y-4"
       >
         <div className="flex flex-col gap-y-6">
           <div>
@@ -360,7 +360,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="businessType"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Business type
                   </FormLabel>
                   {businessTypes.map((option) => (
@@ -369,7 +369,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                         <FormControl>
                           <Input
                             {...field}
-                            className="h-[14px] w-[14px] rounded-md border border-gray-300 placeholder:text-gray-400"
+                            className="h-[14px] w-[14px] rounded-md border border-accent-300 placeholder:text-gray-400"
                             type="radio"
                             value={option}
                             checked={field.value === option}
@@ -390,13 +390,14 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="businessName"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Business name
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      className="mt-1 rounded-md border border-gray-300 placeholder:text-gray-400"
+                      className="mt-1 placeholder:text-gray-400"
+                      placeholder="My business name"
                     />
                   </FormControl>
                 </>
@@ -409,7 +410,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="country"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Country
                   </FormLabel>
                   <FormControl>
@@ -417,7 +418,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                       {...field}
                       onValueChange={(value) => field.onChange(value)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="mt-1">
                         <SelectValue>{countryLabels[field.value]}</SelectValue>
                       </SelectTrigger>
                       <SelectContent>
@@ -433,19 +434,24 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               )}
             />
           </div>
-          <Link
-            className="flex"
+          <Button
+            variant="ghost"
+            type="button"
+            className="self-start px-2 py-1"
             onClick={() => setShowMoreOptions(!showMoreOptions)}
           >
-            <h3>More options</h3>
-            {showMoreOptions && <ChevronUp className="ml-2" />}
-            {!showMoreOptions && <ChevronDown className="ml-2" />}
-          </Link>
+            <h3>Show more options</h3>
+            {showMoreOptions && <ChevronUp className="ml-2" size={20} />}
+            {!showMoreOptions && <ChevronDown className="ml-2" size={20} />}
+          </Button>
 
           <Collapsible open={showMoreOptions}>
-            <p>
+            <p className="text-secondary">
               These options allow you to configure your connected account&apos;s
-              controller properties
+              controller properties. {' '}
+              <a className="text-accent font-medium hover:underline" target="blank" href="https://docs.stripe.com/connect/design-an-integration">
+                Learn more
+              </a>
             </p>
             <div>
               <FormField
@@ -453,7 +459,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="stripeDashboardType"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Stripe dashboard access
                     </FormLabel>
                     <FormControl>
@@ -473,7 +479,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="paymentLosses"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Negative balance liability
                     </FormLabel>
                     <FormControl>
@@ -493,7 +499,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="feePayer"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Stripe fee collection
                     </FormLabel>
                     <FormControl>
@@ -513,7 +519,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               type="submit"
               disabled={form.formState.isSubmitting}
               className={
-                'w-full rounded-md bg-accent py-3 font-bold text-white'
+                'w-full rounded-md bg-accent text-white gap-1 items-center'
               }
             >
               {form.formState.isSubmitting ||
@@ -523,8 +529,8 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 </>
               ) : (
                 <>
-                  <p className="pr-[6px] text-sm">Continue</p>
-                  <ArrowRight size="16" />
+                  <p>Continue</p>
+                  <ArrowRight size="20" />
                 </>
               )}
             </Button>

@@ -1,15 +1,13 @@
-'use client';
-
 import Link from 'next/link';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
 import {Sparkles, KeyRound, Pencil} from 'lucide-react';
 import Form from './form';
-import {useSession} from 'next-auth/react';
-import {redirect} from 'next/navigation';
 import QuickstartButton from '@/app/components/QuickstartButton';
+import {getServerSession} from 'next-auth';
+import {redirect} from 'next/navigation';
 
-export default function Signup() {
-  const {data: session} = useSession();
+export default async function Signup() {
+  const session = await getServerSession();
 
   if (session) {
     redirect('/home');
