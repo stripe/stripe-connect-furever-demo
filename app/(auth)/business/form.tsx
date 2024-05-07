@@ -189,7 +189,7 @@ function StripeFeeCollectionSelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{feePayerLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -216,7 +216,7 @@ function NegativeBalanceLiabilitySelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{paymentLossesLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -248,7 +248,7 @@ function StripeDashboardTypeSelect({
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="mt-1">
         <SelectValue>{stripeDashboardTypeLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
@@ -360,7 +360,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="businessType"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Business type
                   </FormLabel>
                   {businessTypes.map((option) => (
@@ -390,7 +390,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="businessName"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Business name
                   </FormLabel>
                   <FormControl>
@@ -410,7 +410,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               name="country"
               render={({field}) => (
                 <>
-                  <FormLabel className="text-base font-bold text-primary">
+                  <FormLabel className="text-base text-primary">
                     Country
                   </FormLabel>
                   <FormControl>
@@ -448,7 +448,10 @@ export default function BusinessDetailsForm({email}: {email: string}) {
           <Collapsible open={showMoreOptions}>
             <p className="text-secondary">
               These options allow you to configure your connected account&apos;s
-              controller properties.
+              controller properties. {' '}
+              <a className="text-accent font-medium hover:underline" target="blank" href="https://docs.stripe.com/connect/design-an-integration">
+                Learn more
+              </a>
             </p>
             <div>
               <FormField
@@ -456,7 +459,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="stripeDashboardType"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Stripe dashboard access
                     </FormLabel>
                     <FormControl>
@@ -476,7 +479,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="paymentLosses"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Negative balance liability
                     </FormLabel>
                     <FormControl>
@@ -496,7 +499,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                 name="feePayer"
                 render={({field}) => (
                   <>
-                    <FormLabel className="text-base font-bold text-primary">
+                    <FormLabel className="text-base text-primary">
                       Stripe fee collection
                     </FormLabel>
                     <FormControl>
