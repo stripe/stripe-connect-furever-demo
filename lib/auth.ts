@@ -35,8 +35,8 @@ export const authOptions: AuthOptions = {
         email: session.user?.email,
       });
       if (!studio) {
-        console.error('Could not find a user for email in login');
-        throw new Error('Could not find a user for email in login');
+        console.error('Could not find a user for email in getting the session');
+        throw new Error('Could not find a user for email in getting the session');
       }
       console.log('Found studio', studio);
 
@@ -52,12 +52,22 @@ export const authOptions: AuthOptions = {
         }
         session.user.stripeAccount = stripeAccount;
         session.user.businessName = studio.businessName;
+        session.user.password = studio.password;
       }
 
       console.log(`Got session for user ${studio.email}`);
 
       return session;
     },
+    async jwt({ token, trigger, session }) {
+      if (trigger === "update" && session?.user) {
+        console.log('Updating token with name', session.user);
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.email = session.user.email
+        console.log('finished updating token', token);
+      }
+      return token
+    }
   },
   providers: [
     CredentialsProvider({
@@ -199,6 +209,7 @@ export const authOptions: AuthOptions = {
           user = new Studio({
             email,
             password,
+            quickstartAccount: true,
           });
           console.log('Creating Studio...');
           await user!.save();

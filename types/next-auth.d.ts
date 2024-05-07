@@ -10,6 +10,7 @@ declare module 'next-auth' {
       /** The user's Stripe account. */
       stripeAccount: Stripe.Account;
       businessName?: string | null;
+      password?: string | null;
     } & DefaultSession['user'];
   }
 }

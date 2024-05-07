@@ -5,10 +5,17 @@ import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import { ConnectNotificationBanner } from '@stripe/react-connect-js';
 
 export default function Dashboard() {
+  const {data: session} = useSession();
+
+  if (!session) {
+    redirect('/home');
+  }
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, Jenny!</h1>
