@@ -1,6 +1,6 @@
 'use client';
 
-import {ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
+import {ConnectNotificationBanner, ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
 import {ConnectAccountManagement} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
@@ -33,6 +33,7 @@ export default function Settings() {
           </h2>
         </header>
         <EmbeddedComponentContainer>
+          <ConnectNotificationBanner/>
           <ConnectAccountManagement />
         </EmbeddedComponentContainer>
       </Container>
