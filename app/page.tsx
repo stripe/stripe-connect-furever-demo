@@ -4,12 +4,11 @@ import Dog from '@/public/landing-page.jpeg';
 import FureverLogo from '@/public/furever_logo.png';
 import Image from 'next/image';
 import DogHug from '@/public/testimonial.jpeg';
+import Dashboard from '@/public/dashboard.png';
 import Stripe from '@/public/stripe.svg';
 import {Button} from '@/components/ui/button';
 import {ArrowRight, CalendarCheck, CreditCard, ReceiptText} from 'lucide-react';
-import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
-import SignupForm from './(auth)/signup/form';
 import Link from 'next/link';
 
 function Card({
@@ -33,10 +32,37 @@ function Card({
 }
 
 const AuthButtons = () => {
-  const router = useRouter();
   const {data: session, status} = useSession();
 
-  if (status == "unauthenticated") {
+  if (status == "authenticated") {
+    let buttonLink = "/";
+    let buttonText = "";
+
+    if (session?.user?.stripeAccount?.details_submitted === false) {
+      // Stripe account created but onboarding not complete
+      buttonLink = "/onboarding";
+      buttonText = "Continue onboarding";
+    } else if (session?.user?.stripeAccount == null) {
+      // Stripe account not created
+      buttonLink = "/business";
+      buttonText = "Continue onboarding";
+    } else if (session) {
+      buttonLink = "/home";
+      buttonText = "Go to dashboard";
+    }
+
+    return (
+      <Link href={buttonLink}>
+        <Button
+          size="lg"
+          className="items-center gap-x-1"
+        >
+          {buttonText}
+          <ArrowRight />
+        </Button>
+      </Link>
+    )
+  } else {
     return (
       <>
         <Link href="/login">
@@ -57,46 +83,6 @@ const AuthButtons = () => {
           </Button>
         </Link>
       </>
-    )
-  }
-
-  if (session?.user?.stripeAccount?.details_submitted === false) {
-    // Stripe account created but onboarding not complete
-    return (
-      <Link href="/onboarding">
-        <Button
-          size="lg"
-          className="flex items-center gap-x-1"
-        >
-          Continue onboarding
-          <ArrowRight />
-        </Button>
-      </Link>
-    )
-  } else if (session?.user?.stripeAccount == null) {
-    // Stripe account not created
-    return (
-      <Link href="/business">
-        <Button
-          size="lg"
-          // onClick={() => router.push('/business')}
-          className="flex items-center gap-x-1"
-        >
-          Continue onboarding
-          <ArrowRight />
-        </Button>
-      </Link>
-    )
-  } else if (session) {
-    return (
-      <Button
-        size="lg"
-        onClick={() => router.push('/home')}
-        className="items-center gap-x-1"
-      >
-        Go to dashboard
-        <ArrowRight />
-      </Button>
     )
   }
 }
@@ -146,7 +132,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center py-20">
             <h3 className="text-lg font-bold text-accent">FEATURES</h3>
             <p className="mb-12 text-center text-3xl font-bold">
-              Everything you need to manage your pet business
+              Everything you need to manage your pet business.
             </p>
             <div className="flex flex-row gap-x-6">
               <Card
@@ -199,19 +185,28 @@ export default function LandingPage() {
       {/* Get started section */}
       <div className="relative items-center bg-accent bg-paw-pattern-white bg-[size:426px]">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex items-center gap-20 pb-32 pt-20">
-            <div className="flex-1 text-offset drop-shadow-sm">
+          <div className="flex items-center gap-12 pt-20 pb-32 text-white">
+            <div className="min-w-[400px]">
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
               </h2>
-              <p className="text-left text-2xl">
+              <p className="text-left text-2xl mb-8 text-white/90">
                 Furever is the world's leading pet grooming platform. Join our
-                team of salons and expand your business
+                team of salons and expand your business.
               </p>
+              <Link href="/signup">
+                <Button variant="secondary" size="lg" className="text-primary gap-1.5">
+                  Get Started
+                  <ArrowRight size={22} />
+                </Button>
+              </Link>
             </div>
-            <div className="min-w-[400px] rounded-xl bg-white p-6 shadow-lg">
-              <h2 className="pb-2 text-2xl font-semibold">Create account</h2>
-              <SignupForm />
+            <div className="max-h-[500px] rounded-lg overflow-hidden shadow-xl">
+              <Image
+                src={Dashboard}
+                alt="A screenshot of Furever dashboard"
+                sizes="50vw"
+              />
             </div>
           </div>
         </div>
