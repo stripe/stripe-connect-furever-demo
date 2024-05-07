@@ -14,10 +14,10 @@ export default function Settings() {
   return (
     <>
       <Container>
-        <div className='flex flex-row justify-between'>
-        <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
-        <div className="text-right align-top text-sm text-accent font-semibold">
-          <EditAccountButton />
+        <div className="flex flex-row justify-between">
+          <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
+          <div className="text-right align-top text-sm font-semibold text-accent">
+            <EditAccountButton />
           </div>
         </div>
         <div className="flex flex-row space-x-20">

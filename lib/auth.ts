@@ -36,7 +36,9 @@ export const authOptions: AuthOptions = {
       });
       if (!studio) {
         console.error('Could not find a user for email in getting the session');
-        throw new Error('Could not find a user for email in getting the session');
+        throw new Error(
+          'Could not find a user for email in getting the session'
+        );
       }
       console.log('Found studio', studio);
 
@@ -59,15 +61,15 @@ export const authOptions: AuthOptions = {
 
       return session;
     },
-    async jwt({ token, trigger, session }) {
-      if (trigger === "update" && session?.user) {
+    async jwt({token, trigger, session}) {
+      if (trigger === 'update' && session?.user) {
         console.log('Updating token with name', session.user);
         // Note, that `session` can be any arbitrary object, remember to validate it!
-        token.email = session.user.email
+        token.email = session.user.email;
         console.log('finished updating token', token);
       }
-      return token
-    }
+      return token;
+    },
   },
   providers: [
     CredentialsProvider({
