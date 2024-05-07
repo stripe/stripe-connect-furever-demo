@@ -46,7 +46,7 @@ const AuthButtons = () => {
       // Stripe account not created
       buttonLink = "/business";
       buttonText = "Continue onboarding";
-    } else if (session) {
+    } else {
       buttonLink = "/home";
       buttonText = "Go to dashboard";
     }
