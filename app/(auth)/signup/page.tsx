@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import {Button} from '@/components/ui/button';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
-import {Sparkles, KeyRound, Pencil, ArrowRight} from 'lucide-react';
+import {Sparkles, KeyRound, Pencil} from 'lucide-react';
 import Form from './form';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';

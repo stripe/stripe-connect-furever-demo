@@ -4,15 +4,22 @@ import {ConnectPaymentMethodSettings, ConnectAccountManagement} from '@stripe/re
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
+import EditAccountButton from '@/app/components/EditAccountButton';
 
 export default function Settings() {
   const {data: session} = useSession();
   const email = session?.user.email;
   const businessName = session?.user.businessName;
+  const password = session?.user.password;
   return (
     <>
       <Container>
-        <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
+          <div className="text-right align-top text-sm font-semibold text-accent">
+            <EditAccountButton />
+          </div>
+        </div>
         <div className="flex flex-row space-x-20">
           <div>
             <div className="text-subdued">Business name</div>
@@ -21,6 +28,10 @@ export default function Settings() {
           <div>
             <div className="text-subdued">Email</div>
             <div className="font-medium">{email}</div>
+          </div>
+          <div>
+            <div className="text-subdued">Password</div>
+            <div className="font-medium">{password}</div>
           </div>
         </div>
       </Container>

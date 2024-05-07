@@ -46,6 +46,7 @@ const StudioSchema = new Schema<IStudio>({
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: String,
   businessName: String,
+  quickstartAccount: Boolean,
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).

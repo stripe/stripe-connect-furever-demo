@@ -7,8 +7,15 @@ import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import { ConnectNotificationBanner } from '@stripe/react-connect-js';
+import {useSession} from 'next-auth/react';
+import {redirect} from 'next/navigation';
 
 export default function Dashboard() {
+  const {data: session} = useSession();
+
+  if (!session) {
+    redirect('/');
+  }
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, Jenny!</h1>
