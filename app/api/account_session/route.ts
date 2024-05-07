@@ -74,6 +74,7 @@ export async function POST(req: NextRequest) {
         account_management: {enabled: true},
         account_onboarding: {enabled: true},
         payment_method_settings: {enabled: true},
+        notification_banner: {enabled: true},
       },
     });
 
