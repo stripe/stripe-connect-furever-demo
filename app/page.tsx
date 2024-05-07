@@ -10,6 +10,7 @@ import {ArrowRight, CalendarCheck, CreditCard, ReceiptText} from 'lucide-react';
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import SignupForm from './(auth)/signup/form';
+import Link from 'next/link';
 
 function Card({
   icon,
@@ -33,21 +34,58 @@ function Card({
 
 const AuthButtons = () => {
   const router = useRouter();
-  const {data: session} = useSession();
+  const {data: session, status} = useSession();
 
-  console.log(session)
+  if (status == "unauthenticated") {
+    return (
+      <>
+        <Link href="/login">
+          <Button
+            variant="secondary"
+            size="lg"
+          >
+            Log in
+          </Button>
+        </Link>
+        <Link href="/signup">
+          <Button
+            size="lg"
+            className="flex items-center gap-x-1"
+          >
+            Get started
+            <ArrowRight />
+          </Button>
+        </Link>
+      </>
+    )
+  }
 
   if (session?.user?.stripeAccount?.details_submitted === false) {
+    // Stripe account created but onboarding not complete
     return (
-      <Button
-        size="lg"
-        onClick={() => router.push('/onboarding')}
-        className="flex items-center gap-x-1"
-        role="link"
-      >
-        Continue onboarding
-        <ArrowRight />
-      </Button>
+      <Link href="/onboarding">
+        <Button
+          size="lg"
+          className="flex items-center gap-x-1"
+        >
+          Continue onboarding
+          <ArrowRight />
+        </Button>
+      </Link>
+    )
+  } else if (session?.user?.stripeAccount == null) {
+    // Stripe account not created
+    return (
+      <Link href="/business">
+        <Button
+          size="lg"
+          // onClick={() => router.push('/business')}
+          className="flex items-center gap-x-1"
+        >
+          Continue onboarding
+          <ArrowRight />
+        </Button>
+      </Link>
     )
   } else if (session) {
     return (
@@ -55,52 +93,15 @@ const AuthButtons = () => {
         size="lg"
         onClick={() => router.push('/home')}
         className="items-center gap-x-1"
-        role="link"
       >
         Go to dashboard
         <ArrowRight />
       </Button>
     )
-  } else {
-    return (
-      <>
-        <Button
-          variant="secondary"
-          size="lg"
-          className=""
-          onClick={() => router.push('/login')}
-          role="link"
-        >
-          Log in
-        </Button>
-        <Button
-          size="lg"
-          onClick={() => router.push('/signup')}
-          className="flex items-center gap-x-1"
-          role="link"
-        >
-          Get started
-          <ArrowRight />
-        </Button>
-      </>
-    )
   }
 }
 
 export default function LandingPage() {
-  const router = useRouter();
-  const {data: session} = useSession();
-
-  // let authButtons = <></>;
-
-  // if (session?.user?.stripeAccount?.details_submitted === false) {
-  //   authButtons = (
-  //     <Button>
-  //       Continue onboarding
-  //     </Button>
-  //   )
-  // }
-
   return (
     <div className="min-w-[1024px]">
       <div className="relative">
@@ -124,7 +125,7 @@ export default function LandingPage() {
               team of salons and expand your business.
             </p>
           </div>
-          <div className="flex flex-row gap-x-4">
+          <div className="flex flex-row gap-x-4 h-[52px]">
             <AuthButtons />
           </div>
         </div>

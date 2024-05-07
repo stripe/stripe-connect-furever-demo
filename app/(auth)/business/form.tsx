@@ -397,6 +397,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                     <Input
                       {...field}
                       className="mt-1 placeholder:text-gray-400"
+                      placeholder="My business name"
                     />
                   </FormControl>
                 </>
@@ -445,9 +446,9 @@ export default function BusinessDetailsForm({email}: {email: string}) {
           </Button>
 
           <Collapsible open={showMoreOptions}>
-            <p>
+            <p className="text-secondary">
               These options allow you to configure your connected account&apos;s
-              controller properties
+              controller properties.
             </p>
             <div>
               <FormField

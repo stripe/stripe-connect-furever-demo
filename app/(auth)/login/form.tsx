@@ -60,6 +60,7 @@ export default function LoginForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
+                    autoFocus
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="jenny.rosen@example.com"
                     {...field}
