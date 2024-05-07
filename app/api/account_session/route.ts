@@ -70,9 +70,9 @@ export async function POST(req: NextRequest) {
           },
         },
         // Connect
-        // @ts-ignore
         account_management: {enabled: true},
         account_onboarding: {enabled: true},
+        // @ts-ignore
         payment_method_settings: {enabled: true},
         notification_banner: {enabled: true},
       },

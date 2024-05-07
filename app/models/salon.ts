@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const studioSchemaName = 'StudioV1';
+const salonSchemaName = 'SalonV3';
 
-export interface IStudio extends Document {
+export interface ISalon extends Document {
   _id: string;
   email: string;
   password: string;
@@ -24,14 +24,14 @@ export interface IStudio extends Document {
 }
 
 // Define the Salon schema.
-const StudioSchema = new Schema<IStudio>({
+const SalonSchema = new Schema<ISalon>({
   email: {
     type: String,
     required: true,
     unique: true,
     validate: {
       // Custom validator to check if the email was already used.
-      validator: StudioEmailValidator,
+      validator: SalonEmailValidator,
       message: 'This email already exists. Please try to log in instead.',
     },
   },
@@ -50,14 +50,14 @@ const StudioSchema = new Schema<IStudio>({
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).
-function StudioEmailValidator(email: string) {
+function SalonEmailValidator(email: string) {
   // Asynchronously resolve a promise to validate whether an email already exists
   return new Promise((resolve, reject) => {
     // Only check model updates for new salons (or if the email address is updated).
     // @ts-ignore - 'this' implicitly has type 'any' because it does not have a type annotation.ts(2683)
     if (this.isNew || this.isModified('email')) {
       // Try to find a matching salon
-      Studio.findOne({email}).exec((err, studio) => {
+      Salon.findOne({email}).exec((err, salon) => {
         // Handle errors
         if (err) {
           console.log(err);
@@ -65,7 +65,7 @@ function StudioEmailValidator(email: string) {
           return;
         }
         // Validate depending on whether a matching salon exists.
-        if (studio) {
+        if (salon) {
           resolve(false);
         } else {
           resolve(true);
@@ -78,17 +78,17 @@ function StudioEmailValidator(email: string) {
 }
 
 // Generate a password hash (with an auto-generated salt for simplicity here).
-StudioSchema.methods.generateHash = function (password) {
+SalonSchema.methods.generateHash = function (password) {
   return password;
 };
 
 // Check if the password is valid by comparing with the stored hash.
-StudioSchema.methods.validatePassword = function (password) {
+SalonSchema.methods.validatePassword = function (password) {
   return password === this.password;
 };
 
 // Pre-save hook to define some default properties for salons.
-StudioSchema.pre('save', function (next) {
+SalonSchema.pre('save', function (next) {
   // Make sure the password is hashed before being stored.
   if (this.isModified('password')) {
     this.password = this.generateHash(this.password);
@@ -96,8 +96,8 @@ StudioSchema.pre('save', function (next) {
   next();
 });
 
-const Studio =
-  mongoose.models[studioSchemaName] ||
-  mongoose.model(studioSchemaName, StudioSchema);
+const Salon =
+  mongoose.models[salonSchemaName] ||
+  mongoose.model(salonSchemaName, SalonSchema);
 
-export default Studio;
+export default Salon;

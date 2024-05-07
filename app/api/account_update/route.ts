@@ -1,7 +1,7 @@
 import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
-import Studio, {IStudio} from '@/app/models/studio';
+import Salon, {ISalon} from '@/app/models/salon';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
     };
     console.log('updating account with, ', update);
 
-    await Studio.findOneAndUpdate({email: session?.user?.email}, update);
+    await Salon.findOneAndUpdate({email: session?.user?.email}, update);
 
-    const newUser = await Studio.findOne({email: updatedEmail});
+    const newUser = await Salon.findOne({email: updatedEmail});
     console.log('updated account, ', newUser);
     return new Response(
       JSON.stringify({

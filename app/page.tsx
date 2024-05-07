@@ -107,7 +107,7 @@ export default function LandingPage() {
               Manage your pet business with ease.
             </h1>
             <p className="pt-4 text-center text-[24px] text-white drop-shadow">
-              Furever is the world's leading pet grooming platform. Join our
+              Furever is the world&apos;s leading pet grooming platform. Join our
               team of salons and expand your business.
             </p>
           </div>
@@ -190,9 +190,9 @@ export default function LandingPage() {
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
               </h2>
-              <p className="text-left text-2xl mb-8 text-white/90">
-                Furever is the world's leading pet grooming platform. Join our
-                team of salons and expand your business.
+              <p className="text-left text-2xl">
+                Furever is the world&apos;s leading pet grooming platform. Join our
+                team of salons and expand your business
               </p>
               <Link href="/signup">
                 <Button variant="secondary" size="lg" className="text-primary gap-1.5">
