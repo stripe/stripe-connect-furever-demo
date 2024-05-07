@@ -33,7 +33,6 @@ export default function Settings() {
           </h2>
         </header>
         <EmbeddedComponentContainer>
-          <ConnectNotificationBanner/>
           <ConnectAccountManagement />
         </EmbeddedComponentContainer>
       </Container>
