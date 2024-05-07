@@ -1,4 +1,5 @@
 'use client';
+
 import Dog from '@/public/landing-page.jpeg';
 import FureverLogo from '@/public/furever_logo.png';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import Stripe from '@/public/stripe.svg';
 import {Button} from '@/components/ui/button';
 import {ArrowRight, CalendarCheck, CreditCard, ReceiptText} from 'lucide-react';
 import {useRouter} from 'next/navigation';
+import {useSession} from 'next-auth/react';
 import SignupForm from './(auth)/signup/form';
 
 function Card({
@@ -29,32 +31,88 @@ function Card({
   );
 }
 
+const AuthButtons = () => {
+  const router = useRouter();
+  const {data: session} = useSession();
+
+  console.log(session)
+
+  if (session?.user?.stripeAccount?.details_submitted === false) {
+    return (
+      <Button
+        size="lg"
+        onClick={() => router.push('/onboarding')}
+        className="flex items-center gap-x-1"
+        role="link"
+      >
+        Continue onboarding
+        <ArrowRight />
+      </Button>
+    )
+  } else if (session) {
+    return (
+      <Button
+        size="lg"
+        onClick={() => router.push('/home')}
+        className="items-center gap-x-1"
+        role="link"
+      >
+        Go to dashboard
+        <ArrowRight />
+      </Button>
+    )
+  } else {
+    return (
+      <>
+        <Button
+          variant="secondary"
+          size="lg"
+          className=""
+          onClick={() => router.push('/login')}
+          role="link"
+        >
+          Log in
+        </Button>
+        <Button
+          size="lg"
+          onClick={() => router.push('/signup')}
+          className="flex items-center gap-x-1"
+          role="link"
+        >
+          Get started
+          <ArrowRight />
+        </Button>
+      </>
+    )
+  }
+}
+
 export default function LandingPage() {
   const router = useRouter();
+  const {data: session} = useSession();
+
+  // let authButtons = <></>;
+
+  // if (session?.user?.stripeAccount?.details_submitted === false) {
+  //   authButtons = (
+  //     <Button>
+  //       Continue onboarding
+  //     </Button>
+  //   )
+  // }
 
   return (
     <div className="min-w-[1024px]">
       <div className="relative">
         <div className="mx-auto flex max-w-screen-lg flex-col items-center px-4 pb-[140px]">
-          <div className="flex w-full flex-row items-center justify-between py-4">
-            <div className="flex items-center gap-x-3">
-              <Image
-                src={FureverLogo}
-                alt="Furever logo"
-                height={48}
-                width={48}
-              />
-              <p className="text-2xl font-bold text-white">Furever</p>
-            </div>
-
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => router.push('/login')}
-              role="link"
-            >
-              Log in
-            </Button>
+          <div className="flex w-full flex-row items-center justify-center gap-3 py-4">
+            <Image
+              src={FureverLogo}
+              alt="Furever logo"
+              height={48}
+              width={48}
+            />
+            <p className="text-2xl font-bold text-white">Furever</p>
           </div>
 
           <div className="max-w-[700px] py-16">
@@ -67,24 +125,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="flex flex-row gap-x-4">
-            <Button
-              variant="secondary"
-              size="lg"
-              className=""
-              onClick={() => router.push('/login')}
-              role="link"
-            >
-              Log in
-            </Button>
-            <Button
-              size="lg"
-              onClick={() => router.push('/signup')}
-              className="flex items-center gap-x-1"
-              role="link"
-            >
-              Get started
-              <ArrowRight />
-            </Button>
+            <AuthButtons />
           </div>
         </div>
         <div className="absolute top-0 z-[-1] h-full w-full overflow-hidden bg-gradient-to-t from-black/70 to-black/40" />

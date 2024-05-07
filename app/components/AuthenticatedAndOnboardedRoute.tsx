@@ -19,7 +19,7 @@ export default function AuthenticatedAndOnboardedRoute({
   }, [session, router]);
 
   if (!session || !session.user) {
-    return null;
+    // return null;
   }
 
   return <>{children}</>;
