@@ -1,7 +1,6 @@
 'use client';
 
-import {ConnectNotificationBanner, ConnectPaymentMethodSettings} from '@stripe/react-connect-js';
-import {ConnectAccountManagement} from '@stripe/react-connect-js';
+import {ConnectPaymentMethodSettings, ConnectAccountManagement} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
