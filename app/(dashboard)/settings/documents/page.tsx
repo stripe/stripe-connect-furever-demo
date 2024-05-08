@@ -2,7 +2,7 @@
 
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import { ConnectDocuments } from '@stripe/react-connect-js';
+import {ConnectDocuments} from '@stripe/react-connect-js';
 
 export default function Documents() {
   return (

@@ -5,6 +5,10 @@ import Salon, {ISalon} from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
 
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
@@ -23,6 +27,11 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session}) {
+
+      // If session is already populated then return it
+      if (session?.user?.stripeAccount) {
+        return session;
+      }
       try {
         await dbConnect();
       } catch (err) {
@@ -45,9 +54,7 @@ export const authOptions: AuthOptions = {
       let stripeAccount;
       if (salon.stripeAccountId) {
         try {
-          stripeAccount = await stripe.accounts.retrieve(
-            salon.stripeAccountId
-          );
+          stripeAccount = await stripe.accounts.retrieve(salon.stripeAccountId);
         } catch (err) {
           console.error('Could not retrieve stripe account for user', err);
           throw err;

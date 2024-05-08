@@ -132,13 +132,16 @@ const Schedule = () => {
                       petType,
                       profilePhoto,
                     }) => {
-                      const badge = petType == "dog"
-                        ? <Badge variant="blue">Dog</Badge>
-                        : <Badge variant="red">Cat</Badge>;
+                      const badge =
+                        petType == 'dog' ? (
+                          <Badge variant="blue">Dog</Badge>
+                        ) : (
+                          <Badge variant="red">Cat</Badge>
+                        );
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset border p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
