@@ -47,15 +47,15 @@ export async function POST() {
       }
     );
     for (let i = 0; i < 3; i++) {
-    await stripe.payouts.create(
+      await stripe.payouts.create(
         {
           amount: getRandomInt(10000, 50000),
-          currency: "USD",
-          description: "TEST PAYOUT",
+          currency: 'USD',
+          description: 'TEST PAYOUT',
         },
         {
           stripeAccount: accountId,
-        },
+        }
       );
     }
 

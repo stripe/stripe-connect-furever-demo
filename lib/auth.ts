@@ -27,7 +27,6 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session}) {
-
       // If session is already populated then return it
       if (session?.user?.stripeAccount) {
         return session;

@@ -6,12 +6,10 @@ import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Loader2 } from 'lucide-react';
-
+import {Button} from '@/components/ui/button';
+import {ArrowRight, Loader2} from 'lucide-react';
 
 export default function Payments() {
-
   const [loading, setLoading] = React.useState(false);
 
   const onClick = async () => {
@@ -23,7 +21,7 @@ export default function Payments() {
       },
     });
     window.location.reload();
-  }
+  };
 
   return (
     <>
@@ -37,20 +35,17 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className='flex flex-col space-y-3 items-start'>
-        <h1 className="text-xl font-bold">Recent payments</h1>
-        <Button onClick={onClick} disabled={loading}> 
-        {loading ? (
-        <>
-          Creating payments <Loader2 className="animate-spin" size={20} />
-        </>
-      ) : (
-        <>
-          Create test payments
-        </>
-      )}
-        
-        </Button>
+        <div className="flex flex-col items-start space-y-3">
+          <h1 className="text-xl font-bold">Recent payments</h1>
+          <Button onClick={onClick} disabled={loading}>
+            {loading ? (
+              <>
+                Creating payments <Loader2 className="animate-spin" size={20} />
+              </>
+            ) : (
+              <>Create test payments</>
+            )}
+          </Button>
         </div>
         <EmbeddedComponentContainer>
           <ConnectPayments />

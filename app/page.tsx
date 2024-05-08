@@ -34,58 +34,49 @@ function Card({
 const AuthButtons = () => {
   const {data: session, status} = useSession();
 
-  if (status == "authenticated") {
-    let buttonLink = "/";
-    let buttonText = "";
+  if (status == 'authenticated') {
+    let buttonLink = '/';
+    let buttonText = '';
 
     if (session?.user?.stripeAccount?.details_submitted === false) {
       // Stripe account created but onboarding not complete
-      buttonLink = "/onboarding";
-      buttonText = "Continue onboarding";
+      buttonLink = '/onboarding';
+      buttonText = 'Continue onboarding';
     } else if (session?.user?.stripeAccount == null) {
       // Stripe account not created
-      buttonLink = "/business";
-      buttonText = "Continue onboarding";
+      buttonLink = '/business';
+      buttonText = 'Continue onboarding';
     } else {
-      buttonLink = "/home";
-      buttonText = "Go to dashboard";
+      buttonLink = '/home';
+      buttonText = 'Go to dashboard';
     }
 
     return (
       <Link href={buttonLink}>
-        <Button
-          size="lg"
-          className="items-center gap-x-1"
-        >
+        <Button size="lg" className="items-center gap-x-1">
           {buttonText}
           <ArrowRight />
         </Button>
       </Link>
-    )
+    );
   } else {
     return (
       <>
         <Link href="/login">
-          <Button
-            variant="secondary"
-            size="lg"
-          >
+          <Button variant="secondary" size="lg">
             Log in
           </Button>
         </Link>
         <Link href="/signup">
-          <Button
-            size="lg"
-            className="flex items-center gap-x-1"
-          >
+          <Button size="lg" className="flex items-center gap-x-1">
             Get started
             <ArrowRight />
           </Button>
         </Link>
       </>
-    )
+    );
   }
-}
+};
 
 export default function LandingPage() {
   return (
@@ -111,7 +102,7 @@ export default function LandingPage() {
               our team of salons and expand your business.
             </p>
           </div>
-          <div className="flex flex-row gap-x-4 h-[52px]">
+          <div className="flex h-[52px] flex-row gap-x-4">
             <AuthButtons />
           </div>
         </div>
@@ -185,7 +176,7 @@ export default function LandingPage() {
       {/* Get started section */}
       <div className="relative items-center bg-accent bg-paw-pattern-white bg-[size:426px]">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex items-center gap-12 pt-20 pb-32 text-white">
+          <div className="flex items-center gap-12 pb-32 pt-20 text-white">
             <div className="min-w-[400px]">
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
@@ -195,13 +186,17 @@ export default function LandingPage() {
                 our team of salons and expand your business
               </p>
               <Link href="/signup">
-                <Button variant="secondary" size="lg" className="text-primary gap-1.5">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="gap-1.5 text-primary"
+                >
                   Get Started
                   <ArrowRight size={22} />
                 </Button>
               </Link>
             </div>
-            <div className="max-h-[500px] rounded-lg overflow-hidden shadow-xl">
+            <div className="max-h-[500px] overflow-hidden rounded-lg shadow-xl">
               <Image
                 src={Dashboard}
                 alt="A screenshot of Furever dashboard"

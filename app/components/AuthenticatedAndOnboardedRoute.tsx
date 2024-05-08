@@ -18,7 +18,7 @@ export default function AuthenticatedAndOnboardedRoute({
     }
   }, [session, router]);
 
-  if (status == "unauthenticated") {
+  if (status == 'unauthenticated') {
     router.push('/');
   }
 
