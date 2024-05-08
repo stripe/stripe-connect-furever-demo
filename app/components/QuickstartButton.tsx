@@ -196,6 +196,8 @@ const QuickstartButton = () => {
       businessName: salonName,
       callbackUrl: '/home',
     });
+
+    router.push('/home'); // Redirect to the dashboard
   }
 
   const onClick = async () => {
