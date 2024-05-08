@@ -369,7 +369,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                         <FormControl>
                           <Input
                             {...field}
-                            className="h-[14px] w-[14px] rounded-md border border-accent-300 placeholder:text-gray-400"
+                            className="border-accent-300 h-[14px] w-[14px] rounded-md border placeholder:text-gray-400"
                             type="radio"
                             value={option}
                             checked={field.value === option}
@@ -448,8 +448,12 @@ export default function BusinessDetailsForm({email}: {email: string}) {
           <Collapsible open={showMoreOptions}>
             <p className="text-secondary">
               These options allow you to configure your connected account&apos;s
-              controller properties. {' '}
-              <a className="text-accent font-medium hover:underline" target="blank" href="https://docs.stripe.com/connect/design-an-integration">
+              controller properties.{' '}
+              <a
+                className="font-medium text-accent hover:underline"
+                target="blank"
+                href="https://docs.stripe.com/connect/design-an-integration"
+              >
                 Learn more
               </a>
             </p>
@@ -519,7 +523,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               type="submit"
               disabled={form.formState.isSubmitting}
               className={
-                'w-full rounded-md bg-accent text-white gap-1 items-center'
+                'w-full items-center gap-1 rounded-md bg-accent text-white'
               }
             >
               {form.formState.isSubmitting ||

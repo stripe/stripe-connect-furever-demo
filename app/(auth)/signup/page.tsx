@@ -17,13 +17,13 @@ export default async function Signup() {
     <>
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="mb-1 text-2xl font-semibold">Get started</h1>
-        <Tabs defaultValue="create" className="w-full">
+        <Tabs defaultValue="quickstart" className="w-full">
           <TabsList className="mb-4 w-full">
-            <TabsTrigger className="flex-1" value="create">
-              Create an account
-            </TabsTrigger>
             <TabsTrigger className="flex-1" value="quickstart">
               Quickstart
+            </TabsTrigger>
+            <TabsTrigger className="flex-1" value="create">
+              Create an account
             </TabsTrigger>
           </TabsList>
           <TabsContent value="create">

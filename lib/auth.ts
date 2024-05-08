@@ -1,9 +1,13 @@
 import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
-import Studio, {IStudio} from '../app/models/studio';
+import Salon, {ISalon} from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
+
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export const authOptions: AuthOptions = {
   session: {
@@ -23,6 +27,10 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session}) {
+      // If session is already populated then return it
+      if (session?.user?.stripeAccount) {
+        return session;
+      }
       try {
         await dbConnect();
       } catch (err) {
@@ -30,34 +38,32 @@ export const authOptions: AuthOptions = {
         throw err;
       }
 
-      console.log('looking for studio for email', session.user?.email);
-      const studio: IStudio = await Studio.findOne({
+      console.log('looking for salon for email', session.user?.email);
+      const salon: ISalon = await Salon.findOne({
         email: session.user?.email,
       });
-      if (!studio) {
+      if (!salon) {
         console.error('Could not find a user for email in getting the session');
         throw new Error(
           'Could not find a user for email in getting the session'
         );
       }
-      console.log('Found studio', studio);
+      console.log('Found salon', salon);
 
       let stripeAccount;
-      if (studio.stripeAccountId) {
+      if (salon.stripeAccountId) {
         try {
-          stripeAccount = await stripe.accounts.retrieve(
-            studio.stripeAccountId
-          );
+          stripeAccount = await stripe.accounts.retrieve(salon.stripeAccountId);
         } catch (err) {
           console.error('Could not retrieve stripe account for user', err);
           throw err;
         }
         session.user.stripeAccount = stripeAccount;
-        session.user.businessName = studio.businessName;
-        session.user.password = studio.password;
+        session.user.businessName = salon.businessName;
+        session.user.password = salon.password;
       }
 
-      console.log(`Got session for user ${studio.email}`);
+      console.log(`Got session for user ${salon.email}`);
 
       return session;
     },
@@ -82,7 +88,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await dbConnect();
 
-        let user: IStudio | null = null;
+        let user: ISalon | null = null;
         try {
           const email = credentials?.email;
           const password = credentials?.password;
@@ -91,7 +97,7 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          user = await Studio.findOne({email});
+          user = await Salon.findOne({email});
           if (!user) {
             return null;
           }
@@ -119,7 +125,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await dbConnect();
 
-        let user: IStudio | null = null;
+        let user: ISalon | null = null;
         try {
           const stripeAccountId = credentials?.accountId;
           // Login as sets the password if it doesn't exist
@@ -130,23 +136,23 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          user = await Studio.findOne({stripeAccountId: stripeAccountId});
+          user = await Salon.findOne({stripeAccountId: stripeAccountId});
           if (!user) {
             // See if they exist on the platform
             const stripeAccount =
               await stripe.accounts.retrieve(stripeAccountId);
             if (stripeAccount?.email) {
               // Create the account locally
-              user = new Studio({
+              user = new Salon({
                 email: stripeAccount.email,
                 password,
                 firstName: stripeAccount.individual?.first_name,
                 lastName: stripeAccount.individual?.last_name,
                 stripeAccountId: stripeAccountId,
               });
-              console.log('Creating Studio...');
+              console.log('Creating Salon...');
               await user!.save();
-              console.log('Studio was created');
+              console.log('Salon was created');
             } else {
               console.log(
                 'Could not find a user for account id',
@@ -199,23 +205,23 @@ export const authOptions: AuthOptions = {
         }
 
         console.log('Signing up');
-        let user: IStudio | null = null;
+        let user: ISalon | null = null;
         try {
           // Look for existing user.
-          user = await Studio.findOne({email});
+          user = await Salon.findOne({email});
           if (user) {
             console.log('Found an existing user, cannot sign up again');
             return null;
           }
 
-          user = new Studio({
+          user = new Salon({
             email,
             password,
             quickstartAccount: true,
           });
-          console.log('Creating Studio...');
+          console.log('Creating Salon...');
           await user!.save();
-          console.log('Studio was created');
+          console.log('Salon was created');
         } catch (error: any) {
           console.log(
             'Got an error authorizing and creating a user during signup',
@@ -310,9 +316,9 @@ export const authOptions: AuthOptions = {
 
           user.stripeAccountId = account.id;
           user.businessName = credentials?.businessName;
-          console.log('Updating Studio...');
+          console.log('Updating Salon...');
           await user!.save();
-          console.log('Studio was updated and updated studio is', user);
+          console.log('Salon was updated and updated salon is', user);
         } catch (error: any) {
           console.log('Got an error creating a Stripe account', error);
           return null;
@@ -348,10 +354,10 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        let user: IStudio | null = null;
+        let user: ISalon | null = null;
         try {
           // Look for existing user.
-          user = await Studio.findOne({email});
+          user = await Salon.findOne({email});
           if (!user) {
             console.log('Could not find an existing user for the email', email);
             return null;
@@ -378,9 +384,9 @@ export const authOptions: AuthOptions = {
           console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;
-          console.log('Updating Studio...');
+          console.log('Updating Salon...');
           await user!.save();
-          console.log('Studio was updated');
+          console.log('Salon was updated');
         } catch (error: any) {
           console.log('Got an error creating a Stripe account', error);
           return null;
@@ -412,22 +418,22 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        let user: IStudio | null = null;
+        let user: ISalon | null = null;
         try {
           // Look for existing user.
-          user = await Studio.findOne({email});
+          user = await Salon.findOne({email});
           if (user) {
             console.log('Found an existing user, cannot sign up again');
             return null;
           }
 
-          user = new Studio({
+          user = new Salon({
             email,
             password,
           });
-          console.log('Creating Studio...');
+          console.log('Creating Salon...');
           await user!.save();
-          console.log('Studio was created');
+          console.log('Salon was created');
         } catch (error: any) {
           console.log(
             'Got an error authorizing and creating a user during signup',

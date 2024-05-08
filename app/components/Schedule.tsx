@@ -132,13 +132,16 @@ const Schedule = () => {
                       petType,
                       profilePhoto,
                     }) => {
-                      const badge = petType == "dog"
-                        ? <Badge variant="blue">Dog</Badge>
-                        : <Badge variant="red">Cat</Badge>;
+                      const badge =
+                        petType == 'dog' ? (
+                          <Badge variant="blue">Dog</Badge>
+                        ) : (
+                          <Badge variant="red">Cat</Badge>
+                        );
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md bg-offset border p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
+                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -158,12 +161,12 @@ const Schedule = () => {
                             <div className="text-md font-medium">{name}</div>
                           </div>
                           <div className="text-md flex items-end gap-2">
-                            <div className="relative flex flex-1 gap-2 font-medium items-center">
+                            <div className="relative flex flex-1 items-center gap-2 font-medium">
                               <Image
                                 className="relative h-7 w-7 rounded-full border border-gray-300"
                                 fill
                                 quality={100}
-                                sizes='200px'
+                                sizes="200px"
                                 src={`/pet_photos/${profilePhoto}.jpg`}
                                 alt={`Photo of ${name}`}
                               />

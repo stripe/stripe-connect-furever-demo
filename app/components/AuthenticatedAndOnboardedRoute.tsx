@@ -17,9 +17,8 @@ export default function AuthenticatedAndOnboardedRoute({
       router.push('/onboarding');
     }
   }, [session, router]);
-
-  if (status == "unauthenticated") {
-    router.push('/');
+  if (!session || !session.user) {
+    return null;
   }
 
   return <>{children}</>;
