@@ -11,8 +11,8 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
-import { Button } from '@/components/ui/button';
-import { LoaderCircle, Plus } from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {LoaderCircle, Plus} from 'lucide-react';
 
 export default function Settings() {
   const {data: session} = useSession();
@@ -34,6 +34,7 @@ export default function Settings() {
 
       if (res.ok) {
         setButtonLoading(false);
+        window.location.reload();
       }
     } catch (e) {
       console.log('Error with creating test intervention: ', e);
@@ -42,6 +43,11 @@ export default function Settings() {
 
   return (
     <>
+      <Container>
+        <EmbeddedComponentContainer>
+          <ConnectNotificationBanner />
+        </EmbeddedComponentContainer>
+      </Container>
       <Container>
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
@@ -76,27 +82,27 @@ export default function Settings() {
       </Container>
       <Container>
         <div className="flex flex-row justify-between">
-        <header className="mb-5">
-          <h1 className="text-xl font-semibold">Account settings</h1>
-          <h2 className="text-subdued">
-            Manage account and business settings.
-          </h2> 
-        </header>
-        <Button className='h-10' onClick={onClick} disabled={buttonLoading} >
-              {buttonLoading ? (
-                <>
-                  <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
-                  Creating intervention
-                </>
-              ) : (
-                <>
-                  <Plus size={20} className="mr-1" /> Create test risk intervention
-                </>
-              )}
-            </Button>
+          <header className="mb-5">
+            <h1 className="text-xl font-semibold">Account settings</h1>
+            <h2 className="text-subdued">
+              Manage account and business settings.
+            </h2>
+          </header>
+          <Button className="h-10" onClick={onClick} disabled={buttonLoading}>
+            {buttonLoading ? (
+              <>
+                <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
+                Creating intervention
+              </>
+            ) : (
+              <>
+                <Plus size={20} className="mr-1" /> Create test risk
+                intervention
+              </>
+            )}
+          </Button>
         </div>
         <EmbeddedComponentContainer>
-        <ConnectNotificationBanner/>
           <ConnectAccountManagement />
         </EmbeddedComponentContainer>
       </Container>
