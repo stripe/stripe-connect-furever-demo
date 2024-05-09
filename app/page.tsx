@@ -8,7 +8,13 @@ import QuotePortrait from '@/public/testimonial-portrait.jpg';
 import Dashboard from '@/public/dashboard.png';
 import Stripe from '@/public/stripe.svg';
 import {Button} from '@/components/ui/button';
-import {ArrowRight, CalendarCheck, CreditCard, Quote, ReceiptText} from 'lucide-react';
+import {
+  ArrowRight,
+  CalendarCheck,
+  CreditCard,
+  Quote,
+  ReceiptText,
+} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
 
@@ -160,9 +166,16 @@ export default function LandingPage() {
               className="overflow-hidden rounded-xl border object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
-              <p className="text-3xl font-bold relative">
-              “Furever has transformed the way we manage our salon! Booking and payments are seamless now, and our clients love the convenience!”
-                <Quote fill="var(--accent)" strokeWidth={0} size="120" className="absolute right-[-20px] top-[-50px] opacity-20" />
+              <p className="relative text-3xl font-bold">
+                “Furever has transformed the way we manage our salon! Booking
+                and payments are seamless now, and our clients love the
+                convenience!”
+                <Quote
+                  fill="var(--accent)"
+                  strokeWidth={0}
+                  size="120"
+                  className="absolute right-[-20px] top-[-50px] opacity-20"
+                />
               </p>
               <div className="flex flex-row items-center gap-x-5 self-end">
                 <Image
@@ -171,7 +184,7 @@ export default function LandingPage() {
                   placeholder="blur"
                   quality={50}
                   sizes="100px"
-                  className="overflow-hidden rounded-full h-12 w-12 object-cover shadow-lg"
+                  className="h-12 w-12 overflow-hidden rounded-full object-cover shadow-lg"
                 />
                 <div>
                   <p className="text-xl font-bold text-accent">Jamie L.</p>
@@ -191,7 +204,7 @@ export default function LandingPage() {
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
               </h2>
-              <p className="text-left text-2xl mb-6">
+              <p className="mb-6 text-left text-2xl">
                 Furever is the world&apos;s leading pet grooming platform. Join
                 our team of salons and expand your business
               </p>

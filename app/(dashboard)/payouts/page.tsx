@@ -58,7 +58,7 @@ export default function Payouts() {
         <h1 className="text-xl font-bold">Recent payouts</h1>
         <EmbeddedComponentContainer>
           {loading ? (
-            <div className="text-l flex items-center gap-1 justify-center py-16 text-center font-medium">
+            <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">
               <LoaderCircle
                 className="mr-1 animate-spin items-center"
                 size={20}
