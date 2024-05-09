@@ -39,7 +39,7 @@ export default function Settings() {
           <div>
             <div className="text-subdued">Password</div>
             <div className="font-medium">{showPassword ? (password) : "*********"}</div>
-            <Link className="text-sm font-semibold text-accent" href="#" onClick={() => setShowPassword(!showPassword)}> Show password </Link>
+            <Link className="text-sm font-semibold text-accent" href="#" onClick={() => setShowPassword(!showPassword)}> {showPassword ? "Hide password" : "Show password"}</Link>
           </div>
         </div>
       </Container>
