@@ -8,13 +8,14 @@ const BalanceWidget = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('/api/list_charges');
+      const json = await response.json();
       if (!response.ok) {
         // Handle errors on the client side here
-        const {error} = await response.json();
+        const {error} = json;
         console.warn('An error occurred: ', error);
         setCharges([]);
       } else {
-        const {charges} = await response.json();
+        const {charges} = json;
         setCharges(charges);
       }
     };

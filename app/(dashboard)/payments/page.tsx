@@ -7,7 +7,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import {Button} from '@/components/ui/button';
-import {ArrowRight, CreditCard, LoaderCircle, Plus} from 'lucide-react';
+import {LoaderCircle, Plus} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 
 export default function Payments() {
@@ -60,7 +60,10 @@ export default function Payments() {
               </>
             ) : (
               <>
+                {!loading && 
+                <>
                 <Plus size={20} className="mr-1" /> Create test payments
+                </>}
               </>
             )}
           </Button>
