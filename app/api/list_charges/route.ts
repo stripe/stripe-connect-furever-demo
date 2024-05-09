@@ -1,8 +1,16 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
+import { NextRequest } from 'next/server';
 
-export async function GET(count = 1) {
+export async function GET(req: NextRequest) {
+    const json = await req.json();
+    let {count} = json;
+    if (!count)
+    {
+        count = 3
+    }
+
   try {
     const session = await getServerSession(authOptions);
 
