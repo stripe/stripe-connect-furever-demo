@@ -4,10 +4,11 @@ import Dog from '@/public/landing-page.jpeg';
 import FureverLogo from '@/public/furever_logo.png';
 import Image from 'next/image';
 import DogHug from '@/public/testimonial.jpeg';
+import QuotePortrait from '@/public/testimonial-portrait.jpg';
 import Dashboard from '@/public/dashboard.png';
 import Stripe from '@/public/stripe.svg';
 import {Button} from '@/components/ui/button';
-import {ArrowRight, CalendarCheck, CreditCard, ReceiptText} from 'lucide-react';
+import {ArrowRight, CalendarCheck, CreditCard, Quote, ReceiptText} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
 
@@ -111,7 +112,7 @@ export default function LandingPage() {
           src={Dog}
           alt="logo"
           placeholder="blur"
-          quality={100}
+          quality={80}
           sizes="100vw"
           className="absolute top-0 z-[-2] h-full w-full overflow-hidden object-cover"
         />
@@ -129,18 +130,17 @@ export default function LandingPage() {
               <Card
                 icon={<CalendarCheck color="var(--accent)" />}
                 title="Simple scheduling"
-                description="Easily set up new and recurring jobs, organize your calendar, notify
-        technicians, and manage job details."
+                description="Easily set up appointments, organize your calendar, and manage different salons."
               />
               <Card
                 icon={<CreditCard color="var(--accent)" />}
                 title="Accept payments"
-                description="Take credit card and bank payments, offer instant financing to customers, track payments, and get paid faster."
+                description="Take credit card and bank payments, track all your transactions, and get paid out faster."
               />
               <Card
                 icon={<ReceiptText color="var(--accent)" />}
                 title="Manage your finances"
-                description="Issue credit cards and view transactions."
+                description="Get access to banking, instant financing, issue credit cards, and view transactions."
               />
             </div>
           </div>
@@ -160,13 +160,23 @@ export default function LandingPage() {
               className="overflow-hidden rounded-xl border object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
-              <p className="text-3xl font-bold">
-                This is a quote from a satisfied customer. They talk about how
-                great Furever is, and what it did for their business.
+              <p className="text-3xl font-bold relative">
+              “Furever has transformed the way we manage our salon! Booking and payments are seamless now, and our clients love the convenience!”
+                <Quote fill="var(--accent)" strokeWidth={0} size="120" className="absolute right-[-20px] top-[-50px] opacity-20" />
               </p>
-              <div className="flex flex-row items-center gap-x-3 self-end">
-                <div className="h-5 w-5 rounded-full bg-accent" />
-                <p className="text-xl font-medium text-accent">Customer name</p>
+              <div className="flex flex-row items-center gap-x-5 self-end">
+                <Image
+                  src={QuotePortrait}
+                  alt="portrait of person who gave the testimonial"
+                  placeholder="blur"
+                  quality={50}
+                  sizes="100px"
+                  className="overflow-hidden rounded-full h-12 w-12 object-cover shadow-lg"
+                />
+                <div>
+                  <p className="text-xl font-bold text-accent">Jamie L.</p>
+                  <p className="text-md text-secondary">Paws & Relax Spa</p>
+                </div>
               </div>
             </div>
           </div>
@@ -181,7 +191,7 @@ export default function LandingPage() {
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
               </h2>
-              <p className="text-left text-2xl">
+              <p className="text-left text-2xl mb-6">
                 Furever is the world&apos;s leading pet grooming platform. Join
                 our team of salons and expand your business
               </p>
