@@ -11,25 +11,23 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
-    while (true)
-    {
-        const acc = await stripe.accounts.retrieve(
-            {stripeAccount: accountId}
-            )
-            if (acc.requirements?.disabled_reason !== 'requirements.pending_verification')
-            {
-                break;
-            }
-
+    while (true) {
+      const acc = await stripe.accounts.retrieve({stripeAccount: accountId});
+      if (
+        acc.requirements?.disabled_reason !==
+        'requirements.pending_verification'
+      ) {
+        break;
+      }
     }
-    
+
     const charges = await stripe.charges.list(
-        {
-            limit: 1,
-        },
-        {
-            stripeAccount: session?.user?.stripeAccount?.id,
-        }
+      {
+        limit: 1,
+      },
+      {
+        stripeAccount: session?.user?.stripeAccount?.id,
+      }
     );
     const chargeCount = charges.data.length;
     if (chargeCount > 0) {
@@ -83,11 +81,11 @@ export async function POST() {
       );
     }
     const update = {
-        setup: true
+      setup: true,
     };
     console.log('updating account with, ', update);
-  
-await Salon.findOneAndUpdate({email: session?.user?.email}, update);
+
+    await Salon.findOneAndUpdate({email: session?.user?.email}, update);
 
     return new Response('Success', {
       status: 200,

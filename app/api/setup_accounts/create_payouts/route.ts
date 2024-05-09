@@ -11,7 +11,7 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
-   
+
     for (let i = 0; i < 3; i++) {
       await stripe.payouts.create(
         {

@@ -3,26 +3,23 @@ import Link from 'next/link';
 import Container from './Container';
 import {ChevronRight} from 'lucide-react';
 
-
 const BalanceWidget = () => {
-
   const [charges, setCharges] = React.useState([]);
   React.useEffect(() => {
-    const fetchData = async () => 
-  {
-    const response = await fetch('/api/list_charges');
-    if (!response.ok) {
-      // Handle errors on the client side here
-      const {error} = await response.json();
-      console.warn('An error occurred: ', error);
-      setCharges([]);
-    } else {
-      const {charges} = await response.json();
-        setCharges(charges)
-    }
-  };
-  fetchData();
-}, []);
+    const fetchData = async () => {
+      const response = await fetch('/api/list_charges');
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.warn('An error occurred: ', error);
+        setCharges([]);
+      } else {
+        const {charges} = await response.json();
+        setCharges(charges);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Container className="px-5">

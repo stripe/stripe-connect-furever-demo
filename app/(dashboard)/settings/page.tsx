@@ -9,8 +9,7 @@ import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
-import { Link } from '@/components/ui/link';
-
+import {Link} from '@/components/ui/link';
 
 export default function Settings() {
   const {data: session} = useSession();
@@ -38,8 +37,17 @@ export default function Settings() {
           </div>
           <div>
             <div className="text-subdued">Password</div>
-            <div className="font-medium">{showPassword ? (password) : "*********"}</div>
-            <Link className="text-sm font-semibold text-accent" href="#" onClick={() => setShowPassword(!showPassword)}> {showPassword ? "Hide password" : "Show password"}</Link>
+            <div className="font-medium">
+              {showPassword ? password : '*********'}
+            </div>
+            <Link
+              className="text-sm font-semibold text-accent"
+              href="#"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {' '}
+              {showPassword ? 'Hide password' : 'Show password'}
+            </Link>
           </div>
         </div>
       </Container>

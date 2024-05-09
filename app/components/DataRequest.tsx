@@ -14,30 +14,27 @@ export default function DataRequest({
 
   React.useEffect(() => {
     const fetchData = async () => {
-      if (session?.user.setup)
-      {
+      if (session?.user.setup) {
         return;
       }
-        
-          const res = await fetch('/api/setup_accounts', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          if (res.ok)
-          {
-    
-          await update({
-              user: {
-                ...session?.user,
-                setup: true,
-              },
-            });
-          window.location.reload();
-        }
+
+      const res = await fetch('/api/setup_accounts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        await update({
+          user: {
+            ...session?.user,
+            setup: true,
+          },
+        });
+        window.location.reload();
+      }
     };
-    setTimeout(() => fetchData(),10000);
+    setTimeout(() => fetchData(), 10000);
   }, []);
 
   return <>{children}</>;

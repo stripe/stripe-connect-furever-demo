@@ -38,7 +38,11 @@ export const authOptions: AuthOptions = {
         throw err;
       }
 
-      console.log('looking for salon for email', session.user?.email, session?.user?.stripeAccount);
+      console.log(
+        'looking for salon for email',
+        session.user?.email,
+        session?.user?.stripeAccount
+      );
       const salon: ISalon = await Salon.findOne({
         email: session.user?.email,
       });
@@ -73,7 +77,7 @@ export const authOptions: AuthOptions = {
         console.log('Updating token with name');
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.email = session.user.email;
-        token.setup = session.user.setup; 
+        token.setup = session.user.setup;
         console.log('finished updating token', token);
       }
       return token;
@@ -315,14 +319,22 @@ export const authOptions: AuthOptions = {
               },
             },
           });
-          console.log('Created stripe account', account.id, account.requirements?.disabled_reason);
+          console.log(
+            'Created stripe account',
+            account.id,
+            account.requirements?.disabled_reason
+          );
 
           user.stripeAccountId = account.id;
           user.businessName = credentials?.businessName;
           console.log('Updating Salon...');
           await user!.save();
 
-          console.log('Salon was updated and updated salon is', user,account.requirements?.disabled_reason );
+          console.log(
+            'Salon was updated and updated salon is',
+            user,
+            account.requirements?.disabled_reason
+          );
         } catch (error: any) {
           console.log('Got an error creating a Stripe account', error);
           return null;
