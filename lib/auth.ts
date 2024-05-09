@@ -64,7 +64,7 @@ export const authOptions: AuthOptions = {
         session.user.setup = salon.setup;
       }
 
-      console.log(`Got session for user ${salon.email}`, session.user.stripeAccount);
+      console.log(`Got session for user ${salon.email}`);
 
       return session;
     },
