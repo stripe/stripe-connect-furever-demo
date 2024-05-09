@@ -52,21 +52,20 @@ export default function Payments() {
       <Container>
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Recent payments</h1>
-          <Button onClick={onClick} disabled={buttonLoading}>
-            {buttonLoading ? (
-              <>
-                <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
-                Creating payments
-              </>
-            ) : (
-              <>
-                {!loading && 
+          {!loading && (
+            <Button onClick={onClick} disabled={buttonLoading}>
+              {buttonLoading ? (
                 <>
-                <Plus size={20} className="mr-1" /> Create test payments
-                </>}
-              </>
-            )}
-          </Button>
+                  <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
+                  Creating payments
+                </>
+              ) : (
+                <>
+                  <Plus size={20} className="mr-1" /> Create test payments
+                </>
+              )}
+            </Button>
+          )}
         </div>
         <EmbeddedComponentContainer>
           {loading ? (
