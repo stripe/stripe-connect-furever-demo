@@ -7,7 +7,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import {Button} from '@/components/ui/button';
-import {ArrowRight, CreditCard, LoaderCircle, Plus} from 'lucide-react';
+import {LoaderCircle, Plus} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 
 export default function Payments() {
@@ -52,18 +52,20 @@ export default function Payments() {
       <Container>
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Recent payments</h1>
-          <Button onClick={onClick} disabled={buttonLoading}>
-            {buttonLoading ? (
-              <>
-                <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
-                Creating payments
-              </>
-            ) : (
-              <>
-                <Plus size={20} className="mr-1" /> Create test payments
-              </>
-            )}
-          </Button>
+          {!loading && (
+            <Button onClick={onClick} disabled={buttonLoading}>
+              {buttonLoading ? (
+                <>
+                  <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
+                  Creating payments
+                </>
+              ) : (
+                <>
+                  <Plus size={20} className="mr-1" /> Create test payments
+                </>
+              )}
+            </Button>
+          )}
         </div>
         <EmbeddedComponentContainer>
           {loading ? (

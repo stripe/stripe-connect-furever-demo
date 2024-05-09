@@ -15,9 +15,11 @@ export default function Dashboard() {
     redirect('/');
   }
 
+  const name = session.user.stripeAccount.individual?.first_name;
+
   return (
     <>
-      <h1 className="text-3xl font-bold">Woof woof, Jenny!</h1>
+      <h1 className="text-3xl font-bold">Woof woof, {name}!</h1>
       <div className="bg-white">
         <EmbeddedComponentContainer>
           <ConnectNotificationBanner />

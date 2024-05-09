@@ -37,10 +37,9 @@ export default function Payouts() {
   };
   return (
     <>
-      <h1 className="text-3xl font-bold">Payouts</h1>
-      <Container>
-        <div className="flex flex-row justify-between">
-          <h1 className="text-xl font-bold">Recent payouts</h1>
+      <div className="flex flex-row justify-between">
+        <h1 className="text-3xl font-bold">Payouts</h1>
+        {!loading && (
           <Button onClick={onClick} disabled={buttonLoading}>
             {buttonLoading ? (
               <>
@@ -53,7 +52,10 @@ export default function Payouts() {
               </>
             )}
           </Button>
-        </div>
+        )}
+      </div>
+      <Container>
+        <h1 className="text-xl font-bold">Recent payouts</h1>
         <EmbeddedComponentContainer>
           {loading ? (
             <div className="text-l flex items-center justify-center py-16 text-center font-bold text-subdued">
