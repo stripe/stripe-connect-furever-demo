@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
+import Stripe from 'stripe';
 
 const navigationMenuItems = [
   {
@@ -46,6 +47,10 @@ const navigationMenuItems = [
     href: '/finances',
     icon: LandmarkIcon,
     paths: ['/finances/cards'],
+    shouldDisplayFilter: (stripeAccount: Stripe.Account) =>
+      stripeAccount.controller?.stripe_dashboard?.type === 'none' &&
+      stripeAccount.controller?.losses?.payments === 'application' &&
+      stripeAccount.controller?.requirement_collection === 'application',
   },
   {
     label: 'Account',
@@ -59,7 +64,7 @@ const Nav = () => {
   const pathname = usePathname();
   const {data: session} = useSession();
 
-  const accountID = session?.user?.stripeAccount?.id;
+  const stripeAccount = session?.user?.stripeAccount;
 
   return (
     <div className="fixed z-40 flex h-screen w-64 flex-col border-r bg-white p-3">
@@ -69,31 +74,40 @@ const Nav = () => {
       </div>
       <nav className="flex-1">
         <ul className="flex-col items-start space-x-0">
-          {navigationMenuItems.map((item) => (
-            <li key={item.label} className="p-1">
-              <Link href={item.href}>
-                <Button
-                  className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
-                    pathname === item.href || item.paths.includes(pathname)
-                      ? 'bg-accent-subdued text-accent'
-                      : 'bg-white'
-                  }`}
-                  tabIndex={-1}
-                >
-                  <item.icon
-                    className="mr-2"
-                    size={20}
-                    color={`${
+          {navigationMenuItems
+            .filter(({shouldDisplayFilter}) => {
+              // Not all pages require a filter.
+              if (!shouldDisplayFilter || !stripeAccount) {
+                return true;
+              }
+
+              return shouldDisplayFilter(stripeAccount);
+            })
+            .map((item) => (
+              <li key={item.label} className="p-1">
+                <Link href={item.href}>
+                  <Button
+                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
                       pathname === item.href || item.paths.includes(pathname)
-                        ? 'var(--accent)'
-                        : 'var(--primary)'
+                        ? 'bg-accent-subdued text-accent'
+                        : 'bg-white'
                     }`}
-                  />{' '}
-                  {item.label}
-                </Button>
-              </Link>
-            </li>
-          ))}
+                    tabIndex={-1}
+                  >
+                    <item.icon
+                      className="mr-2"
+                      size={20}
+                      color={`${
+                        pathname === item.href || item.paths.includes(pathname)
+                          ? 'var(--accent)'
+                          : 'var(--primary)'
+                      }`}
+                    />{' '}
+                    {item.label}
+                  </Button>
+                </Link>
+              </li>
+            ))}
         </ul>
       </nav>
     </div>
