@@ -4,19 +4,42 @@ import * as React from 'react';
 import {
   ConnectPaymentMethodSettings,
   ConnectAccountManagement,
+  ConnectNotificationBanner,
 } from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
+import { Button } from '@/components/ui/button';
+import { LoaderCircle, Plus } from 'lucide-react';
 
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [buttonLoading, setButtonLoading] = React.useState(false);
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   const password = session?.user.password;
+
+  const onClick = async () => {
+    setButtonLoading(true);
+    try {
+      const res = await fetch('/api/setup_accounts/create_risk_intervention', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.ok) {
+        setButtonLoading(false);
+      }
+    } catch (e) {
+      console.log('Error with creating test intervention: ', e);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -52,13 +75,28 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
+        <div className="flex flex-row justify-between">
         <header className="mb-5">
           <h1 className="text-xl font-semibold">Account settings</h1>
           <h2 className="text-subdued">
             Manage account and business settings.
-          </h2>
+          </h2> 
         </header>
+        <Button className='h-10' onClick={onClick} disabled={buttonLoading} >
+              {buttonLoading ? (
+                <>
+                  <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
+                  Creating intervention
+                </>
+              ) : (
+                <>
+                  <Plus size={20} className="mr-1" /> Create test risk intervention
+                </>
+              )}
+            </Button>
+        </div>
         <EmbeddedComponentContainer>
+        <ConnectNotificationBanner/>
           <ConnectAccountManagement />
         </EmbeddedComponentContainer>
       </Container>
