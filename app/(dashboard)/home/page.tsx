@@ -1,5 +1,5 @@
 'use client';
-
+import * as React from 'react';
 import Schedule from '@/app/components/Schedule';
 import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
@@ -11,11 +11,11 @@ import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 
 export default function Dashboard() {
-  const {data: session} = useSession();
-
+  const {data: session, update} = useSession();
   if (!session) {
     redirect('/');
   }
+
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, Jenny!</h1>

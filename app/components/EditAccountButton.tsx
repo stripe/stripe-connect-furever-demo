@@ -57,7 +57,6 @@ const EditAccountButton = () => {
         newPassword: values.password,
       };
 
-      // Fetch the AccountSession client secret
       const response = await fetch('/api/account_update', {
         method: 'POST',
         body: JSON.stringify(data),

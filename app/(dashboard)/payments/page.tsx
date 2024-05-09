@@ -7,21 +7,38 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import {Button} from '@/components/ui/button';
-import {ArrowRight, Loader2} from 'lucide-react';
+import {ArrowRight, CreditCard, LoaderCircle, Plus} from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 export default function Payments() {
-  const [loading, setLoading] = React.useState(false);
+  const {data: session} = useSession();
+  const [buttonLoading, setButtonLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    setLoading(!session?.user.setup);
+  }, [session?.user.setup]);
 
   const onClick = async () => {
-    setLoading(true);
-    await fetch('/api/setup_accounts', {
+    setButtonLoading(true);
+    try{
+    const res = await fetch('/api/setup_accounts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    window.location.reload();
-  };
+    
+    if (res.ok)
+    {
+      setButtonLoading(false)
+      window.location.reload();
+    }
+  } catch(e)
+  {
+    console.log("Error with creating test data: ", e);
+  }
+  }
 
   return (
     <>
@@ -35,20 +52,28 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className="flex flex-col items-start space-y-3">
+        <div className="flex flex-row justify-space">
           <h1 className="text-xl font-bold">Recent payments</h1>
-          <Button onClick={onClick} disabled={loading}>
-            {loading ? (
+              <Button className='mb-14' onClick={onClick} disabled={buttonLoading}>
+            {buttonLoading ? (
               <>
-                Creating payments <Loader2 className="animate-spin" size={20} />
+                <LoaderCircle className="animate-spin mr-1" size={20} /> Creating payments 
               </>
             ) : (
-              <>Create test payments</>
+              <>
+              <Plus size={20} className='mr-1'/> Create test payments</>
             )}
-          </Button>
-        </div>
+          </Button>  
+          </div>        
         <EmbeddedComponentContainer>
+          {
+          loading ? (
+            <div className='flex items-center justify-center text-center font-bold text-l py-16 text-subdued'>
+            <LoaderCircle className="animate-spin items-center mr-1" size={20} /> Creating test data 
+            </div>
+          ) : 
           <ConnectPayments />
+}
         </EmbeddedComponentContainer>
       </Container>
     </>

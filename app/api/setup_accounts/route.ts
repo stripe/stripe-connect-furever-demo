@@ -1,3 +1,4 @@
+import Salon from '@/app/models/salon';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
@@ -10,12 +11,35 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
-    const currency = 'usd';
+    while (true)
+    {
+        const acc = await stripe.accounts.retrieve(
+            {stripeAccount: accountId}
+            )
+            if (acc.requirements?.disabled_reason !== 'requirements.pending_verification')
+            {
+                break;
+            }
+
+    }
+    
+    const charges = await stripe.charges.list(
+        {
+            limit: 1,
+        },
+        {
+            stripeAccount: session?.user?.stripeAccount?.id,
+        }
+    );
+    const chargeCount = charges.data.length;
+    if (chargeCount > 0) {
+      return new Response('Already setup', {status: 200});
+    }
 
     for (let i = 0; i < 10; i++) {
       await stripe.paymentIntents.create(
         {
-          amount: getRandomInt(100, 1500000),
+          amount: getRandomInt(5000, 200000),
           currency: 'usd',
           automatic_payment_methods: {
             enabled: true,
@@ -23,7 +47,7 @@ export async function POST() {
           },
           confirm: true,
           payment_method: 'pm_card_bypassPending',
-          description: 'Wash and groom',
+          description: 'Classic wash and groom',
           receipt_email: 'receipt_test@stripe.com',
         },
         {
@@ -33,7 +57,7 @@ export async function POST() {
     }
     await stripe.paymentIntents.create(
       {
-        amount: getRandomInt(100, 15000),
+        amount: getRandomInt(5000, 20000),
         currency: 'usd',
         automatic_payment_methods: {
           enabled: true,
@@ -49,7 +73,7 @@ export async function POST() {
     for (let i = 0; i < 3; i++) {
       await stripe.payouts.create(
         {
-          amount: getRandomInt(10000, 50000),
+          amount: getRandomInt(5000, 20000),
           currency: 'USD',
           description: 'TEST PAYOUT',
         },
@@ -58,6 +82,12 @@ export async function POST() {
         }
       );
     }
+    const update = {
+        setup: true
+    };
+    console.log('updating account with, ', update);
+  
+await Salon.findOneAndUpdate({email: session?.user?.email}, update);
 
     return new Response('Success', {
       status: 200,

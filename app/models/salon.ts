@@ -17,6 +17,7 @@ export interface ISalon extends Document {
   // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
   accountConfig: string;
   businessName: string;
+  setup: boolean;
 
   generateHash: (password: string) => string;
   validatePassword: (password?: string) => boolean;
@@ -47,6 +48,7 @@ const SalonSchema = new Schema<ISalon>({
   accountConfig: String,
   businessName: String,
   quickstartAccount: Boolean,
+  setup: Boolean,
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).
