@@ -50,7 +50,7 @@ export default function Settings() {
       </Container>
       <Container>
         <div className="flex flex-row justify-between">
-          <h1 className="mb-4 text-xl font-semibold">Basic details</h1>
+          <h1 className="mb-4 text-xl font-semibold">Details</h1>
           <div className="text-right align-top text-sm font-semibold text-accent">
             <EditAccountButton />
           </div>
