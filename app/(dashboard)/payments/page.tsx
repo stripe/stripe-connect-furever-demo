@@ -22,7 +22,7 @@ export default function Payments() {
   const onClick = async () => {
     setButtonLoading(true);
     try{
-    const res = await fetch('/api/setup_accounts', {
+    const res = await fetch('/api/setup_accounts/create_charges', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,9 +52,9 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className="flex flex-row justify-space">
+        <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Recent payments</h1>
-              <Button className='mb-14' onClick={onClick} disabled={buttonLoading}>
+              <Button onClick={onClick} disabled={buttonLoading}>
             {buttonLoading ? (
               <>
                 <LoaderCircle className="animate-spin mr-1" size={20} /> Creating payments 

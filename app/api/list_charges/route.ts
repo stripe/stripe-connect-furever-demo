@@ -2,13 +2,13 @@ import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 
-export async function GET() {
+export async function GET(count = 1) {
   try {
     const session = await getServerSession(authOptions);
 
     const charges = await stripe.charges.list(
         {
-            limit: 1,
+            limit: count,
         },
         {
             stripeAccount: session?.user?.stripeAccount?.id,
@@ -17,6 +17,7 @@ export async function GET() {
     return new Response(
         JSON.stringify({
             charge_count: charges.data.length,
+            charges: charges.data,
         }),
         {status: 200, headers: {'Content-Type': 'application/json'}}
     );
