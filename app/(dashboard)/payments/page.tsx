@@ -69,11 +69,11 @@ export default function Payments() {
         </div>
         <EmbeddedComponentContainer>
           {loading ? (
-            <div className="text-l flex items-center justify-center py-16 text-center font-bold text-subdued">
+            <div className="text-l flex items-center gap-1 justify-center py-16 text-center font-medium">
               <LoaderCircle
                 className="mr-1 animate-spin items-center"
                 size={20}
-              />{' '}
+              />
               Creating test data
             </div>
           ) : (

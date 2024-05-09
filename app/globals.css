@@ -7,6 +7,8 @@
     --background: 0 0% 100%;
     --foreground: white;
 
+    --dialog-background: rgba(197, 197, 197, 0.7);
+
     --offset: #f5f6f8;
 
     --accent: #27ae60;
@@ -22,7 +24,7 @@
     --success-border: #94d5af;
     --success-foreground: #1e884b;
 
-    --destructive: #dc2626;
+    --destructive: #e74c3c;
     --destructive-foreground: #e9f7ef;
   }
 }

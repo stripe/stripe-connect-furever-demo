@@ -51,7 +51,7 @@ const navigationMenuItems = [
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
-    paths: [],
+    paths: ['/settings/documents'],
   },
 ];
 
@@ -78,6 +78,7 @@ const Nav = () => {
                       ? 'bg-accent-subdued text-accent'
                       : 'bg-white'
                   }`}
+                  tabIndex={-1}
                 >
                   <item.icon
                     className="mr-2"
@@ -95,21 +96,6 @@ const Nav = () => {
           ))}
         </ul>
       </nav>
-      <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3">
-        <div className="flex items-center gap-2 font-bold">
-          <SparklesIcon size={20} color="var(--primary)" />
-          <p className="text-primary">Tools</p>
-        </div>
-        <p className="mb-4 text-[15px]">
-          Explore embedded components and blah blah.
-        </p>
-        <Button
-          size="sm"
-          className="w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow"
-        >
-          Open tools
-        </Button>
-      </div>
     </div>
   );
 };
