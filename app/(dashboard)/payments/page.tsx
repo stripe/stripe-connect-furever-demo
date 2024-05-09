@@ -68,7 +68,7 @@ export default function Payments() {
           )}
         </div>
         <EmbeddedComponentContainer>
-          { loading ? (
+          {loading ? (
             <div className="text-l flex items-center gap-1 justify-center py-16 text-center font-medium">
               <LoaderCircle
                 className="mr-1 animate-spin items-center"

@@ -62,7 +62,7 @@ export default function Payouts() {
               <LoaderCircle
                 className="mr-1 animate-spin items-center"
                 size={20}
-              />{' '}
+              />
               Creating test data
             </div>
           ) : (
