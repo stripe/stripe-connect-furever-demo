@@ -11,28 +11,6 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
-    while (true) {
-      const acc = await stripe.accounts.retrieve({stripeAccount: accountId});
-      if (
-        acc.requirements?.disabled_reason !==
-        'requirements.pending_verification'
-      ) {
-        break;
-      }
-    }
-
-    const charges = await stripe.charges.list(
-      {
-        limit: 1,
-      },
-      {
-        stripeAccount: session?.user?.stripeAccount?.id,
-      }
-    );
-    const chargeCount = charges.data.length;
-    if (chargeCount > 0) {
-      return new Response('Already setup', {status: 200});
-    }
 
     for (let i = 0; i < 10; i++) {
       await stripe.paymentIntents.create(
@@ -68,24 +46,6 @@ export async function POST() {
         stripeAccount: accountId,
       }
     );
-    for (let i = 0; i < 3; i++) {
-      await stripe.payouts.create(
-        {
-          amount: getRandomInt(5000, 20000),
-          currency: 'USD',
-          description: 'TEST PAYOUT',
-        },
-        {
-          stripeAccount: accountId,
-        }
-      );
-    }
-    const update = {
-      setup: true,
-    };
-    console.log('updating account with, ', update);
-
-    await Salon.findOneAndUpdate({email: session?.user?.email}, update);
 
     return new Response('Success', {
       status: 200,

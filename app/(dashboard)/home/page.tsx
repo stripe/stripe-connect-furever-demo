@@ -1,5 +1,4 @@
 'use client';
-
 import Schedule from '@/app/components/Schedule';
 import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
@@ -12,10 +11,10 @@ import {redirect} from 'next/navigation';
 
 export default function Dashboard() {
   const {data: session} = useSession();
-
   if (!session) {
     redirect('/');
   }
+
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, Jenny!</h1>

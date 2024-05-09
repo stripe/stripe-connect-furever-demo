@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import {
   ConnectPaymentMethodSettings,
   ConnectAccountManagement,
@@ -8,9 +9,11 @@ import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
+import {Link} from '@/components/ui/link';
 
 export default function Settings() {
   const {data: session} = useSession();
+  const [showPassword, setShowPassword] = React.useState(false);
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   const password = session?.user.password;
@@ -34,7 +37,17 @@ export default function Settings() {
           </div>
           <div>
             <div className="text-subdued">Password</div>
-            <div className="font-medium">{password}</div>
+            <div className="font-medium">
+              {showPassword ? password : '*********'}
+            </div>
+            <Link
+              className="text-sm font-semibold text-accent"
+              href="#"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {' '}
+              {showPassword ? 'Hide password' : 'Show password'}
+            </Link>
           </div>
         </div>
       </Container>

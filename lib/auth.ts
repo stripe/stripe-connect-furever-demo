@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
       return true;
     },
 
-    async session({session}) {
+    async session({session, token}) {
       // If session is already populated then return it
       if (session?.user?.stripeAccount) {
         return session;
@@ -38,7 +38,11 @@ export const authOptions: AuthOptions = {
         throw err;
       }
 
-      console.log('looking for salon for email', session.user?.email);
+      console.log(
+        'looking for salon for email',
+        session.user?.email,
+        session?.user?.stripeAccount
+      );
       const salon: ISalon = await Salon.findOne({
         email: session.user?.email,
       });
@@ -61,6 +65,7 @@ export const authOptions: AuthOptions = {
         session.user.stripeAccount = stripeAccount;
         session.user.businessName = salon.businessName;
         session.user.password = salon.password;
+        session.user.setup = salon.setup;
       }
 
       console.log(`Got session for user ${salon.email}`);
@@ -69,9 +74,10 @@ export const authOptions: AuthOptions = {
     },
     async jwt({token, trigger, session}) {
       if (trigger === 'update' && session?.user) {
-        console.log('Updating token with name', session.user);
+        console.log('Updating token with name');
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.email = session.user.email;
+        token.setup = session.user.setup;
         console.log('finished updating token', token);
       }
       return token;
@@ -218,6 +224,7 @@ export const authOptions: AuthOptions = {
             email,
             password,
             quickstartAccount: true,
+            setup: false,
           });
           console.log('Creating Salon...');
           await user!.save();
@@ -275,7 +282,7 @@ export const authOptions: AuthOptions = {
               dob: {
                 day: 1,
                 month: 1,
-                year: 1901,
+                year: 1902,
               },
               phone: '8581234567',
               ssn_last_4: '0000',
@@ -312,13 +319,22 @@ export const authOptions: AuthOptions = {
               },
             },
           });
-          console.log('Created stripe account', account.id);
+          console.log(
+            'Created stripe account',
+            account.id,
+            account.requirements?.disabled_reason
+          );
 
           user.stripeAccountId = account.id;
           user.businessName = credentials?.businessName;
           console.log('Updating Salon...');
           await user!.save();
-          console.log('Salon was updated and updated salon is', user);
+
+          console.log(
+            'Salon was updated and updated salon is',
+            user,
+            account.requirements?.disabled_reason
+          );
         } catch (error: any) {
           console.log('Got an error creating a Stripe account', error);
           return null;
@@ -430,6 +446,7 @@ export const authOptions: AuthOptions = {
           user = new Salon({
             email,
             password,
+            setup: true,
           });
           console.log('Creating Salon...');
           await user!.save();
