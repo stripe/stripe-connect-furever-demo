@@ -35,15 +35,13 @@ export default function Settings() {
             <div className="text-subdued">Email</div>
             <div className="font-medium">{email}</div>
           </div>
-          <div className='flex flex-row space-x-2'>
-            <div>
+          <div>
             <div className="text-subdued">Password</div>
             <div className="font-medium">
               {showPassword ? password : '*********'}
             </div>
-            </div>
             <Link
-              className={`text-sm font-semibold text-accent grid-cols-2 ${showPassword? 'mt-[26px]' : 'mt-6'}`}
+              className="text-sm font-semibold text-accent"
               href="#"
               onClick={() => setShowPassword(!showPassword)}
             >
