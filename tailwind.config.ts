@@ -26,6 +26,9 @@ const config = {
         background: 'hsl(var(--background))',
         banner: '#0e5b2f',
         foreground: 'hsl(var(--foreground))',
+        dialog: {
+          background: 'var(--dialog-background)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',

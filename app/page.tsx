@@ -245,7 +245,7 @@ export default function LandingPage() {
           href="https://github.com/stripe/stripe-connect-furever-demo"
           target="_blank"
         >
-          View on Github
+          View on GitHub
           <ArrowRight size={16} />
         </a>
       </div>

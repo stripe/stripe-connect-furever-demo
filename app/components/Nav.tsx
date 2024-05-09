@@ -51,7 +51,7 @@ const navigationMenuItems = [
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
-    paths: [],
+    paths: ['/settings/documents'],
   },
 ];
 
@@ -78,6 +78,7 @@ const Nav = () => {
                       ? 'bg-accent-subdued text-accent'
                       : 'bg-white'
                   }`}
+                  tabIndex={-1}
                 >
                   <item.icon
                     className="mr-2"

@@ -4,8 +4,8 @@ import Image from 'next/image';
 import {Badge} from '@/components/ui/badge';
 import {ChevronLeft, ChevronRight, ChevronDown} from 'lucide-react';
 
-const SCHEDULE_HEIGHT = 1296;
-const MINUTES_IN_BUSINESS_DAY = 540;
+const SCHEDULE_HEIGHT = 1440;
+const MINUTES_IN_BUSINESS_DAY = 600;
 
 const getCurrentDate = () => {
   const currentDate = new Date();
@@ -52,7 +52,7 @@ const renderDayProgressBar = () => {
     <div
       className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-accent pl-20"
       style={{
-        top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY}px`,
+        top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY + 60}px`,
       }}
     >
       <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-accent bg-accent"></div>
