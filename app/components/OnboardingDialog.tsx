@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import ImageStep1 from '@/public/onboarding-images/step-1.png';
 import ImageStep2 from '@/public/onboarding-images/step-2.png';
+import ImageStep3 from '@/public/onboarding-images/step-3.png';
 import PointingHand from '@/public/onboarding-images/pointinghand.png';
 import { ArrowRight } from "lucide-react";
 import * as React from 'react';
@@ -20,8 +21,8 @@ import * as React from 'react';
 const OnboardingDialog = () => {
   const onboardingSteps = [
     {
-      "title": "Take a quick tour to learn more.",
-      "description": "Welcome to Furever, a demo site for Stripe Connect embedded components!",
+      "title": "Welcome to Furever!",
+      "description": "Take a quick tour to learn more.",
       "imageClassName": "scale-[0.85]",
       "cursorClassName": "opacity-0",
       "imageURL": ImageStep1,
@@ -29,14 +30,14 @@ const OnboardingDialog = () => {
       "title": "Use the sidebar to explore different components.",
       "description": "blah blah components are located on different pages.",
       "imageClassName": "scale-[1.6] translate-x-[280px] translate-y-[25px]",
-      "cursorClassName": "opacity-100 translate-x-[60px] translate-y-[-120px]",
+      "cursorClassName": "opacity-100 translate-x-[60px] translate-y-[-160px]",
       "imageURL": ImageStep2,
     }, {
-      "title": "Open tools to access more options",
-      "description": "View embedded component borders, change the theme, and more.",
+      "title": "View component outlines",
+      "description": "You can turn on borders to visualize embedded components in dashboard.",
       "imageClassName": "scale-[1.8] translate-x-[450px] translate-y-[-450px]",
       "cursorClassName": "opacity-100 translate-x-[208px] translate-y-[-75px]",
-      "imageURL": ImageStep2,
+      "imageURL": ImageStep3,
     }
   ]
 
@@ -108,7 +109,7 @@ const OnboardingDialog = () => {
   return (
     <>
       <Dialog onOpenChange={(open) => open ? setCurrentStep(0) : ''}>
-        <DialogTrigger>Open</DialogTrigger>
+        <DialogTrigger>Open modal</DialogTrigger>
         <DialogContent className="max-w-[none] w-[700px] p-0 gap-0 overflow-hidden border-0">
           <div className="w-full h-[300px] overflow-hidden border-b relative bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
