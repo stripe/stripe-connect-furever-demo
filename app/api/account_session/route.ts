@@ -79,6 +79,28 @@ export async function POST(req: NextRequest) {
         capital_overview: {
           enabled: true,
         },
+        financial_account: {
+          enabled: true,
+          features: {
+            money_movement: true,
+          },
+        },
+        issuing_cards_list: {
+          enabled: true,
+          features: {
+            card_management: true,
+            cardholder_management: true,
+          },
+        },
+        issuing_card: {
+          enabled: true,
+        },
+        financial_account_transactions: {
+          enabled: true,
+          features: {
+            card_spend_dispute_management: true,
+          },
+        },
       },
     });
 
