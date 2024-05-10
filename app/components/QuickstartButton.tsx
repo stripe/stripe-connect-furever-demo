@@ -194,10 +194,10 @@ const QuickstartButton = () => {
       email: `${salonName}_${emailNumber}@stripe.com`,
       password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
       businessName: salonName,
-      callbackUrl: '/home',
+      callbackUrl: '/home?shownux=true',
     });
 
-    router.push('/home'); // Redirect to the dashboard
+    router.push('/home?shownux=true'); // Redirect to the dashboard
   }
 
   const onClick = async () => {

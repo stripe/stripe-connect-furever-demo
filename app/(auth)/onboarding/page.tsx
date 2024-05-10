@@ -9,7 +9,7 @@ export default function Onboarding() {
     <EmbeddedComponentContainer>
       <ConnectAccountOnboarding
         onExit={() => {
-          window.location.href = '/home';
+          window.location.href = '/home?shownux=true';
         }}
       />
     </EmbeddedComponentContainer>

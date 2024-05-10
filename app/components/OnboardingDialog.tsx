@@ -16,9 +16,18 @@ import ImageStep2 from '@/public/onboarding-images/step-2.png';
 import ImageStep3 from '@/public/onboarding-images/step-3.png';
 import PointingHand from '@/public/onboarding-images/pointinghand.png';
 import { ArrowRight } from "lucide-react";
+import { useSearchParams } from 'next/navigation'
 import * as React from 'react';
 
 const OnboardingDialog = () => {
+
+  // Look for showNux query param in the URL
+  const searchParams = useSearchParams();
+  const showNux = searchParams.get('shownux') === 'true';
+
+  const [openNux, setOpenNux] = React.useState(showNux);
+  const [currentStep, setCurrentStep] = React.useState(0);
+
   const onboardingSteps = [
     {
       "title": "Welcome to Furever!",
@@ -27,28 +36,26 @@ const OnboardingDialog = () => {
       "cursorClassName": "opacity-0",
       "imageURL": ImageStep1,
     }, {
-      "title": "Use the sidebar to explore different components.",
-      "description": "blah blah components are located on different pages.",
+      "title": "Eplore components on different pages.",
+      "description": "Components can be found in Payments, Payouts, Finances, and My Account.",
       "imageClassName": "scale-[1.6] translate-x-[280px] translate-y-[25px]",
       "cursorClassName": "opacity-100 translate-x-[60px] translate-y-[-160px]",
       "imageURL": ImageStep2,
     }, {
       "title": "View component outlines",
-      "description": "You can turn on borders to visualize embedded components in dashboard.",
+      "description": "Turn on borders to visualize embedded components in dashboard.",
       "imageClassName": "scale-[1.8] translate-x-[450px] translate-y-[-450px]",
       "cursorClassName": "opacity-100 translate-x-[208px] translate-y-[-75px]",
       "imageURL": ImageStep3,
     }
   ]
 
-  const [currentStep, setCurrentStep] = React.useState(0);
-
   const DecrementButon = () => {
     // If user is at first step, show a close button
     if (currentStep == 0) {
       return (
         <DialogClose asChild>
-          <Button type="button" variant="secondary">
+          <Button type="button" variant="secondary" autoFocus={false}>
             Close
           </Button>
         </DialogClose>
@@ -72,6 +79,7 @@ const OnboardingDialog = () => {
         <DialogClose asChild>
           <Button
             className="gap-1 items-center bg-gradient-to-r from-[#7F81FA] to-[#5AA5F2] hover:opacity-90"
+            autoFocus={true}
           >
             Finish
             <ArrowRight size={20} />
@@ -108,8 +116,7 @@ const OnboardingDialog = () => {
 
   return (
     <>
-      <Dialog onOpenChange={(open) => open ? setCurrentStep(0) : ''}>
-        <DialogTrigger>Open modal</DialogTrigger>
+      <Dialog open={openNux} onOpenChange={setOpenNux}>
         <DialogContent className="max-w-[none] w-[700px] p-0 gap-0 overflow-hidden border-0">
           <div className="w-full h-[300px] overflow-hidden border-b relative bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
