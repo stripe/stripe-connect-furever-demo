@@ -48,7 +48,7 @@ export default function Settings() {
           <ConnectNotificationBanner />
         </EmbeddedComponentContainer>
       </Container>
-      <Container>
+      <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
           <div className="text-right align-top text-sm font-semibold text-accent">
@@ -81,17 +81,17 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
-        <div className="flex flex-row justify-between">
-          <header className="mb-5">
+        <div className="flex flex-row items-start justify-between">
+          <header className="ml-2 mb-5">
             <h1 className="text-xl font-semibold">Account settings</h1>
             <h2 className="text-subdued">
               Manage account and business settings.
             </h2>
           </header>
-          <Button className="h-10" onClick={onClick} disabled={buttonLoading}>
+          <Button size="sm" className="" onClick={onClick} disabled={buttonLoading}>
             {buttonLoading ? (
               <>
-                <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
+                <LoaderCircle className="mr-1.5 animate-spin" size={20} />{' '}
                 Creating intervention
               </>
             ) : (
@@ -108,7 +108,7 @@ export default function Settings() {
       </Container>
 
       <Container>
-        <header className="mb-5">
+        <header className="ml-2 mb-5">
           <h1 className="text-xl font-semibold">Payment methods</h1>
           <h2 className="text-subdued">Add and manage your payment methods.</h2>
         </header>

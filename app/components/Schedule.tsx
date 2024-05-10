@@ -50,7 +50,7 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute left-20 h-[2px] w-[calc(100%-10rem)] bg-accent pl-20"
+      className="absolute h-[2px] left-[44px] w-[calc(100%-35px)] w-full bg-accent pl-20"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY + 60}px`,
       }}
@@ -63,7 +63,7 @@ const renderDayProgressBar = () => {
 const renderHourBlock = (hour: string) => {
   return (
     <div className="flex h-36 flex-row">
-      <div className="w-20 text-sm text-subdued">
+      <div className="w-12 text-sm text-subdued">
         <div className="-translate-y-[50%]">{hour}</div>
       </div>
       <div className="grid flex-1 grid-cols-1 divide-y border-t-2">
@@ -77,7 +77,7 @@ const renderHourBlock = (hour: string) => {
 const Schedule = () => {
   return (
     <Container className="px-5 py-5">
-      <div className="space-y-4">
+      <div className="space-y-4 overflow-hidden relative">
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
@@ -86,10 +86,10 @@ const Schedule = () => {
             <ChevronRight color="var(--accent)" />
           </div>
         </div>
-        <div className="relative left-20 z-20 -ml-20 flex flex-row pl-20">
+        <div className="relative z-40 left-0 flex w-full flex-row">
           {renderDayProgressBar()}
         </div>
-        <div className="ml-20 flex flex-row">
+        <div className="ml-10 flex flex-row">
           {schedule.map(({id: id, groomer}) => (
             <h2
               key={id}
@@ -101,24 +101,24 @@ const Schedule = () => {
           ))}
         </div>
         <div className="relative flex">
-          <div className="z-10 flex-1">
-            {renderHourBlock('9:00am')}
-            {renderHourBlock('10:00am')}
-            {renderHourBlock('11:00am')}
-            {renderHourBlock('12:00pm')}
-            {renderHourBlock('1:00pm')}
-            {renderHourBlock('2:00pm')}
-            {renderHourBlock('3:00pm')}
-            {renderHourBlock('4:00pm')}
-            {renderHourBlock('5:00pm')}
-            {renderHourBlock('6:00pm')}
+          <div className="z-10 w-full absolute flex-1">
+            {renderHourBlock('9 AM')}
+            {renderHourBlock('10 AM')}
+            {renderHourBlock('11 AM')}
+            {renderHourBlock('12 PM')}
+            {renderHourBlock('1 PM')}
+            {renderHourBlock('2 PM')}
+            {renderHourBlock('3 PM')}
+            {renderHourBlock('4 PM')}
+            {renderHourBlock('5 PM')}
+            {renderHourBlock('6 PM')}
           </div>
-          <div className="absolute left-20 top-0 z-20 -ml-20 flex w-full flex-row pl-20">
+          <div className={`h-[1440px] relative gap-4 top-0 z-20 flex w-full flex-row pl-16`}>
             {schedule.map(({id: id, sessions}) => {
               return (
                 <div
                   key={id}
-                  className="relative mr-5 flex flex-1 flex-col first:ml-5"
+                  className="relative flex flex-grow flex-col"
                 >
                   {sessions.map(
                     ({
@@ -141,7 +141,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute ml-2 mr-2 flex w-full min-w-64 cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
+                          className="absolute flex w-full cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md hover:z-100"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *

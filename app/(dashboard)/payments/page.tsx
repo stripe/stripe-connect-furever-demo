@@ -50,10 +50,10 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center justify-between">
           <h1 className="text-xl font-bold">Recent payments</h1>
           {!loading && (
-            <Button onClick={onClick} disabled={buttonLoading}>
+            <Button onClick={onClick} size="sm" disabled={buttonLoading}>
               {buttonLoading ? (
                 <>
                   <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
