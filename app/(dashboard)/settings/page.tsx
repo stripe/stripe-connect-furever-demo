@@ -67,7 +67,7 @@ export default function Settings() {
           <div>
             <div className="text-subdued">Password</div>
             <div className="font-medium">
-              {showPassword ? password : '*********'}
+              {showPassword ? password : '••••••••'}
             </div>
             <Link
               className="text-sm font-semibold text-accent"
