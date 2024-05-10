@@ -17,7 +17,15 @@ import {
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
 import Stripe from 'stripe';
+<<<<<<< HEAD
 import React from 'react';
+=======
+import {Switch} from '@/components/ui/switch';
+import {Label} from '@/components/ui/label';
+import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
+import * as React from 'react';
+import Container from './Container';
+>>>>>>> 49cc3dd (toggle)
 
 const navigationMenuItems = [
   {
@@ -67,6 +75,12 @@ const Nav = () => {
   const {data: session} = useSession();
 
   const stripeAccount = session?.user?.stripeAccount;
+  const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
+  const [border, setBorder] = React.useState(true);
+
+  React.useEffect(() => {
+    setBorder(enableBorder);
+  }, [enableBorder]);
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false)
 
@@ -122,6 +136,17 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
+      <div className=" flex flex-row rounded-lg border bg-offset p-4 text-sm font-medium">
+        <Switch
+          className="mr-3 data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
+          id="outline"
+          checked={border}
+          onCheckedChange={() => handleEnableBorderChange(!border)}
+        />
+        <Label className="text-left" htmlFor="outline">
+          View component outlines
+        </Label>
+      </div>
     </div>
   );
 };
