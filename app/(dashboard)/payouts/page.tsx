@@ -40,7 +40,7 @@ export default function Payouts() {
       <div className="flex flex-row justify-between">
         <h1 className="text-3xl font-bold">Payouts</h1>
         {!loading && (
-          <Button onClick={onClick} disabled={buttonLoading}>
+          <Button onClick={onClick} size="sm" disabled={buttonLoading}>
             {buttonLoading ? (
               <>
                 <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
@@ -55,7 +55,7 @@ export default function Payouts() {
         )}
       </div>
       <Container>
-        <h1 className="text-xl font-bold">Recent payouts</h1>
+        <h1 className="ml-1 text-xl font-bold">Recent payouts</h1>
         <EmbeddedComponentContainer>
           {loading ? (
             <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">

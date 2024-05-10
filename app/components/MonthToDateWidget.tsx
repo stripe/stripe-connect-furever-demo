@@ -7,7 +7,7 @@ import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 
 const MonthToDateWidget = () => {
   return (
-    <Container className="px-5">
+    <Container className="px-5 w-full">
       <div className="flex flex-row justify-between gap-10">
         <div className="min-w-[110px] space-y-1">
           <h1 className="font-bold text-subdued">Month-to-date</h1>
