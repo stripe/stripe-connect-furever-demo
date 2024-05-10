@@ -8,6 +8,7 @@ import {
 } from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import NotificationBannerContainer from '@/app/components/NotificationBannerContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
@@ -16,6 +17,7 @@ import {LoaderCircle, Plus} from 'lucide-react';
 
 export default function Settings() {
   const {data: session} = useSession();
+  const enableBorder = false;
   const [showPassword, setShowPassword] = React.useState(false);
   const [buttonLoading, setButtonLoading] = React.useState(false);
   const email = session?.user.email;
@@ -43,11 +45,11 @@ export default function Settings() {
 
   return (
     <>
-      <Container>
+      <NotificationBannerContainer>
         <EmbeddedComponentContainer>
           <ConnectNotificationBanner />
         </EmbeddedComponentContainer>
-      </Container>
+      </NotificationBannerContainer>
       <Container>
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
