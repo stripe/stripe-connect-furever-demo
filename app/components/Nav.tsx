@@ -136,14 +136,14 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className=" flex flex-row rounded-lg border bg-offset p-4 text-sm font-medium">
+      <div className=" flex flex-row rounded-lg border bg-offset p-4">
         <Switch
           className="mr-3 data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
           id="outline"
           checked={border}
           onCheckedChange={() => handleEnableBorderChange(!border)}
         />
-        <Label className="text-left" htmlFor="outline">
+        <Label className="text-left leading-[17.84px]  text-sm font-medium" htmlFor="outline">
           View component outlines
         </Label>
       </div>
