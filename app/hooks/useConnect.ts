@@ -84,6 +84,7 @@ export const useConnect = (demoOnboarding: boolean) => {
       fontFamily: 'Sohne, inherit',
 
       colorPrimary: '#27AE60',
+      colorBackground: '#FFFFFF',
 
       buttonPrimaryColorBackground: '#27AE60',
       buttonPrimaryColorText: '#f4f4f5',

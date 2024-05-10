@@ -4,6 +4,7 @@ import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
+import NotificationBannerContainer from '@/app/components/NotificationBannerContainer';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
@@ -20,11 +21,11 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name}!</h1>
-      <div className="bg-white">
+      <NotificationBannerContainer>
         <EmbeddedComponentContainer>
           <ConnectNotificationBanner />
         </EmbeddedComponentContainer>
-      </div>
+      </NotificationBannerContainer>
       <div className="flex flex-row items-start space-x-5">
         <div className="min-w-[700px] flex-1">
           <Schedule />

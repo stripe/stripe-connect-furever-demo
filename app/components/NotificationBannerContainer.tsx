@@ -1,6 +1,6 @@
 import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
 
-const EmbeddedComponentContainer = ({
+const NotificationBannerContainer = ({
   children,
 }: {
   children: React.ReactNode;
@@ -9,11 +9,11 @@ const EmbeddedComponentContainer = ({
 
   return (
     <div
-      className={`${enableBorder ? 'rounded-lg border-2 border-dashed border-[#7F81FA] p-[6px] pb-[10px]' : 'p-[6px]'} transition-border duration-200`}
+      className={`rounded-md border bg-white ${enableBorder ? 'p-[6px]' : ' p-[8px] pb-[12px]'}`}
     >
       {children}
     </div>
   );
 };
 
-export default EmbeddedComponentContainer;
+export default NotificationBannerContainer;
