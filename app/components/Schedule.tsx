@@ -50,12 +50,12 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute h-[2px] left-[44px] w-[calc(100%-35px)] w-full bg-accent pl-20"
+      className="absolute h-[2px] left-[40px] w-[calc(100%-35px)] bg-accent"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY + 60}px`,
       }}
     >
-      <div className="relative left-[-80px] top-[-3px] h-2 w-2 rounded-full border-2 border-accent bg-accent"></div>
+      <div className="relative left-0 top-[-3px] h-2 w-2 rounded-full border-2 border-accent bg-accent"></div>
     </div>
   );
 };
@@ -77,7 +77,7 @@ const renderHourBlock = (hour: string) => {
 const Schedule = () => {
   return (
     <Container className="px-5 py-5">
-      <div className="space-y-4 overflow-hidden relative">
+      <div className="space-y-4 relative">
         <div className="flex flex-row justify-between">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="flex flex-row space-x-2">
