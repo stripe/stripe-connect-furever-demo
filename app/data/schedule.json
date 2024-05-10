@@ -11,37 +11,41 @@
         "startTimeMinutes": 30,
         "endTimeMinutes": 80,
         "pet": "Udon",
-        "profilePhoto": "udon"
+        "profilePhoto": "udon",
+        "petType": "dog"
       },
       {
         "id": 2,
         "name": "Deluxe wash and groom",
         "startTime": "10:30am",
-        "endTime": "11:20am",
+        "endTime": "11:30am",
         "startTimeMinutes": 90,
-        "endTimeMinutes": 140,
+        "endTimeMinutes": 150,
         "pet": "Kiba",
-        "profilePhoto": "kiba"
+        "profilePhoto": "kiba",
+        "petType": "dog"
       },
       {
         "id": 3,
-        "name": "Full service – small dog",
+        "name": "Full service – large dog",
         "startTime": "12:30pm",
-        "endTime": "1:20pm",
+        "endTime": "1:30pm",
         "startTimeMinutes": 210,
-        "endTimeMinutes": 260,
+        "endTimeMinutes": 270,
         "pet": "Rowdy",
-        "profilePhoto": "rowdy"
+        "profilePhoto": "rowdy",
+        "petType": "dog"
       },
       {
         "id": 4,
-        "name": "Dematting",
+        "name": "Deshedding",
         "startTime": "2:00pm",
         "endTime": "2:50pm",
         "startTimeMinutes": 300,
         "endTimeMinutes": 350,
-        "pet": "Mochi",
-        "profilePhoto": "default-3"
+        "pet": "Apple",
+        "profilePhoto": "apple",
+        "petType": "cat"
       }
     ]
   },
@@ -51,13 +55,14 @@
     "sessions": [
       {
         "id": 1,
-        "name": "Full service – medium dog",
+        "name": "Full service – medium cat",
         "startTime": "10:00am",
         "endTime": "10:45am",
         "startTimeMinutes": 60,
         "endTimeMinutes": 105,
-        "pet": "Daisy",
-        "profilePhoto": "default-2"
+        "pet": "Stephen",
+        "profilePhoto": "stephen",
+        "petType": "cat"
       },
       {
         "id": 2,
@@ -66,8 +71,9 @@
         "endTime": "11:50am",
         "startTimeMinutes": 120,
         "endTimeMinutes": 170,
-        "pet": "Mika",
-        "profilePhoto": "default-1"
+        "pet": "Juney",
+        "profilePhoto": "juney",
+        "petType": "dog"
       },
       {
         "id": 3,
@@ -77,17 +83,19 @@
         "startTimeMinutes": 180,
         "endTimeMinutes": 230,
         "pet": "Bisco",
-        "profilePhoto": "bisco"
+        "profilePhoto": "bisco",
+        "petType": "cat"
       },
       {
         "id": 4,
-        "name": "Dematting",
-        "startTime": "2:00pm",
-        "endTime": "2:50pm",
-        "startTimeMinutes": 300,
-        "endTimeMinutes": 350,
-        "pet": "Goku",
-        "profilePhoto": "default-2"
+        "name": "Deluxe wash and groom",
+        "startTime": "1:30pm",
+        "endTime": "2:30pm",
+        "startTimeMinutes": 270,
+        "endTimeMinutes": 330,
+        "pet": "Jake",
+        "profilePhoto": "jake",
+        "petType": "dog"
       }
     ]
   }

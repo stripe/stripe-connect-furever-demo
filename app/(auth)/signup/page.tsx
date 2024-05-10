@@ -1,16 +1,13 @@
-'use client';
-
 import Link from 'next/link';
-import {Button} from '@/components/ui/button';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
-import {Sparkles, KeyRound, Pencil, ArrowRight} from 'lucide-react';
+import {Sparkles, KeyRound, Pencil} from 'lucide-react';
 import Form from './form';
-import {useSession} from 'next-auth/react';
-import {redirect} from 'next/navigation';
 import QuickstartButton from '@/app/components/QuickstartButton';
+import {getServerSession} from 'next-auth';
+import {redirect} from 'next/navigation';
 
-export default function Signup() {
-  const {data: session} = useSession();
+export default async function Signup() {
+  const session = await getServerSession();
 
   if (session) {
     redirect('/home');
@@ -20,13 +17,13 @@ export default function Signup() {
     <>
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="mb-1 text-2xl font-semibold">Get started</h1>
-        <Tabs defaultValue="create" className="w-full">
+        <Tabs defaultValue="quickstart" className="w-full">
           <TabsList className="mb-4 w-full">
-            <TabsTrigger className="flex-1" value="create">
-              Create an account
-            </TabsTrigger>
             <TabsTrigger className="flex-1" value="quickstart">
               Quickstart
+            </TabsTrigger>
+            <TabsTrigger className="flex-1" value="create">
+              Create an account
             </TabsTrigger>
           </TabsList>
           <TabsContent value="create">

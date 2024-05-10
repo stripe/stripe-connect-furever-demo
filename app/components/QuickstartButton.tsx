@@ -187,7 +187,7 @@ const QuickstartButton = () => {
     const emailNumber = Math.floor(Math.random() * 1001);
     const salonName =
       SALON_NAMES[Math.floor(Math.random() * SALON_NAMES.length)];
-    const passwordNumber = Math.floor(Math.random() * 1001);
+    const passwordNumber = Math.floor(Math.random() * 90000) + 10000;
     const passwordWords = generate({exactly: 2, minLength: 5, maxLength: 12});
 
     await signIn('createprefilledaccount', {
@@ -196,6 +196,8 @@ const QuickstartButton = () => {
       businessName: salonName,
       callbackUrl: '/home',
     });
+
+    router.push('/home'); // Redirect to the dashboard
   }
 
   const onClick = async () => {

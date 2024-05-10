@@ -70,10 +70,37 @@ export async function POST(req: NextRequest) {
           },
         },
         // Connect
-        // @ts-ignore
         account_management: {enabled: true},
         account_onboarding: {enabled: true},
+        // @ts-ignore
         payment_method_settings: {enabled: true},
+        documents: {enabled: true},
+        notification_banner: {enabled: true},
+        capital_overview: {
+          enabled: true,
+        },
+        financial_account: {
+          enabled: true,
+          features: {
+            money_movement: true,
+          },
+        },
+        issuing_cards_list: {
+          enabled: true,
+          features: {
+            card_management: true,
+            cardholder_management: true,
+          },
+        },
+        issuing_card: {
+          enabled: true,
+        },
+        financial_account_transactions: {
+          enabled: true,
+          features: {
+            card_spend_dispute_management: true,
+          },
+        },
       },
     });
 

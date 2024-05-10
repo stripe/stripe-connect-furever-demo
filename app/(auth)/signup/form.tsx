@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Link from 'next/link';
 import {signIn} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {ArrowRight, Loader2} from 'lucide-react';
@@ -18,8 +17,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-import {Alert, AlertDescription, AlertTitle} from '@/components/ui/alert';
-import {SparklesIcon} from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email(),

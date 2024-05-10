@@ -10,6 +10,20 @@ declare module 'next-auth' {
       /** The user's Stripe account. */
       stripeAccount: Stripe.Account;
       businessName?: string | null;
+      password?: string | null;
+      setup?: boolean;
     } & DefaultSession['user'];
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT extends DefaultJWT {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      setup?: boolean | null;
+    };
   }
 }

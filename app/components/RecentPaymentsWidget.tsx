@@ -4,8 +4,26 @@ import Container from './Container';
 import {ChevronRight} from 'lucide-react';
 
 const BalanceWidget = () => {
+  // const [charges, setCharges] = React.useState([]);
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch('/api/list_charges');
+  //     const json = await response.json();
+  //     if (!response.ok) {
+  //       // Handle errors on the client side here
+  //       const {error} = json;
+  //       console.warn('An error occurred: ', error);
+  //       setCharges([]);
+  //     } else {
+  //       const {charges} = json;
+  //       setCharges(charges);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   return (
-    <Container className="px-5">
+    <Container className="px-5 w-full">
       <div className="space-y-1">
         <div className="flex flex-row justify-between">
           <div>
@@ -24,15 +42,15 @@ const BalanceWidget = () => {
         </div>
         <div>
           <ul>
-            <li className="flex flex-row justify-between text-subdued">
+            <li className="flex flex-row justify-between text-sm text-subdued">
               <div>michael@stripe.com</div>
               <div>$250.00</div>
             </li>
-            <li className="flex flex-row justify-between text-subdued">
+            <li className="flex flex-row justify-between text-sm text-subdued">
               <div>jessica@stripe.com</div>
               <div>$250.00</div>
             </li>
-            <li className="flex flex-row justify-between text-subdued">
+            <li className="flex flex-row justify-between text-sm text-subdued">
               <div>david@stripe.com</div>
               <div>$54.32</div>
             </li>
