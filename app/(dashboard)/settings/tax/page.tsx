@@ -9,8 +9,8 @@ import {
 
 export default function Tax() {
   return (
-    <Container>
-      <div>
+    <>
+      <Container>
         <h1 className="text-xl font-semibold">Tax</h1>
         <p className="text-subdued">
           Configure these settings to automatically calculate and collect tax on
@@ -19,8 +19,8 @@ export default function Tax() {
         <EmbeddedComponentContainer>
           <ConnectTaxSettings />
         </EmbeddedComponentContainer>
-      </div>
-      <div className="pt-4">
+      </Container>
+      <Container>
         <h1 className="text-xl font-semibold">Tax registrations</h1>
         <p className="text-subdued">
           Locations where you have a registration, and want to collect taxes.
@@ -28,7 +28,7 @@ export default function Tax() {
         <EmbeddedComponentContainer>
           <ConnectTaxRegistrations />
         </EmbeddedComponentContainer>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }
