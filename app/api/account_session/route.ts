@@ -79,6 +79,12 @@ export async function POST(req: NextRequest) {
         capital_overview: {
           enabled: true,
         },
+        tax_settings: {
+          enabled: true,
+        },
+        tax_registrations: {
+          enabled: true,
+        },
       },
     });
 

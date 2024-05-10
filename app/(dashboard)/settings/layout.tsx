@@ -23,6 +23,7 @@ export default function SettingsLayout({
               {path: '/settings', label: 'General'},
               // {path: '/settings/paymentmethods', label: 'Payment methods'},
               {path: '/settings/documents', label: 'Documents'},
+              {path: '/settings/tax', label: 'Tax'},
             ]}
           />
           <div>
