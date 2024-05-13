@@ -66,6 +66,7 @@ export default function Finances() {
           capabilities: capabilities,
         }),
       });
+
       if (res.ok) {
         setButtonLoading(false);
         // Page must reload to show the new components
