@@ -78,13 +78,9 @@ const Schedule = () => {
   return (
     <Container className="px-5 py-5">
       <div className="space-y-4 relative">
-        <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center">
+        <div className="flex gap-2 justify-between sm:items-center">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
-          <div className="flex flex-row space-x-2">
-            <ChevronLeft color="var(--accent)" />
-            <div className="font-bold text-accent">{getCurrentDate()}</div>
-            <ChevronRight color="var(--accent)" />
-          </div>
+          <div className="font-bold text-accent">{getCurrentDate()}</div>
         </div>
         <div className="relative z-40 left-0 flex w-full flex-row">
           {renderDayProgressBar()}
