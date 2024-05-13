@@ -50,7 +50,7 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute h-[2px] left-[40px] w-[calc(100%-35px)] bg-accent"
+      className="absolute h-[2px] left-[40px] w-[calc(100%-35px)] bg-accent z-30"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY + 60}px`,
       }}
@@ -82,7 +82,7 @@ const Schedule = () => {
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="font-bold text-accent">{getCurrentDate()}</div>
         </div>
-        <div className="relative z-40 left-0 flex w-full flex-row">
+        <div className="relative z-30 left-0 flex w-full flex-row">
           {renderDayProgressBar()}
         </div>
         <div className="ml-10 flex flex-row">

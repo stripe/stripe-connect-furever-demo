@@ -71,7 +71,7 @@ const Nav = () => {
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false)
 
   return (
-    <div className="fixed sm:flex w-full sm:w-52 lg:w-64 z-40 sm:fixed sm:h-screen flex-col border-b sm:border-r bg-white sm:p-1 lg:p-3">
+    <div className="fixed sm:flex w-full sm:w-52 lg:w-64 sm:fixed sm:h-screen flex-col border-b sm:border-r bg-white sm:p-1 lg:p-3 z-40">
       <div className="flex justify-between items-center sm:mb-4 p-3">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
