@@ -27,17 +27,17 @@ export default function Dashboard() {
           <ConnectNotificationBanner />
         </EmbeddedComponentContainer>
       </div>
-      <div className="flex flex-col xl:flex-row items-start gap-5">
-        <div className="min-w-[550px] w-full flex-1">
+      <div className="flex flex-col xl:flex-row items-start gap-2 md:gap-5">
+        <div className="w-full flex-1">
           <Schedule />
         </div>
-        <div className="flex flex-col w-[30%] w-full xl:w-[30%] -order-1 xl:order-2 min-w-[300px] gap-4">
-          <div className="flex flex-row flex-grow xl:flex-col gap-4">
+        <div className="flex flex-col w-full xl:w-[30%] -order-1 xl:order-2 gap-2 md:gap-4">
+          <div className="flex flex-grow flex-col md:max-xl:flex-row gap-2 md:gap-4">
             <BalanceWidget />
             <RecentPaymentsWidget />
           </div>
           <h2 className="pt-4 text-lg font-bold hidden xl:block">Performance</h2>
-          <div className="flex flex-row gap-4 xl:flex-col">
+          <div className="flex flex-grow flex-col md:max-xl:flex-row gap-2 md:gap-4">
             <MonthToDateWidget />
             <CustomersWidget />
           </div>

@@ -41,7 +41,7 @@ export default function Payments() {
   return (
     <>
       <h1 className="text-3xl font-bold">Payments</h1>
-      <div className="flex flex-col gap-5 lg:flex-row">
+      <div className="flex flex-col gap-3 md:gap-5 lg:flex-row">
         <div className="flex-1">
           <MonthToDateWidget />
         </div>

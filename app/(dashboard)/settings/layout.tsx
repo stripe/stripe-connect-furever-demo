@@ -12,16 +12,15 @@ export default function SettingsLayout({
 }>) {
   return (
     <>
-      <header className="flex flex-row justify-between">
+      <header className="flex flex-col md:flex-row justify-between">
         <div className="flex flex-row">
           <h1 className="text-3xl font-bold">Your account</h1>
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row mt-4 md:mt-0">
           <SubNav
             base="/settings"
             routes={[
               {path: '/settings', label: 'General'},
-              // {path: '/settings/paymentmethods', label: 'Payment methods'},
               {path: '/settings/documents', label: 'Documents'},
             ]}
           />
