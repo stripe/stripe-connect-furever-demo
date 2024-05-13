@@ -131,14 +131,14 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className=" flex flex-row rounded-lg border bg-offset p-4 text-sm font-medium">
+      <div className="fixed sm:relative bottom-2 sm:bottom-0 right-1/2 sm:right-0 translate-x-2/4 sm:translate-x-0 w-[calc(100%-16px)] sm:w-full shadow-lg sm:shadow-none flex flex-row rounded-lg border bg-white sm:bg-offset p-3 gap-3 items-center font-medium">
         <Switch
-          className="mr-3 data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
+          className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#D8DEE4]"
           id="outline"
           checked={border}
           onCheckedChange={() => handleEnableBorderChange(!border)}
         />
-        <Label className="text-left" htmlFor="outline">
+        <Label className="text-left cursor-pointer text-base sm:text-sm" htmlFor="outline">
           View component outlines
         </Label>
       </div>
