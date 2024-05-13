@@ -426,10 +426,39 @@ function getStripeAccountId(req: any) {
 app.post('/account_session', stripeAccountRequired, async (req, res) => {
   try {
     const user = req.user!;
+    const account = await stripe.accounts.retrieve(user.stripeAccountId);
 
     // FurEver enables external account collection for all accounts except ones where the platform owns requirements collection (otherwise known as custom)
     const external_account_collection =
       user.accountConfig !== 'no_dashboard_poll';
+
+    // We can only request the components if the account has both issuing and treasury capabilities
+    const hasIssuingAndTreasury = ['card_issuing', 'treasury'].every(
+      (capability) =>
+        Object.keys(account?.capabilities || []).includes(capability)
+    );
+    const issuingAndTreasuryComponents = {
+      issuing_cards_list: {
+        enabled: true,
+        features: {
+          card_management: true,
+          cardholder_management: true,
+        },
+      },
+      financial_account: {
+        enabled: true,
+        features: {
+          money_movement: true,
+          external_account_collection,
+        },
+      },
+      financial_account_transactions: {
+        enabled: true,
+        features: {
+          card_spend_dispute_management: true,
+        },
+      },
+    };
 
     // This should contain a list of all components used in FurEver
     const accountSessionComponentsParams: Stripe.AccountSessionCreateParams.Components =
@@ -458,28 +487,8 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         payouts: {
           enabled: true,
         },
-        issuing_cards_list: {
-          enabled: true,
-          features: {
-            card_management: true,
-            cardholder_management: true,
-          },
-        },
         payment_method_settings: {
           enabled: true,
-        },
-        financial_account: {
-          enabled: true,
-          features: {
-            money_movement: true,
-            external_account_collection,
-          },
-        },
-        financial_account_transactions: {
-          enabled: true,
-          features: {
-            card_spend_dispute_management: true,
-          },
         },
         tax_settings: {
           enabled: true,
@@ -487,6 +496,7 @@ app.post('/account_session', stripeAccountRequired, async (req, res) => {
         tax_registrations: {
           enabled: true,
         },
+        ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
       };
 
     const accountSession = await stripe.accountSessions.create({

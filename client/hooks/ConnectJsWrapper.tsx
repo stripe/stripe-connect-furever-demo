@@ -45,10 +45,10 @@ const fetchClientSecret = async () => {
  *  This function calls the fetchAccountSession function and
  *  uses the retrieved clientSecret to initialize the Connect.js instance.
  */
-const useInitStripeConnect = (
-  enabled: boolean,
-  appearance: Record<string, string>
-) => {
+export const useInitStripeConnect = (enabled: boolean) => {
+  const theme = useTheme();
+  const appearance = calculateCurrentAppearance(theme);
+
   return useQuery<StripeConnectInstance, Error>(
     'initStripeConnect',
     async () => {
@@ -66,36 +66,39 @@ const useInitStripeConnect = (
   );
 };
 
+const calculateCurrentAppearance = (
+  currentTheme: Theme
+): Record<string, string> => {
+  return {
+    // FurEver specifies a subset of the available options in ConnectJS
+    colorPrimary: currentTheme.palette.primary.main,
+    colorText: currentTheme.palette.text.primary,
+    colorBackground: currentTheme.palette.background.default,
+    colorSecondaryText: currentTheme.palette.text.secondary,
+    colorSecondaryLinkText: currentTheme.palette.secondary.main,
+    colorBorder: currentTheme.palette.border.main,
+    colorFormHighlightBorder: currentTheme.palette.primary.main,
+    colorDanger: currentTheme.palette.error.main,
+    colorSecondaryButtonBackground: currentTheme.palette.neutral100.main,
+    colorSecondaryButtonBorder: currentTheme.palette.border.main,
+  };
+};
+
 export const ConnectJsWrapper = ({children}: {children: React.ReactNode}) => {
   const {stripeAccount} = useSession();
+
   const theme = useTheme();
-
-  const calculateCurrentAppearance = (currentTheme: Theme) => {
-    return {
-      // FurEver specifies a subset of the available options in ConnectJS
-      colorPrimary: currentTheme.palette.primary.main,
-      colorText: currentTheme.palette.text.primary,
-      colorBackground: currentTheme.palette.background.default,
-      colorSecondaryText: currentTheme.palette.text.secondary,
-      colorSecondaryLinkText: currentTheme.palette.secondary.main,
-      colorBorder: currentTheme.palette.border.main,
-      colorFormHighlightBorder: currentTheme.palette.primary.main,
-      colorDanger: currentTheme.palette.error.main,
-      colorSecondaryButtonBackground: currentTheme.palette.neutral100.main,
-      colorSecondaryButtonBorder: currentTheme.palette.border.main,
-    };
-  };
-
+  const appearance = calculateCurrentAppearance(theme);
   const {
     data: connectInstance,
     error,
     isLoading,
     refetch,
-  } = useInitStripeConnect(!!stripeAccount, calculateCurrentAppearance(theme));
+  } = useInitStripeConnect(!!stripeAccount);
 
   React.useEffect(() => {
     connectInstance?.update({
-      appearance: {variables: calculateCurrentAppearance(theme)},
+      appearance: {variables: appearance},
     });
   }, [theme]);
 
