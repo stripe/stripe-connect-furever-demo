@@ -96,6 +96,8 @@ export default function LandingPage() {
               alt="Furever logo"
               height={48}
               width={48}
+              sizes="92px"
+              priority
             />
             <p className="text-2xl font-bold text-white">Furever</p>
           </div>
@@ -121,6 +123,7 @@ export default function LandingPage() {
           quality={80}
           sizes="100vw"
           className="absolute top-0 z-[-2] h-full w-full overflow-hidden object-cover"
+          priority
         />
       </div>
 

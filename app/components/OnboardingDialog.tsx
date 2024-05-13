@@ -125,8 +125,8 @@ const OnboardingDialog = () => {
               src={onboardingSteps[currentStep].imageURL}
               alt="Image of the Furever website"
               placeholder="blur"
-              quality={100}
-              sizes="100vw"
+              quality={80}
+              sizes="1200px"
               priority
               className={`overflow-hidden rounded-xl object-cover shadow-lg transition duration-700 ease-in-out
                 ${onboardingSteps[currentStep].imageClassName}`

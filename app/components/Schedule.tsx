@@ -161,10 +161,11 @@ const Schedule = () => {
                               <Image
                                 className="relative h-7 w-7 rounded-full border border-gray-300"
                                 fill
-                                quality={100}
-                                sizes="200px"
+                                quality={50}
+                                sizes="100px"
                                 src={`/pet_photos/${profilePhoto}.jpg`}
                                 alt={`Photo of ${name}`}
+                                priority
                               />
                               {pet}
                             </div>
