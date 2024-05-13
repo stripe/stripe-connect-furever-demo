@@ -4,9 +4,7 @@ FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e 
 
 **See a live version on [furever.dev](https://furever.dev).**
 
-<img src="client/assets/images/screenshots/furever_landing.png" width="440">
-
-<img src="client/assets/images/screenshots/furever_dashboard.png" width="440">
+<img src="public/cover.png">
 
 ## Features
 

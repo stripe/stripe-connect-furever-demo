@@ -75,7 +75,7 @@ const Nav = () => {
       <div className="flex justify-between items-center sm:mb-4 p-3">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
-            <Image src={FureverLogo} alt="Furever Logo" className="w-9 h-9 sm:w-10 sm:h-10" />
+            <Image src={FureverLogo} alt="Furever Logo" className="w-9 h-9 sm:w-10 sm:h-10" sizes="100px" priority />
             Furever
           </div>
         </Link>
