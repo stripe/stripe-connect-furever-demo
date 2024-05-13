@@ -20,10 +20,12 @@ import { useSearchParams } from 'next/navigation'
 import * as React from 'react';
 
 const OnboardingDialog = () => {
-
-  // Look for showNux query param in the URL
+  // Look for showNux query param in the URL.
   const searchParams = useSearchParams();
-  const showNux = searchParams.get('shownux') === 'true';
+  let showNux = searchParams.get('shownux') === 'true';
+
+  // Check browser width, and don't show NUX if on mobile device.
+  window.innerWidth < 640 ? showNux = false : "";
 
   const [openNux, setOpenNux] = React.useState(showNux);
   const [currentStep, setCurrentStep] = React.useState(0);

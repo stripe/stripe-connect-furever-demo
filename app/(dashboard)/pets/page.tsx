@@ -37,14 +37,14 @@ export default function Pets() {
               key={key}
             >
               <Image
-                className="relative h-[200px] w-full rounded-lg border object-cover"
+                className="relative h-32 md:h-52 w-full rounded-lg border object-cover"
                 fill
                 quality={100}
                 src={`/pet_photos/${pet.profilePhoto}.jpg`}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt={`Photo of ${pet.name}`}
               />
-              <div className="flex w-full items-center gap-4">
+              <div className="flex flex-col md:flex-row w-full md:items-center gap-4">
                 <div className="flex-1">
                   <h3 className="text-lg font-medium">{pet.name}</h3>
                   <p className="text-sm text-subdued">
