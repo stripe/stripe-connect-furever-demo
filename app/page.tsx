@@ -28,11 +28,11 @@ function Card({
   description: string;
 }) {
   return (
-    <div className="flex flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md">
+    <div className="flex flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md max-w-[400px]">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-subdued">
         {icon}
       </div>
-      <p className="pt-4 text-lg font-bold text-primary">{title}</p>
+      <p className="pt-4 text-lg font-bold text-primary text-center">{title}</p>
       <p className="text-center text-subdued">{description}</p>
     </div>
   );
