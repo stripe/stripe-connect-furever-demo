@@ -12,10 +12,12 @@ import {
   Dog as PetsIcon,
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
+  Menu as MenuIcon
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
 import Stripe from 'stripe';
+import React from 'react';
 
 const navigationMenuItems = [
   {
@@ -66,14 +68,23 @@ const Nav = () => {
 
   const stripeAccount = session?.user?.stripeAccount;
 
+  const [showMobileNavItems, setShowMobileNavItems] = React.useState(false)
+
   return (
-    <div className="fixed z-40 flex h-screen w-64 flex-col border-r bg-white p-3">
-      <div className="mb-4 flex items-center gap-3 p-3 text-xl font-bold text-primary">
-        <Image src={FureverLogo} alt="Furever Logo" width={40} height={40} />
-        Furever
+    <div className="fixed sm:flex w-full sm:w-52 lg:w-64 z-40 sm:fixed sm:h-screen flex-col border-b sm:border-r bg-white sm:p-1 lg:p-3">
+      <div className="flex justify-between items-center sm:mb-4 p-3">
+        <Link href="/home">
+          <div className="flex items-center gap-3 text-xl font-bold text-primary">
+            <Image src={FureverLogo} alt="Furever Logo" className="w-9 h-9 sm:w-10 sm:h-10" />
+            Furever
+          </div>
+        </Link>
+        <Button variant="ghost" className="sm:hidden" onClick={() => setShowMobileNavItems(!showMobileNavItems)}>
+          <MenuIcon />
+        </Button>
       </div>
-      <nav className="flex-1">
-        <ul className="flex-col items-start space-x-0">
+      <nav className={`${showMobileNavItems ? "flex" : "hidden"} w-full flex-1 sm:flex shadow-xl sm:shadow-none p-2 sm:p-0 pb-3 transition`}>
+        <ul className="flex-col w-full">
           {navigationMenuItems
             .filter(({shouldDisplayFilter}) => {
               // Not all pages require a filter.
@@ -92,6 +103,7 @@ const Nav = () => {
                         ? 'bg-accent-subdued text-accent'
                         : 'bg-white'
                     }`}
+                    onClick={() => setShowMobileNavItems(false)}
                     tabIndex={-1}
                   >
                     <item.icon

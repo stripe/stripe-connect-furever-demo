@@ -78,13 +78,9 @@ const Schedule = () => {
   return (
     <Container className="px-5 py-5">
       <div className="space-y-4 relative">
-        <div className="flex flex-row justify-between">
+        <div className="flex gap-2 justify-between sm:items-center">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
-          <div className="flex flex-row space-x-2">
-            <ChevronLeft color="var(--accent)" />
-            <div className="font-bold text-accent">{getCurrentDate()}</div>
-            <ChevronRight color="var(--accent)" />
-          </div>
+          <div className="font-bold text-accent">{getCurrentDate()}</div>
         </div>
         <div className="relative z-40 left-0 flex w-full flex-row">
           {renderDayProgressBar()}
@@ -93,7 +89,7 @@ const Schedule = () => {
           {schedule.map(({id: id, groomer}) => (
             <h2
               key={id}
-              className="ml-8 flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
+              className="ml-8 flex last:hidden md:last:flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
             >
               <div>{groomer}</div>
               <ChevronDown color="#6c7688" />
@@ -118,7 +114,7 @@ const Schedule = () => {
               return (
                 <div
                   key={id}
-                  className="relative flex flex-grow flex-col"
+                  className="relative last:hidden md:last:flex flex flex-grow flex-col"
                 >
                   {sessions.map(
                     ({
@@ -158,7 +154,7 @@ const Schedule = () => {
                             <div className="text-md font-medium text-accent">
                               {startTime} - {endTime}
                             </div>
-                            <div className="text-md font-medium">{name}</div>
+                            <div className="text-md font-medium truncate">{name}</div>
                           </div>
                           <div className="text-md flex items-end gap-2">
                             <div className="relative flex flex-1 items-center gap-2 font-medium">
