@@ -13,9 +13,13 @@ import {useSession} from '../hooks/SessionProvider';
 import {Container} from '../components/Container';
 import {StripeConnectDebugUtils} from '../components/StripeConnectDebugUtils';
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
+import {useInitStripeConnect} from '../hooks/ConnectJsWrapper';
 
 const useOnboarded = () => {
   const {refetch, user} = useSession();
+  const {refetch: refetchAccountSession} = useInitStripeConnect(
+    !!user?.stripeAccountId
+  );
   const navigate = useNavigate();
   const {search} = useLocation();
 
@@ -26,6 +30,7 @@ const useOnboarded = () => {
     const {onboarded} = await response.json();
     if (onboarded) {
       refetch();
+      refetchAccountSession();
       navigate(`/reservations${search}`);
     } else if (user?.accountConfig === 'no_dashboard_poll') {
       navigate(0);
