@@ -55,7 +55,7 @@ export default function Settings() {
             <EditAccountButton />
           </div>
         </div>
-        <div className="flex flex-row space-x-20">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-20">
           <div>
             <div className="text-subdued">Business name</div>
             <div className="font-medium">{businessName}</div>
@@ -81,7 +81,7 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
-        <div className="flex flex-row items-start justify-between">
+        <div className="flex flex-col sm:flex-row items-start justify-between">
           <header className="ml-2 mb-5">
             <h1 className="text-xl font-semibold">Account settings</h1>
             <h2 className="text-subdued">

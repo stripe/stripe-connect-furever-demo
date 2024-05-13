@@ -12,16 +12,15 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-[60px]">
-      <div className="mx-auto flex w-[450px] flex-col gap-12">
+    <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-4 sm:py-16">
+      <div className="mx-auto flex max-w-[450px] flex-col gap-6 sm:gap-12 p-3">
         <div className="flex w-full justify-center">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
               <Image
                 src={FureverLogo}
                 alt="Furever Logo"
-                width={56}
-                height={56}
+                className="w-12 h-12 sm:w-16 sm:h-16"
               />
               Furever
             </div>
@@ -44,9 +43,7 @@ export default function AuthLayout({
             >
               Stripe Connect embedded components
             </a>
-            .
-            <br />
-            Furever is not a real product.
+            . Furever is not a real product.
           </p>
         </div>
       </div>

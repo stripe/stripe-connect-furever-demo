@@ -7,15 +7,17 @@ export default function FinancesLayout({
 }>) {
   return (
     <>
-      <header className="flex flex-row justify-between">
+      <header className="flex flex-col md:flex-row justify-between">
         <h1 className="text-3xl font-bold">Finances</h1>
-        <SubNav
-          base="/finances"
-          routes={[
-            {path: '/finances', label: 'Overview'},
-            {path: '/finances/cards', label: 'Cards'},
-          ]}
-        />
+        <div className="mt-4 md:mt-0">
+          <SubNav
+            base="/finances"
+            routes={[
+              {path: '/finances', label: 'Overview'},
+              {path: '/finances/cards', label: 'Cards'},
+            ]}
+          />
+        </div>
       </header>
       {children}
     </>

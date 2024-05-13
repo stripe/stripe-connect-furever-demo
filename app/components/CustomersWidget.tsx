@@ -8,7 +8,7 @@ import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
 const CustomersWidget = () => {
   return (
     <Container className="px-5 w-full">
-      <div className="flex flex-row justify-between gap-10">
+      <div className="flex flex-row justify-between gap-6">
         <div className="min-w-[110px] space-y-1">
           <h1 className="font-bold text-subdued">Customers</h1>
           <div className="flex flex-row items-center space-x-2">
