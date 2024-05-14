@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const update = {
       email: updatedEmail,
       password: updatedPassword,
+      changedPassword: true,
     };
     console.log('updating account with, ', update);
 

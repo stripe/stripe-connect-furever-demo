@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
+import bcrypt from 'bcryptjs';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -45,7 +46,7 @@ const EditAccountButton = () => {
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        email: '',
+        email: email || '',
         password: '',
       },
     });
@@ -54,7 +55,8 @@ const EditAccountButton = () => {
       console.log('submitting');
       const data = {
         newEmail: values.email,
-        newPassword: values.password,
+        newPassword:  bcrypt.hashSync(values.password, 8),
+        changedPassword: true
       };
 
       const response = await fetch('/api/account_update', {
@@ -75,6 +77,7 @@ const EditAccountButton = () => {
             ...session.user,
             email: newEmail,
             password: newPassword,
+            changedPassword: true,
           },
         });
         console.log('updated user', promise?.user);
@@ -116,7 +119,7 @@ const EditAccountButton = () => {
                     <FormControl>
                       <Input
                         className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
-                        placeholder={password || 'password'}
+                        placeholder={'password'}
                         type="password"
                         {...field}
                       />

@@ -13,6 +13,7 @@ import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
 import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
+import bcrypt from 'bcryptjs';
 
 export default function Settings() {
   const {data: session} = useSession();
@@ -21,6 +22,8 @@ export default function Settings() {
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   const password = session?.user.password;
+
+  const canShowPassword = !session?.user.changedPassword;
 
   const onClick = async () => {
     setButtonLoading(true);
@@ -69,6 +72,7 @@ export default function Settings() {
             <div className="font-medium">
               {showPassword ? password : '••••••••'}
             </div>
+            {canShowPassword && 
             <Link
               className="text-sm font-semibold text-accent"
               href="#"
@@ -77,6 +81,7 @@ export default function Settings() {
               {' '}
               {showPassword ? 'Hide password' : 'Show password'}
             </Link>
+}
           </div>
         </div>
       </Container>

@@ -28,6 +28,7 @@
     "@stripe/connect-js": "^3.3.6-beta-1",
     "@stripe/react-connect-js": "^3.3.10-beta-1",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
     "@types/node": "^20",
     "@types/react": "^18",

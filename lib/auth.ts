@@ -41,7 +41,7 @@ export const authOptions: AuthOptions = {
       console.log(
         'looking for salon for email',
         session.user?.email,
-        session?.user?.stripeAccount
+        session.user?.stripeAccount
       );
       const salon: ISalon = await Salon.findOne({
         email: session.user?.email,
@@ -66,6 +66,7 @@ export const authOptions: AuthOptions = {
         session.user.businessName = salon.businessName;
         session.user.password = salon.password;
         session.user.setup = salon.setup;
+        session.user.changedPassword = salon.changedPassword;
       }
 
       console.log(`Got session for user ${salon.email}`);
@@ -78,6 +79,7 @@ export const authOptions: AuthOptions = {
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.email = session.user.email;
         token.setup = session.user.setup;
+        token.changedPassword = session.user.changedPassword;
         console.log('finished updating token', token);
       }
       return token;
@@ -225,6 +227,7 @@ export const authOptions: AuthOptions = {
             password,
             quickstartAccount: true,
             setup: false,
+            changedPassword: false,
           });
           console.log('Creating Salon...');
           await user!.save();
@@ -447,6 +450,7 @@ export const authOptions: AuthOptions = {
             email,
             password,
             setup: true,
+            changedPassword: true,
           });
           console.log('Creating Salon...');
           await user!.save();
