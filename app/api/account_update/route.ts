@@ -1,7 +1,7 @@
 import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
-import Salon, {ISalon} from '@/app/models/salon';
+import Salon from '@/app/models/salon';
 
 export async function POST(req: NextRequest) {
   try {

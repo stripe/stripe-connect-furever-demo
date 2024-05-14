@@ -3,7 +3,7 @@ import express from 'express';
 declare global {
   namespace Express {
     export interface User {
-      studio: {
+      salon: {
         license: string;
         name: string;
         specialty: string;
@@ -17,6 +17,10 @@ declare global {
       firstName: string;
       lastName: string;
       stripeAccountId: string;
+      businessName: string;
+      setup: boolean;
+      quickstartAccount: boolean;
+      changedPassword: boolean;
 
       // MongoDB methods
       isModified: (field: string) => boolean;

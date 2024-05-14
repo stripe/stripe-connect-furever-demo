@@ -5,30 +5,8 @@ const Schema = mongoose.Schema;
 
 const salonSchemaName = 'SalonV3';
 
-export interface ISalon extends Document {
-  _id: string;
-  email: string;
-  password: string;
-
-  firstName: string;
-  lastName: string;
-
-  // Stripe account ID to send payments obtained with Stripe Connect.
-  stripeAccountId?: string;
-  // Can be no_dashboard_soll, no_dashboard_poll, dashboard_soll. Default is no_dashboard_soll
-  accountConfig: string;
-  businessName: string;
-  setup: boolean;
-  quickstartAccount: boolean;
-  changedPassword: boolean;
-
-  generateHash: (password: string) => string;
-  validatePassword: (password?: string) => boolean;
-  save: () => Promise<void>;
-}
-
 // Define the Salon schema.
-const SalonSchema = new Schema<ISalon>({
+const SalonSchema = new Schema<Express.Request['user']>({
   email: {
     type: String,
     required: true,
@@ -90,6 +68,10 @@ SalonSchema.methods.generateHash = function (password) {
 
 // Check if the password is valid by comparing with the stored hash.
 SalonSchema.methods.validatePassword = function (password) {
+  if (!this.changedPassword)
+  {
+    return password == this.password;
+  }
   return bcrypt.compareSync(password, this.password);
 };
 

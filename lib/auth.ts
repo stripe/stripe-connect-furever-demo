@@ -1,7 +1,7 @@
 import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
-import Salon, {ISalon} from '../app/models/salon';
+import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
 
@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
         session.user?.email,
         session.user?.stripeAccount
       );
-      const salon: ISalon = await Salon.findOne({
+      const salon = await Salon.findOne({
         email: session.user?.email,
       });
       if (!salon) {
@@ -96,7 +96,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await dbConnect();
 
-        let user: ISalon | null = null;
+        let user = null;
         try {
           const email = credentials?.email;
           const password = credentials?.password;
@@ -133,7 +133,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await dbConnect();
 
-        let user: ISalon | null = null;
+        let user = null;
         try {
           const stripeAccountId = credentials?.accountId;
           // Login as sets the password if it doesn't exist
@@ -213,7 +213,7 @@ export const authOptions: AuthOptions = {
         }
 
         console.log('Signing up');
-        let user: ISalon | null = null;
+        let user = null;
         try {
           // Look for existing user.
           user = await Salon.findOne({email});
@@ -373,7 +373,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        let user: ISalon | null = null;
+        let user = null;
         try {
           // Look for existing user.
           user = await Salon.findOne({email});
@@ -437,7 +437,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        let user: ISalon | null = null;
+        let user = null;
         try {
           // Look for existing user.
           user = await Salon.findOne({email});
