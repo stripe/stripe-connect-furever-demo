@@ -50,7 +50,7 @@ const renderDayProgressBar = () => {
 
   return (
     <div
-      className="absolute h-[2px] left-[40px] w-[calc(100%-35px)] bg-accent z-30"
+      className="absolute left-[40px] z-30 h-[2px] w-[calc(100%-35px)] bg-accent"
       style={{
         top: `${(SCHEDULE_HEIGHT * minutesSince9AM) / MINUTES_IN_BUSINESS_DAY + 60}px`,
       }}
@@ -77,19 +77,19 @@ const renderHourBlock = (hour: string) => {
 const Schedule = () => {
   return (
     <Container className="px-5 py-5">
-      <div className="space-y-4 relative">
-        <div className="flex gap-2 justify-between sm:items-center">
+      <div className="relative space-y-4">
+        <div className="flex justify-between gap-2 sm:items-center">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
           <div className="font-bold text-accent">{getCurrentDate()}</div>
         </div>
-        <div className="relative z-30 left-0 flex w-full flex-row">
+        <div className="relative left-0 z-30 flex w-full flex-row">
           {renderDayProgressBar()}
         </div>
         <div className="ml-10 flex flex-row">
           {schedule.map(({id: id, groomer}) => (
             <h2
               key={id}
-              className="ml-8 flex last:hidden md:last:flex flex-1 flex-row items-center space-x-1 text-lg font-bold"
+              className="ml-8 flex flex-1 flex-row items-center space-x-1 text-lg font-bold last:hidden md:last:flex"
             >
               <div>{groomer}</div>
               <ChevronDown color="#6c7688" />
@@ -97,7 +97,7 @@ const Schedule = () => {
           ))}
         </div>
         <div className="relative flex">
-          <div className="z-10 w-full absolute flex-1">
+          <div className="absolute z-10 w-full flex-1">
             {renderHourBlock('9 AM')}
             {renderHourBlock('10 AM')}
             {renderHourBlock('11 AM')}
@@ -109,12 +109,14 @@ const Schedule = () => {
             {renderHourBlock('5 PM')}
             {renderHourBlock('6 PM')}
           </div>
-          <div className={`h-[1440px] relative gap-4 top-0 z-20 flex w-full flex-row pl-16`}>
+          <div
+            className={`relative top-0 z-20 flex h-[1440px] w-full flex-row gap-4 pl-16`}
+          >
             {schedule.map(({id: id, sessions}) => {
               return (
                 <div
                   key={id}
-                  className="relative last:hidden md:last:flex flex flex-grow flex-col"
+                  className="relative flex flex-grow flex-col last:hidden md:last:flex"
                 >
                   {sessions.map(
                     ({
@@ -137,7 +139,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="absolute flex w-full cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md hover:z-100"
+                          className="hover:z-100 absolute flex w-full cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
@@ -154,7 +156,9 @@ const Schedule = () => {
                             <div className="text-md font-medium text-accent">
                               {startTime} - {endTime}
                             </div>
-                            <div className="text-md font-medium truncate">{name}</div>
+                            <div className="text-md truncate font-medium">
+                              {name}
+                            </div>
                           </div>
                           <div className="text-md flex items-end gap-2">
                             <div className="relative flex flex-1 items-center gap-2 font-medium">

@@ -13,10 +13,10 @@ export default function DashboardLayout({
     <AuthenticatedAndOnboardedRoute>
       <EmbeddedComponentWrapper>
         <DataRequest>
-          <div className="flex flex-col sm:flex-row h-full min-h-screen bg-paw-pattern bg-[size:426px]">
+          <div className="flex h-full min-h-screen flex-col bg-paw-pattern bg-[size:426px] sm:flex-row">
             <Nav />
-            <div className="flex flex-1 justify-center p-3 mt-[74px] sm:mt-0 sm:p-8 pb-20 sm:ml-52 lg:ml-64">
-              <div className="max-w-[1200px] w-full flex-1 space-y-4 md:space-y-5">
+            <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">
+              <div className="w-full max-w-[1200px] flex-1 space-y-4 md:space-y-5">
                 <OnboardingDialog />
                 {children}
               </div>

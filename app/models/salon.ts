@@ -98,8 +98,7 @@ SalonSchema.pre('save', function (next) {
   // Make sure the password is hashed before being stored.
   if (this.isModified('password') && !this.quickstartAccount) {
     this.password = this.generateHash(this.password);
-  }
-  else if (this.quickstartAccount) {
+  } else if (this.quickstartAccount) {
     this.password = this.password;
   }
   next();

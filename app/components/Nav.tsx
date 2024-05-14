@@ -12,7 +12,7 @@ import {
   Dog as PetsIcon,
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
-  Menu as MenuIcon
+  Menu as MenuIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
@@ -77,23 +77,35 @@ const Nav = () => {
     setBorder(enableBorder);
   }, [enableBorder]);
 
-  const [showMobileNavItems, setShowMobileNavItems] = React.useState(false)
+  const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="fixed sm:flex w-full sm:w-52 lg:w-64 sm:fixed sm:h-screen flex-col border-b sm:border-r bg-white sm:p-1 lg:p-3 z-40">
-      <div className="flex justify-between items-center sm:mb-4 p-3">
+    <div className="fixed z-40 w-full flex-col border-b bg-white sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+      <div className="flex items-center justify-between p-3 sm:mb-4">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
-            <Image src={FureverLogo} alt="Furever Logo" className="w-9 h-9 sm:w-10 sm:h-10" sizes="100px" priority />
+            <Image
+              src={FureverLogo}
+              alt="Furever Logo"
+              className="h-9 w-9 sm:h-10 sm:w-10"
+              sizes="100px"
+              priority
+            />
             Furever
           </div>
         </Link>
-        <Button variant="ghost" className="sm:hidden" onClick={() => setShowMobileNavItems(!showMobileNavItems)}>
+        <Button
+          variant="ghost"
+          className="sm:hidden"
+          onClick={() => setShowMobileNavItems(!showMobileNavItems)}
+        >
           <MenuIcon />
         </Button>
       </div>
-      <nav className={`${showMobileNavItems ? "flex" : "hidden"} w-full flex-1 sm:flex shadow-xl sm:shadow-none p-2 sm:p-0 pb-3 transition`}>
-        <ul className="flex-col w-full">
+      <nav
+        className={`${showMobileNavItems ? 'flex' : 'hidden'} w-full flex-1 p-2 pb-3 shadow-xl transition sm:flex sm:p-0 sm:shadow-none`}
+      >
+        <ul className="w-full flex-col">
           {navigationMenuItems
             .filter(({shouldDisplayFilter}) => {
               // Not all pages require a filter.
@@ -131,14 +143,17 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className="fixed sm:relative bottom-2 sm:bottom-0 right-1/2 sm:right-0 translate-x-2/4 sm:translate-x-0 w-[calc(100%-16px)] sm:w-full shadow-lg sm:shadow-none flex flex-row rounded-lg border bg-white sm:bg-offset p-3 gap-3 items-center font-medium">
+      <div className="fixed bottom-2 right-1/2 flex w-[calc(100%-16px)] translate-x-2/4 flex-row items-center gap-3 rounded-lg border bg-white p-3 font-medium shadow-lg sm:relative sm:bottom-0 sm:right-0 sm:w-full sm:translate-x-0 sm:bg-offset sm:shadow-none">
         <Switch
           className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#D8DEE4]"
           id="outline"
           checked={border}
           onCheckedChange={() => handleEnableBorderChange(!border)}
         />
-        <Label className="text-left cursor-pointer text-base sm:text-sm" htmlFor="outline">
+        <Label
+          className="cursor-pointer text-left text-base sm:text-sm"
+          htmlFor="outline"
+        >
           View component outlines
         </Label>
       </div>

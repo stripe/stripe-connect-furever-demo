@@ -23,7 +23,7 @@ const BalanceWidget = () => {
   // }, []);
 
   return (
-    <Container className="px-5 w-full">
+    <Container className="w-full px-5">
       <div className="space-y-1">
         <div className="flex flex-row justify-between">
           <div>

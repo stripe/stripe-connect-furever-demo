@@ -28,11 +28,11 @@ function Card({
   description: string;
 }) {
   return (
-    <div className="flex flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md max-w-[400px]">
+    <div className="flex max-w-[400px] flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-subdued">
         {icon}
       </div>
-      <p className="pt-4 text-lg font-bold text-primary text-center">{title}</p>
+      <p className="pt-4 text-center text-lg font-bold text-primary">{title}</p>
       <p className="text-center text-subdued">{description}</p>
     </div>
   );
@@ -103,10 +103,10 @@ export default function LandingPage() {
           </div>
 
           <div className="max-w-[700px] py-8 sm:py-16">
-            <h1 className="mb-1 text-center text-4xl sm:text-6xl font-bold leading-tight text-white drop-shadow">
+            <h1 className="mb-1 text-center text-4xl font-bold leading-tight text-white drop-shadow sm:text-6xl">
               Manage your pet business with ease.
             </h1>
-            <p className="pt-4 text-center text-xl sm:text-[24px] text-white drop-shadow">
+            <p className="pt-4 text-center text-xl text-white drop-shadow sm:text-[24px]">
               Furever is the world&apos;s leading pet grooming platform. Join
               our team of salons and expand your business.
             </p>
@@ -159,14 +159,14 @@ export default function LandingPage() {
       {/* Quote section */}
       <div className="relative bg-accent-subdued">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex flex-col md:flex-row items-center gap-20 py-12 sm:py-20">
+          <div className="flex flex-col items-center gap-20 py-12 sm:py-20 md:flex-row">
             <Image
               src={DogHug}
               alt="hug dog"
               placeholder="blur"
               quality={100}
               sizes="100vw"
-              className="overflow-hidden rounded-xl object-cover shadow-lg max-w-[450px] w-full"
+              className="w-full max-w-[450px] overflow-hidden rounded-xl object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
               <p className="relative text-3xl font-bold">
@@ -177,7 +177,7 @@ export default function LandingPage() {
                   fill="var(--accent)"
                   strokeWidth={0}
                   size="120"
-                  className="absolute right-4 sm:right-[-20px] top-[-50px] opacity-20"
+                  className="absolute right-4 top-[-50px] opacity-20 sm:right-[-20px]"
                 />
               </p>
               <div className="flex flex-row items-center gap-x-5 self-end">
@@ -202,7 +202,7 @@ export default function LandingPage() {
       {/* Get started section */}
       <div className="relative items-center bg-accent bg-paw-pattern-white bg-[size:426px]">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex flex-col sm:flex-row items-center gap-12 pb-40 sm:pb-32 pt-12 sm:pt-20 text-white">
+          <div className="flex flex-col items-center gap-12 pb-40 pt-12 text-white sm:flex-row sm:pb-32 sm:pt-20">
             <div className="">
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
@@ -235,13 +235,13 @@ export default function LandingPage() {
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-0 sm:bottom-5 right-[50%] flex w-full sm:w-[calc(100%-24px)] lg:w-[1000px] translate-x-2/4 flex-col sm:flex-row sm:rounded-lg bg-gradient-to-tr from-[#9160F1] to-[#11DFD4] px-2 sm:px-6 py-3 shadow-xl gap-3">
+      <div className="fixed bottom-0 right-[50%] flex w-full translate-x-2/4 flex-col gap-3 bg-gradient-to-tr from-[#9160F1] to-[#11DFD4] px-2 py-3 shadow-xl sm:bottom-5 sm:w-[calc(100%-24px)] sm:flex-row sm:rounded-lg sm:px-6 lg:w-[1000px]">
         <div className="flex flex-1 flex-col sm:flex-row sm:items-center sm:gap-6">
           <a href="https://stripe.com" target="_blank">
             <Image
               src={Stripe}
               alt="stripe logo"
-              className="hidden sm:block max-h-[20px]"
+              className="hidden max-h-[20px] sm:block"
               color="var(--accent)"
             />
           </a>
@@ -267,7 +267,7 @@ export default function LandingPage() {
             />
           </a>
           <a
-            className="flex items-center gap-1 text-sm sm:text-base font-medium text-white transition hover:opacity-80"
+            className="flex items-center gap-1 text-sm font-medium text-white transition hover:opacity-80 sm:text-base"
             href="https://github.com/stripe/stripe-connect-furever-demo"
             target="_blank"
           >

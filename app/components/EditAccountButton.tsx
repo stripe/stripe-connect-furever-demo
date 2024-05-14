@@ -55,8 +55,8 @@ const EditAccountButton = () => {
       console.log('submitting');
       const data = {
         newEmail: values.email,
-        newPassword:  bcrypt.hashSync(values.password, 8),
-        changedPassword: true
+        newPassword: bcrypt.hashSync(values.password, 8),
+        changedPassword: true,
       };
 
       const response = await fetch('/api/account_update', {

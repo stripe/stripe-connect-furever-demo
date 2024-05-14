@@ -46,11 +46,6 @@ export default function Settings() {
 
   return (
     <>
-      <Container>
-        <EmbeddedComponentContainer>
-          <ConnectNotificationBanner />
-        </EmbeddedComponentContainer>
-      </Container>
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
@@ -58,7 +53,7 @@ export default function Settings() {
             <EditAccountButton />
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-20">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-20">
           <div>
             <div className="text-subdued">Business name</div>
             <div className="font-medium">{businessName}</div>
@@ -70,30 +65,35 @@ export default function Settings() {
           <div>
             <div className="text-subdued">Password</div>
             <div className="font-medium">
-              {showPassword ? password : '••••••••'}
+              {showPassword && canShowPassword ? password : '••••••••'}
             </div>
-            {canShowPassword && 
-            <Link
-              className="text-sm font-semibold text-accent"
-              href="#"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {' '}
-              {showPassword ? 'Hide password' : 'Show password'}
-            </Link>
-}
+            {canShowPassword && (
+              <Link
+                className="text-sm font-semibold text-accent"
+                href="#"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {' '}
+                {showPassword ? 'Hide password' : 'Show password'}
+              </Link>
+            )}
           </div>
         </div>
       </Container>
       <Container>
-        <div className="flex flex-col sm:flex-row items-start justify-between">
-          <header className="ml-2 mb-5">
+        <div className="flex flex-col items-start justify-between sm:flex-row">
+          <header className="mb-5 ml-2">
             <h1 className="text-xl font-semibold">Account settings</h1>
             <h2 className="text-subdued">
               Manage account and business settings.
             </h2>
           </header>
-          <Button size="sm" className="" onClick={onClick} disabled={buttonLoading}>
+          <Button
+            size="sm"
+            className=""
+            onClick={onClick}
+            disabled={buttonLoading}
+          >
             {buttonLoading ? (
               <>
                 <LoaderCircle className="mr-1.5 animate-spin" size={20} />{' '}
@@ -108,12 +108,15 @@ export default function Settings() {
           </Button>
         </div>
         <EmbeddedComponentContainer>
+        <div className='flex flex-col space-y-4'>
+          <ConnectNotificationBanner />
           <ConnectAccountManagement />
+          </div>
         </EmbeddedComponentContainer>
       </Container>
 
       <Container>
-        <header className="ml-2 mb-5">
+        <header className="mb-5 ml-2">
           <h1 className="text-xl font-semibold">Payment methods</h1>
           <h2 className="text-subdued">Add and manage your payment methods.</h2>
         </header>
