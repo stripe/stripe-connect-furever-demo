@@ -12,6 +12,7 @@ declare module 'next-auth' {
       businessName?: string | null;
       password?: string | null;
       setup?: boolean;
+      changedPassword: boolean;
     } & DefaultSession['user'];
   }
 }

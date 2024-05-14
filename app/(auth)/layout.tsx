@@ -13,14 +13,14 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-4 sm:py-16">
-      <div className="mx-auto flex max-w-[450px] flex-col gap-6 sm:gap-12 p-3">
+      <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-12">
         <div className="flex w-full justify-center">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
               <Image
                 src={FureverLogo}
                 alt="Furever Logo"
-                className="w-12 h-12 sm:w-16 sm:h-16"
+                className="h-12 w-12 sm:h-16 sm:w-16"
               />
               Furever
             </div>

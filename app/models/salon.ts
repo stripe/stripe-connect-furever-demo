@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +19,8 @@ export interface ISalon extends Document {
   accountConfig: string;
   businessName: string;
   setup: boolean;
+  quickstartAccount: boolean;
+  changedPassword: boolean;
 
   generateHash: (password: string) => string;
   validatePassword: (password?: string) => boolean;
@@ -48,6 +51,7 @@ const SalonSchema = new Schema<ISalon>({
   accountConfig: String,
   businessName: String,
   quickstartAccount: Boolean,
+  changedPassword: Boolean,
   setup: Boolean,
 });
 
@@ -81,19 +85,21 @@ function SalonEmailValidator(email: string) {
 
 // Generate a password hash (with an auto-generated salt for simplicity here).
 SalonSchema.methods.generateHash = function (password) {
-  return password;
+  return bcrypt.hashSync(password, 8);
 };
 
 // Check if the password is valid by comparing with the stored hash.
 SalonSchema.methods.validatePassword = function (password) {
-  return password === this.password;
+  return bcrypt.compareSync(password, this.password);
 };
 
 // Pre-save hook to define some default properties for salons.
 SalonSchema.pre('save', function (next) {
   // Make sure the password is hashed before being stored.
-  if (this.isModified('password')) {
+  if (this.isModified('password') && !this.quickstartAccount) {
     this.password = this.generateHash(this.password);
+  } else if (this.quickstartAccount) {
+    this.password = this.password;
   }
   next();
 });

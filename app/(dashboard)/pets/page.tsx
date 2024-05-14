@@ -29,7 +29,7 @@ export default function Pets() {
           New Pet
         </Button>
       </div>
-      <div className="grid gap-2 md:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {pets.map((pet, key) => {
           return (
             <Container
@@ -37,7 +37,7 @@ export default function Pets() {
               key={key}
             >
               <Image
-                className="relative h-32 md:h-52 w-full rounded-lg border object-cover"
+                className="relative h-32 w-full rounded-lg border object-cover md:h-52"
                 fill
                 quality={80}
                 src={`/pet_photos/${pet.profilePhoto}.jpg`}
@@ -45,7 +45,7 @@ export default function Pets() {
                 alt={`Photo of ${pet.name}`}
                 priority
               />
-              <div className="flex flex-col md:flex-row w-full md:items-center gap-4">
+              <div className="flex w-full flex-col gap-4 md:flex-row md:items-center">
                 <div className="flex-1">
                   <h3 className="text-lg font-medium">{pet.name}</h3>
                   <p className="text-sm text-subdued">

@@ -7,7 +7,7 @@ export default function FinancesLayout({
 }>) {
   return (
     <>
-      <header className="flex flex-col md:flex-row justify-between">
+      <header className="flex flex-col justify-between md:flex-row">
         <h1 className="text-3xl font-bold">Finances</h1>
         <div className="mt-4 md:mt-0">
           <SubNav
