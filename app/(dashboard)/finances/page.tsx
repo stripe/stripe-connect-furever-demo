@@ -69,6 +69,7 @@ export default function Finances() {
 
       if (res.ok) {
         setButtonLoading(false);
+        // Page must reload to show the new components
         window.location.reload();
       }
     } catch (e) {
