@@ -24,8 +24,8 @@ export default function Dashboard() {
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name || "human"}!</h1>
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
-        <Container className="w-full flex-1 p-5">
-          <EmbeddedComponentContainer className="-m-2">
+        <Container className="w-full flex flex-col flex-1 p-5">
+          <EmbeddedComponentContainer className="-m-2 mb-0.5">
             <ConnectNotificationBanner />
           </EmbeddedComponentContainer>
           <Schedule />
