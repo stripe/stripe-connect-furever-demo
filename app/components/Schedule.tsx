@@ -76,7 +76,7 @@ const renderHourBlock = (hour: string) => {
 
 const Schedule = () => {
   return (
-    <Container className="px-5 py-5">
+    <div>
       <div className="relative space-y-4">
         <div className="flex justify-between gap-2 sm:items-center">
           <h1 className="text-xl font-bold">Today&apos;s schedule</h1>
@@ -185,7 +185,7 @@ const Schedule = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

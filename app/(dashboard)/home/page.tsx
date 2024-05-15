@@ -22,12 +22,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Woof woof, {name}!</h1>
+      <h1 className="text-3xl font-bold">Woof woof, {name || "human"}!</h1>
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
-        <Container className="w-full flex-1">
-        <EmbeddedComponentContainer>
-          <ConnectNotificationBanner />
-        </EmbeddedComponentContainer>
+        <Container className="w-full flex flex-col flex-1 p-5">
+          <EmbeddedComponentContainer className="-m-2 mb-0.5">
+            <ConnectNotificationBanner />
+          </EmbeddedComponentContainer>
           <Schedule />
         </Container>
         <div className="-order-1 flex w-full flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
