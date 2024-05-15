@@ -16,12 +16,13 @@ import ImageStep2 from '@/public/onboarding-images/step-2.png';
 import ImageStep3 from '@/public/onboarding-images/step-3.png';
 import PointingHand from '@/public/onboarding-images/pointinghand.png';
 import {ArrowRight} from 'lucide-react';
-import {useSearchParams} from 'next/navigation';
+import {useSearchParams, useRouter} from 'next/navigation';
 import * as React from 'react';
 
 const OnboardingDialog = () => {
   // Look for showNux query param in the URL.
   const searchParams = useSearchParams();
+  const router = useRouter();
   let showNux = searchParams.get('shownux') === 'true';
 
   // Check browser width, and don't show NUX if on mobile device.
@@ -39,7 +40,7 @@ const OnboardingDialog = () => {
       imageURL: ImageStep1,
     },
     {
-      title: 'Eplore components on different pages.',
+      title: 'Explore components on different pages.',
       description:
         'Components can be found in Payments, Payouts, Finances, and My Account.',
       imageClassName: 'scale-[1.6] translate-x-[280px] translate-y-[25px]',
@@ -49,12 +50,23 @@ const OnboardingDialog = () => {
     {
       title: 'View component outlines',
       description:
-        'Turn on borders to visualize embedded components in dashboard.',
+        'Turn on borders to visualize Connect embedded components.',
       imageClassName: 'scale-[1.8] translate-x-[450px] translate-y-[-450px]',
       cursorClassName: 'opacity-100 translate-x-[208px] translate-y-[-75px]',
       imageURL: ImageStep3,
     },
   ];
+
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      // Open the modal
+      setOpenNux(true);
+    } else {
+      // Close the modal and remove query param
+      setOpenNux(false);
+      router.replace('/home')
+    }
+  }
 
   const DecrementButon = () => {
     // If user is at first step, show a close button
@@ -122,7 +134,7 @@ const OnboardingDialog = () => {
 
   return (
     <>
-      <Dialog open={openNux} onOpenChange={setOpenNux}>
+      <Dialog open={openNux} onOpenChange={handleOpenChange}>
         <DialogContent className="w-[700px] max-w-[none] gap-0 overflow-hidden border-0 p-0">
           <div className="relative h-[300px] w-full overflow-hidden border-b bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
