@@ -5,16 +5,45 @@ import Container from '@/app/components/Container';
 import FureverLogo from '@/public/furever_logo.png';
 import Stripe from '@/public/stripe-gray.svg';
 import Link from 'next/link';
+import {signOut} from 'next-auth/react';
+import {useSession} from 'next-auth/react';
+import {Button} from '@/components/ui/button';
 
 export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const {data, status} = useSession();
+
+  const SignOut = () => {
+    if (status == "unauthenticated") {
+      return;
+    }
+
+    return (
+      <p className="text-sm text-secondary text-center">
+        Signed in as {' '}
+        <span className="font-medium">
+          {data?.user?.email}
+        </span>
+        . {' '}
+        <Button
+          variant="link"
+          className="text-sm p-0 text-secondary rounded-none border-b border-black/20"
+          onClick={() => signOut({callbackUrl: '/'})}
+        >
+          Sign out
+        </Button>
+      </p>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-4 sm:py-16">
-      <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-12">
-        <div className="flex w-full justify-center">
+      <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-6">
+        <div className="flex w-full justify-center mb-6">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
               <Image
@@ -29,15 +58,15 @@ export default function AuthLayout({
         <Container className="no-scrollbar w-full overflow-scroll rounded-xl px-5 py-5">
           {children}
         </Container>
-
-        <div className="flex w-full flex-col items-center gap-2">
+        <SignOut />
+        <div className="flex w-full flex-col items-center gap-2 mt-8">
           <a href="https://stripe.com" target="_blank">
             <Image src={Stripe} alt="stripe logo" height={24} />
           </a>
           <p className="text-center text-sm text-subdued">
             This site is a demo for{' '}
             <a
-              className="border-b border-black/20"
+              className="font-medium border-b border-black/20 hover:border-black/70"
               href="https://docs.stripe.com/connect/get-started-connect-embedded-components"
               target="_blank"
             >
