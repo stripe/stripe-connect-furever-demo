@@ -77,6 +77,7 @@ const config = {
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      mono: ['ui-monospace', 'SFMono-Regular'],
     },
   },
   plugins: [require('tailwindcss-animate')],
