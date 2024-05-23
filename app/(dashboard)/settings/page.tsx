@@ -108,9 +108,9 @@ export default function Settings() {
           </Button>
         </div>
         <EmbeddedComponentContainer>
-        <div className='flex flex-col space-y-4'>
-          <ConnectNotificationBanner />
-          <ConnectAccountManagement />
+          <div className="flex flex-col space-y-4">
+            <ConnectNotificationBanner />
+            <ConnectAccountManagement />
           </div>
         </EmbeddedComponentContainer>
       </Container>

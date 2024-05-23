@@ -1,7 +1,8 @@
 import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
 
 const EmbeddedComponentContainer = ({
-  children, className
+  children,
+  className,
 }: {
   children: React.ReactNode;
   className?: string;

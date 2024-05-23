@@ -49,8 +49,7 @@ const OnboardingDialog = () => {
     },
     {
       title: 'View component outlines',
-      description:
-        'Turn on borders to visualize Connect embedded components.',
+      description: 'Turn on borders to visualize Connect embedded components.',
       imageClassName: 'scale-[1.8] translate-x-[450px] translate-y-[-450px]',
       cursorClassName: 'opacity-100 translate-x-[208px] translate-y-[-75px]',
       imageURL: ImageStep3,
@@ -64,9 +63,9 @@ const OnboardingDialog = () => {
     } else {
       // Close the modal and remove query param
       setOpenNux(false);
-      router.replace('/home')
+      router.replace('/home');
     }
-  }
+  };
 
   const DecrementButon = () => {
     // If user is at first step, show a close button
