@@ -28,11 +28,11 @@ function Card({
   description: string;
 }) {
   return (
-    <div className="flex flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md">
+    <div className="flex max-w-[400px] flex-1 flex-col items-center rounded-lg border bg-white p-6 transition duration-150 hover:scale-[1.02] hover:shadow-md">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-subdued">
         {icon}
       </div>
-      <p className="pt-4 text-lg font-bold text-primary">{title}</p>
+      <p className="pt-4 text-center text-lg font-bold text-primary">{title}</p>
       <p className="text-center text-subdued">{description}</p>
     </div>
   );
@@ -87,24 +87,26 @@ const AuthButtons = () => {
 
 export default function LandingPage() {
   return (
-    <div className="min-w-[1024px]">
+    <div>
       <div className="relative">
-        <div className="mx-auto flex max-w-screen-lg flex-col items-center px-4 pb-[140px]">
+        <div className="mx-auto flex max-w-screen-lg flex-col items-center px-4 pb-16 sm:pb-[140px]">
           <div className="flex w-full flex-row items-center justify-center gap-3 py-4">
             <Image
               src={FureverLogo}
               alt="Furever logo"
               height={48}
               width={48}
+              sizes="92px"
+              priority
             />
             <p className="text-2xl font-bold text-white">Furever</p>
           </div>
 
-          <div className="max-w-[700px] py-16">
-            <h1 className="mb-1 text-center text-6xl font-bold leading-tight text-white drop-shadow">
+          <div className="max-w-[700px] py-8 sm:py-16">
+            <h1 className="mb-1 text-center text-4xl font-bold leading-tight text-white drop-shadow sm:text-6xl">
               Manage your pet business with ease.
             </h1>
-            <p className="pt-4 text-center text-[24px] text-white drop-shadow">
+            <p className="pt-4 text-center text-xl text-white drop-shadow sm:text-[24px]">
               Furever is the world&apos;s leading pet grooming platform. Join
               our team of salons and expand your business.
             </p>
@@ -121,18 +123,19 @@ export default function LandingPage() {
           quality={80}
           sizes="100vw"
           className="absolute top-0 z-[-2] h-full w-full overflow-hidden object-cover"
+          priority
         />
       </div>
 
       {/* Features section */}
       <div className="relative bg-paw-pattern bg-[size:426px]">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex flex-col items-center py-20">
+          <div className="flex flex-col items-center py-12 sm:py-20">
             <h3 className="text-lg font-bold text-accent">FEATURES</h3>
             <p className="mb-12 text-center text-3xl font-bold">
               Everything you need to manage your pet business.
             </p>
-            <div className="flex flex-row gap-x-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
               <Card
                 icon={<CalendarCheck color="var(--accent)" />}
                 title="Simple scheduling"
@@ -156,14 +159,14 @@ export default function LandingPage() {
       {/* Quote section */}
       <div className="relative bg-accent-subdued">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex flex-row items-center gap-x-20 py-20">
+          <div className="flex flex-col items-center gap-20 py-12 sm:py-20 md:flex-row">
             <Image
               src={DogHug}
               alt="hug dog"
               placeholder="blur"
               quality={100}
               sizes="100vw"
-              className="overflow-hidden rounded-xl border object-cover shadow-lg"
+              className="w-full max-w-[450px] overflow-hidden rounded-xl object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
               <p className="relative text-3xl font-bold">
@@ -174,7 +177,7 @@ export default function LandingPage() {
                   fill="var(--accent)"
                   strokeWidth={0}
                   size="120"
-                  className="absolute right-[-20px] top-[-50px] opacity-20"
+                  className="absolute right-4 top-[-50px] opacity-20 sm:right-[-20px]"
                 />
               </p>
               <div className="flex flex-row items-center gap-x-5 self-end">
@@ -199,12 +202,12 @@ export default function LandingPage() {
       {/* Get started section */}
       <div className="relative items-center bg-accent bg-paw-pattern-white bg-[size:426px]">
         <div className="mx-auto max-w-screen-lg px-4">
-          <div className="flex items-center gap-12 pb-32 pt-20 text-white">
-            <div className="min-w-[400px]">
+          <div className="flex flex-col items-center gap-12 pb-40 pt-12 text-white sm:flex-row sm:pb-32 sm:pt-20">
+            <div className="">
               <h2 className="mb-2 text-left text-4xl font-bold">
                 Get started today.
               </h2>
-              <p className="mb-6 text-left text-2xl">
+              <p className="mb-6 text-left text-xl sm:text-2xl">
                 Furever is the world&apos;s leading pet grooming platform. Join
                 our team of salons and expand your business
               </p>
@@ -219,11 +222,12 @@ export default function LandingPage() {
                 </Button>
               </Link>
             </div>
-            <div className="max-h-[500px] overflow-hidden rounded-lg shadow-xl">
+            <div className="w-full overflow-hidden rounded-lg shadow-xl">
               <Image
                 src={Dashboard}
                 alt="A screenshot of Furever dashboard"
                 sizes="50vw"
+                className="w-full"
               />
             </div>
           </div>
@@ -231,13 +235,13 @@ export default function LandingPage() {
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-5 right-[50%] flex w-[1000px] translate-x-2/4 flex-row rounded-lg bg-gradient-to-tr from-[#9160F1] to-[#11DFD4] px-6 py-3 shadow-xl">
-        <div className="flex flex-1 items-center gap-6">
+      <div className="fixed bottom-0 right-[50%] flex w-full translate-x-2/4 flex-col gap-3 bg-gradient-to-tr from-[#9160F1] to-[#11DFD4] px-2 py-3 shadow-xl sm:bottom-5 sm:w-[calc(100%-24px)] sm:flex-row sm:rounded-lg sm:px-6 lg:w-[1000px]">
+        <div className="flex flex-1 flex-col sm:flex-row sm:items-center sm:gap-6">
           <a href="https://stripe.com" target="_blank">
             <Image
               src={Stripe}
               alt="stripe logo"
-              height={20}
+              className="hidden max-h-[20px] sm:block"
               color="var(--accent)"
             />
           </a>
@@ -253,14 +257,24 @@ export default function LandingPage() {
             . Furever is not a real product.
           </p>
         </div>
-        <a
-          className="flex items-center gap-1 font-medium text-white transition hover:opacity-80"
-          href="https://github.com/stripe/stripe-connect-furever-demo"
-          target="_blank"
-        >
-          View on GitHub
-          <ArrowRight size={16} />
-        </a>
+        <div className="flex justify-between">
+          <a href="https://stripe.com" target="_blank">
+            <Image
+              src={Stripe}
+              alt="stripe logo"
+              className="max-h-[20px] sm:hidden"
+              color="var(--accent)"
+            />
+          </a>
+          <a
+            className="flex items-center gap-1 text-sm font-medium text-white transition hover:opacity-80 sm:text-base"
+            href="https://github.com/stripe/stripe-connect-furever-demo"
+            target="_blank"
+          >
+            View on GitHub
+            <ArrowRight size={16} />
+          </a>
+        </div>
       </div>
     </div>
   );

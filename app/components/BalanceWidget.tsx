@@ -5,11 +5,11 @@ import {ChevronRight} from 'lucide-react';
 
 const BalanceWidget = () => {
   return (
-    <Container className="px-5">
+    <Container className="w-full px-5">
       <div className="flex flex-row justify-between space-y-1">
         <div>
           <h1 className="font-bold text-subdued">Total balance</h1>
-          <div className="text-xl font-bold">$1,532</div>
+          <div className="text-2xl font-bold">$1,532</div>
         </div>
         <div>
           <Link href="/payouts" className="flex flex-row items-center">

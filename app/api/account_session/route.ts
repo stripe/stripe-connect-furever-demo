@@ -54,6 +54,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const account = await stripe.accounts.retrieve(stripeAccountId);
+    // We can only request the components if the account has both issuing and treasury capabilities
+    const hasIssuingAndTreasury = ['card_issuing', 'treasury'].every(
+      (capability) =>
+        Object.keys(account?.capabilities || []).includes(capability)
+    );
+    const issuingAndTreasuryComponents = {
+      issuing_card: {
+        enabled: true,
+      },
+      issuing_cards_list: {
+        enabled: true,
+        features: {
+          card_management: true,
+          cardholder_management: true,
+        },
+      },
+      financial_account: {
+        enabled: true,
+        features: {
+          money_movement: true,
+        },
+      },
+      financial_account_transactions: {
+        enabled: true,
+        features: {
+          card_spend_dispute_management: true,
+        },
+      },
+    };
+
     const accountSession = await stripe.accountSessions.create({
       account: stripeAccountId,
       components: {
@@ -79,9 +110,12 @@ export async function POST(req: NextRequest) {
         capital_overview: {
           enabled: true,
         },
+        ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
+        // @ts-ignore
         tax_settings: {
           enabled: true,
         },
+        // @ts-ignore
         tax_registrations: {
           enabled: true,
         },

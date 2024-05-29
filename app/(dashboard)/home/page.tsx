@@ -8,6 +8,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
+import Container from '@/app/components/Container';
 
 export default function Dashboard() {
   const {data: session} = useSession();
@@ -17,24 +18,30 @@ export default function Dashboard() {
 
   const name = session.user.stripeAccount.individual?.first_name;
 
+  const BREAKPOINT = 1190;
+
   return (
     <>
-      <h1 className="text-3xl font-bold">Woof woof, {name}!</h1>
-      <div className="bg-white">
-        <EmbeddedComponentContainer>
-          <ConnectNotificationBanner />
-        </EmbeddedComponentContainer>
-      </div>
-      <div className="flex flex-row items-start space-x-5">
-        <div className="min-w-[700px] flex-1">
+      <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
+      <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
+        <Container className="flex w-full flex-1 flex-col p-5">
+          <EmbeddedComponentContainer className="-m-2 mb-0.5">
+            <ConnectNotificationBanner />
+          </EmbeddedComponentContainer>
           <Schedule />
-        </div>
-        <div className="w-[30%] min-w-[300px] space-y-4">
-          <BalanceWidget />
-          <RecentPaymentsWidget />
-          <h2 className="pt-4 text-lg font-bold">Performance</h2>
-          <MonthToDateWidget />
-          <CustomersWidget />
+        </Container>
+        <div className="-order-1 flex w-full flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
+          <div className="flex flex-grow flex-col gap-2 md:gap-4 md:max-xl:flex-row">
+            <BalanceWidget />
+            <RecentPaymentsWidget />
+          </div>
+          <h2 className="hidden pt-4 text-lg font-bold xl:block">
+            Performance
+          </h2>
+          <div className="flex flex-grow flex-col gap-2 md:gap-4 md:max-xl:flex-row">
+            <MonthToDateWidget />
+            <CustomersWidget />
+          </div>
         </div>
       </div>
     </>

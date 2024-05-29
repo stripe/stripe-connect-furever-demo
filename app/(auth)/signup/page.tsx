@@ -36,7 +36,7 @@ export default async function Signup() {
             <div className="flex gap-3">
               <Sparkles size={24} color="var(--primary)" />
               <p className="flex-1">
-                You’ll skip account onboarding and go straight to dashboard.
+                Skip account onboarding and go straight to dashboard.
               </p>
             </div>
             <div className="flex gap-3">

@@ -41,7 +41,7 @@ export default function Payments() {
   return (
     <>
       <h1 className="text-3xl font-bold">Payments</h1>
-      <div className="flex flex-col gap-5 lg:flex-row">
+      <div className="flex flex-col gap-3 md:gap-5 lg:flex-row">
         <div className="flex-1">
           <MonthToDateWidget />
         </div>
@@ -50,10 +50,10 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center justify-between">
           <h1 className="text-xl font-bold">Recent payments</h1>
           {!loading && (
-            <Button onClick={onClick} disabled={buttonLoading}>
+            <Button onClick={onClick} size="sm" disabled={buttonLoading}>
               {buttonLoading ? (
                 <>
                   <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
