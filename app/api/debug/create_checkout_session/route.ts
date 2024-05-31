@@ -49,6 +49,23 @@ export async function POST() {
 
     const {description: nameAndDescription} =
       customers[Math.floor(Math.random() * customers.length)];
+
+    let automaticTaxEnabled: boolean = false;
+    let taxCode: undefined | string = undefined;
+    let tax_behavior: undefined | 'exclusive' = undefined;
+
+    if (session?.user?.stripeAccount?.id) {
+      const taxSettings = await stripe.tax.settings.retrieve({
+        stripeAccount: session?.user?.stripeAccount?.id,
+      });
+      automaticTaxEnabled = taxSettings.status === 'active';
+      taxCode = taxSettings.defaults.tax_code
+        ? taxSettings.defaults.tax_code
+        : 'txcd_99999999';
+
+      tax_behavior = automaticTaxEnabled ? 'exclusive' : undefined;
+    }
+
     checkoutSession = await stripe.checkout.sessions.create(
       {
         line_items: [
@@ -59,7 +76,9 @@ export async function POST() {
               product_data: {
                 name: nameAndDescription,
                 description: nameAndDescription,
+                tax_code: taxCode,
               },
+              tax_behavior,
             },
             quantity: 1,
           },
@@ -71,6 +90,9 @@ export async function POST() {
         mode: 'payment',
         success_url: redirectUrl,
         cancel_url: redirectUrl,
+        automatic_tax: {
+          enabled: automaticTaxEnabled,
+        },
       },
       {
         stripeAccount: session?.user?.stripeAccount?.id,

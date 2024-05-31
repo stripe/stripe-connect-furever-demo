@@ -61,7 +61,7 @@ const navigationMenuItems = [
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
-    paths: ['/settings/documents'],
+    paths: ['/settings/documents', '/settings/tax'],
   },
 ];
 
