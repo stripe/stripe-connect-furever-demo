@@ -11,9 +11,16 @@ export default function Onboarding() {
   const stripeAccount = session?.user.stripeAccount;
 
   const isCustom =
+<<<<<<< HEAD
     stripeAccount?.controller?.stripe_dashboard?.type === 'none' &&
     stripeAccount?.controller?.losses?.payments === 'application' &&
     stripeAccount?.controller?.requirement_collection === 'application';
+=======
+    stripeAccount &&
+    stripeAccount.controller?.stripe_dashboard?.type === 'none' &&
+    stripeAccount.controller?.losses?.payments === 'application' &&
+    stripeAccount.controller?.requirement_collection === 'application';
+>>>>>>> 6ec52a6 (frontend)
 
   return (
     <EmbeddedComponentContainer>

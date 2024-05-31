@@ -143,7 +143,7 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className="fixed bottom-2 right-1/2 flex w-[calc(100%-16px)] translate-x-2/4 flex-row items-center gap-3 rounded-lg border bg-white p-3 font-medium shadow-lg sm:relative sm:bottom-0 sm:right-0 sm:w-full sm:translate-x-0 sm:bg-offset sm:shadow-none">
+      {/* <div className="fixed bottom-2 right-1/2 flex w-[calc(100%-16px)] translate-x-2/4 flex-row items-center gap-3 rounded-lg border bg-white p-3 font-medium shadow-lg sm:relative sm:bottom-0 sm:right-0 sm:w-full sm:translate-x-0 sm:bg-offset sm:shadow-none">
         <Switch
           className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#D8DEE4]"
           id="outline"
@@ -156,6 +156,21 @@ const Nav = () => {
         >
           View component outlines
         </Label>
+      </div> */}
+      <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3">
+        <div className="flex items-center gap-2 font-bold">
+          <SparklesIcon size={20} color="var(--primary)" />
+          <p className="text-primary">Tools</p>
+        </div>
+        <p className="mb-4 text-[15px]">
+          Explore embedded components and blah blah.
+        </p>
+        <Button
+          size="sm"
+          className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow"
+        >
+          Open tools
+        </Button>
       </div>
     </div>
   );

@@ -70,6 +70,7 @@ const config = {
       backgroundImage: {
         'paw-pattern': "url('/pattern.png')",
         'paw-pattern-white': "url('/pattern-white.png')",
+        'dot-grid': "url('/dot-grid.png')",
       },
       boxShadow: {
         md: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08)',
