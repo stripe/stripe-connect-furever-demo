@@ -4,6 +4,7 @@ import {useSession} from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
+import Stripe from '@/public/stripe-gray.svg';
 import {
   Home as HomeIcon,
   Wallet as WalletIcon,
@@ -13,10 +14,11 @@ import {
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
   Menu as MenuIcon,
+  File as FileIcon,
+  PanelLeftClose,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
-import Stripe from 'stripe';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
 import {
@@ -29,6 +31,7 @@ import {
 import {RadioGroup, RadioGroupItem} from '@/components/ui/radiogroup';
 import {Sparkles} from 'lucide-react';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
+import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
 
 const ToolsPanel = () => {
@@ -39,25 +42,63 @@ const ToolsPanel = () => {
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
   const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
+  const {handleOpenChange} = useToolsContext();
   const [border, setBorder] = React.useState(true);
+  const [theme, setTheme] = React.useState('light');
+  const [locale, setLocale] = React.useState('english');
+  const [overlay, setOverlay] = React.useState('dialog');
 
-  React.useEffect(() => {
-    setBorder(enableBorder);
-  }, [enableBorder]);
+  const actions = [
+    {
+      description: 'Create a test payment',
+      href: '/payments',
+    },
+    {
+      description: 'Create a checkout session',
+      href: '/payments',
+    },
+    {
+      description: 'Create a test payout',
+      href: '/payouts',
+    },
+    {
+      description: 'Simulate a risk intervention',
+      href: '/settings',
+    },
+    {
+      description: 'Simulate a risk intervention',
+      href: '/home',
+    },
+  ];
 
-  return (
-    <div className="h-full w-full">
-      <div className="flex text-xl font-bold text-primary">
-        <Sparkles size={24} />
-        Tools
+  const CustomTools = () => {
+    return (
+      <div className="mt-4 flex flex-col items-stretch">
+        {actions.map(
+          (action) =>
+            pathname.includes(action.href) && (
+              <Button
+                className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
+                variant="secondary"
+                key={action.description}
+              >
+                {action.description}
+              </Button>
+            )
+        )}
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-row justify-between rounded-lg text-sm font-medium">
+    );
+  };
+
+  const DefaultTools = () => {
+    return (
+      <div className="my-6 flex flex-col gap-y-4 text-sm font-medium">
+        <div className="flex flex-row justify-between rounded-lg">
           <Label className="text-left" htmlFor="outline">
             Component outlines
           </Label>
           <Switch
-            className="mr-3 data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
+            className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
             id="outline"
             checked={border}
             onCheckedChange={() => handleEnableBorderChange(!border)}
@@ -71,14 +112,10 @@ const ToolsPanel = () => {
             <div className="flex items-center space-x-2">
               <RadioGroupItem
                 className="border border-primary bg-white"
-                value="white"
-                id="white"
+                value="light"
+                id="light"
               />
-              <RadioGroupItem
-                className="bg-[#424242]"
-                value="black"
-                id="black"
-              />
+              <RadioGroupItem className="bg-[#424242]" value="dark" id="dark" />
               <RadioGroupItem
                 className="bg-[#008080]"
                 value="mspaint"
@@ -91,9 +128,9 @@ const ToolsPanel = () => {
           <Label className="text-left" htmlFor="outline">
             Locale
           </Label>
-          <Select>
+          <Select onValueChange={(value) => setLocale(value)}>
             <SelectTrigger className="w-[120px]">
-              <SelectValue placeholder="English" />
+              <SelectValue>{locale}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="spanish">Spanish</SelectItem>
@@ -105,9 +142,9 @@ const ToolsPanel = () => {
           <Label className="text-left" htmlFor="outline">
             Overlay style
           </Label>
-          <Select>
+          <Select onValueChange={(value) => setOverlay(value)}>
             <SelectTrigger className="w-[120px]">
-              <SelectValue placeholder="Dialog" />
+              <SelectValue>{overlay}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="dialog">Dialog</SelectItem>
@@ -115,7 +152,39 @@ const ToolsPanel = () => {
             </SelectContent>
           </Select>
         </div>
+      </div>
+    );
+  };
+
+  React.useEffect(() => {
+    setBorder(enableBorder);
+  }, [enableBorder]);
+
+  return (
+    <div className="flex h-full w-full flex-col justify-between p-5">
+      <div>
+        <div className="flex gap-x-2 text-xl font-bold text-primary">
+          <Sparkles size={24} />
+          Tools
+        </div>
+        <DefaultTools />
         <hr />
+        <div className="mb-4 flex gap-x-2 text-xl font-bold text-primary">
+          <FileIcon size={24} />
+          On this page
+        </div>
+        <CustomTools />
+      </div>
+      <div className="flex-co flex justify-between">
+        <Image src={Stripe} alt="stripe logo" height={24} />
+        <Button
+          variant="secondary"
+          className="px-[10px] py-[9px] text-sm"
+          onClick={() => handleOpenChange(false)}
+        >
+          <PanelLeftClose className="mr-2" />
+          Close{' '}
+        </Button>
       </div>
     </div>
   );
