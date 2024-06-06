@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint && npm run prettier-check",
     "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
-    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check"
+    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check",
+    "typescript": "tsc -p ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -62,6 +63,6 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.3"
+    "typescript": "5.4.3"
   }
 }

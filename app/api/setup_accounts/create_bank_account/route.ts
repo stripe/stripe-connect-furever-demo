@@ -2,12 +2,17 @@ import Salon from '@/app/models/salon';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
+import {type NextRequest} from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
     const json = await req.json();
+
+    if (!accountId) {
+      throw new Error('Stripe account ID is undefined');
+    }
 
     const {
       country,
