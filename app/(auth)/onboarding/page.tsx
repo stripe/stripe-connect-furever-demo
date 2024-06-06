@@ -4,6 +4,7 @@ import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import React from 'react';
 import {useSession} from 'next-auth/react';
+import {type NextRequest} from 'next/server';
 
 export default function Onboarding() {
   const {data: session, status} = useSession();
