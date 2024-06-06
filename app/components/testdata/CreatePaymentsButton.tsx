@@ -135,9 +135,9 @@ export default function CreatePaymentsButton() {
                           <SelectValue>{statusLabels[field.value]}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
-                          {statusLabels.map((key, value) => (
-                            <SelectItem key={key} value={key}>
-                              {value}
+                          {Object.keys(statusLabels).map((key: string) => (
+                            <SelectItem key={key} value={statusLabels[key]}>
+                              {statusLabels[key]}
                             </SelectItem>
                           ))}
                         </SelectContent>
