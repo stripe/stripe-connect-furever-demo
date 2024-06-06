@@ -9,7 +9,8 @@
     "lint": "next lint && npm run prettier-check",
     "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
     "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check",
-    "typescript": "tsc -p ."
+    "typescript": "tsc -p .",
+    "validate-change": "yarn build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
