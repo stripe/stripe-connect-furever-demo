@@ -14,3 +14,4 @@ jobs:
           node-version: 20
       - run: yarn install --frozen-lockfile
       - run: yarn run validate-change
+      - run: yarn run build
