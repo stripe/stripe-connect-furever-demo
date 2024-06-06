@@ -21,10 +21,19 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {Label} from '@/components/ui/label';
 import {Link} from '@/components/ui/link';
+import {z} from 'zod';
+import {redirect, useRouter} from 'next/navigation';
 
 const formSchema = z.object({
   count: z.string(),
@@ -33,8 +42,49 @@ const formSchema = z.object({
   currency: z.string(),
 });
 
+const statusLabels = {
+  card_successful: 'Successful',
+  card_successful_intl: 'Successful (Non-US country)',
+  card_disputed_fraudulent: 'Disputed (fraudulent)',
+  card_disputed_product_not_received: 'Disputed (product not received)',
+  card_disputed_inquiry: 'Disputed (inquiry)',
+  card_uncaptured: 'Uncaptured',
+  ach_direct_debit: 'ACH Direct Debit',
+  sepa_debit: 'SEPA Direct Debit',
+};
+
 export default function CreatePaymentsButton() {
-  const CreatePaymentsForms = () => {
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log('creating payments');
+    const data = {
+      count: values.count,
+      amount: values.amount,
+      status: values.status,
+      currency: values.currency,
+    };
+
+    const response = await fetch('/setup_accounts/create_charges', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      // Handle errors on the client side here
+      const {error} = await response.json();
+      console.warn('An error occurred: ', error);
+      return undefined;
+    } else {
+      setOpen(false);
+      router.refresh();
+    }
+  };
+
+  const CreatePaymentsForm = () => {
     return (
       <>
         <Form {...form}>
@@ -63,6 +113,35 @@ export default function CreatePaymentsButton() {
                     <FormLabel>Amount</FormLabel>
                     <FormControl>
                       <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="pb-3">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Select
+                        {...field}
+                        onValueChange={(value) => field.onChange(value)}
+                      >
+                        <SelectTrigger className="mt-1">
+                          <SelectValue>{statusLabels[field.value]}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {statusLabels.map((key, value) => (
+                            <SelectItem key={key} value={key}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,20 +181,7 @@ export default function CreatePaymentsButton() {
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
+        <CreatePaymentsForm />
         <DialogFooter>
           <Button type="submit">Save changes</Button>
         </DialogFooter>

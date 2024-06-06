@@ -33,6 +33,7 @@ import {Sparkles} from 'lucide-react';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
+import {CreatePaymentsButton} from './testdata/CreatePaymentsButton';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
