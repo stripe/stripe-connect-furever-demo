@@ -10,7 +10,7 @@
     "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
     "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check",
     "typescript": "tsc -p .",
-    "validate-change": "yarn build"
+    "validate-change": "yarn lint && yarn typescript"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
