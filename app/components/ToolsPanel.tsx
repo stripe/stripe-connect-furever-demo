@@ -33,7 +33,10 @@ import {Sparkles} from 'lucide-react';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
-import {CreatePaymentsButton} from './testdata/CreatePaymentsButton';
+import CreatePaymentsButton from './testdata/CreatePaymentsButton';
+import LocaleSelector from './Tools/LocaleSelector';
+import ThemePicker from './Tools/ThemePicker';
+import OverlaySelector from './Tools/OverlaySelector';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -53,6 +56,7 @@ const ToolsPanel = () => {
     {
       description: 'Create a test payment',
       href: '/payments',
+      component: CreatePaymentsButton,
     },
     {
       description: 'Create a checkout session',
@@ -77,14 +81,16 @@ const ToolsPanel = () => {
       <div className="mt-4 flex flex-col items-stretch">
         {actions.map(
           (action) =>
-            pathname.includes(action.href) && (
-              <Button
-                className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
-                variant="secondary"
-                key={action.description}
-              >
-                {action.description}
-              </Button>
+            pathname.includes(action.href) &&
+            action.component && (
+              // <Button
+              //   className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
+              //   variant="secondary"
+              //   key={action.description}
+              // >
+              //   {action.description}
+              // </Button>
+              <action.component key={action.description} />
             )
         )}
       </div>
@@ -109,49 +115,19 @@ const ToolsPanel = () => {
           <Label className="text-left" htmlFor="theme">
             Theme
           </Label>
-          <RadioGroup defaultValue="option-one" id="theme">
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem
-                className="border border-primary bg-white"
-                value="light"
-                id="light"
-              />
-              <RadioGroupItem className="bg-[#424242]" value="dark" id="dark" />
-              <RadioGroupItem
-                className="bg-[#008080]"
-                value="mspaint"
-                id="mspaint"
-              />
-            </div>
-          </RadioGroup>
+          <ThemePicker />
         </div>
         <div className="flex flex-row justify-between">
           <Label className="text-left" htmlFor="outline">
             Locale
           </Label>
-          <Select onValueChange={(value) => setLocale(value)}>
-            <SelectTrigger className="w-[120px]">
-              <SelectValue>{locale}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="spanish">Spanish</SelectItem>
-              <SelectItem value="english">English&#40;us&#41;</SelectItem>
-            </SelectContent>
-          </Select>
+          <LocaleSelector />
         </div>
         <div className="flex flex-row justify-between">
           <Label className="text-left" htmlFor="outline">
             Overlay style
           </Label>
-          <Select onValueChange={(value) => setOverlay(value)}>
-            <SelectTrigger className="w-[120px]">
-              <SelectValue>{overlay}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="dialog">Dialog</SelectItem>
-              <SelectItem value="drawer">Drawer</SelectItem>
-            </SelectContent>
-          </Select>
+          <OverlaySelector />
         </div>
       </div>
     );
@@ -162,7 +138,7 @@ const ToolsPanel = () => {
   }, [enableBorder]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between p-5">
+    <div className="flex h-full w-full flex-col justify-between bg-foreground p-5">
       <div>
         <div className="flex gap-x-2 text-xl font-bold text-primary">
           <Sparkles size={24} />

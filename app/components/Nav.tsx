@@ -75,7 +75,7 @@ const Nav = () => {
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="fixed z-40 w-full flex-col border-b bg-white sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+    <div className="fixed z-40 w-full flex-col border-b bg-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
       <div className="flex items-center justify-between p-3 sm:mb-4">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
@@ -114,10 +114,10 @@ const Nav = () => {
               <li key={item.label} className="p-1">
                 <Link href={item.href}>
                   <Button
-                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
+                    className={`w-full justify-start text-lg text-subdued hover:bg-accent-subdued ${
                       pathname === item.href || item.paths.includes(pathname)
                         ? 'bg-accent-subdued text-accent'
-                        : 'bg-white'
+                        : 'bg-foreground'
                     }`}
                     onClick={() => setShowMobileNavItems(false)}
                     tabIndex={-1}

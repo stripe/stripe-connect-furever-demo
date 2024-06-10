@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root .light {
     --background: 0 0% 100%;
     --foreground: white;
 
@@ -25,6 +25,30 @@
     --success-foreground: #1e884b;
 
     --destructive: #e74c3c;
+    --destructive-foreground: #e9f7ef;
+  }
+  .dark {
+    --background: #14171d;
+    --foreground: #1e222a;
+
+    --dialog-background: #1e222a;
+
+    --offset: #1e222a;
+    --accent: #27ae60;
+    --accent-foreground: #14171d;
+    --accent-subdued: #1e222a;
+
+    --primary: #c9ced8;
+    --subdued: #c9ced8;
+
+    --radius: 0.5rem;
+
+    --success: #0c4223;
+    --success-border: #156236;
+    --success-foreground: #1e884b;
+
+    --destructive: #400a00;
+    --destructive-border: #632013;
     --destructive-foreground: #e9f7ef;
   }
 }
@@ -70,5 +94,3 @@
     src: url(/fonts/Sohne-Halbfett.otf) format('opentype');
   }
 }
-
-

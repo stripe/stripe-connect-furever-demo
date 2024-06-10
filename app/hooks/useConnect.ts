@@ -2,6 +2,7 @@ import {useEffect, useMemo, useState, useCallback} from 'react';
 import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
+import {DarkTheme, LightTheme} from '@/app/contexts/themes/ThemeConstants';
 
 export const useConnect = (demoOnboarding: boolean) => {
   const [hasError, setHasError] = useState(false);
@@ -10,6 +11,9 @@ export const useConnect = (demoOnboarding: boolean) => {
 
   const settings = useSettings();
   const locale = settings.locale;
+  const theme = settings.theme;
+  const [overlay, setOverlay] = useState(settings.overlay);
+  const [localTheme, setTheme] = useState(settings.theme);
 
   const [localLocale, setLocalLocale] = useState(settings.locale);
 
@@ -33,7 +37,10 @@ export const useConnect = (demoOnboarding: boolean) => {
         }
         break;
       default:
-        if (['fr-FR', 'zh-Hant-HK', 'en-GB'].includes(localLocale)) {
+        if (
+          localLocale &&
+          ['fr-FR', 'zh-Hant-HK', 'en-GB'].includes(localLocale)
+        ) {
           // We need a new account session
           newAccountSessionRequired = true;
         }
@@ -45,10 +52,14 @@ export const useConnect = (demoOnboarding: boolean) => {
       setLocalLocale(locale);
     }
 
+    if (theme !== localTheme) {
+      setTheme(theme);
+    }
+
     if (demoOnboarding && newAccountSessionRequired) {
       setStripeConnectInstance(null);
     }
-  }, [locale, localLocale, demoOnboarding]);
+  }, [locale, localLocale, demoOnboarding, theme, localTheme]);
 
   const fetchClientSecret = useCallback(async () => {
     if (demoOnboarding) {
@@ -80,27 +91,8 @@ export const useConnect = (demoOnboarding: boolean) => {
   }, [demoOnboarding, locale]);
 
   const appearanceVariables = useMemo(
-    () => ({
-      fontFamily: 'Sohne, inherit',
-
-      colorPrimary: '#27AE60',
-
-      buttonPrimaryColorBackground: '#27AE60',
-      buttonPrimaryColorText: '#f4f4f5',
-
-      badgeSuccessColorBackground: '#D6FCE6',
-      badgeSuccessColorText: '#1E884B',
-      badgeSuccessColorBorder: '#94D5AF',
-
-      badgeWarningColorBackground: '#FCEEB5',
-      badgeWarningColorText: '#B13600',
-      badgeWarningColorBorder: '#E4D07E',
-
-      badgeDangerColorBackground: '#FFEACC',
-      badgeDangerColorText: '#C95B4D',
-      badgeDangerColorBorder: '#FFD28C',
-    }),
-    []
+    () => (theme === 'dark' ? DarkTheme : LightTheme),
+    [theme]
   );
 
   useEffect(() => {
@@ -108,8 +100,8 @@ export const useConnect = (demoOnboarding: boolean) => {
     if (stripeConnectInstance) {
       stripeConnectInstance.update({
         appearance: {
-          overlays: 'dialog',
-          variables: appearanceVariables,
+          overlays: overlay || 'dialog',
+          variables: appearanceVariables || LightTheme,
         },
         locale,
       });
@@ -117,8 +109,8 @@ export const useConnect = (demoOnboarding: boolean) => {
       const instance = loadConnectAndInitialize({
         publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
         appearance: {
-          overlays: 'dialog',
-          variables: appearanceVariables,
+          overlays: overlay || 'dialog',
+          variables: appearanceVariables || LightTheme,
         },
         locale,
         fetchClientSecret: async () => {

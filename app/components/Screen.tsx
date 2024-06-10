@@ -6,6 +6,7 @@ import {
 } from '@/app/hooks/ToolsPanelProvider';
 import ToolsPanel from '@/app/components/ToolsPanel';
 import OnboardingDialog from '../components/OnboardingDialog';
+import {useSettings} from '../hooks/useSettings';
 
 export default function Screen({
   children,
@@ -13,17 +14,20 @@ export default function Screen({
   children: React.ReactNode;
 }>) {
   const {open, handleOpenChange} = useToolsContext();
+  const {theme} = useSettings();
 
   return (
-    <div className="flex grow flex-row">
+    <div
+      className={`flex grow flex-row text-primary ${theme == 'light' ? 'light' : 'dark'}`}
+    >
       {open && (
-        <div className="h-[823-px] w-[318px] border bg-white">
+        <div className="h-[823-px] w-[318px] border bg-foreground">
           <ToolsPanel />
         </div>
       )}
       <div className="bg-dot-grid h-full w-auto grow">
         <div
-          className={`flex ${open ? 'h-screen w-[full] scale-[.80] flex-col overflow-auto rounded-xl border-2 bg-paw-pattern shadow-xl' : 'h-full min-h-screen w-full flex-col bg-paw-pattern sm:flex-row'}`}
+          className={`flex ${open ? 'h-screen w-[full] scale-[.80] flex-col overflow-auto rounded-xl border-2 shadow-xl' : 'h-full min-h-screen w-full flex-col sm:flex-row'} ${theme == 'light' ? 'bg-paw-pattern' : 'bg-background'}`}
         >
           <Nav />
           <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">

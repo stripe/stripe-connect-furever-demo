@@ -7,7 +7,7 @@ type ContainerProps = {
 
 const Container = ({children, className}: ContainerProps) => {
   return (
-    <div className={`${className} rounded-lg border bg-white p-4`}>
+    <div className={`bg-foreground ${className} rounded-lg border p-4`}>
       {children}
     </div>
   );

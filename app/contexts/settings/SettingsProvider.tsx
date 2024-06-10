@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import type {Settings} from '@/types/settings';
 import {defaultSettings, SettingsContext} from './SettingsContext';
 
-const STORAGE_KEY = 'pose.app.settings';
+const STORAGE_KEY = 'furever.app.settings';
 
 const restoreSettings = (): Settings | null => {
   let value = null;
