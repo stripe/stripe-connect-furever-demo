@@ -17,17 +17,17 @@ export default function Screen({
   const {theme} = useSettings();
 
   return (
-    <div
-      className={`flex grow flex-row text-primary ${theme == 'light' ? 'light' : 'dark'}`}
-    >
+    <div className={`flex grow flex-row text-primary`}>
       {open && (
         <div className="bg-screen-foreground h-[823-px] w-[318px] border">
           <ToolsPanel />
         </div>
       )}
-      <div className="bg-dot-grid h-full w-auto grow">
+      <div
+        className={`h-full w-auto grow ${theme == 'light' ? 'bg-dot-grid' : 'bg-gray-700'}`}
+      >
         <div
-          className={`duration-750 flex transition ease-in-out ${open ? 'h-screen w-[full] scale-[.9] flex-col overflow-auto rounded-xl border-2 shadow-xl' : 'h-full min-h-screen w-full flex-col sm:flex-row'} ${theme == 'light' ? 'bg-paw-pattern' : 'bg-screen-background border-white'}`}
+          className={`duration-750 flex transition ease-in-out ${open ? 'h-screen w-[full] scale-[.9] flex-col overflow-auto rounded-xl border-2 shadow-xl' : 'h-full min-h-screen w-full flex-col sm:flex-row'} ${theme == 'light' ? 'bg-paw-pattern' : 'bg-screen-background border-black'}`}
         >
           <Nav />
           <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">

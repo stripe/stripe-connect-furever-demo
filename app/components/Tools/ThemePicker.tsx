@@ -8,6 +8,9 @@ const ThemePicker = () => {
   const setTheme = useCallback(
     (value: string) => {
       settings.handleUpdate({theme: value});
+      const root = document.querySelector(':root');
+      root && root.classList.remove('light', 'dark');
+      root && root.classList.add(value);
       console.log('Theme changed to:', value);
     },
     [settings]

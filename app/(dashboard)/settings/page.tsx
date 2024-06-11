@@ -25,25 +25,6 @@ export default function Settings() {
 
   const canShowPassword = !session?.user.changedPassword;
 
-  const onClick = async () => {
-    setButtonLoading(true);
-    try {
-      const res = await fetch('/api/setup_accounts/create_risk_intervention', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (res.ok) {
-        setButtonLoading(false);
-        window.location.reload();
-      }
-    } catch (e) {
-      console.log('Error with creating test intervention: ', e);
-    }
-  };
-
   return (
     <>
       <Container className="pl-5">
@@ -88,24 +69,6 @@ export default function Settings() {
               Manage account and business settings.
             </h2>
           </header>
-          <Button
-            size="sm"
-            className=""
-            onClick={onClick}
-            disabled={buttonLoading}
-          >
-            {buttonLoading ? (
-              <>
-                <LoaderCircle className="mr-1.5 animate-spin" size={20} />{' '}
-                Creating intervention
-              </>
-            ) : (
-              <>
-                <Plus size={20} className="mr-1" /> Create test risk
-                intervention
-              </>
-            )}
-          </Button>
         </div>
         <EmbeddedComponentContainer>
           <div className="flex flex-col space-y-4">

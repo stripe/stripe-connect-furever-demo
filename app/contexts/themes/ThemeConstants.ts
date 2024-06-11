@@ -28,11 +28,11 @@ export const DarkTheme = {
   buttonPrimaryColorText: '#f4f4f5',
 
   badgeSuccessColorBackground: '#0c4223',
-  badgeSuccessColorText: '#c9ced8',
+  badgeSuccessColorText: '#43C67A',
   badgeSuccessColorBorder: '#156236',
-  badgeWarningColorBackground: '#FCEEB5',
-  badgeWarningColorText: '#B13600',
-  badgeWarningColorBorder: '#E4D07E',
+  badgeWarningColorBackground: '#632013',
+  badgeWarningColorText: '#F98A23',
+  badgeWarningColorBorder: '#400A00',
 
   badgeDangerColorBackground: '#400a00',
   badgeDangerColorText: '#C95B4D',

@@ -37,6 +37,7 @@ import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
 import OverlaySelector from './Tools/OverlaySelector';
+import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -69,10 +70,12 @@ const ToolsPanel = () => {
     {
       description: 'Simulate a risk intervention',
       href: '/settings',
+      component: CreateInterventionsButton,
     },
     {
       description: 'Simulate a risk intervention',
       href: '/home',
+      component: CreateInterventionsButton,
     },
   ];
 
@@ -146,7 +149,7 @@ const ToolsPanel = () => {
         </div>
         <DefaultTools />
         <hr />
-        <div className="mb-4 flex gap-x-2 text-xl font-bold text-primary">
+        <div className="my-4 flex gap-x-2 text-xl font-bold text-primary">
           <FileIcon size={24} />
           On this page
         </div>

@@ -177,9 +177,11 @@ const createPaymentIntentForNonCardPayments = async (
 };
 
 export async function POST(req: NextRequest) {
+  console.log('in function');
   const json = await req.json();
 
   const {amount: inputAmount, currency, status, count: inputCount} = json;
+  console.log('Creating payments with the following parameters:', json);
 
   try {
     const session = await getServerSession(authOptions);
@@ -192,6 +194,7 @@ export async function POST(req: NextRequest) {
         (async () => {
           const {name, email, description} =
             customers[Math.floor(Math.random() * customers.length)];
+          console.log('creating customer', name, email, description);
           // Note: normally, you won't create a separate customer per payment - this is only done for the purposes of this demo
           const customer = await stripe.customers.create(
             {
@@ -218,6 +221,7 @@ export async function POST(req: NextRequest) {
           };
 
           if (status.startsWith('card_')) {
+            console.log('creating');
             await stripe.paymentIntents.create(
               {
                 amount: metadata.amount,
@@ -252,7 +256,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create a checkout session',
+      'An error occurred when calling the Stripe API to create test payments',
       error
     );
     return new Response(error.message, {status: 500});

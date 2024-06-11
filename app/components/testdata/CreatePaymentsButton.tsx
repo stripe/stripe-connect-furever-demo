@@ -34,6 +34,7 @@ import {Label} from '@/components/ui/label';
 import {Link} from '@/components/ui/link';
 import {z} from 'zod';
 import {redirect, useRouter} from 'next/navigation';
+import {LoaderCircle} from 'lucide-react';
 
 const formSchema = z.object({
   count: z.string(),
@@ -99,7 +100,7 @@ function CurrencySelect({
       </SelectTrigger>
       <SelectContent>
         {Object.keys(CurrencyOptions).map((key) => (
-          <SelectItem key={key} value={CurrencyOptions[key as Currency]}>
+          <SelectItem key={key} value={key}>
             {CurrencyOptions[key as Currency]}
           </SelectItem>
         ))}
@@ -108,15 +109,18 @@ function CurrencySelect({
   );
 }
 
-export default function CreatePaymentsButton() {
+export default function CreatePaymentsButton({classes}: {classes?: string}) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
+  const [loading, setLoading] = React.useState(false);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('creating payments');
+    setLoading(true);
+    console.log('creating payments with data: ', values);
     const data = {
       count: values.count,
       amount: values.amount,
@@ -124,18 +128,20 @@ export default function CreatePaymentsButton() {
       currency: values.currency,
     };
 
-    const response = await fetch('/setup_accounts/create_charges', {
+    const response = await fetch('/api/setup_accounts/create_charges', {
       method: 'POST',
       body: JSON.stringify(data),
     });
+
     if (!response.ok) {
       // Handle errors on the client side here
       const {error} = await response.json();
       console.warn('An error occurred: ', error);
       return undefined;
     } else {
+      setLoading(false);
       setOpen(false);
-      router.refresh();
+      window.location.reload();
     }
   };
 
@@ -193,10 +199,7 @@ export default function CreatePaymentsButton() {
                         </SelectTrigger>
                         <SelectContent>
                           {Object.keys(statusLabels).map((key: string) => (
-                            <SelectItem
-                              key={key}
-                              value={statusLabels[key as PMType]}
-                            >
+                            <SelectItem key={key} value={key}>
                               {statusLabels[key as PMType]}
                             </SelectItem>
                           ))}
@@ -223,6 +226,22 @@ export default function CreatePaymentsButton() {
                 )}
               />
             </div>
+            <div className="flew-row flex justify-end space-x-2">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button variant="default" type="submit">
+                Create payments{' '}
+                {loading && (
+                  <LoaderCircle
+                    className="ml-2 animate-spin items-center"
+                    size={20}
+                  />
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </>
@@ -233,13 +252,13 @@ export default function CreatePaymentsButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
+          className={`${classes || 'text-md my-1 rounded-lg border border-[#D8DEE4] py-1 font-medium shadow'}`}
           variant="secondary"
         >
           Create test payments
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="text-primary sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create test payments</DialogTitle>
           <DialogDescription>
@@ -254,11 +273,6 @@ export default function CreatePaymentsButton() {
           </DialogDescription>
         </DialogHeader>
         <CreatePaymentsForm />
-        <DialogFooter>
-          <Button variant="default" type="submit">
-            Save changes
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

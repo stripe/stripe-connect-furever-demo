@@ -1,7 +1,5 @@
 'use client';
 import React, {createContext, useContext, useState, useCallback} from 'react';
-import {StripeConnectInstance} from '@stripe/connect-js';
-import ToolsPanel from '@/app/components/ToolsPanel';
 
 type IToolsContext = {
   open?: boolean;
@@ -18,11 +16,29 @@ export const useToolsContext = () => {
 };
 
 export const ToolsPanelProvider = ({children}: {children: React.ReactNode}) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const localWindow = typeof window !== 'undefined' ? window : null;
+  const [open, setOpen] = useState<boolean>(
+    Boolean(Number(localWindow?.localStorage.getItem('toolsOpen')))
+  );
 
-  const handleOpenChange = (toolsOpen: boolean) => {
-    setOpen(toolsOpen);
-  };
+  const handleOpenChange = useCallback(
+    (toolsOpen: boolean) => {
+      if (!localWindow) {
+        return;
+      }
+
+      setOpen(toolsOpen);
+
+      if (toolsOpen) {
+        localWindow.localStorage.setItem('toolsOpen', '1');
+        setOpen(true);
+      } else {
+        localWindow.localStorage.setItem('toolsOpen', '0');
+        setOpen(false);
+      }
+    },
+    [localWindow]
+  );
 
   return (
     <ToolsContext.Provider value={{open, handleOpenChange}}>

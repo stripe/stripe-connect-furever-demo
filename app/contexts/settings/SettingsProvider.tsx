@@ -15,6 +15,12 @@ const restoreSettings = (): Settings | null => {
 
     if (restored) {
       value = JSON.parse(restored);
+      if (value.theme) {
+        console.log('restore');
+        const root = document.querySelector(':root');
+        root && root.classList.remove('light', 'dark');
+        root && root.classList.add(value.theme);
+      }
     }
   } catch (err) {
     console.error(err);
