@@ -99,7 +99,7 @@ const ToolsPanel = () => {
 
   const DefaultTools = () => {
     return (
-      <div className="my-6 flex flex-col gap-y-4 text-sm font-medium">
+      <div className="my-6 flex flex-col gap-y-4 text-lg font-medium">
         <div className="flex flex-row justify-between rounded-lg">
           <Label className="text-left" htmlFor="outline">
             Component outlines
@@ -118,17 +118,17 @@ const ToolsPanel = () => {
           <ThemePicker />
         </div>
         <div className="flex flex-row justify-between">
-          <Label className="text-left" htmlFor="outline">
+          <Label className="text-left align-middle" htmlFor="outline">
             Locale
           </Label>
           <LocaleSelector />
         </div>
-        <div className="flex flex-row justify-between">
+        {/* <div className="flex flex-row justify-between">
           <Label className="text-left" htmlFor="outline">
             Overlay style
           </Label>
           <OverlaySelector />
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -138,7 +138,7 @@ const ToolsPanel = () => {
   }, [enableBorder]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between bg-foreground p-5">
+    <div className="bg-tools-background z-200 flex h-full w-full flex-col justify-between p-5">
       <div>
         <div className="flex gap-x-2 text-xl font-bold text-primary">
           <Sparkles size={24} />

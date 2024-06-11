@@ -255,7 +255,9 @@ export default function CreatePaymentsButton() {
         </DialogHeader>
         <CreatePaymentsForm />
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button variant="default" type="submit">
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

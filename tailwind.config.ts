@@ -23,11 +23,12 @@ const config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'var(--background)',
+        background: 'hsl(var(--background))',
         banner: '#0e5b2f',
-        foreground: 'var(--foreground)',
+        foreground: 'hsl(var(--foreground))',
         dialog: {
           background: 'var(--dialog-background)',
+          content: 'hsl(var--dialog-content)',
         },
         primary: {
           DEFAULT: 'var(--primary)',
@@ -58,6 +59,13 @@ const config = {
           foreground: 'var(--success-foreground)',
         },
         fill: 'var(--primary)',
+        tools: {
+          background: 'var(--tools-background)',
+        },
+        screen: {
+          background: 'var(--screen-background)',
+          foreground: 'var(--screen-foreground)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

@@ -135,7 +135,9 @@ const EditAccountButton = () => {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Update</Button>
+              <Button variant="default" type="submit">
+                Update
+              </Button>
             </div>
           </form>
         </Form>

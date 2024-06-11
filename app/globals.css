@@ -5,9 +5,13 @@
 @layer base {
   :root .light {
     --background: 0 0% 100%;
-    --foreground: white;
+    --foreground: 0 0% 100%;
 
     --dialog-background: rgba(197, 197, 197, 0.7);
+    --dialog-content: white;
+
+    --screen-background: white;
+    --screen-foreground: white;
 
     --offset: #f5f6f8;
 
@@ -26,12 +30,20 @@
 
     --destructive: #e74c3c;
     --destructive-foreground: #e9f7ef;
+    --ring: 145 63.4% 41.8%;
+
+    --tools-background: white;
   }
   .dark {
-    --background: #14171d;
-    --foreground: #1e222a;
+    --background: 220 18.37% 9.61%;
+    --foreground: 220 16.67% 14.12%;
 
-    --dialog-background: #1e222a;
+    --screen-background: #14171d;
+    --screen-foreground: #1e222a;
+
+    --dialog-content: 220, 18.37%, 9.61%;
+
+    --dialog-background: #f4f4f5;
 
     --offset: #1e222a;
     --accent: #27ae60;
@@ -50,6 +62,8 @@
     --destructive: #400a00;
     --destructive-border: #632013;
     --destructive-foreground: #e9f7ef;
+    --ring: 145 63.4% 41.8%;
+    --tools-background: #1b1e25;
   }
 }
 

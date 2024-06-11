@@ -96,7 +96,7 @@ const Schedule = () => {
             </h2>
           ))}
         </div>
-        <div className="relative flex bg-foreground">
+        <div className="bg-screen-foreground relative flex">
           <div className="absolute z-10 w-full flex-1">
             {renderHourBlock('9 AM')}
             {renderHourBlock('10 AM')}
@@ -139,7 +139,7 @@ const Schedule = () => {
                       return (
                         <div
                           key={classId}
-                          className="hover:z-100 absolute flex w-full cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-background bg-offset p-3 text-primary transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
+                          className="hover:z-100 bg-screen-background absolute flex w-full cursor-pointer flex-col justify-between space-y-2 rounded-md border bg-offset p-3 text-primary transition duration-150 hover:scale-[1.01] hover:bg-white hover:shadow-md"
                           style={{
                             height: `${Math.round(
                               (SCHEDULE_HEIGHT *
