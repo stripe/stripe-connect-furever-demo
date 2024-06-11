@@ -384,7 +384,7 @@ export const authOptions: AuthOptions = {
 
           console.log('Creating stripe account for the email', email);
           const account = await stripe.accounts.create({
-            country: 'US',
+            country: credentials?.country || 'US',
             email: email,
             controller: resolveControllerParams({
               feePayer: credentials.feePayer,
