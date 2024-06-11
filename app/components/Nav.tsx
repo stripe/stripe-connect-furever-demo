@@ -139,17 +139,18 @@ const Nav = () => {
         </ul>
       </nav>
       {!open && (
-        <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3">
-          <div className="flex items-center gap-2 font-bold">
+        <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326]">
+          <div className="flex items-center gap-2 font-bold text-primary">
             <SparklesIcon size={20} color="var(--primary)" />
-            <p className="text-primary">Tools</p>
+            <p className="">Tools</p>
           </div>
-          <p className="mb-4 text-[15px]">
-            Explore embedded components and blah blah.
+          <p className="mb-4 text-[15px] text-primary">
+            Explore embedded components, play around with theming and locale
+            settings, and create test data
           </p>
           <Button
             size="sm"
-            className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] shadow"
+            className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] text-primary shadow"
             onClick={() => {
               handleOpenChange(true);
             }}
