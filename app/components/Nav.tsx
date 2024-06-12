@@ -150,7 +150,7 @@ const Nav = () => {
           </p>
           <Button
             size="sm"
-            className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] text-primary shadow"
+            className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] text-white shadow"
             onClick={() => {
               handleOpenChange(true);
             }}

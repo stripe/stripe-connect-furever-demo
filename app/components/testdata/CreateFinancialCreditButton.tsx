@@ -1,4 +1,4 @@
-import {useFinancialAccount} from '@/app/(dashboard)/finances/page';
+import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
 import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
 import React from 'react';

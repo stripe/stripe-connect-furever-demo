@@ -2,8 +2,8 @@
 import React, {createContext, useContext, useState, useCallback} from 'react';
 
 type IToolsContext = {
-  open?: boolean;
-  handleOpenChange?: (open: boolean) => void;
+  open: boolean;
+  handleOpenChange: (open: boolean) => void;
 };
 
 const ToolsContext = createContext<IToolsContext>({

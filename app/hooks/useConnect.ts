@@ -132,6 +132,7 @@ export const useConnect = (demoOnboarding: boolean) => {
     fetchClientSecret,
     demoOnboarding,
     appearanceVariables,
+    overlay,
   ]);
 
   return {

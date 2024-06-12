@@ -269,11 +269,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
           <DialogTitle>Create test payments</DialogTitle>
           <DialogDescription>
             Simulate a grooming session by using a testmode payment method to{' '}
-            <Link
-              href="https://stripe.com/docs/api/payment_intents"
-              target="_blank"
-              underline="none"
-            >
+            <Link href="https://stripe.com/docs/api/payment_intents">
               create a payment intent
             </Link>
           </DialogDescription>
