@@ -149,7 +149,7 @@ const ToolsPanel = () => {
   }, [enableBorder]);
 
   return (
-    <div className="bg-tools-background z-200 flex h-full w-full flex-col justify-between p-5">
+    <div className="z-200 flex h-full w-full flex-col justify-between bg-tools-background p-5">
       <div>
         <div className="flex gap-x-2 text-xl font-bold text-primary">
           <Sparkles size={24} />
