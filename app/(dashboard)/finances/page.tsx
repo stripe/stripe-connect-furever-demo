@@ -11,7 +11,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {LandmarkIcon, LoaderCircle} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 
-const useFinancialAccount = () => {
+export const useFinancialAccount = () => {
   const [financialAccount, setFinancialAccount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -73,7 +73,7 @@ export default function Finances() {
         window.location.reload();
       }
     } catch (e) {
-      console.log('Error with creating test data: ', e);
+      console.log('Error with fetching financial account: ', e);
     }
   };
 

@@ -114,6 +114,12 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      count: '',
+      amount: '',
+      status: 'card_successful',
+      currency: 'usd',
+    },
   });
 
   const [loading, setLoading] = React.useState(false);

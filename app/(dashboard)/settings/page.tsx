@@ -14,6 +14,7 @@ import {Link} from '@/components/ui/link';
 import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
 import bcrypt from 'bcryptjs';
+import CreateInterventionsButton from '@/app/components/testdata/CreateInterventionsButton';
 
 export default function Settings() {
   const {data: session} = useSession();
@@ -62,13 +63,16 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
-        <div className="flex flex-col items-start justify-between sm:flex-row">
-          <header className="mb-5 ml-2">
-            <h1 className="text-xl font-semibold">Account settings</h1>
-            <h2 className="text-subdued">
-              Manage account and business settings.
-            </h2>
-          </header>
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col items-start justify-between sm:flex-row">
+            <header className="mb-5 ml-2">
+              <h1 className="text-xl font-semibold">Account settings</h1>
+              <h2 className="text-subdued">
+                Manage account and business settings.
+              </h2>
+            </header>
+          </div>
+          <CreateInterventionsButton classes="bg-accent text-accent-foreground hover:bg-[#24A55B] justify-end" />
         </div>
         <EmbeddedComponentContainer>
           <div className="flex flex-col space-y-4">

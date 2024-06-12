@@ -134,7 +134,7 @@ const OnboardingDialog = () => {
   return (
     <>
       <Dialog open={openNux} onOpenChange={handleOpenChange}>
-        <DialogContent className="w-[700px] max-w-[none] gap-0 overflow-hidden border-0 p-0">
+        <DialogContent className="w-[700px] max-w-[none] gap-0 overflow-hidden border-0 p-0 text-primary">
           <div className="relative h-[300px] w-full overflow-hidden border-b bg-gradient-to-tr from-[#CCCCFD] to-[#B0E9F7]">
             <Image
               src={onboardingSteps[currentStep].imageURL}

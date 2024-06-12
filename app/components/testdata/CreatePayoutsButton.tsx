@@ -2,16 +2,12 @@ import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
 import React from 'react';
 
-export default function CreateInterventionsButton({
-  classes,
-}: {
-  classes?: string;
-}) {
+export default function CreatePayoutsButton({classes}: {classes?: string}) {
   const [buttonLoading, setButtonLoading] = React.useState(false);
   const onClick = async () => {
     setButtonLoading(true);
     try {
-      const res = await fetch('/api/setup_accounts/create_risk_intervention', {
+      const res = await fetch('/api/setup_accounts/create_payouts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +19,7 @@ export default function CreateInterventionsButton({
         window.location.reload();
       }
     } catch (e) {
-      console.log('Error with creating test intervention: ', e);
+      console.log('Error with creating test payout: ', e);
     }
   };
   return (
@@ -33,7 +29,7 @@ export default function CreateInterventionsButton({
       onClick={onClick}
       disabled={buttonLoading}
     >
-      Create test risk intervention
+      Create test payouts
       {buttonLoading && (
         <LoaderCircle className="ml-2 animate-spin items-center" size={20} />
       )}

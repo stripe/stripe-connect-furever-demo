@@ -1,21 +1,38 @@
+import {useFinancialAccount} from '@/app/(dashboard)/finances/page';
 import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
 import React from 'react';
 
-export default function CreateInterventionsButton({
+export default function CreateFinancialCreditButton({
   classes,
 }: {
   classes?: string;
 }) {
+  const {
+    financialAccount,
+    error: useFinancialAccountError,
+    loading,
+  } = useFinancialAccount();
   const [buttonLoading, setButtonLoading] = React.useState(false);
+  const displayFinancialAccount =
+    !useFinancialAccountError && financialAccount && !loading;
+
+  if (!displayFinancialAccount) {
+    return null;
+  }
+
   const onClick = async () => {
     setButtonLoading(true);
     try {
-      const res = await fetch('/api/setup_accounts/create_risk_intervention', {
+      const data = {
+        financialAccount: financialAccount,
+      };
+      const res = await fetch('/api/setup_accounts/create_financial_credit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(data),
       });
 
       if (res.ok) {
@@ -23,7 +40,7 @@ export default function CreateInterventionsButton({
         window.location.reload();
       }
     } catch (e) {
-      console.log('Error with creating test intervention: ', e);
+      console.log('Error with creating test financial credit: ', e);
     }
   };
   return (
@@ -33,7 +50,7 @@ export default function CreateInterventionsButton({
       onClick={onClick}
       disabled={buttonLoading}
     >
-      Create test risk intervention
+      Create test financial credit
       {buttonLoading && (
         <LoaderCircle className="ml-2 animate-spin items-center" size={20} />
       )}

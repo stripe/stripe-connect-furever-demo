@@ -150,7 +150,7 @@ const EditAccountButton = () => {
       <DialogTrigger asChild>
         <Link href="#">Edit </Link>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="text-primary">
         <DialogHeader>
           <DialogTitle>Edit login details</DialogTitle>
         </DialogHeader>

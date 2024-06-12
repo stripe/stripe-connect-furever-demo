@@ -38,6 +38,8 @@ import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
 import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
+import CreatePayoutsButton from './testdata/CreatePayoutsButton';
+import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -66,6 +68,7 @@ const ToolsPanel = () => {
     {
       description: 'Create a test payout',
       href: '/payouts',
+      component: CreatePayoutsButton,
     },
     {
       description: 'Simulate a risk intervention',
@@ -76,6 +79,11 @@ const ToolsPanel = () => {
       description: 'Simulate a risk intervention',
       href: '/home',
       component: CreateInterventionsButton,
+    },
+    {
+      description: 'Create a test financial credit',
+      href: '/finances',
+      component: CreateFinancialCreditButton,
     },
   ];
 
