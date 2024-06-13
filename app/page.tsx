@@ -169,7 +169,7 @@ export default function LandingPage() {
               className="w-full max-w-[450px] overflow-hidden rounded-xl object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
-              <p className="font-bol relative text-3xl text-black">
+              <p className="relative text-3xl font-bold text-black">
                 “Furever has transformed the way we manage our salon! Booking
                 and payments are seamless now, and our clients love the
                 convenience!”
