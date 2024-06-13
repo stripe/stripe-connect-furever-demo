@@ -27,19 +27,17 @@ export default function Screen({
         }>
           <ToolsPanel />
         </div>
-        <div className={`${open ? "w-[calc(100%-320px)] ml-[320px]" : "w-full"} transition-all duration-500`}>
-          <div
-            className={
-              `duration-500 transition ease-in-out origin-center
-              ${open ? 'h-screen scale-[0.86] border flex-col overflow-auto rounded-xl shadow-xl' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
-              ${theme == 'light' ? 'bg-paw-pattern bg-[size:426px]' : 'border-black bg-screen-background'}`
-          }>
-            <Nav />
-            <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">
-              <div className="flex h-[442px]  grow flex-col gap-y-4 md:gap-y-5">
-                <OnboardingDialog />
-                {children}
-              </div>
+        <div
+          className={
+            `duration-500 transition ease-in-out origin-left h-screen overflow-scroll
+            ${open ? 'md:scale-[0.6] lg:scale-[0.66] xl:scale-[0.73] translate-x-[325px] border rounded-xl shadow-xl' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
+            ${theme == 'light' ? 'bg-paw-pattern bg-[size:426px]' : 'border-black bg-screen-background'}`
+        }>
+          <Nav />
+          <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">
+            <div className="flex grow flex-col gap-y-4 md:gap-y-5">
+              <OnboardingDialog />
+              {children}
             </div>
           </div>
         </div>
