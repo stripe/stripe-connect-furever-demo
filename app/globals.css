@@ -100,7 +100,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-primary;
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
