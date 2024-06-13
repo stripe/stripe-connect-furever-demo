@@ -258,7 +258,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className={`${classes || 'text-sm rounded-lg border border-[#D8DEE4] py-1 font-medium shadow'}`}
+          className={`${classes || 'rounded-lg border border-[#D8DEE4] py-1 text-sm font-medium shadow'}`}
           variant="secondary"
         >
           Create test payments
@@ -269,9 +269,14 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
           <DialogTitle>Create test payments</DialogTitle>
           <DialogDescription>
             Simulate a grooming session by using a testmode payment method to{' '}
-            <a target="blank" className="text-accent font-medium" href="https://stripe.com/docs/api/payment_intents">
+            <a
+              target="blank"
+              className="font-medium text-accent"
+              href="https://stripe.com/docs/api/payment_intents"
+            >
               create a payment intent
-            </a>.
+            </a>
+            .
           </DialogDescription>
         </DialogHeader>
         <CreatePaymentsForm />

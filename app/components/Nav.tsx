@@ -138,7 +138,9 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className={`${open? "opacity-0 invisible" : "opacity-100"} fixed bottom-2 sm:bottom-0 sm:relative w-[calc(100%-20px)] sm:w-full left-1/2 -translate-x-1/2 shadow-lg sm:shadow-none transition duration-200 rounded-lg border border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326]`}>
+      <div
+        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 shadow-lg transition duration-200 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326] sm:relative sm:bottom-0 sm:w-full sm:shadow-none`}
+      >
         <div className="flex items-center gap-2 font-bold text-primary">
           <SparklesIcon size={20} color="var(--primary)" />
           <p className="">Tools</p>
