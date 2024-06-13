@@ -351,7 +351,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-6 w-full space-y-4"
+        className="mt-6 w-full space-y-4 text-primary"
       >
         <div className="flex flex-col gap-y-6">
           <div>
