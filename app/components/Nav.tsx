@@ -75,7 +75,7 @@ const Nav = () => {
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="fixed z-40 w-full flex-col border-b bg-screen-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+    <div className="bg-screen-foreground fixed z-40 w-full flex-col border-b sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
       <div className="flex items-center justify-between p-3 sm:mb-4">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
@@ -145,8 +145,7 @@ const Nav = () => {
             <p className="">Tools</p>
           </div>
           <p className="mb-4 text-[15px] text-primary">
-            Explore embedded components, play around with theming and locale
-            settings, and create test data
+            Access tools to customize embedded components and create test data.
           </p>
           <Button
             size="sm"
