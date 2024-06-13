@@ -111,7 +111,7 @@ const ToolsPanel = () => {
   const DefaultTools = () => {
     return (
       <div className="my-6 flex flex-col gap-y-4 text-lg font-medium">
-        <div className="flex flex-row justify-between rounded-lg">
+        <div className="flex flex-row justify-between rounded-lg items-center">
           <Label className="text-left" htmlFor="outline">
             Component outlines
           </Label>
@@ -122,13 +122,13 @@ const ToolsPanel = () => {
             onCheckedChange={() => handleEnableBorderChange(!border)}
           />
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center">
           <Label className="text-left" htmlFor="theme">
             Theme
           </Label>
           <ThemePicker />
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center">
           <Label className="text-left align-middle" htmlFor="outline">
             Locale
           </Label>
@@ -149,16 +149,16 @@ const ToolsPanel = () => {
   }, [enableBorder]);
 
   return (
-    <div className="z-200 flex h-full w-full flex-col justify-between bg-tools-background p-5">
+    <div className="flex h-full w-full flex-col justify-between bg-tools-background p-5">
       <div>
-        <div className="flex gap-x-2 text-xl font-bold text-primary">
-          <Sparkles size={24} />
+        <div className="flex gap-x-2 text-lg font-bold text-primary items-center">
+          <Sparkles size={20} />
           Tools
         </div>
         <DefaultTools />
         <hr />
-        <div className="my-4 flex gap-x-2 text-xl font-bold text-primary">
-          <FileIcon size={24} />
+        <div className="my-4 flex gap-x-2 text-lg font-bold text-primary items-center">
+          <FileIcon size={20} />
           On this page
         </div>
         <CustomTools />
