@@ -1,6 +1,6 @@
 import {Globe} from 'lucide-react';
 import Container from '@/app/components/Container';
-import LocaleSelector from '@/app/components/LocaleSelector';
+import LocaleSelector from '@/app/components/Tools/LocaleSelector';
 
 const changeLocale = async () => {
   return [null, RenderActionMenu];

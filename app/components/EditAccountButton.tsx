@@ -135,7 +135,9 @@ const EditAccountButton = () => {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Update</Button>
+              <Button variant="default" type="submit">
+                Update
+              </Button>
             </div>
           </form>
         </Form>
@@ -148,7 +150,7 @@ const EditAccountButton = () => {
       <DialogTrigger asChild>
         <Link href="#">Edit </Link>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="text-primary">
         <DialogHeader>
           <DialogTitle>Edit login details</DialogTitle>
         </DialogHeader>

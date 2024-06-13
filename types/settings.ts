@@ -1,3 +1,5 @@
+import {OverlayOption} from '@stripe/connect-js';
+
 export type LocaleType =
   | 'bg-BG'
   | 'cs-CZ'
@@ -89,5 +91,7 @@ export const Locales: Array<{locale: LocaleType; label: string}> = [
 ];
 
 export interface Settings {
-  locale: LocaleType;
+  locale?: LocaleType;
+  theme?: string;
+  overlay?: OverlayOption;
 }

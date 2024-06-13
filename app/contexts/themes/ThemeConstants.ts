@@ -1,0 +1,40 @@
+export const LightTheme = {
+  fontFamily: 'Sohne, inherit',
+  colorPrimary: '#27AE60',
+  colorBackground: '#ffffff',
+
+  buttonPrimaryColorBackground: '#27AE60',
+  buttonPrimaryColorText: '#f4f4f5',
+
+  badgeSuccessColorBackground: '#D6FCE6',
+  badgeSuccessColorText: '#1E884B',
+  badgeSuccessColorBorder: '#94D5AF',
+
+  badgeWarningColorBackground: '#FCEEB5',
+  badgeWarningColorText: '#B13600',
+  badgeWarningColorBorder: '#E4D07E',
+
+  badgeDangerColorBackground: '#FFEACC',
+  badgeDangerColorText: '#C95B4D',
+  badgeDangerColorBorder: '#FFD28C',
+};
+
+export const DarkTheme = {
+  fontFamily: 'Sohne, inherit',
+  colorPrimary: '#27AE60',
+  colorBackground: '#1e222a',
+
+  buttonPrimaryColorBackground: '#27AE60',
+  buttonPrimaryColorText: '#f4f4f5',
+
+  badgeSuccessColorBackground: '#0c4223',
+  badgeSuccessColorText: '#43C67A',
+  badgeSuccessColorBorder: '#156236',
+  badgeWarningColorBackground: '#632013',
+  badgeWarningColorText: '#F98A23',
+  badgeWarningColorBorder: '#400A00',
+
+  badgeDangerColorBackground: '#400a00',
+  badgeDangerColorText: '#C95B4D',
+  badgeDangerColorBorder: '#632013',
+};

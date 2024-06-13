@@ -19,7 +19,7 @@ import FureverLogo from '@/public/furever_logo.png';
 import Stripe from 'stripe';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
-import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
+import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
 
 const navigationMenuItems = [
@@ -70,17 +70,12 @@ const Nav = () => {
   const {data: session} = useSession();
 
   const stripeAccount = session?.user?.stripeAccount;
-  const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
-  const [border, setBorder] = React.useState(true);
-
-  React.useEffect(() => {
-    setBorder(enableBorder);
-  }, [enableBorder]);
+  const {open, handleOpenChange} = useToolsContext();
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="fixed z-40 w-full flex-col border-b bg-white sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+    <div className="fixed z-40 w-full flex-col border-b bg-screen-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
       <div className="flex items-center justify-between p-3 sm:mb-4">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
@@ -119,10 +114,10 @@ const Nav = () => {
               <li key={item.label} className="p-1">
                 <Link href={item.href}>
                   <Button
-                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
+                    className={`w-full justify-start text-lg text-subdued hover:bg-accent-subdued ${
                       pathname === item.href || item.paths.includes(pathname)
                         ? 'bg-accent-subdued text-accent'
-                        : 'bg-white'
+                        : 'bg-foreground'
                     }`}
                     onClick={() => setShowMobileNavItems(false)}
                     tabIndex={-1}
@@ -143,20 +138,26 @@ const Nav = () => {
             ))}
         </ul>
       </nav>
-      <div className="fixed bottom-2 right-1/2 flex w-[calc(100%-16px)] translate-x-2/4 flex-row items-center gap-3 rounded-lg border bg-white p-3 font-medium shadow-lg sm:relative sm:bottom-0 sm:right-0 sm:w-full sm:translate-x-0 sm:bg-offset sm:shadow-none">
-        <Switch
-          className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#D8DEE4]"
-          id="outline"
-          checked={border}
-          onCheckedChange={() => handleEnableBorderChange(!border)}
-        />
-        <Label
-          className="cursor-pointer text-left text-base sm:text-sm"
-          htmlFor="outline"
-        >
-          View component outlines
-        </Label>
-      </div>
+      {!open && (
+        <div className="w-full rounded-lg border-2 border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-3 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326]">
+          <div className="flex items-center gap-2 font-bold text-primary">
+            <SparklesIcon size={20} color="var(--primary)" />
+            <p className="">Tools</p>
+          </div>
+          <p className="mb-4 text-[15px] text-primary">
+            Access tools to customize embedded components and create test data.
+          </p>
+          <Button
+            size="sm"
+            className="hover w-full bg-gradient-to-r from-[#7F81FA] to-[#49B8EF] text-white shadow"
+            onClick={() => {
+              handleOpenChange(true);
+            }}
+          >
+            Open tools
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

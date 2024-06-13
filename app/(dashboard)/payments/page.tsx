@@ -9,6 +9,7 @@ import CustomersWidget from '@/app/components/CustomersWidget';
 import {Button} from '@/components/ui/button';
 import {LoaderCircle, Plus} from 'lucide-react';
 import {useSession} from 'next-auth/react';
+import CreatePaymentsButton from '@/app/components/testdata/CreatePaymentsButton';
 
 export default function Payments() {
   const {data: session} = useSession();
@@ -40,7 +41,10 @@ export default function Payments() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Payments</h1>
+      <div className="flex flex-row items-center justify-between">
+        <h1 className="text-3xl font-bold">Payments</h1>
+        <CreatePaymentsButton classes="bg-accent text-accent-foreground hover:bg-[#24A55B]" />
+      </div>
       <div className="flex flex-col gap-3 md:gap-5 lg:flex-row">
         <div className="flex-1">
           <MonthToDateWidget />
@@ -50,23 +54,7 @@ export default function Payments() {
         </div>
       </div>
       <Container>
-        <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl font-bold">Recent payments</h1>
-          {!loading && (
-            <Button onClick={onClick} size="sm" disabled={buttonLoading}>
-              {buttonLoading ? (
-                <>
-                  <LoaderCircle className="mr-1 animate-spin" size={20} />{' '}
-                  Creating payments
-                </>
-              ) : (
-                <>
-                  <Plus size={20} className="mr-1" /> Create test payments
-                </>
-              )}
-            </Button>
-          )}
-        </div>
+        <h1 className="text-xl font-bold">Recent payments</h1>
         <EmbeddedComponentContainer>
           {loading ? (
             <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">

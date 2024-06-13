@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import type {Settings} from '@/types/settings';
 import {defaultSettings, SettingsContext} from './SettingsContext';
 
-const STORAGE_KEY = 'pose.app.settings';
+const STORAGE_KEY = 'furever.app.settings';
 
 const restoreSettings = (): Settings | null => {
   let value = null;
@@ -15,6 +15,12 @@ const restoreSettings = (): Settings | null => {
 
     if (restored) {
       value = JSON.parse(restored);
+      if (value.theme) {
+        console.log('restore');
+        const root = document.querySelector(':root');
+        root && root.classList.remove('light', 'dark');
+        root && root.classList.add(value.theme);
+      }
     }
   } catch (err) {
     console.error(err);
