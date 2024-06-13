@@ -16,6 +16,7 @@ import {
   Menu as MenuIcon,
   File as FileIcon,
   PanelLeftClose,
+  X,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
@@ -150,6 +151,13 @@ const ToolsPanel = () => {
 
   return (
     <div className="flex h-full w-full flex-col justify-between bg-tools-background p-5">
+      <Button
+          variant="ghost"
+          className="absolute top-4 right-4 md:hidden px-2"
+          onClick={() => handleOpenChange(false)}
+        >
+          <X size={20} />
+      </Button>
       <div>
         <div className="flex gap-x-2 text-lg font-bold text-primary items-center">
           <Sparkles size={20} />
@@ -163,14 +171,14 @@ const ToolsPanel = () => {
         </div>
         <CustomTools />
       </div>
-      <div className="flex-co flex justify-between">
+      <div className="justify-between hidden md:flex">
         <Image src={Stripe} alt="stripe logo" height={24} />
         <Button
           variant="secondary"
-          className="px-[10px] py-[9px] text-sm"
+          className="px-3 py-2 text-sm gap-1.5"
           onClick={() => handleOpenChange(false)}
         >
-          <PanelLeftClose className="mr-2" />
+          <PanelLeftClose size={20} />
           Close{' '}
         </Button>
       </div>
