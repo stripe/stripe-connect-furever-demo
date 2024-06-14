@@ -22,8 +22,8 @@ export default function Screen({
         className={`h-full w-auto grow ${theme == 'light' ? 'bg-dot-grid bg-[size:1300px]' : 'bg-gray-700'}`}
       >
         <div
-          className={`${open ? 'translate-y-0 md:translate-x-0' : ''}
-          fixed bottom-0 z-[120] w-full translate-y-full overflow-hidden rounded-t-2xl border-r bg-screen-foreground shadow-[0px_-4px_32px_rgba(0,0,0,0.15)] transition duration-500 ease-in-out md:h-screen md:w-[300px] md:-translate-x-full md:translate-y-0 md:rounded-none md:shadow-none`}
+          className={`${open ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:-translate-x-full md:translate-y-0'}
+          fixed bottom-0 z-[50] w-full overflow-hidden rounded-t-2xl border-r bg-screen-foreground shadow-[0px_-4px_32px_rgba(0,0,0,0.15)] transition duration-500 ease-in-out md:h-screen md:w-[300px] md:rounded-none md:shadow-none`}
         >
           <ToolsPanel />
         </div>

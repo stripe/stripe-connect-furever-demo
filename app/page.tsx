@@ -70,7 +70,7 @@ const AuthButtons = () => {
     return (
       <>
         <Link href="/login">
-          <Button variant="secondary" className="bg-gray-400" size="lg">
+          <Button variant="secondary" className="bg-white" size="lg">
             Log in
           </Button>
         </Link>
