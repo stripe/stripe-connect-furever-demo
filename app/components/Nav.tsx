@@ -139,13 +139,13 @@ const Nav = () => {
         </ul>
       </nav>
       <div
-        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 sm:p-3 shadow-lg transition duration-200 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326] sm:relative sm:bottom-0 sm:w-full sm:shadow-none`}
+        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 shadow-lg transition duration-200 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326] sm:relative sm:bottom-0 sm:w-full sm:p-3 sm:shadow-none`}
       >
-        <div className="flex items-center gap-2 font-bold text-primary hidden sm:flex">
+        <div className="flex hidden items-center gap-2 font-bold text-primary sm:flex">
           <SparklesIcon size={20} color="var(--primary)" />
           <p className="">Tools</p>
         </div>
-        <p className="mb-2 sm:mb-4 text-[15px] text-primary">
+        <p className="mb-2 text-[15px] text-primary sm:mb-4">
           Access tools to customize embedded components and create test data.
         </p>
         <Button
