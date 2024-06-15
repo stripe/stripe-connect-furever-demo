@@ -258,7 +258,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className={`${classes || 'rounded-lg border border-[#D8DEE4] py-1 text-sm font-medium shadow'}`}
+          className={`${classes || 'rounded-lg border py-1 text-sm font-medium shadow'}`}
           variant="secondary"
         >
           Create test payments
