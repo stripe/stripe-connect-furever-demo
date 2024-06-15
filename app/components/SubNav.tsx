@@ -27,7 +27,7 @@ export default function SubNav({base, routes}: SubNavProps) {
               path === pathname
                 ? 'border bg-screen-foreground font-bold text-accent'
                 : 'font-medium hover:bg-gray-200/80 dark:hover:bg-screen-foreground'
-            } rounded-md p-2 transition-color`}
+            } transition-color rounded-md p-2`}
           >
             {label}
           </Link>

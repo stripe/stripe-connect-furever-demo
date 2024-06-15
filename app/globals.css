@@ -54,10 +54,10 @@
     --offset: #1e222a;
     --accent: #27ae60;
     --accent-foreground: #14171d;
-    --accent-subdued: rgba(39, 174, 96, 0.10);
+    --accent-subdued: rgba(39, 174, 96, 0.1);
 
     --primary: #c9ced8;
-    --subdued: #8C99AD;
+    --subdued: #8c99ad;
 
     --radius: 0.5rem;
 
