@@ -31,7 +31,7 @@ export const DarkTheme = {
   buttonPrimaryColorBackground: '#27AE60',
   buttonPrimaryColorText: '#f4f4f5',
 
-  buttonSecondaryColorBackground: '#3A3A3A',
+  buttonSecondaryColorBackground: '#292E38',
   buttonSecondaryColorText: '#C9CED8',
 
   badgeSuccessColorBackground: '#0c4223',
