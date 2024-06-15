@@ -23,9 +23,16 @@ export const DarkTheme = {
   fontFamily: 'Sohne, inherit',
   colorPrimary: '#27AE60',
   colorBackground: '#1e222a',
+  colorBorder: '#4b5563',
+
+  colorText: '#C9CED8',
+  colorSecondaryText: '#8C99AD',
 
   buttonPrimaryColorBackground: '#27AE60',
   buttonPrimaryColorText: '#f4f4f5',
+
+  buttonSecondaryColorBackground: '#292E38',
+  buttonSecondaryColorText: '#C9CED8',
 
   badgeSuccessColorBackground: '#0c4223',
   badgeSuccessColorText: '#43C67A',

@@ -75,7 +75,7 @@ const Nav = () => {
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="fixed z-40 w-full flex-col border-b bg-screen-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+    <div className="border-gray-border fixed z-40 w-full flex-col border-b bg-screen-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-b-0 sm:border-r sm:p-1 lg:w-64 lg:p-3">
       <div className="flex items-center justify-between p-3 sm:mb-4">
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
@@ -114,7 +114,7 @@ const Nav = () => {
               <li key={item.label} className="p-1">
                 <Link href={item.href}>
                   <Button
-                    className={`w-full justify-start text-lg text-subdued hover:bg-accent-subdued ${
+                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
                       pathname === item.href || item.paths.includes(pathname)
                         ? 'bg-accent-subdued text-accent'
                         : 'bg-foreground'
@@ -139,7 +139,7 @@ const Nav = () => {
         </ul>
       </nav>
       <div
-        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border border-black/5 bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 shadow-lg transition duration-200 dark:bg-gradient-to-tr dark:from-[#9966FF26] dark:to-[#11EFE326] sm:relative sm:bottom-0 sm:w-full sm:p-3 sm:shadow-none`}
+        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 shadow-lg transition dark:bg-gradient-to-tr dark:from-[#2D314A] dark:to-[#233B48] sm:relative sm:bottom-0 sm:w-full sm:p-3 sm:shadow-none`}
       >
         <div className="flex hidden items-center gap-2 font-bold text-primary sm:flex">
           <SparklesIcon size={20} color="var(--primary)" />
