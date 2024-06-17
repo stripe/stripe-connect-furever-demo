@@ -41,6 +41,7 @@ import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
+import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -75,6 +76,11 @@ const ToolsPanel = () => {
       description: 'Simulate a risk intervention',
       href: '/settings',
       component: CreateInterventionsButton,
+    },
+    {
+      description: 'Create a Checkout Session',
+      href: '/settings',
+      component: CreateCheckoutSessionButton,
     },
     {
       description: 'Simulate a risk intervention',
