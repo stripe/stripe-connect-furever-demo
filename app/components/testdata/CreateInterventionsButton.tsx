@@ -28,10 +28,11 @@ export default function CreateInterventionsButton({
   };
   return (
     <Button
-      className={`${classes || 'rounded-lg border py-1 text-sm font-medium shadow'}`}
+      className={`${classes || 'border'}`}
       variant="secondary"
       onClick={onClick}
       disabled={buttonLoading}
+      size="sm"
     >
       Create test risk intervention
       {buttonLoading && (

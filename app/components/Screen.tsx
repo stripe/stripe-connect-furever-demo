@@ -32,7 +32,7 @@ export default function Screen({
         {/* Furever site container */}
         <div
           className={`h-screen origin-left overflow-scroll transition duration-500 ease-in-out
-            ${open ? 'shadow-xl md:translate-x-[325px] md:scale-[0.6] md:rounded-xl md:border lg:scale-[0.66] xl:scale-[0.73]' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
+            ${open ? 'shadow-xl md:translate-x-[325px] md:scale-[0.6] md:rounded-xl md:border md:border-[1.5px] lg:scale-[0.66] xl:scale-[0.73]' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
             ${theme == 'light' ? 'bg-paw-pattern bg-[size:426px]' : 'bg-screen-background'}`}
         >
           <Nav />

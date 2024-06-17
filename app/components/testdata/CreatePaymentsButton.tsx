@@ -162,9 +162,9 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                 name="count"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Count</FormLabel>
+                    <FormLabel>Number of payments</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="number" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +179,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                   <FormItem>
                     <FormLabel>Amount</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder="Leave blank for a random amount" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -238,7 +238,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button variant="default" type="submit">
+              <Button variant="default" type="submit" disabled={loading}>
                 Create payments{' '}
                 {loading && (
                   <LoaderCircle
@@ -258,8 +258,9 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className={`${classes || 'rounded-lg border py-1 text-sm font-medium shadow'}`}
+          className={`${classes || 'rounded-lg border text-sm font-medium'}`}
           variant="secondary"
+          size="sm"
         >
           Create test payments
         </Button>

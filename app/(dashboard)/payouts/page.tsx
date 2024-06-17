@@ -11,7 +11,6 @@ import CreatePayoutsButton from '@/app/components/testdata/CreatePayoutsButton';
 
 export default function Payouts() {
   const {data: session} = useSession();
-  const [buttonLoading, setButtonLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -22,7 +21,6 @@ export default function Payouts() {
     <>
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-3xl font-bold">Payouts</h1>
-        <CreatePayoutsButton classes="bg-accent text-accent-foreground hover:bg-[#24A55B]" />
       </div>
       <Container>
         <h1 className="ml-1 text-xl font-bold">Recent payouts</h1>

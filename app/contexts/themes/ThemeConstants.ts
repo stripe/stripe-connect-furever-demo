@@ -34,12 +34,17 @@ export const DarkTheme = {
   buttonSecondaryColorBackground: '#292E38',
   buttonSecondaryColorText: '#C9CED8',
 
+  badgeNeutralColorBackground: '#252B37',
+  badgeNeutralColorText: '#E2E5F0',
+  badgeNeutralColorBorder: '#3E4554',
+
   badgeSuccessColorBackground: '#0c4223',
   badgeSuccessColorText: '#43C67A',
   badgeSuccessColorBorder: '#156236',
-  badgeWarningColorBackground: '#632013',
+
+  badgeWarningColorBackground: '#400A00',
   badgeWarningColorText: '#F98A23',
-  badgeWarningColorBorder: '#400A00',
+  badgeWarningColorBorder: '#632013',
 
   badgeDangerColorBackground: '#400a00',
   badgeDangerColorText: '#C95B4D',

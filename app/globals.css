@@ -6,7 +6,7 @@
   *,
   ::before,
   ::after {
-    @apply dark:border-gray-700;
+    @apply dark:border-neutral-700;
   }
 
   :root {
@@ -63,7 +63,7 @@
 
     --success: #0c4223;
     --success-border: #156236;
-    --success-foreground: #1e884b;
+    --success-foreground: #27ae60;
 
     --destructive: #400a00;
     --destructive-border: #632013;
