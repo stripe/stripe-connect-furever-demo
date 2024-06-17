@@ -115,7 +115,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      count: '',
+      count: '1',
       amount: '',
       status: 'card_successful',
       currency: 'usd',
@@ -156,82 +156,79 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
       <>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex flex-col space-y-2">
-              <FormField
-                control={form.control}
-                name="count"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Number of payments</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="pb-3">
-              <FormField
-                control={form.control}
-                name="amount"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Amount</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Leave blank for a random amount" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="pb-3">
-              <FormField
-                control={form.control}
-                name="status"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <FormControl>
-                      <Select
-                        {...field}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger className="mt-1">
-                          <SelectValue>
-                            {statusLabels[field.value as PMType]}
-                          </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.keys(statusLabels).map((key: string) => (
-                            <SelectItem key={key} value={key}>
-                              {statusLabels[key as PMType]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="pb-3">
-              <FormField
-                control={form.control}
-                name="currency"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Currency</FormLabel>
-                    <FormControl>
-                      <CurrencySelect field={field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="count"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Number of payments</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Amount</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Leave blank for a random amount"
+                      type="number"
+                      step="0.01"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="status"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Payment status</FormLabel>
+                  <FormControl>
+                    <Select
+                      {...field}
+                      onValueChange={(value) => field.onChange(value)}
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue>
+                          {statusLabels[field.value as PMType]}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.keys(statusLabels).map((key: string) => (
+                          <SelectItem key={key} value={key}>
+                            {statusLabels[key as PMType]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="currency"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Currency</FormLabel>
+                  <FormControl>
+                    <CurrencySelect field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="flew-row flex justify-end space-x-2">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
@@ -265,7 +262,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
           Create test payments
         </Button>
       </DialogTrigger>
-      <DialogContent className="text-primary sm:max-w-[425px]">
+      <DialogContent className="p-4 text-primary sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create test payments</DialogTitle>
           <DialogDescription>
