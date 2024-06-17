@@ -90,7 +90,7 @@ const ToolsPanel = () => {
 
   const CustomTools = () => {
     return (
-      <div className="mt-4 flex flex-col items-stretch">
+      <div className="mt-4 gap-2 flex flex-col items-stretch">
         {actions.map(
           (action) =>
             pathname.includes(action.href) &&
