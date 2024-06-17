@@ -23,7 +23,7 @@ const CustomersWidget = () => {
             <SparkLineChart
               data={[0, 10, 5, 20, 10, 10, 0, 25, 25, 55, 35, 35, 40]}
               height={55}
-              colors={['#DEDDE1']}
+              colors={['#23840240']}
               curve="natural"
               className="w-full"
             />

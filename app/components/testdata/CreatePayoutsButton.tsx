@@ -24,10 +24,11 @@ export default function CreatePayoutsButton({classes}: {classes?: string}) {
   };
   return (
     <Button
-      className={`${classes || 'rounded-lg border py-1 text-sm font-medium shadow'}`}
+      className={`${classes || 'border'}`}
       variant="secondary"
       onClick={onClick}
       disabled={buttonLoading}
+      size="sm"
     >
       Create test payouts
       {buttonLoading && (

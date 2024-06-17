@@ -45,10 +45,11 @@ export default function CreateFinancialCreditButton({
   };
   return (
     <Button
-      className={`${classes || 'rounded-lg border border-[#D8DEE4] py-1 text-sm font-medium shadow'}`}
+      className={`${classes || 'border'}`}
       variant="secondary"
       onClick={onClick}
       disabled={buttonLoading}
+      size="sm"
     >
       Create test financial credit
       {buttonLoading && (

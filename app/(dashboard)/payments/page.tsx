@@ -13,37 +13,16 @@ import CreatePaymentsButton from '@/app/components/testdata/CreatePaymentsButton
 
 export default function Payments() {
   const {data: session} = useSession();
-  const [buttonLoading, setButtonLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     setLoading(!session?.user.setup);
   }, [session?.user.setup]);
 
-  const onClick = async () => {
-    setButtonLoading(true);
-    try {
-      const res = await fetch('/api/setup_accounts/create_charges', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (res.ok) {
-        setButtonLoading(false);
-        window.location.reload();
-      }
-    } catch (e) {
-      console.log('Error with creating test data: ', e);
-    }
-  };
-
   return (
     <>
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-3xl font-bold">Payments</h1>
-        <CreatePaymentsButton classes="bg-accent text-accent-foreground hover:bg-[#24A55B]" />
       </div>
       <div className="flex flex-col gap-3 md:gap-5 lg:flex-row">
         <div className="flex-1">

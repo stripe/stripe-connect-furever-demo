@@ -11,15 +11,10 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
-import bcrypt from 'bcryptjs';
-import CreateInterventionsButton from '@/app/components/testdata/CreateInterventionsButton';
 
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [buttonLoading, setButtonLoading] = React.useState(false);
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   const password = session?.user.password;
@@ -72,7 +67,6 @@ export default function Settings() {
               </h2>
             </header>
           </div>
-          <CreateInterventionsButton classes="bg-accent text-accent-foreground hover:bg-[#24A55B] justify-end" />
         </div>
         <EmbeddedComponentContainer>
           <div className="flex flex-col space-y-4">
