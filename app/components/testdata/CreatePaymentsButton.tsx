@@ -258,7 +258,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className={`${classes || 'rounded-lg border text-sm font-medium'}`}
+          className={`${classes || 'border'}`}
           variant="secondary"
           size="sm"
         >

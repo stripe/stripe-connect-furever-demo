@@ -24,7 +24,7 @@ export default function CreatePayoutsButton({classes}: {classes?: string}) {
   };
   return (
     <Button
-      className={`${classes || 'border text-sm'}`}
+      className={`${classes || 'border'}`}
       variant="secondary"
       onClick={onClick}
       disabled={buttonLoading}
