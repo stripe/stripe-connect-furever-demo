@@ -15,7 +15,7 @@ export default function Onboarding() {
     stripeAccount?.controller?.requirement_collection === 'application';
 
   return (
-    <EmbeddedComponentContainer>
+    <EmbeddedComponentContainer componentName="AccountOnboarding">
       <ConnectAccountOnboarding
         onExit={() => {
           if (isCustom) {

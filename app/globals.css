@@ -19,6 +19,9 @@
     --screen-background: white;
     --screen-foreground: white;
 
+    --embedded-component: #7f81fa;
+    --embedded-component-hover: #6c6ee6;
+
     --offset: #f5f6f8;
 
     --accent: #27ae60;
