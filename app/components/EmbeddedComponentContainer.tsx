@@ -74,7 +74,7 @@ const EmbeddedComponentContainer = ({
           href={ComponentURLs[componentName]}
           target="_blank"
         >
-          <div className="truncate">View in docs</div>
+          <div className="truncate">View in Docs</div>
           <ChevronRight size="16" />
         </a>
       </div>
