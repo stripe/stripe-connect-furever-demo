@@ -11,7 +11,7 @@ const EmbeddedComponentContainer = ({
 
   return (
     <div
-      className={`${enableBorder ? 'rounded-lg border-2 border-dashed border-[#7F81FA] p-[4px] overflow-hidden' : 'p-[6px]'} transition-border duration-200 ${className}`}
+      className={`${enableBorder ? 'overflow-hidden rounded-lg border-2 border-dashed border-[#7F81FA] p-[4px]' : 'p-[6px]'} transition-border duration-200 ${className}`}
     >
       {children}
     </div>
