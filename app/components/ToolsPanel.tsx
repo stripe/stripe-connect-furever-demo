@@ -41,6 +41,7 @@ import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
+import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -77,6 +78,11 @@ const ToolsPanel = () => {
       component: CreateInterventionsButton,
     },
     {
+      description: 'Create a Checkout Session',
+      href: '/settings',
+      component: CreateCheckoutSessionButton,
+    },
+    {
       description: 'Simulate a risk intervention',
       href: '/home',
       component: CreateInterventionsButton,
@@ -90,7 +96,7 @@ const ToolsPanel = () => {
 
   const CustomTools = () => {
     return (
-      <div className="mt-4 flex flex-col items-stretch">
+      <div className="mt-4 flex flex-col items-stretch gap-2">
         {actions.map(
           (action) =>
             pathname.includes(action.href) &&

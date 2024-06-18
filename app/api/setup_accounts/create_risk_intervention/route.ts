@@ -32,7 +32,7 @@ export async function POST() {
     });
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create a checkout session',
+      'An error occurred when calling the Stripe API to create a risk intervention',
       error
     );
     return new Response(error.message, {status: 500});
