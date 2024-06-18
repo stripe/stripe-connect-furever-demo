@@ -254,11 +254,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className={`${classes || 'border'}`}
-          variant="secondary"
-          size="sm"
-        >
+        <Button className={`${classes || 'border'}`} variant="ghost" size="sm">
           Create test payments
         </Button>
       </DialogTrigger>

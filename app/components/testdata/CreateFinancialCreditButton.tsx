@@ -46,7 +46,7 @@ export default function CreateFinancialCreditButton({
   return (
     <Button
       className={`${classes || 'border'}`}
-      variant="secondary"
+      variant="ghost"
       onClick={onClick}
       disabled={buttonLoading}
       size="sm"
