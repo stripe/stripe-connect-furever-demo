@@ -1,26 +1,80 @@
 import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
-import { ChevronRight } from 'lucide-react';
+import {ChevronRight} from 'lucide-react';
 
 const EmbeddedComponentContainer = ({
   children,
   className,
+  componentName,
 }: {
   children: React.ReactNode;
   className?: string;
+  componentName: string;
 }) => {
   const {enableBorder} = useEmbeddedComponentBorder();
 
   const ComponentDetails = () => {
-    if (!enableBorder) { return; }
+    const ComponentURLs: {[key: string]: any} = {
+      AccountManagement:
+        'https://docs.stripe.com/connect/supported-embedded-components/account-management',
+      AccountOnboarding:
+        'https://docs.stripe.com/connect/supported-embedded-components/account-onboarding',
+      Balances:
+        'https://docs.stripe.com/connect/supported-embedded-components/balances',
+      CapitalOverview:
+        'https://docs.stripe.com/connect/supported-embedded-components/capital-overview',
+      Documents:
+        'https://docs.stripe.com/connect/supported-embedded-components/documents',
+      FinancialAccount:
+        'https://docs.stripe.com/connect/supported-embedded-components/financial-account',
+      FinancialAccountTransactions:
+        'https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions',
+      InstantPayouts:
+        'https://docs.stripe.com/connect/supported-embedded-components/instant-payouts',
+      IssuingCard:
+        'https://docs.stripe.com/connect/supported-embedded-components/issuing-card',
+      IssuingCardsList:
+        'https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list',
+      NotificationBanner:
+        'https://docs.stripe.com/connect/supported-embedded-components/notification-banner',
+      Payments:
+        'https://docs.stripe.com/connect/supported-embedded-components/payments',
+      Payouts:
+        'https://docs.stripe.com/connect/supported-embedded-components/payouts',
+      PayoutsList:
+        'https://docs.stripe.com/connect/supported-embedded-components/payouts-list',
+      PaymentMethodSettings:
+        'https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings',
+      TaxRegistrations:
+        'https://docs.stripe.com/connect/supported-embedded-components/tax-registrations',
+      TaxSettings:
+        'https://docs.stripe.com/connect/supported-embedded-components/tax-settings',
+    };
+
+    if (!enableBorder) {
+      return;
+    }
+
+    if (componentName in ComponentURLs === false) {
+      // If component name is not found, don't show the link
+      return;
+    }
 
     return (
-      <div className="absolute top-1 z-50 flex gap-2 opacity-0 group-hover:opacity-100 transition duration-150">
-        <div className="bg-[#7F81FA] shadow-lg text-white font-mono font-bold rounded py-0.5 px-1.5">Component name</div>
+      <div className="absolute -top-9 right-0 z-40 flex max-w-full gap-2 pb-8 transition duration-150 group-hover:opacity-100 sm:opacity-0">
         <a
-          className="bg-white shadow-lg rounded font-medium py-0.5 px-1.5 flex gap-1 items-center hover:opacity-70"
-          href=""
-          target="_blank">
-          View in docs
+          className="font-mono bg-component flex max-w-full items-center gap-1 truncate rounded border px-1.5 py-0.5 font-bold text-white shadow-lg"
+          href={ComponentURLs[componentName]}
+          target="_blank"
+        >
+          <div className="truncate">{componentName}</div>
+          <ChevronRight className="sm:hidden" size="16" />
+        </a>
+        <a
+          className="font-mono flex hidden items-center gap-1 rounded border bg-screen-background px-1.5 py-0.5 font-bold text-secondary shadow-lg hover:opacity-90 sm:flex"
+          href={ComponentURLs[componentName]}
+          target="_blank"
+        >
+          <div className="truncate">View in docs</div>
           <ChevronRight size="16" />
         </a>
       </div>
@@ -29,7 +83,7 @@ const EmbeddedComponentContainer = ({
 
   return (
     <div
-      className={`${enableBorder ? 'rounded-lg border-2 border-dashed border-[#7F81FA] p-[4px]' : 'p-[6px]'} transition-border duration-200 relative group ${className}`}
+      className={`${enableBorder ? 'border-component m-[-4px] rounded-lg border-2 border-dashed p-[8px]' : 'p-[6px]'} group relative transition-border duration-200 ${className}`}
     >
       <ComponentDetails />
       {children}

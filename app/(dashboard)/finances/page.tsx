@@ -70,19 +70,19 @@ export default function Finances() {
       {displayFinancialAccount ? (
         <>
           <Container>
-            <EmbeddedComponentContainer>
+            <EmbeddedComponentContainer componentName="CapitalOverview">
               <ConnectCapitalOverview />
             </EmbeddedComponentContainer>
           </Container>
           <Container>
             <h1 className="mb-2 text-xl font-bold">Financial account</h1>
-            <EmbeddedComponentContainer>
+            <EmbeddedComponentContainer componentName="FinancialAccount">
               <ConnectFinancialAccount financialAccount={financialAccount} />
             </EmbeddedComponentContainer>
           </Container>
           <Container>
             <h1 className="text-xl font-bold">Transactions</h1>
-            <EmbeddedComponentContainer>
+            <EmbeddedComponentContainer componentName="FinancialAccountTransactions">
               <ConnectFinancialAccountTransactions
                 financialAccount={financialAccount}
               />

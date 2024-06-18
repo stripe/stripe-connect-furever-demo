@@ -68,12 +68,15 @@ export default function Settings() {
             </header>
           </div>
         </div>
-        <EmbeddedComponentContainer>
-          <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4">
+          <EmbeddedComponentContainer componentName="NotificationBanner">
             <ConnectNotificationBanner />
+          </EmbeddedComponentContainer>
+
+          <EmbeddedComponentContainer componentName="AccountManagement">
             <ConnectAccountManagement />
-          </div>
-        </EmbeddedComponentContainer>
+          </EmbeddedComponentContainer>
+        </div>
       </Container>
 
       <Container>
@@ -81,7 +84,7 @@ export default function Settings() {
           <h1 className="text-xl font-semibold">Payment methods</h1>
           <h2 className="text-subdued">Add and manage your payment methods.</h2>
         </header>
-        <EmbeddedComponentContainer>
+        <EmbeddedComponentContainer componentName="PaymentMethodSettings">
           <ConnectPaymentMethodSettings />
         </EmbeddedComponentContainer>
       </Container>

@@ -24,7 +24,7 @@ export default function Payouts() {
       </div>
       <Container>
         <h1 className="ml-1 text-xl font-bold">Recent payouts</h1>
-        <EmbeddedComponentContainer>
+        <EmbeddedComponentContainer componentName="Payouts">
           {loading ? (
             <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">
               <LoaderCircle

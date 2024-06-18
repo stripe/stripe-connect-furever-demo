@@ -66,6 +66,10 @@ const config = {
           background: 'var(--screen-background)',
           foreground: 'var(--screen-foreground)',
         },
+        component: {
+          DEFAULT: 'var(--embedded-component)',
+          hover: 'var(--embedded-component-hover)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
