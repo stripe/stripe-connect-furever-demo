@@ -62,7 +62,7 @@ const EmbeddedComponentContainer = ({
     return (
       <div className="absolute -top-9 right-0 z-40 flex max-w-full gap-2 pb-8 transition duration-150 group-hover:opacity-100 sm:opacity-0">
         <a
-          className="font-mono bg-component flex max-w-full items-center gap-1 truncate rounded border px-1.5 py-0.5 font-bold text-white shadow-lg"
+          className="flex max-w-full items-center gap-1 truncate rounded border bg-component px-1.5 py-0.5 font-mono font-bold text-white shadow-lg"
           href={ComponentURLs[componentName]}
           target="_blank"
         >
@@ -70,7 +70,7 @@ const EmbeddedComponentContainer = ({
           <ChevronRight className="sm:hidden" size="16" />
         </a>
         <a
-          className="font-mono flex hidden items-center gap-1 rounded border bg-screen-background px-1.5 py-0.5 font-bold text-secondary shadow-lg hover:opacity-90 sm:flex"
+          className="flex hidden items-center gap-1 rounded border bg-screen-background px-1.5 py-0.5 font-mono font-bold text-secondary shadow-lg hover:opacity-90 sm:flex"
           href={ComponentURLs[componentName]}
           target="_blank"
         >
@@ -83,7 +83,7 @@ const EmbeddedComponentContainer = ({
 
   return (
     <div
-      className={`${enableBorder ? 'border-component m-[-4px] rounded-lg border-2 border-dashed p-[8px]' : 'p-[6px]'} group relative transition-border duration-200 ${className}`}
+      className={`${enableBorder ? 'm-[-4px] rounded-lg border-2 border-dashed border-component p-[8px]' : 'p-[6px]'} group relative transition-border duration-200 ${className}`}
     >
       <ComponentDetails />
       {children}
