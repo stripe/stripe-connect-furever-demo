@@ -32,12 +32,12 @@ export default function Screen({
         {/* Furever site container */}
         <div
           className={`origin-left overflow-hidden transition duration-500 ease-in-out md:h-screen
-            ${open ? 'shadow-xl md:translate-x-[325px] md:scale-[0.6] md:rounded-xl md:border md:border-[1.5px] lg:scale-[0.66] xl:scale-[0.73]' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
+            ${open ? 'shadow-xl md:translate-x-[calc(140px+22%)] md:scale-[0.6] md:rounded-xl md:border md:border-[1.5px] lg:translate-x-[calc(125px+19%)] lg:scale-[0.66] xl:translate-x-[calc(130px+15%)] xl:scale-[0.73]' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
             ${theme == 'light' ? 'bg-paw-pattern bg-[size:426px]' : 'bg-screen-background'}`}
         >
           <Nav />
           <div className="mt-[74px] flex h-full grow justify-center overflow-scroll overscroll-contain p-3 pb-20 sm:ml-52 sm:mt-0 sm:mt-0 sm:p-8 lg:ml-64">
-            <div className="flex grow flex-col gap-y-4 after:pb-8 md:gap-y-5">
+            <div className="mx-auto flex max-w-[1200px] grow flex-col gap-y-4 after:pb-8 md:gap-y-5">
               <OnboardingDialog />
               {children}
             </div>
