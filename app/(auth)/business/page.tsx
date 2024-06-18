@@ -11,7 +11,7 @@ export default async function Business() {
   return (
     <>
       <div>
-        <h2 className="text-2xl font-bold">Business details</h2>
+        <h2 className="text-2xl font-bold text-primary">Business details</h2>
       </div>
       <p className="text-secondary">
         Let us know a few more details of your business

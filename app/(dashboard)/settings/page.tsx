@@ -11,38 +11,15 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
-import bcrypt from 'bcryptjs';
 
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [buttonLoading, setButtonLoading] = React.useState(false);
   const email = session?.user.email;
   const businessName = session?.user.businessName;
   const password = session?.user.password;
 
   const canShowPassword = !session?.user.changedPassword;
-
-  const onClick = async () => {
-    setButtonLoading(true);
-    try {
-      const res = await fetch('/api/setup_accounts/create_risk_intervention', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (res.ok) {
-        setButtonLoading(false);
-        window.location.reload();
-      }
-    } catch (e) {
-      console.log('Error with creating test intervention: ', e);
-    }
-  };
 
   return (
     <>
@@ -81,36 +58,20 @@ export default function Settings() {
         </div>
       </Container>
       <Container>
-        <div className="flex flex-col items-start justify-between sm:flex-row">
-          <header className="mb-5 ml-2">
-            <h1 className="text-xl font-semibold">Account settings</h1>
-            <h2 className="text-subdued">
-              Manage account and business settings.
-            </h2>
-          </header>
-          <Button
-            size="sm"
-            className=""
-            onClick={onClick}
-            disabled={buttonLoading}
-          >
-            {buttonLoading ? (
-              <>
-                <LoaderCircle className="mr-1.5 animate-spin" size={20} />{' '}
-                Creating intervention
-              </>
-            ) : (
-              <>
-                <Plus size={20} className="mr-1" /> Create test risk
-                intervention
-              </>
-            )}
-          </Button>
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col items-start justify-between sm:flex-row">
+            <header className="mb-5 ml-2">
+              <h1 className="text-xl font-semibold">Account settings</h1>
+              <h2 className="text-subdued">
+                Manage account and business settings.
+              </h2>
+            </header>
+          </div>
         </div>
         <EmbeddedComponentContainer>
-        <div className='flex flex-col space-y-4'>
-          <ConnectNotificationBanner />
-          <ConnectAccountManagement />
+          <div className="flex flex-col space-y-4">
+            <ConnectNotificationBanner />
+            <ConnectAccountManagement />
           </div>
         </EmbeddedComponentContainer>
       </Container>

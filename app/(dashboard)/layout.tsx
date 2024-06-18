@@ -1,8 +1,18 @@
+'use client';
 import AuthenticatedAndOnboardedRoute from '@/app/components/AuthenticatedAndOnboardedRoute';
+
 import Nav from '@/app/components/Nav';
+import Container from '@/app/components/Container';
+import {
+  useToolsContext,
+  ToolsPanelProvider,
+} from '@/app/hooks/ToolsPanelProvider';
 import {EmbeddedComponentWrapper} from '@/app/hooks/EmbeddedComponentWrapper';
 import OnboardingDialog from '../components/OnboardingDialog';
 import DataRequest from '../components/DataRequest';
+import Screen from '../components/Screen';
+import * as React from 'react';
+import {useSettings} from '../hooks/useSettings';
 
 export default function DashboardLayout({
   children,
@@ -12,17 +22,11 @@ export default function DashboardLayout({
   return (
     <AuthenticatedAndOnboardedRoute>
       <EmbeddedComponentWrapper>
-        <DataRequest>
-          <div className="flex h-full min-h-screen flex-col bg-paw-pattern bg-[size:426px] sm:flex-row">
-            <Nav />
-            <div className="mt-[74px] flex flex-1 justify-center p-3 pb-20 sm:ml-52 sm:mt-0 sm:p-8 lg:ml-64">
-              <div className="w-full max-w-[1200px] flex flex-col flex-1 gap-y-4 md:gap-y-5">
-                <OnboardingDialog />
-                {children}
-              </div>
-            </div>
-          </div>
-        </DataRequest>
+        <ToolsPanelProvider>
+          <DataRequest>
+            <Screen>{children}</Screen>
+          </DataRequest>
+        </ToolsPanelProvider>
       </EmbeddedComponentWrapper>
     </AuthenticatedAndOnboardedRoute>
   );

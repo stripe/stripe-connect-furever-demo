@@ -111,6 +111,14 @@ export async function POST(req: NextRequest) {
           enabled: true,
         },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
+        // @ts-ignore
+        tax_settings: {
+          enabled: true,
+        },
+        // @ts-ignore
+        tax_registrations: {
+          enabled: true,
+        },
       },
     });
 

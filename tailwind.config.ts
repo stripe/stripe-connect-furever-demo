@@ -28,6 +28,7 @@ const config = {
         foreground: 'hsl(var(--foreground))',
         dialog: {
           background: 'var(--dialog-background)',
+          content: 'hsl(var--dialog-content)',
         },
         primary: {
           DEFAULT: 'var(--primary)',
@@ -58,6 +59,13 @@ const config = {
           foreground: 'var(--success-foreground)',
         },
         fill: 'var(--primary)',
+        tools: {
+          background: 'var(--tools-background)',
+        },
+        screen: {
+          background: 'var(--screen-background)',
+          foreground: 'var(--screen-foreground)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -70,6 +78,8 @@ const config = {
       backgroundImage: {
         'paw-pattern': "url('/pattern.png')",
         'paw-pattern-white': "url('/pattern-white.png')",
+        'dot-grid': "url('/dot-grid.png')",
+        'dot-grid-dark': "url('/dot-grid-dark.png')",
       },
       boxShadow: {
         md: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.08)',

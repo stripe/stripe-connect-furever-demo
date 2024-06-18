@@ -2,7 +2,8 @@ import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderPro
 import { ChevronRight } from 'lucide-react';
 
 const EmbeddedComponentContainer = ({
-  children, className
+  children,
+  className,
 }: {
   children: React.ReactNode;
   className?: string;

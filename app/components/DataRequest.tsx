@@ -35,7 +35,7 @@ export default function DataRequest({
       }
     };
     setTimeout(() => fetchData(), 10000);
-  }, []);
+  });
 
   return <>{children}</>;
 }

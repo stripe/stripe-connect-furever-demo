@@ -23,7 +23,7 @@ const MonthToDateWidget = () => {
             <SparkLineChart
               data={[0, 10, 25, 20, 15, 5, 30, 40, 55, 40, 45, 55]}
               height={55}
-              colors={['#DEDDE1']}
+              colors={['#23840240']}
               curve="natural"
               className="right-0 w-full"
             />

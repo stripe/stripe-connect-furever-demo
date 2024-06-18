@@ -70,7 +70,7 @@ const AuthButtons = () => {
     return (
       <>
         <Link href="/login">
-          <Button variant="secondary" size="lg">
+          <Button variant="secondary" className="bg-white" size="lg">
             Log in
           </Button>
         </Link>
@@ -132,7 +132,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-screen-lg px-4">
           <div className="flex flex-col items-center py-12 sm:py-20">
             <h3 className="text-lg font-bold text-accent">FEATURES</h3>
-            <p className="mb-12 text-center text-3xl font-bold">
+            <p className="mb-12 text-center text-3xl font-bold text-black">
               Everything you need to manage your pet business.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
@@ -169,7 +169,7 @@ export default function LandingPage() {
               className="w-full max-w-[450px] overflow-hidden rounded-xl object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
-              <p className="relative text-3xl font-bold">
+              <p className="relative text-3xl font-bold text-black">
                 “Furever has transformed the way we manage our salon! Booking
                 and payments are seamless now, and our clients love the
                 convenience!”

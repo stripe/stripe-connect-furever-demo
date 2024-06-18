@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint && npm run prettier-check",
     "prettier": "prettier './**/*.{js,ts,md,html,css,tsx}' --write",
-    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check"
+    "prettier-check": "prettier './**/*.{js,ts,md,html,tsx}' --check",
+    "typescript": "tsc -p .",
+    "validate-change": "yarn lint && yarn typescript"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -21,6 +23,7 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
@@ -41,7 +44,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
-    "sharp": "^0.33.3",
+    "sharp": "^0.33.4",
     "stripe": "^15.4.0-beta.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
@@ -62,6 +65,6 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.3"
+    "typescript": "5.4.3"
   }
 }

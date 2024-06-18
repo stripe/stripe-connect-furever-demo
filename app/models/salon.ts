@@ -68,8 +68,7 @@ SalonSchema.methods.generateHash = function (password) {
 
 // Check if the password is valid by comparing with the stored hash.
 SalonSchema.methods.validatePassword = function (password) {
-  if (!this.changedPassword)
-  {
+  if (!this.changedPassword) {
     return password == this.password;
   }
   return bcrypt.compareSync(password, this.password);

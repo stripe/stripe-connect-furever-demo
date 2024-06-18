@@ -384,21 +384,25 @@ export const authOptions: AuthOptions = {
 
           console.log('Creating stripe account for the email', email);
           const account = await stripe.accounts.create({
-            country: 'US',
+            country: credentials?.country || 'US',
             email: email,
             controller: resolveControllerParams({
               feePayer: credentials.feePayer,
               paymentLosses: credentials.paymentLosses,
               stripeDashboardType: credentials.stripeDashboardType,
             }),
-            capabilities: {
-              card_payments: {
-                requested: true,
-              },
-              transfers: {
-                requested: true,
-              },
-            },
+            ...(credentials.stripeDashboardType === 'full'
+              ? {}
+              : {
+                  capabilities: {
+                    card_payments: {
+                      requested: true,
+                    },
+                    transfers: {
+                      requested: true,
+                    },
+                  },
+                }),
           });
           console.log('Created stripe account', account.id);
 

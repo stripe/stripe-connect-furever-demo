@@ -24,10 +24,6 @@ export default function Pets() {
     <>
       <div className="flex">
         <h1 className="flex-1 text-3xl font-bold">Pets</h1>
-        <Button className="gap-2 bg-accent text-base font-bold text-accent-foreground transition">
-          <PlusIcon size={20}></PlusIcon>
-          New Pet
-        </Button>
       </div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {pets.map((pet, key) => {

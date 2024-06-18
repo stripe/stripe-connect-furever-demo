@@ -15,14 +15,23 @@ export default async function Signup() {
 
   return (
     <>
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-y-[16px] text-primary">
         <h1 className="mb-1 text-2xl font-semibold">Get started</h1>
-        <Tabs defaultValue="quickstart" className="w-full">
-          <TabsList className="mb-4 w-full">
-            <TabsTrigger className="flex-1" value="quickstart">
+        <Tabs
+          defaultValue="quickstart"
+          className="w-full text-primary data-[state=active]:text-primary"
+        >
+          <TabsList className="mb-4 w-full data-[state=active]:text-primary">
+            <TabsTrigger
+              className="flex-1 data-[state=active]:text-primary"
+              value="quickstart"
+            >
               Quickstart
             </TabsTrigger>
-            <TabsTrigger className="flex-1" value="create">
+            <TabsTrigger
+              className="flex-1 data-[state=active]:text-primary"
+              value="create"
+            >
               Create an account
             </TabsTrigger>
           </TabsList>
