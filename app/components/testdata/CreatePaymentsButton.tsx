@@ -163,7 +163,12 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                 <FormItem>
                   <FormLabel>Number of payments</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" />
+                    <Input
+                      {...field}
+                      type="number"
+                      min="1"
+                      step={1}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -180,6 +185,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                       {...field}
                       placeholder="Leave blank for a random amount"
                       type="number"
+                      min="0"
                       step="0.01"
                     />
                   </FormControl>
