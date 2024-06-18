@@ -199,11 +199,7 @@ export default function CreateCheckoutSessionButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className={`${classes || 'border'}`}
-          variant="secondary"
-          size="sm"
-        >
+        <Button className={`${classes || 'border'}`} variant="ghost" size="sm">
           Create test Checkout Session
         </Button>
       </DialogTrigger>
