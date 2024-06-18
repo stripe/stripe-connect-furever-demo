@@ -40,12 +40,7 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const currency = 'usd';
-    let redirectUrl;
-    if (process.env.NODE_ENV === 'development') {
-      redirectUrl = 'http://localhost:3000/payments';
-    } else if (process.env.NODE_ENV === 'production') {
-      redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/payments`;
-    }
+    const redirectUrl = `${process.env.NEXTAUTH_URL}/payments`;
 
     const {description: nameAndDescription} =
       customers[Math.floor(Math.random() * customers.length)];

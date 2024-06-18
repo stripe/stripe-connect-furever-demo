@@ -44,12 +44,7 @@ function getRandomInt(min: number, max: number) {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    let redirectUrl;
-    if (process.env.NODE_ENV === 'development') {
-      redirectUrl = 'http://localhost:3000/settings';
-    } else if (process.env.NODE_ENV === 'production') {
-      redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/settings`;
-    }
+    const redirectUrl = `${process.env.NEXTAUTH_URL}/settings`;
 
     const params = await req.json();
 
