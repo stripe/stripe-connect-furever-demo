@@ -66,6 +66,10 @@ const config = {
           background: 'var(--screen-background)',
           foreground: 'var(--screen-foreground)',
         },
+        component: {
+          DEFAULT: 'var(--embedded-component)',
+          hover: 'var(--embedded-component-hover)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -87,6 +91,7 @@ const config = {
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      mono: ['ui-monospace', 'SFMono-Regular'],
     },
   },
   plugins: [require('tailwindcss-animate')],

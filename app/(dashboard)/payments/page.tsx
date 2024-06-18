@@ -34,7 +34,7 @@ export default function Payments() {
       </div>
       <Container>
         <h1 className="text-xl font-bold">Recent payments</h1>
-        <EmbeddedComponentContainer>
+        <EmbeddedComponentContainer componentName="Payments">
           {loading ? (
             <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">
               <LoaderCircle

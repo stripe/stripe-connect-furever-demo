@@ -8,7 +8,7 @@ import React from 'react';
 // a specific connected account
 export default function Register() {
   return (
-    <EmbeddedComponentContainer>
+    <EmbeddedComponentContainer componentName="AccountOnboarding">
       <ConnectAccountOnboarding
         onExit={() => {
           window.location.href = '/home';
