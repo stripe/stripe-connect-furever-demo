@@ -91,7 +91,7 @@ const config = {
     },
     fontFamily: {
       sans: ['Sohne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-      mono: ['ui-monospace', 'SFMono-Regular'],
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
     },
   },
   plugins: [require('tailwindcss-animate')],
