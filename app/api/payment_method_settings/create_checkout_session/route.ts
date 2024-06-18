@@ -2,7 +2,7 @@ import {Stripe} from 'stripe';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
-import { NextRequest } from 'next/server';
+import {NextRequest} from 'next/server';
 
 const customers = [
   {
@@ -19,7 +19,7 @@ const customers = [
     email: 'golden_retriever@stripe.com',
     name: 'Dug',
     description:
-    'Hydro surge warm water shampoo & conditioner for Golden Retriever',
+      'Hydro surge warm water shampoo & conditioner for Golden Retriever',
   },
   {
     email: 'siamese_cat@stripe.com',
@@ -38,9 +38,9 @@ function getRandomInt(min: number, max: number) {
 }
 
 /**
-* Generates a test Checkout Session for a merchant. This is used to show the payment
-* methods that are available after toggling them in the Payment Method settings.
-*/
+ * Generates a test Checkout Session for a merchant. This is used to show the payment
+ * methods that are available after toggling them in the Payment Method settings.
+ */
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -50,46 +50,54 @@ export async function POST(req: NextRequest) {
     } else if (process.env.NODE_ENV === 'production') {
       redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/settings`;
     }
-    
+
     const params = await req.json();
 
-    const currency = (params.currency && params.currency !== '_default') ? params.currency : session?.user.stripeAccount.default_currency;
-    const amount = params.amount ? parseFloat(params.amount) * 100 : getRandomInt(4000,12000);
-    
+    const currency =
+      params.currency && params.currency !== '_default'
+        ? params.currency
+        : session?.user.stripeAccount.default_currency;
+    const amount = params.amount
+      ? parseFloat(params.amount) * 100
+      : getRandomInt(4000, 12000);
+
     const {description: nameAndDescription} =
-    customers[Math.floor(Math.random() * customers.length)];
-    
-    const checkoutSessionResponse = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency,
-            unit_amount: amount,
-            product_data: {
-              name: nameAndDescription,
-              description: nameAndDescription,
+      customers[Math.floor(Math.random() * customers.length)];
+
+    const checkoutSessionResponse = await stripe.checkout.sessions.create(
+      {
+        line_items: [
+          {
+            price_data: {
+              currency,
+              unit_amount: amount,
+              product_data: {
+                name: nameAndDescription,
+                description: nameAndDescription,
+              },
             },
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        payment_intent_data: {
+          description: nameAndDescription,
+          statement_descriptor: process.env.APP_NAME,
         },
-      ],
-      payment_intent_data: {
-        description: nameAndDescription,
-        statement_descriptor: process.env.APP_NAME,
+        mode: 'payment',
+        success_url: redirectUrl,
+        cancel_url: redirectUrl,
       },
-      mode: 'payment',
-      success_url: redirectUrl,
-      cancel_url: redirectUrl,
-    }, {
-      stripeAccount: session?.user.stripeAccount.id,
-    });
-    
+      {
+        stripeAccount: session?.user.stripeAccount.id,
+      }
+    );
+
     console.log('Created checkout session!', checkoutSessionResponse);
-    
+
     if (!checkoutSessionResponse || !checkoutSessionResponse.url) {
       throw new Error('Session URL was not returned');
     }
-    
+
     return new Response(
       JSON.stringify({
         checkoutSessionResponse,

@@ -30,7 +30,7 @@ import {
 import {zodResolver} from '@hookform/resolvers/zod';
 import {ControllerRenderProps, useForm} from 'react-hook-form';
 import {z} from 'zod';
-import { useRouter} from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import {LoaderCircle} from 'lucide-react';
 
 const formSchema = z.object({
@@ -85,7 +85,11 @@ function CurrencySelect({
   );
 }
 
-export default function CreateCheckoutSessionButton({classes}: {classes?: string}) {
+export default function CreateCheckoutSessionButton({
+  classes,
+}: {
+  classes?: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -106,10 +110,13 @@ export default function CreateCheckoutSessionButton({classes}: {classes?: string
       currency: values.currency,
     };
 
-    const response = await fetch('/api/payment_method_settings/create_checkout_session', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      '/api/payment_method_settings/create_checkout_session',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
 
     if (!response.ok) {
       // Handle errors on the client side here
@@ -117,7 +124,6 @@ export default function CreateCheckoutSessionButton({classes}: {classes?: string
       console.warn('An error occurred: ', error);
       return undefined;
     } else {
-      
       const json = await response.json();
 
       const redirectUrl = json?.checkoutSessionResponse?.url;
@@ -137,7 +143,6 @@ export default function CreateCheckoutSessionButton({classes}: {classes?: string
       <>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            
             <FormField
               control={form.control}
               name="amount"
@@ -149,7 +154,7 @@ export default function CreateCheckoutSessionButton({classes}: {classes?: string
                       {...field}
                       placeholder="Leave blank for a random amount"
                       type="number"
-                      step="0.01" 
+                      step="0.01"
                     />
                   </FormControl>
                   <FormMessage />
