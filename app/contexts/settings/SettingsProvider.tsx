@@ -10,13 +10,18 @@ const STORAGE_KEY = 'furever.app.settings';
 const restoreSettings = (): Settings | null => {
   let value = null;
 
+  if (window.location.pathname == '/') {
+    console.log('on homepage');
+    return value;
+  }
+
   try {
     const restored: string | null = window.localStorage.getItem(STORAGE_KEY);
 
     if (restored) {
       value = JSON.parse(restored);
       if (value.theme) {
-        console.log('restore');
+        console.log('restore' + value.theme);
         const root = document.querySelector(':root');
         root && root.classList.remove('light', 'dark');
         root && root.classList.add(value.theme);

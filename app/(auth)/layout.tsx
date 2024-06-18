@@ -50,7 +50,7 @@ export default function AuthLayout({
             </div>
           </Link>
         </div>
-        <Container className="no-scrollbar w-full overflow-scroll rounded-xl px-5 py-5">
+        <Container className="no-scrollbar w-full rounded-xl px-5 py-5">
           {children}
         </Container>
         <SignOut />

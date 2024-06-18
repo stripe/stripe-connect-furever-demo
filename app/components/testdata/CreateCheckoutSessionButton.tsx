@@ -138,9 +138,28 @@ export default function CreateCheckoutSessionButton({
     }
   };
 
-  const CreateCheckoutSessionForm = () => {
-    return (
-      <>
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className={`${classes || 'border'}`} variant="ghost" size="sm">
+          Create test Checkout Session
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="p-4 text-primary sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create test Checkout Session</DialogTitle>
+          <DialogDescription>
+            Simulate a grooming payment by creating a{' '}
+            <a
+              target="blank"
+              className="font-medium text-accent"
+              href="https://stripe.com/docs/api/checkout/sessions"
+            >
+              Checkout Session
+            </a>
+            .
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -150,12 +169,18 @@ export default function CreateCheckoutSessionButton({
                 <FormItem>
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Leave blank for a random amount"
-                      type="number"
-                      step="0.01"
-                    />
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                        $
+                      </div>
+                      <Input
+                        {...field}
+                        placeholder="Leave blank for a random amount"
+                        className="pl-7"
+                        type="number"
+                        step="0.01"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -192,37 +217,6 @@ export default function CreateCheckoutSessionButton({
             </div>
           </form>
         </Form>
-      </>
-    );
-  };
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className={`${classes || 'border'}`}
-          variant="secondary"
-          size="sm"
-        >
-          Create test Checkout Session
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="p-4 text-primary sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create test Checkout Session</DialogTitle>
-          <DialogDescription>
-            Simulate a grooming payment by creating a{' '}
-            <a
-              target="blank"
-              className="font-medium text-accent"
-              href="https://stripe.com/docs/api/checkout/sessions"
-            >
-              Checkout Session
-            </a>
-            .
-          </DialogDescription>
-        </DialogHeader>
-        <CreateCheckoutSessionForm />
       </DialogContent>
     </Dialog>
   );

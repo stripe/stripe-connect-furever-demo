@@ -24,7 +24,7 @@ export default function Screen({
         {/* Tools Panel container */}
         <div
           className={`${open ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:-translate-x-full md:translate-y-0'}
-          fixed bottom-0 z-[50] w-full overflow-hidden rounded-t-2xl bg-screen-foreground shadow-[0px_-4px_32px_rgba(0,0,0,0.15)] transition duration-500 ease-in-out md:h-screen md:w-[300px] md:rounded-none md:border-r md:shadow-none`}
+          z-45 fixed bottom-0 w-full overflow-hidden rounded-t-2xl bg-screen-foreground shadow-[0px_-4px_32px_rgba(0,0,0,0.15)] transition duration-500 ease-in-out md:h-screen md:w-[300px] md:rounded-none md:border-r md:shadow-none`}
         >
           <ToolsPanel />
         </div>
