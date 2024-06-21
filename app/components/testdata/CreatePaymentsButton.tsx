@@ -183,7 +183,7 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                 <FormItem>
                   <FormLabel>Number of payments</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" min="1" step={1} />
+                    <Input {...field} type="number" min="1" max="10" step={1} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
