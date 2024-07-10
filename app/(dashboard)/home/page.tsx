@@ -7,7 +7,10 @@ import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {ConnectNotificationBanner} from '@stripe/react-connect-js';
+import {
+  ConnectComponentsProvider,
+  ConnectNotificationBanner,
+} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
@@ -18,59 +21,63 @@ export default function Dashboard() {
     redirect('/');
   }
 
-  const [margins, setMargins] = useState('flex w-full flex-1 flex-col p-5');
+  // Untill callback is called, we dont want margins
+  const [notificationBannerMargins, setMargins] = useState(
+    'invisible w-full bg-transparent'
+  );
+  const [total, setTotal] = useState(0);
 
   const name = session.user.stripeAccount.individual?.first_name;
 
   const BREAKPOINT = 1190;
 
+  const [showBanner, setShowBanner] = React.useState(false);
+  // set loading state
+
+  // Remove component
+
   // set callback
 
-  const renderConditionallyCallback = (response: any) => {
+  const renderConditionallyCallback = (response: {
+    total: number;
+    actionRequired: number;
+  }) => {
     // const total = 0;
 
     console.log('callback works');
     console.log(response);
     // console.log(total, actionRequired);
 
-    // let notificationBannerMargins = 'invisible flex w-full flex-1 flex-col p-5';
-    // if (total && total > 0) {
-    //   setMargins('invisible flex w-full flex-1 flex-col p-5');
-    // }
-    // How to reset?
+    if (response && response.total > 0) {
+      // setMargins('flex w-full flex-1 flex-col p-5');
+      setTotal(response.total);
+      setShowBanner(true);
+    } else {
+      // setMargins('invisible w-full bg-transparent');
+      setTotal(response.total);
+      setShowBanner(false);
+    }
   };
-
-  // useState for margins
-
-  // const {total, notificationBannerMargins} = renderConditionally();
-
-  const notificationBanner = (
-    <ConnectNotificationBanner
-      onNotificationsChange={renderConditionallyCallback}
-    />
-  );
-  // notificationBanner.onNotificationsChange(renderConditionally);
 
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
       {/* \\ embeded component container */}
-
-      {/* {total > 0 && ( */}
-      {
-        <Container className={'notificationBannerMargins'}>
+      <div
+        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-1 flex-col p-5`}
+      >
+        {
           <EmbeddedComponentContainer
             componentName="NotificationBanner"
             className="-m-2 mb-0.5"
           >
-            {/* <ConnectNotificationBanner /> */}
-            {notificationBanner}
+            <ConnectNotificationBanner
+              onNotificationsChange={renderConditionallyCallback}
+            />
           </EmbeddedComponentContainer>
-        </Container>
-      }
-
-      {/* end */}
-
+        }
+      </div>
+      {/* // end */}
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">
           <Schedule />
