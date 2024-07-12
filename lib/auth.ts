@@ -10,13 +10,6 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function assertUnreachable(x: never | undefined, message?: string) {
-  console.error(
-    message ?? 'Thing that should never be set is set',
-    JSON.parse(JSON.stringify(x))
-  );
-}
-
 export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
@@ -389,14 +382,14 @@ export const authOptions: AuthOptions = {
             console.log('Could not find an existing user for the email', email);
             return null;
           }
-          let businessType: Stripe.Account.BusinessType;
+          let businessType;
           switch (credentials?.businessType) {
             case 'company':
             case 'individual':
-              businessType = credentials?.businessType;
+              businessType =
+                credentials?.businessType as Stripe.AccountCreateParams.BusinessType;
             default:
-              assertUnreachable(credentials?.businessType);
-              businessType = 'individual'; // We default to individual, but rely on TS to catch missing cases
+              businessType = undefined; // We default to undefined so user can pick the business type during onboarding
           }
 
           console.log('Creating stripe account for the email', email);
