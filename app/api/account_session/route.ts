@@ -108,7 +108,6 @@ export async function POST(req: NextRequest) {
           },
         },
         // Connect
-<<<<<<< HEAD
         account_management: {
           enabled: true,
           features: {external_account_collection: !isCustom},
@@ -124,14 +123,6 @@ export async function POST(req: NextRequest) {
           enabled: true,
           features: {external_account_collection: !isCustom},
         },
-=======
-        account_management: {enabled: true, features:{external_account_collection: !isCustom}},
-        account_onboarding: {enabled: true, features:{external_account_collection: !isCustom}},
-        // @ts-ignore
-        payment_method_settings: {enabled: true},
-        documents: {enabled: true},
-        notification_banner: {enabled: true, features:{external_account_collection: !isCustom}},
->>>>>>> 67f4d0e (turn off eac for custom)
         capital_overview: {
           enabled: true,
         },
