@@ -53,20 +53,20 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
       {/* \\ embeded component container */}
       <div
-        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-1 flex-col`}
+        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-col`}
       >
-        <Container>
-          {
-            <EmbeddedComponentContainer
-              componentName="NotificationBanner"
-              className="-m-2 mb-0.5 rounded-lg border"
-            >
-              <ConnectNotificationBanner
-                onNotificationsChange={renderConditionallyCallback}
-              />
-            </EmbeddedComponentContainer>
-          }
-        </Container>
+        {/* <Container> */}
+        {
+          <EmbeddedComponentContainer
+            componentName="NotificationBanner"
+            className="-m-2 mb-0.5"
+          >
+            <ConnectNotificationBanner
+              onNotificationsChange={renderConditionallyCallback}
+            />
+          </EmbeddedComponentContainer>
+        }
+        {/* </Container> */}
       </div>
 
       {/* // end */}
