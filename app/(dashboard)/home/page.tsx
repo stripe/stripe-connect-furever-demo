@@ -18,10 +18,7 @@ export default function Dashboard() {
     redirect('/');
   }
 
-  // Untill callback is called, we dont want margins
-  const [notificationBannerMargins, setMargins] = useState(
-    'invisible w-full bg-transparent'
-  );
+  // Until callback is called, we dont want margins
   const [total, setTotal] = useState(0);
 
   const name = session.user.stripeAccount.individual?.first_name;
@@ -51,21 +48,15 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
-      {/* \\ embeded component container */}
-      <div
-        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-col`}
-      >
-        {/* <Container> */}
-        {
-          <EmbeddedComponentContainer
-            componentName="NotificationBanner"
-            className="-m-2 mb-0.5"
-          >
-            <ConnectNotificationBanner
-              onNotificationsChange={renderConditionallyCallback}
-            />
-          </EmbeddedComponentContainer>
-        }
+      <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
+        <EmbeddedComponentContainer
+          componentName="NotificationBanner"
+          className="overflow-hidden rounded-lg px-0 py-0 pb-1"
+        >
+          <ConnectNotificationBanner
+            onNotificationsChange={renderConditionallyCallback}
+          />
+        </EmbeddedComponentContainer>
         {/* </Container> */}
       </div>
 
