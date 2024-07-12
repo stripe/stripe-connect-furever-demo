@@ -7,10 +7,7 @@ import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {
-  ConnectComponentsProvider,
-  ConnectNotificationBanner,
-} from '@stripe/react-connect-js';
+import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
@@ -32,21 +29,13 @@ export default function Dashboard() {
   const BREAKPOINT = 1190;
 
   const [showBanner, setShowBanner] = React.useState(false);
-  // set loading state
-
-  // Remove component
-
-  // set callback
 
   const renderConditionallyCallback = (response: {
     total: number;
     actionRequired: number;
   }) => {
-    // const total = 0;
-
     console.log('callback works');
     console.log(response);
-    // console.log(total, actionRequired);
 
     if (response && response.total > 0) {
       // setMargins('flex w-full flex-1 flex-col p-5');
@@ -64,19 +53,22 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
       {/* \\ embeded component container */}
       <div
-        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-1 flex-col p-5`}
+        className={`${showBanner ? 'block' : 'hidden'} flex w-full flex-1 flex-col`}
       >
-        {
-          <EmbeddedComponentContainer
-            componentName="NotificationBanner"
-            className="-m-2 mb-0.5"
-          >
-            <ConnectNotificationBanner
-              onNotificationsChange={renderConditionallyCallback}
-            />
-          </EmbeddedComponentContainer>
-        }
+        <Container>
+          {
+            <EmbeddedComponentContainer
+              componentName="NotificationBanner"
+              className="-m-2 mb-0.5 rounded-lg border"
+            >
+              <ConnectNotificationBanner
+                onNotificationsChange={renderConditionallyCallback}
+              />
+            </EmbeddedComponentContainer>
+          }
+        </Container>
       </div>
+
       {/* // end */}
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">
