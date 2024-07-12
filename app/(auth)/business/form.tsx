@@ -36,8 +36,8 @@ import {
 import type {FeePayer, StripeDashboardType} from '@/types/account';
 
 const businessTypeLabels = {
-  independent_salon: 'Independent salon',
-  chain_of_salons: 'Chain of salons',
+  individual: 'Independent salon',
+  company: 'Chain of salons',
   other: 'Other',
 };
 
@@ -269,7 +269,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      businessType: 'independent_salon',
+      businessType: 'individual',
       businessName: '',
       country: 'US',
       stripeDashboardType: 'none',

@@ -4,6 +4,7 @@ import dbConnect from '@/lib/dbConnect';
 import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
+import Stripe from 'stripe';
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -381,10 +382,23 @@ export const authOptions: AuthOptions = {
             console.log('Could not find an existing user for the email', email);
             return null;
           }
+          let businessType = undefined;
+
+          if (
+            credentials?.businessType === 'company' ||
+            credentials?.businessType === 'individual'
+          ) {
+            businessType =
+              credentials?.businessType as Stripe.AccountCreateParams.BusinessType;
+          }
 
           console.log('Creating stripe account for the email', email);
           const account = await stripe.accounts.create({
             country: credentials?.country || 'US',
+            business_type: businessType,
+            business_profile: {
+              name: credentials?.businessName || 'Furever Pet Salon',
+            },
             email: email,
             controller: resolveControllerParams({
               feePayer: credentials.feePayer,
