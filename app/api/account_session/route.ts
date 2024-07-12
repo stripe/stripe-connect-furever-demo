@@ -55,6 +55,12 @@ export async function POST(req: NextRequest) {
     }
 
     const account = await stripe.accounts.retrieve(stripeAccountId);
+
+  const isCustom =
+  account?.controller?.stripe_dashboard?.type === 'none' &&
+  account?.controller?.losses?.payments === 'application' &&
+  account?.controller?.requirement_collection === 'application';
+  
     // We can only request the components if the account has both issuing and treasury capabilities
     const hasIssuingAndTreasury = ['card_issuing', 'treasury'].every(
       (capability) =>
@@ -98,15 +104,16 @@ export async function POST(req: NextRequest) {
             instant_payouts: true,
             standard_payouts: true,
             edit_payout_schedule: true,
+            external_account_collection: !isCustom,
           },
         },
         // Connect
-        account_management: {enabled: true},
-        account_onboarding: {enabled: true},
+        account_management: {enabled: true, features:{external_account_collection: !isCustom}},
+        account_onboarding: {enabled: true, features:{external_account_collection: !isCustom}},
         // @ts-ignore
         payment_method_settings: {enabled: true},
         documents: {enabled: true},
-        notification_banner: {enabled: true},
+        notification_banner: {enabled: true, features:{external_account_collection: !isCustom}},
         capital_overview: {
           enabled: true,
         },
