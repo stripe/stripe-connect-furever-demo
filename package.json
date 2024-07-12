@@ -28,8 +28,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
-    "@stripe/connect-js": "^3.3.6-beta-1",
-    "@stripe/react-connect-js": "^3.3.10-beta-1",
+    "@stripe/connect-js": "3.3.11-beta-1",
+    "@stripe/react-connect-js": "3.3.13-beta-1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
@@ -48,6 +48,7 @@
     "stripe": "^15.4.0-beta.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
+    "yarn": "^1.22.22",
     "zod": "^3.22.4"
   },
   "devDependencies": {
