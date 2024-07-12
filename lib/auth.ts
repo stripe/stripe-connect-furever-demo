@@ -10,8 +10,11 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function assertUnreachable(option: string) {
-  console.error(`Did not find a valid option for ${option}`);
+function assertUnreachable(x: never | undefined, message?: string) {
+  console.error(
+    message ?? 'Thing that should never be set is set',
+    JSON.parse(JSON.stringify(x))
+  );
 }
 
 export const authOptions: AuthOptions = {
