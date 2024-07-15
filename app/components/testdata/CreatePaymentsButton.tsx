@@ -183,7 +183,21 @@ export default function CreatePaymentsButton({classes}: {classes?: string}) {
                 <FormItem>
                   <FormLabel>Number of payments</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" min="1" step={1} />
+                    <Select
+                      {...field}
+                      onValueChange={(value) => field.onChange(value)}
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue>{field.value}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({length: 10}, (_, i) => (
+                          <SelectItem key={i + 1} value={String(i + 1)}>
+                            {i + 1}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

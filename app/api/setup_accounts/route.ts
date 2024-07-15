@@ -63,6 +63,7 @@ export async function POST() {
         },
         confirm: true,
         payment_method: 'pm_card_createDispute',
+        receipt_email: 'dispute_test@stripe.com',
       },
       {
         stripeAccount: accountId,
