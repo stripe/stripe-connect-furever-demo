@@ -81,6 +81,7 @@ export async function POST(req: NextRequest) {
         enabled: true,
         features: {
           money_movement: true,
+          external_account_collection: !isCustom,
         },
       },
       financial_account_transactions: {
