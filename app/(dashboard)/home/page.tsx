@@ -18,7 +18,6 @@ export default function Dashboard() {
     redirect('/');
   }
 
-  // Until callback is called, we dont want margins
   const [total, setTotal] = useState(0);
 
   const name = session.user.stripeAccount.individual?.first_name;
@@ -31,15 +30,10 @@ export default function Dashboard() {
     total: number;
     actionRequired: number;
   }) => {
-    console.log('callback works');
-    console.log(response);
-
     if (response && response.total > 0) {
-      // setMargins('flex w-full flex-1 flex-col p-5');
       setTotal(response.total);
       setShowBanner(true);
     } else {
-      // setMargins('invisible w-full bg-transparent');
       setTotal(response.total);
       setShowBanner(false);
     }
