@@ -191,7 +191,7 @@ const QuickstartButton = () => {
     const passwordWords = generate({exactly: 2, minLength: 5, maxLength: 12});
 
     await signIn('createprefilledaccount', {
-      email: `${salonName}_${emailNumber}@stripe.com`,
+      email: `${salonName}_${emailNumber}@furever.com`,
       password: `${passwordWords[0]}-${passwordWords[1]}-${passwordNumber}`,
       businessName: salonName,
       callbackUrl: '/home?shownux=true',

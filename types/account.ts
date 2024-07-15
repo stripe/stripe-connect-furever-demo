@@ -1,8 +1,4 @@
-export const businessTypes = [
-  'independent_salon',
-  'chain_of_salons',
-  'other',
-] as const;
+export const businessTypes = ['individual', 'company', 'other'] as const;
 export type BusinessType = (typeof businessTypes)[number];
 
 export const countries = [
