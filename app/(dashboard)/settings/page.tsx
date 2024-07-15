@@ -21,8 +21,33 @@ export default function Settings() {
 
   const canShowPassword = !session?.user.changedPassword;
 
+  const [showBanner, setShowBanner] = React.useState(false);
+
+  const renderConditionallyCallback = (response: {
+    total: number;
+    actionRequired: number;
+  }) => {
+    if (response && response.total > 0) {
+      setShowBanner(true);
+    } else {
+      setShowBanner(false);
+    }
+  };
+
   return (
     <>
+      <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
+        <EmbeddedComponentContainer
+          componentName="NotificationBanner"
+          className="overflow-hidden rounded-lg px-0 py-0 pb-1"
+        >
+          <ConnectNotificationBanner
+            onNotificationsChange={renderConditionallyCallback}
+          />
+        </EmbeddedComponentContainer>
+        {/* </Container> */}
+      </div>
+
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
@@ -69,10 +94,6 @@ export default function Settings() {
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <EmbeddedComponentContainer componentName="NotificationBanner">
-            <ConnectNotificationBanner />
-          </EmbeddedComponentContainer>
-
           <EmbeddedComponentContainer componentName="AccountManagement">
             <ConnectAccountManagement />
           </EmbeddedComponentContainer>
