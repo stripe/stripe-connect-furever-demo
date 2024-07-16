@@ -45,7 +45,6 @@ export default function Settings() {
             onNotificationsChange={renderConditionallyCallback}
           />
         </EmbeddedComponentContainer>
-        {/* </Container> */}
       </div>
 
       <Container className="pl-5">

@@ -18,8 +18,6 @@ export default function Dashboard() {
     redirect('/');
   }
 
-  const [total, setTotal] = useState(0);
-
   const name = session.user.stripeAccount.individual?.first_name;
 
   const BREAKPOINT = 1190;
@@ -31,10 +29,8 @@ export default function Dashboard() {
     actionRequired: number;
   }) => {
     if (response && response.total > 0) {
-      setTotal(response.total);
       setShowBanner(true);
     } else {
-      setTotal(response.total);
       setShowBanner(false);
     }
   };
@@ -51,10 +47,8 @@ export default function Dashboard() {
             onNotificationsChange={renderConditionallyCallback}
           />
         </EmbeddedComponentContainer>
-        {/* </Container> */}
       </div>
 
-      {/* // end */}
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">
           <Schedule />
