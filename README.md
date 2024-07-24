@@ -17,13 +17,23 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 
 The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded components will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
 
-FurEver makes use of the following Connect embedded components:
+FurEver makes use of the following [Connect embedded components](https://docs.corp.stripe.com/connect/supported-embedded-components):
 
 - `<ConnectOnboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
 - `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
 - `<ConnectPayouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
 - `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
 - `<ConnectNotificationBanner />` displays a list of current and future risk requirements an account needs to resolve.
+- `<ConnectDocuments />` displays a list of tax invoice documents.
+- `<ConnectTaxSettings />` allows users to [set up Stripe Tax](https://docs.corp.stripe.com/tax/set-up).
+- `<ConnectTaxRegistrations />` allows users to control their tax compliance settings.
+
+Additionally, the following [beta components](https://docs.corp.stripe.com/connect/supported-embedded-components#beta-components) are also used:
+
+- `<ConnectCapitalOverview />` **beta** allows users to check their eligibility for financing, get an overview of their in-progress financing, and access the reporting page to review paydown transactions.
+- `<ConnectFinancialAccount />` **beta** renders a view of an individual [Financial Account](https://docs.corp.stripe.com/api/treasury/financial_accounts)
+- `<ConnectFinancialAccountTransactions />` **beta** provides a list of transactions associated with a financial account.
+- `<ConnectIssuingCardsList />` **beta** provides a list of all the cards issued.
 
 ### Architecture
 
