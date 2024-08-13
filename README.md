@@ -1,6 +1,6 @@
 # FurEver: Stripe Connect embedded components demo
 
-FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e business operations. FurEver wants to provide access to Stripe products and UIs directly in their website, at a fraction of the engineering cost, using [Stripe Connect](https://stripe.com/connect) and [Stripe Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components).
+FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e business operations. FurEver wants to provide access to Stripe products and UIs directly in their website, at a fraction of the engineering cost, using [Stripe Connect](https://stripe.com/connect) and [Stripe Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components).
 
 **See a live version on [furever.dev](https://furever.dev).**
 
@@ -8,7 +8,7 @@ FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e 
 
 ## Features
 
-FurEver showcases the integration between a platform's website, [Stripe Connect](https://stripe.com/connect), and [Stripe Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components). Users sign up within the platform's website and through the process, a corresponding Stripe unified account is created with the following configuration:
+FurEver showcases the integration between a platform's website, [Stripe Connect](https://stripe.com/connect), and [Stripe Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components). Users sign up within the platform's website and through the process, a corresponding Stripe unified account is created with the following configuration:
 
 - Stripe owns loss liability
 - Platform owns pricing
@@ -17,7 +17,7 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 
 The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded components will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
 
-FurEver makes use of the following [Connect embedded components](https://docs.corp.stripe.com/connect/supported-embedded-components):
+FurEver makes use of the following [Connect embedded components](https://docs.stripe.com/connect/supported-embedded-components):
 
 - `<ConnectOnboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
 - `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
@@ -25,13 +25,13 @@ FurEver makes use of the following [Connect embedded components](https://docs.co
 - `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
 - `<ConnectNotificationBanner />` displays a list of current and future risk requirements an account needs to resolve.
 - `<ConnectDocuments />` displays a list of tax invoice documents.
-- `<ConnectTaxSettings />` allows users to [set up Stripe Tax](https://docs.corp.stripe.com/tax/set-up).
+- `<ConnectTaxSettings />` allows users to [set up Stripe Tax](https://docs.stripe.com/tax/set-up).
 - `<ConnectTaxRegistrations />` allows users to control their tax compliance settings.
 
-Additionally, the following [beta components](https://docs.corp.stripe.com/connect/supported-embedded-components#beta-components) are also used:
+Additionally, the following [beta components](https://docs.stripe.com/connect/supported-embedded-components#beta-components) are also used:
 
 - `<ConnectCapitalOverview />` **beta** allows users to check their eligibility for financing, get an overview of their in-progress financing, and access the reporting page to review paydown transactions.
-- `<ConnectFinancialAccount />` **beta** renders a view of an individual [Financial Account](https://docs.corp.stripe.com/api/treasury/financial_accounts)
+- `<ConnectFinancialAccount />` **beta** renders a view of an individual [Financial Account](https://docs.stripe.com/api/treasury/financial_accounts)
 - `<ConnectFinancialAccountTransactions />` **beta** provides a list of transactions associated with a financial account.
 - `<ConnectIssuingCardsList />` **beta** provides a list of all the cards issued.
 
@@ -45,7 +45,7 @@ This demo is built with
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
 
-To integrate Stripe Connect embedded components, check out our [documentation](https://stripe.com/docs/connect/get-started-connect-embedded-components).
+To integrate Stripe Connect embedded components, check out our [documentation](https://docs.stripe.com/connect/get-started-connect-embedded-components).
 
 1. [`hooks/useConnect.ts`](client/hooks/Connect.tsx) shows the client side integration with Connect embedded components.
 2. [`api/account_session/route.ts`](server/routes/stripe.ts) shows the server request to `v1/account_sessions`.
