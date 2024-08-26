@@ -46,7 +46,6 @@ export const countries = [
   'HU',
   'IS',
   'IN',
-  'ID',
   'IE',
   'IL',
   'IT',
