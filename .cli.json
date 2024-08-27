@@ -1,0 +1,11 @@
+{
+  "name": "stripe-connect-furever-demo",
+  "configureDotEnv": true,
+  "integrations": [
+    {
+      "name": "main",
+      "clients": ["react-cra"],
+      "servers": ["node"]
+    }
+  ]
+}
