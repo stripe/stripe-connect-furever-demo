@@ -4,8 +4,6 @@
   "integrations": [
     {
       "name": "main",
-      "clients": ["react-cra"],
-      "servers": ["node"]
     }
   ]
 }
