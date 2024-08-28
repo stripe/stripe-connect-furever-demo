@@ -3,7 +3,7 @@
   "configureDotEnv": true,
   "integrations": [
     {
-      "name": "main",
+      "name": "main"
     }
   ]
 }
