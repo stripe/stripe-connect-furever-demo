@@ -235,7 +235,7 @@ export async function POST(req: NextRequest) {
                 confirm: true,
                 ...(status === 'card_uncaptured'
                   ? {
-                      capture_method: 'manual', // https://stripeSdk.com/docs/payments/place-a-hold-on-a-payment-method
+                      capture_method: 'manual', // https://stripe.com/docs/payments/place-a-hold-on-a-payment-method
                     }
                   : {}),
               },
