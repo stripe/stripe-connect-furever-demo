@@ -28,12 +28,12 @@ FurEver makes use of the following [Connect embedded components](https://docs.st
 - `<ConnectTaxSettings />` allows users to [set up Stripe Tax](https://docs.stripe.com/tax/set-up).
 - `<ConnectTaxRegistrations />` allows users to control their tax compliance settings.
 
-Additionally, the following [beta components](https://docs.stripe.com/connect/supported-embedded-components#beta-components) are also used:
+Additionally, the following preview components are also used:
 
-- `<ConnectCapitalOverview />` **beta** allows users to check their eligibility for financing, get an overview of their in-progress financing, and access the reporting page to review paydown transactions.
-- `<ConnectFinancialAccount />` **beta** renders a view of an individual [Financial Account](https://docs.stripe.com/api/treasury/financial_accounts)
-- `<ConnectFinancialAccountTransactions />` **beta** provides a list of transactions associated with a financial account.
-- `<ConnectIssuingCardsList />` **beta** provides a list of all the cards issued.
+- `<ConnectCapitalOverview />` **preview** allows users to check their eligibility for financing, get an overview of their in-progress financing, and access the reporting page to review paydown transactions.
+- `<ConnectFinancialAccount />` **preview** renders a view of an individual [Financial Account](https://docs.stripe.com/api/treasury/financial_accounts)
+- `<ConnectFinancialAccountTransactions />` **preview** provides a list of transactions associated with a financial account.
+- `<ConnectIssuingCardsList />` **preview** provides a list of all the cards issued.
 
 ### Architecture
 
