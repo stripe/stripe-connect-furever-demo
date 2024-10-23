@@ -36,13 +36,21 @@ export default function SignupForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signIn('signup', {
+      const result = await signIn('signup', {
         email: values.email,
         password: values.password,
         redirect: false,
       });
 
-      router.push('/business');
+      if (result?.error) {
+        // Just assume the error is because the email is already in use
+        form.setError('root', {
+          type: 'manual',
+          message: 'The email is already in use.',
+        });
+      } else if (result?.ok) {
+        router.push('/business');
+      }
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
     }
@@ -106,6 +114,11 @@ export default function SignupForm() {
             </div>
           )}
         </Button>
+        {form.formState.errors.root && (
+          <p className="text-sm text-red-500">
+            {form.formState.errors.root.message}
+          </p>
+        )}
       </form>
     </Form>
   );
