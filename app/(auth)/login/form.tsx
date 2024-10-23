@@ -36,15 +36,26 @@ export default function LoginForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signIn('login', {
+      const result = await signIn('login', {
         email: values.email,
         password: values.password,
         redirect: false,
       });
 
-      router.push('/home');
+      if (result?.error) {
+        form.setError('root', {
+          type: 'manual',
+          message: 'Invalid email or password. Please try again.',
+        });
+      } else if (result?.ok) {
+        router.push('/home');
+      }
     } catch (error: any) {
       console.error('An error occurred when signing in', error);
+      form.setError('root', {
+        type: 'manual',
+        message: 'An unexpected error occurred. Please try again.',
+      });
     }
   };
 
@@ -108,6 +119,11 @@ export default function LoginForm() {
             </>
           )}
         </Button>
+        {form.formState.errors.root && (
+          <p className="text-sm text-red-500">
+            {form.formState.errors.root.message}
+          </p>
+        )}
       </form>
     </Form>
   );
