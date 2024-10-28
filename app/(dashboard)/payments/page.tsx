@@ -4,25 +4,38 @@ import * as React from 'react';
 import Container from '@/app/components/Container';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import {useSession} from 'next-auth/react';
-import {useGetCharges} from '@/app/hooks/useGetCharges';
+import {
+  ConnectComponentsProvider,
+  ConnectPayments,
+} from '@stripe/react-connect-js';
+import {loadConnectAndInitialize} from '@stripe/connect-js';
 
 export default function Payments() {
-  const {data: session} = useSession();
-
-  const {data: charges, isLoading, error} = useGetCharges();
-
-  if (!session) {
-    return <p>This page requires a session!</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
-
-  if (isLoading || !charges) {
-    return <p>Loading...</p>;
-  }
+  const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      // Fetch the AccountSession client secret
+      const response = await fetch('/api/account_session', {method: 'POST'});
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.log('An error occurred: ', error);
+        return undefined;
+      } else {
+        const {client_secret: clientSecret} = await response.json();
+        return clientSecret;
+      }
+    };
+    return loadConnectAndInitialize({
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+      fetchClientSecret: fetchClientSecret,
+      appearance: {
+        overlays: 'dialog',
+        variables: {
+          colorPrimary: '#625afa',
+        },
+      },
+    });
+  });
 
   return (
     <>
@@ -39,30 +52,14 @@ export default function Payments() {
       </div>
       <Container>
         <h1 className="text-xl font-bold">Recent payments</h1>
-        <p>Here&apos;s a (very basic) payments table:</p>
         <p>
           If you see no entries here, the account has no payments. You can use
           &quot;open tools&quot; -&gt; &quot;create test payments&quot; to
           create some.
         </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Amount</th>
-              <th>Customer</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {charges.map((charge) => (
-              <tr key={charge.id}>
-                <td>{charge.amount}</td>
-                <td>{charge.receipt_email}</td>
-                <td>{new Date(charge.created * 1000).toLocaleDateString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+          <ConnectPayments />
+        </ConnectComponentsProvider>
       </Container>
     </>
   );

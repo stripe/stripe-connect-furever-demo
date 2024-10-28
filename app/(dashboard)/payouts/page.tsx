@@ -1,16 +1,40 @@
 'use client';
 
 import Container from '@/app/components/Container';
+import {loadConnectAndInitialize} from '@stripe/connect-js';
+import {
+  ConnectComponentsProvider,
+  ConnectPayouts,
+} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import React from 'react';
 
 export default function Payouts() {
-  const {data: session} = useSession();
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setLoading(!session?.user.setup);
-  }, [session?.user.setup]);
+  const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      // Fetch the AccountSession client secret
+      const response = await fetch('/api/account_session', {method: 'POST'});
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.log('An error occurred: ', error);
+        return undefined;
+      } else {
+        const {client_secret: clientSecret} = await response.json();
+        return clientSecret;
+      }
+    };
+    return loadConnectAndInitialize({
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+      fetchClientSecret: fetchClientSecret,
+      appearance: {
+        overlays: 'dialog',
+        variables: {
+          colorPrimary: '#625afa',
+        },
+      },
+    });
+  });
 
   return (
     <>
@@ -19,7 +43,9 @@ export default function Payouts() {
       </div>
       <Container>
         <h1 className="ml-1 text-xl font-bold">Recent payouts</h1>
-        <p>TODO: Payouts go here!</p>
+        <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+          <ConnectPayouts />
+        </ConnectComponentsProvider>
       </Container>
     </>
   );
