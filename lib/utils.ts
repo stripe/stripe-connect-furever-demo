@@ -21,9 +21,9 @@ export function resolveControllerParams({
   paymentLosses,
   stripeDashboardType,
 }: {
-  feePayer: {};
-  paymentLosses: {};
-  stripeDashboardType: {};
+  feePayer: Stripe.AccountCreateParams.Controller.Fees.Payer;
+  paymentLosses: Stripe.AccountCreateParams.Controller.Losses.Payments;
+  stripeDashboardType: Stripe.AccountCreateParams.Controller.StripeDashboard.Type;
 }): Stripe.AccountCreateParams.Controller {
   return {
     fees: {

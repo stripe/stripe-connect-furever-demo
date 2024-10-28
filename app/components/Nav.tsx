@@ -51,7 +51,6 @@ const navigationMenuItems = [
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
-    paths: ['/settings/documents', '/settings/tax'],
   },
 ];
 
@@ -96,7 +95,7 @@ const Nav = () => {
               <Link href={item.href}>
                 <Button
                   className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
-                    pathname === item.href || item.paths.includes(pathname)
+                    pathname === item.href
                       ? 'bg-accent-subdued text-accent'
                       : 'bg-foreground'
                   }`}
@@ -107,7 +106,7 @@ const Nav = () => {
                     className="mr-2"
                     size={20}
                     color={`${
-                      pathname === item.href || item.paths.includes(pathname)
+                      pathname === item.href
                         ? 'var(--accent)'
                         : 'var(--primary)'
                     }`}

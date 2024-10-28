@@ -6,11 +6,14 @@ import './globals.css';
 import NextAuthProvider from './auth';
 import DebugMenu from '@/app/components/debug/DebugMenu';
 import {SettingsProvider} from '@/app/contexts/settings';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
 });
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -28,12 +31,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <NextAuthProvider>
-          <SettingsProvider>
-            {children}
-            <DebugMenu />
-          </SettingsProvider>
-        </NextAuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <NextAuthProvider>
+            <SettingsProvider>
+              {children}
+              <DebugMenu />
+            </SettingsProvider>
+          </NextAuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

@@ -5,14 +5,24 @@ import Container from '@/app/components/Container';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import {useSession} from 'next-auth/react';
+import {useGetCharges} from '@/app/hooks/useGetCharges';
 
 export default function Payments() {
   const {data: session} = useSession();
-  const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    setLoading(!session?.user.setup);
-  }, [session?.user.setup]);
+  const {data: charges, isLoading, error} = useGetCharges();
+
+  if (!session) {
+    return <p>This page requires a session!</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  if (isLoading || !charges) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -29,7 +39,30 @@ export default function Payments() {
       </div>
       <Container>
         <h1 className="text-xl font-bold">Recent payments</h1>
-        <p>TODO: Payments go here!</p>
+        <p>Here&apos;s a (very basic) payments table:</p>
+        <p>
+          If you see no entries here, the account has no payments. You can use
+          &quot;open tools&quot; -&gt; &quot;create test payments&quot; to
+          create some.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Customer</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {charges.map((charge) => (
+              <tr key={charge.id}>
+                <td>{charge.amount}</td>
+                <td>{charge.receipt_email}</td>
+                <td>{new Date(charge.created * 1000).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </Container>
     </>
   );

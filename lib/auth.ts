@@ -246,7 +246,10 @@ export const authOptions: AuthOptions = {
             console.log('Could not find an existing user for the email', email);
             return null;
           }
-          console.log('Creating stripe account for the email', email);
+          console.log(
+            'Creating stripe account for the email (quick account create option)',
+            email
+          );
           // TODO: configure how Stripe account is created...
           const account = await stripe.accounts.create({
             country: 'US',
@@ -394,31 +397,11 @@ export const authOptions: AuthOptions = {
           }
 
           console.log('Creating stripe account for the email', email);
-          const account = await stripe.accounts.create({
-            country: credentials?.country || 'US',
-            business_type: businessType,
-            business_profile: {
-              name: credentials?.businessName || 'Furever Pet Salon',
-            },
-            email: email,
-            controller: resolveControllerParams({
-              feePayer: credentials.feePayer,
-              paymentLosses: credentials.paymentLosses,
-              stripeDashboardType: credentials.stripeDashboardType,
-            }),
-            ...(credentials.stripeDashboardType === 'full'
-              ? {}
-              : {
-                  capabilities: {
-                    card_payments: {
-                      requested: true,
-                    },
-                    transfers: {
-                      requested: true,
-                    },
-                  },
-                }),
-          });
+          const account = await createStripeAccount(
+            email,
+            businessType,
+            credentials
+          );
           console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;
@@ -490,3 +473,41 @@ export const authOptions: AuthOptions = {
     }),
   ],
 };
+async function createStripeAccount(
+  email: string,
+  businessType: undefined,
+  credentials: Record<
+    | 'businessName'
+    | 'email'
+    | 'country'
+    | 'businessType'
+    | 'stripeDashboardType'
+    | 'paymentLosses'
+    | 'feePayer',
+    string
+  >
+): Promise<Stripe.Account> {
+  return await stripe.accounts.create({
+    country: credentials?.country || 'US',
+    business_type: businessType,
+    business_profile: {
+      name: credentials?.businessName || 'Furever Pet Salon',
+    },
+    email: email,
+    // We hardcode an account with no dashboard, where the platform owns payment losses and fees
+    controller: resolveControllerParams({
+      feePayer: 'application',
+      paymentLosses: 'application',
+      stripeDashboardType: 'none',
+    }),
+    // We default to rquesting payments and transfers
+    capabilities: {
+      card_payments: {
+        requested: true,
+      },
+      transfers: {
+        requested: true,
+      },
+    },
+  });
+}

@@ -42,6 +42,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
+    "react-query": "^3.39.3",
     "sharp": "^0.33.4",
     "stripe": "^17.2.1",
     "tailwind-merge": "^2.2.2",

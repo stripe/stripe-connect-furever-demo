@@ -18,11 +18,7 @@ export default function SettingsLayout({
         <div className="mt-4 flex flex-row md:mt-0">
           <SubNav
             base="/settings"
-            routes={[
-              {path: '/settings', label: 'General'},
-              {path: '/settings/documents', label: 'Documents'},
-              {path: '/settings/tax', label: 'Tax'},
-            ]}
+            routes={[{path: '/settings', label: 'General'}]}
           />
           <div>
             <Button
