@@ -247,6 +247,7 @@ export const authOptions: AuthOptions = {
             return null;
           }
           console.log('Creating stripe account for the email', email);
+          // TODO: configure how Stripe account is created...
           const account = await stripe.accounts.create({
             country: 'US',
             email: email,

@@ -1,13 +1,10 @@
 'use client';
 import React from 'react';
-import {useState} from 'react';
 import Schedule from '@/app/components/Schedule';
 import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
@@ -20,34 +17,10 @@ export default function Dashboard() {
 
   const name = session.user.stripeAccount.individual?.first_name;
 
-  const BREAKPOINT = 1190;
-
-  const [showBanner, setShowBanner] = React.useState(false);
-
-  const renderConditionallyCallback = (response: {
-    total: number;
-    actionRequired: number;
-  }) => {
-    if (response && response.total > 0) {
-      setShowBanner(true);
-    } else {
-      setShowBanner(false);
-    }
-  };
-
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
-      <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
-        <EmbeddedComponentContainer
-          componentName="NotificationBanner"
-          className="overflow-hidden rounded-lg px-0 py-0 pb-1"
-        >
-          <ConnectNotificationBanner
-            onNotificationsChange={renderConditionallyCallback}
-          />
-        </EmbeddedComponentContainer>
-      </div>
+      <p>TODO: The banner would go here!</p>
 
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">

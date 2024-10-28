@@ -2,7 +2,6 @@
 
 import {useSession} from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import Stripe from '@/public/stripe-gray.svg';
 import {
@@ -19,25 +18,13 @@ import {
   X,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import FureverLogo from '@/public/furever_logo.png';
-import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from '@/components/ui/select';
-import {RadioGroup, RadioGroupItem} from '@/components/ui/radiogroup';
 import {Sparkles} from 'lucide-react';
-import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
-import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
@@ -50,7 +37,6 @@ const ToolsPanel = () => {
   const stripeAccount = session?.user?.stripeAccount;
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
-  const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
   const {handleOpenChange} = useToolsContext();
   const [border, setBorder] = React.useState(true);
   const [theme, setTheme] = React.useState('light');
@@ -118,17 +104,6 @@ const ToolsPanel = () => {
   const DefaultTools = () => {
     return (
       <div className="my-6 flex flex-col gap-y-4 text-lg font-medium">
-        <div className="flex flex-row items-center justify-between rounded-lg">
-          <Label className="text-left" htmlFor="outline">
-            Component outlines
-          </Label>
-          <Switch
-            className="data-[state=checked]:bg-accent data-[state=unchecked]:bg-[#EBEEF1]"
-            id="outline"
-            checked={border}
-            onCheckedChange={() => handleEnableBorderChange(!border)}
-          />
-        </div>
         <div className="flex flex-row items-center justify-between">
           <Label className="text-left" htmlFor="theme">
             Theme
@@ -150,10 +125,6 @@ const ToolsPanel = () => {
       </div>
     );
   };
-
-  React.useEffect(() => {
-    setBorder(enableBorder);
-  }, [enableBorder]);
 
   return (
     <div className="flex h-full w-full flex-col justify-between bg-tools-background p-5">

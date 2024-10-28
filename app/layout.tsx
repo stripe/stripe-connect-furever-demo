@@ -6,7 +6,6 @@ import './globals.css';
 import NextAuthProvider from './auth';
 import DebugMenu from '@/app/components/debug/DebugMenu';
 import {SettingsProvider} from '@/app/contexts/settings';
-import {EmbeddedComponentBorderProvider} from '@/app/hooks/EmbeddedComponentBorderProvider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -31,9 +30,7 @@ export default function RootLayout({
       >
         <NextAuthProvider>
           <SettingsProvider>
-            <EmbeddedComponentBorderProvider>
-              {children}
-            </EmbeddedComponentBorderProvider>
+            {children}
             <DebugMenu />
           </SettingsProvider>
         </NextAuthProvider>

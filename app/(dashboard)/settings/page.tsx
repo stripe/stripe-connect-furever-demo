@@ -1,13 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  ConnectPaymentMethodSettings,
-  ConnectAccountManagement,
-  ConnectNotificationBanner,
-} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
@@ -21,31 +15,9 @@ export default function Settings() {
 
   const canShowPassword = !session?.user.changedPassword;
 
-  const [showBanner, setShowBanner] = React.useState(false);
-
-  const renderConditionallyCallback = (response: {
-    total: number;
-    actionRequired: number;
-  }) => {
-    if (response && response.total > 0) {
-      setShowBanner(true);
-    } else {
-      setShowBanner(false);
-    }
-  };
-
   return (
     <>
-      <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
-        <EmbeddedComponentContainer
-          componentName="NotificationBanner"
-          className="overflow-hidden rounded-lg px-0 py-0 pb-1"
-        >
-          <ConnectNotificationBanner
-            onNotificationsChange={renderConditionallyCallback}
-          />
-        </EmbeddedComponentContainer>
-      </div>
+      <p>TODO: banner is here</p>
 
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
@@ -93,9 +65,7 @@ export default function Settings() {
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <EmbeddedComponentContainer componentName="AccountManagement">
-            <ConnectAccountManagement />
-          </EmbeddedComponentContainer>
+          <p>TODO: account management goes here</p>
         </div>
       </Container>
 
@@ -104,9 +74,8 @@ export default function Settings() {
           <h1 className="text-xl font-semibold">Payment methods</h1>
           <h2 className="text-subdued">Add and manage your payment methods.</h2>
         </header>
-        <EmbeddedComponentContainer componentName="PaymentMethodSettings">
-          <ConnectPaymentMethodSettings />
-        </EmbeddedComponentContainer>
+        <p>TODO: payment methods go here</p>
+        <p>TODO: simple payments list implementation...</p>
       </Container>
     </>
   );
