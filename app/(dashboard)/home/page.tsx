@@ -20,7 +20,6 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-3xl font-bold">Woof woof, {name || 'human'}!</h1>
-      <p>TODO: The banner would go here!</p>
 
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">

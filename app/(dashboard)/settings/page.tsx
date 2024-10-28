@@ -17,8 +17,6 @@ export default function Settings() {
 
   return (
     <>
-      <p>TODO: banner is here</p>
-
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
@@ -67,15 +65,6 @@ export default function Settings() {
         <div className="flex flex-col space-y-4">
           <p>TODO: account management goes here</p>
         </div>
-      </Container>
-
-      <Container>
-        <header className="mb-5 ml-2">
-          <h1 className="text-xl font-semibold">Payment methods</h1>
-          <h2 className="text-subdued">Add and manage your payment methods.</h2>
-        </header>
-        <p>TODO: payment methods go here</p>
-        <p>TODO: simple payments list implementation...</p>
       </Container>
     </>
   );

@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create an account link',
+      'An error occurred when calling the Stripe API to list charges',
       error
     );
     return new Response(JSON.stringify({error: error.message}), {status: 500});
