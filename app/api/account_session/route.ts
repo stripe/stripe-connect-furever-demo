@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         enabled: true,
         features: {
           money_movement: true,
-          external_account_collection: !isCustom,
+          disable_stripe_user_authentication: isCustom,
         },
       },
       financial_account_transactions: {
@@ -105,24 +105,30 @@ export async function POST(req: NextRequest) {
             instant_payouts: true,
             standard_payouts: true,
             edit_payout_schedule: true,
-            external_account_collection: !isCustom,
+            disable_stripe_user_authentication: isCustom,
           },
         },
         // Connect
         account_management: {
           enabled: true,
-          features: {external_account_collection: !isCustom},
+          features: {
+            disable_stripe_user_authentication: isCustom,
+          },
         },
         account_onboarding: {
           enabled: true,
-          features: {external_account_collection: !isCustom},
+          features: {
+            disable_stripe_user_authentication: isCustom,
+          },
         },
         // @ts-ignore
         payment_method_settings: {enabled: true},
         documents: {enabled: true},
         notification_banner: {
           enabled: true,
-          features: {external_account_collection: !isCustom},
+          features: {
+            disable_stripe_user_authentication: isCustom,
+          },
         },
         capital_overview: {
           enabled: true,
