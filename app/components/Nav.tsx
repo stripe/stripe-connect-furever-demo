@@ -48,16 +48,6 @@ const navigationMenuItems = [
     paths: [],
   },
   {
-    label: 'Finances',
-    href: '/finances',
-    icon: LandmarkIcon,
-    paths: ['/finances/cards'],
-    shouldDisplayFilter: (stripeAccount: Stripe.Account) =>
-      stripeAccount.controller?.stripe_dashboard?.type === 'none' &&
-      stripeAccount.controller?.losses?.payments === 'application' &&
-      stripeAccount.controller?.requirement_collection === 'application',
-  },
-  {
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,
@@ -101,41 +91,32 @@ const Nav = () => {
         className={`${showMobileNavItems ? 'flex' : 'hidden'} w-full flex-1 p-2 pb-3 shadow-xl transition sm:flex sm:p-0 sm:shadow-none`}
       >
         <ul className="w-full flex-col">
-          {navigationMenuItems
-            .filter(({shouldDisplayFilter}) => {
-              // Not all pages require a filter.
-              if (!shouldDisplayFilter || !stripeAccount) {
-                return true;
-              }
-
-              return shouldDisplayFilter(stripeAccount);
-            })
-            .map((item) => (
-              <li key={item.label} className="p-1">
-                <Link href={item.href}>
-                  <Button
-                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
+          {navigationMenuItems.map((item) => (
+            <li key={item.label} className="p-1">
+              <Link href={item.href}>
+                <Button
+                  className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
+                    pathname === item.href || item.paths.includes(pathname)
+                      ? 'bg-accent-subdued text-accent'
+                      : 'bg-foreground'
+                  }`}
+                  onClick={() => setShowMobileNavItems(false)}
+                  tabIndex={-1}
+                >
+                  <item.icon
+                    className="mr-2"
+                    size={20}
+                    color={`${
                       pathname === item.href || item.paths.includes(pathname)
-                        ? 'bg-accent-subdued text-accent'
-                        : 'bg-foreground'
+                        ? 'var(--accent)'
+                        : 'var(--primary)'
                     }`}
-                    onClick={() => setShowMobileNavItems(false)}
-                    tabIndex={-1}
-                  >
-                    <item.icon
-                      className="mr-2"
-                      size={20}
-                      color={`${
-                        pathname === item.href || item.paths.includes(pathname)
-                          ? 'var(--accent)'
-                          : 'var(--primary)'
-                      }`}
-                    />{' '}
-                    {item.label}
-                  </Button>
-                </Link>
-              </li>
-            ))}
+                  />{' '}
+                  {item.label}
+                </Button>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <div
