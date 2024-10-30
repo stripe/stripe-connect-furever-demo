@@ -27,6 +27,17 @@ export async function POST(req: NextRequest) {
         },
         payouts: {
           enabled: true,
+          features: {
+            // Disable the authenticate user step for a more streamlined
+            disable_stripe_user_authentication: true,
+          },
+        },
+        account_onboarding: {
+          enabled: true,
+          features: {
+            // Disable the authenticate user step for a more streamlined
+            disable_stripe_user_authentication: true,
+          },
         },
       },
     });
