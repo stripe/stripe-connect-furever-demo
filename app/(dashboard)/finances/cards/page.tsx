@@ -9,7 +9,7 @@ export default function Finances() {
     <Container>
       <h1 className="mb-1 ml-2 text-xl font-bold">Cards</h1>
       <EmbeddedComponentContainer componentName="IssuingCardsList">
-        <ConnectIssuingCardsList />
+        <ConnectIssuingCardsList showSpendControls />
       </EmbeddedComponentContainer>
     </Container>
   );
