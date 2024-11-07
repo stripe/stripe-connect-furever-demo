@@ -4,29 +4,31 @@ import React from 'react';
 import {useSession} from 'next-auth/react';
 import {useCreateAccountLink} from '@/app/hooks/useCreateAccountLink';
 import {Link} from '@/components/ui/link';
+import {
+  ConnectAccountOnboarding,
+  ConnectComponentsProvider,
+} from '@stripe/react-connect-js';
+import {loadConnectAndInitialize} from '@stripe/connect-js';
+
 
 export default function Onboarding() {
-  const {data: session} = useSession();
-  const stripeAccount = session?.user.stripeAccount;
+  const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      // Fetch the AccountSession client secret
+      const response = await fetch('/api/account_session', {method: 'POST'});
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.log('An error occurred: ', error);
+        return undefined;
+      } else {
+        const {client_secret: clientSecret} = await response.json();
+        return clientSecret;
+      }
+    };
 
-  const accountLink = useCreateAccountLink();
+    //TODO Return StripeConnectInstance to create embedded components 
+  });
 
-  if (accountLink.isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (accountLink.error) {
-    return <p>Error: {accountLink.error.message}</p>;
-  }
-
-  return (
-    <div className="flex flex-col gap-y-[24px]">
-      <div className="text-secondary">
-        Go to the{' '}
-        <Link href={accountLink.data?.url} className="font-medium text-accent">
-          Onboarding UI for account {stripeAccount?.id}
-        </Link>
-      </div>
-    </div>
-  );
+  //TODO Add Connect Account onboarding component
 }

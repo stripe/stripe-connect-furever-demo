@@ -51,7 +51,7 @@ export default function Settings() {
           </div>
         </div>
       </Container>
-      <Container>
+      {/* <Container>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col items-start justify-between sm:flex-row">
             <header className="mb-5 ml-2">
@@ -65,7 +65,7 @@ export default function Settings() {
         <div className="flex flex-col space-y-4">
           <p>TODO: account management goes here</p>
         </div>
-      </Container>
+      </Container> */}
     </>
   );
 }
