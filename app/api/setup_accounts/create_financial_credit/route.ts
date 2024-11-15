@@ -5,7 +5,7 @@ import {NextRequest} from 'next/server';
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
-  const {financial_account} = json;
+  const {financialAccount} = json;
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       {
         amount: 1000,
         currency: 'usd',
-        financial_account: financial_account,
+        financial_account: financialAccount,
         network: 'ach',
       },
       {
