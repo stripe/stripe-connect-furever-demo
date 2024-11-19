@@ -78,7 +78,7 @@ yarn dev
 Go to `http://localhost:{process.env.PORT}` in your browser to start using the app.
 
 ## Add Connect embedded components
-### Create Connect embedded components session  
+### Connect embedded components session  
 
 - Create an account session in app/api/account_session/route.ts
 
@@ -117,7 +117,7 @@ return new Response(JSON.stringify(accountSession), {
 });
 ```
 
-### Add Connect Onboarding component
+### Connect Onboarding component
 - Load StripeConnectInstance in app/(auth)/onboarding/page.tsx
 ```js
 // Fetch StripeConnectInstance to create embedded components
@@ -148,7 +148,7 @@ return (
 
 - Onboard new salon
 
-### Add Connect Payments component
+### Connect Payments component
 - Create test payments in the application
 
 - Load StripeConnectInstance in app/(dashboard)/payments/page.tsx
@@ -190,7 +190,7 @@ const [stripeConnectInstance] = React.useState(() => {
 
 - Test Payments component with successful, declined and disputed payments
 
-### Add Connect Payouts component
+### Connect Payouts component
 - Create test payout in the application
 - Load StripeConnectInstance in app/(dashboard)/payouts/page.tsx
 ```js
@@ -228,4 +228,4 @@ const [stripeConnectInstance] = React.useState(() => {
     <ConnectPayouts />
 </ConnectComponentsProvider>
 ```
-- Test Payouts component
+- Test Payouts component in the application
