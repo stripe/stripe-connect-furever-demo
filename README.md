@@ -1,8 +1,8 @@
-# FurEver: Stripe Connect embedded components demo
+# FurEver: Stripe Connect embedded components integration tutorial
 
 FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e business operations. FurEver wants to provide access to Stripe products and UIs directly in their website, at a fraction of the engineering cost, using [Stripe Connect](https://stripe.com/connect) and [Stripe Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components).
 
-**See a live version on [furever.dev](https://furever.dev).**
+**See a live version with embedded components on [furever.dev](https://furever.dev).**
 
 <img src="public/cover.png">
 
@@ -16,24 +16,6 @@ FurEver showcases the integration between a platform's website, [Stripe Connect]
 - The connected account has no access to the Stripe dashboard
 
 The user will then onboard with Stripe via embedded onboarding. Thereafter, Connect embedded components will provide the UI surfaces for account management and dashboard UI elements with just a few lines of code. The demo website also uses the Stripe API to create test payments and payouts. This app also contains a basic authentication system.
-
-FurEver makes use of the following [Connect embedded components](https://docs.stripe.com/connect/supported-embedded-components):
-
-- `<ConnectOnboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
-- `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
-- `<ConnectPayouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
-- `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
-- `<ConnectNotificationBanner />` displays a list of current and future risk requirements an account needs to resolve.
-- `<ConnectDocuments />` displays a list of tax invoice documents.
-- `<ConnectTaxSettings />` allows users to [set up Stripe Tax](https://docs.stripe.com/tax/set-up).
-- `<ConnectTaxRegistrations />` allows users to control their tax compliance settings.
-
-Additionally, the following preview components are also used:
-
-- `<ConnectCapitalOverview />` **preview** allows users to check their eligibility for financing, get an overview of their in-progress financing, and access the reporting page to review paydown transactions.
-- `<ConnectFinancialAccount />` **preview** renders a view of an individual [Financial Account](https://docs.stripe.com/api/treasury/financial_accounts)
-- `<ConnectFinancialAccountTransactions />` **preview** provides a list of transactions associated with a financial account.
-- `<ConnectIssuingCardsList />` **preview** provides a list of all the cards issued.
 
 ### Architecture
 
@@ -50,20 +32,28 @@ To integrate Stripe Connect embedded components, check out our [documentation](h
 1. [`hooks/useConnect.ts`](client/hooks/Connect.tsx) shows the client side integration with Connect embedded components.
 2. [`api/account_session/route.ts`](server/routes/stripe.ts) shows the server request to `v1/account_sessions`.
 
-## Requirements
 
-You'll need a Stripe account to manage pet salon onboarding and payments:
+## Getting started
 
-- [Sign up for free](https://dashboard.stripe.com/register), then [enable Connect](https://dashboard.stripe.com/account/applications/settings) by filling in your Connect settings.
-- Fill in the necessary information in the **Branding** section in [Connect settings](https://dashboard.stripe.com/test/settings/connect).
+(Optional) Install Node and Yarn if you need to:
 
-### Getting started
+```
+brew install nodenv
+nodenv install 18.20.2
+brew install yarn
+```
 
-Install dependencies using npm (or yarn):
+Install dependencies using yarn (or npm):
 
 ```
 yarn
 ```
+
+(Optional) Create a new Stripe account to manage pet salon onboarding and payments:
+
+- [Sign up for free](https://dashboard.stripe.com/register)
+- [Enable Connect](https://dashboard.stripe.com/account/applications/settings) by filling in your Connect settings.
+
 
 Copy the environment file and add your own [Stripe API keys](https://dashboard.stripe.com/account/apikeys):
 
@@ -86,3 +76,156 @@ yarn dev
 ```
 
 Go to `http://localhost:{process.env.PORT}` in your browser to start using the app.
+
+## Add Connect embedded components
+### Create Connect embedded components session  
+
+- Create an account session in app/api/account_session/route.ts
+
+```js 
+// Create an account session with embedded components
+const accountSession = await stripe.accountSessions.create({
+    account: stripeAccountId,
+    components: {
+    account_onboarding: {
+        enabled: true,
+        features: {
+            // Disable the authenticate user step
+            disable_stripe_user_authentication: true,
+        },
+    },
+    payments: {
+        enabled: true,
+        features: {
+            // Enable dispute and refund management
+            dispute_management: true,
+            refund_management: true,
+        },
+    },
+    payouts: {
+        enabled: true,
+        features: {
+            // Disable the authenticate user step
+            disable_stripe_user_authentication: true,
+        },
+    },
+    },
+});
+return new Response(JSON.stringify(accountSession), {
+    status: 200,
+    headers: {'Content-Type': 'application/json'},
+});
+```
+
+### Add Connect Onboarding component
+- Load StripeConnectInstance in app/(auth)/onboarding/page.tsx
+```js
+// Fetch StripeConnectInstance to create embedded components
+return loadConnectAndInitialize({
+    publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+    fetchClientSecret: fetchClientSecret,
+    appearance: {
+        overlays: 'dialog',
+        variables: {
+            colorPrimary: '#625afa',
+        },
+    },
+});
+```
+
+- Add Connect Account Onboarding component in app/(auth)/onboarding/page.tsx
+```js
+return (
+<ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+    <ConnectAccountOnboarding
+    onExit={() => {
+        window.location.href = '/home?shownux=true';
+    }}
+    />
+</ConnectComponentsProvider>
+);
+```
+
+- Onboard new salon
+
+### Add Connect Payments component
+- Create test payments in the application
+
+- Load StripeConnectInstance in app/(dashboard)/payments/page.tsx
+```js
+// Fetch StripeConnectInstance to create embedded components
+const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      // Fetch the AccountSession client secret
+      const response = await fetch('/api/account_session', {method: 'POST'});
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.log('An error occurred: ', error);
+        return undefined;
+      } else {
+        const {client_secret: clientSecret} = await response.json();
+        return clientSecret;
+      }
+    };
+    return loadConnectAndInitialize({
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+      fetchClientSecret: fetchClientSecret,
+      appearance: {
+        overlays: 'dialog',
+        variables: {
+          colorPrimary: '#625afa',
+        },
+      },
+    });
+});
+```
+
+- Add Connect Payments component in app/(dashboard)/payments/page.tsx
+```js
+<ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+    <ConnectPayments />
+</ConnectComponentsProvider>
+```
+
+- Test Payments component with successful, declined and disputed payments
+
+### Add Connect Payouts component
+- Create test payout in the application
+- Load StripeConnectInstance in app/(dashboard)/payouts/page.tsx
+```js
+// Fetch StripeConnectInstance to create embedded components
+const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      // Fetch the AccountSession client secret
+      const response = await fetch('/api/account_session', {method: 'POST'});
+      if (!response.ok) {
+        // Handle errors on the client side here
+        const {error} = await response.json();
+        console.log('An error occurred: ', error);
+        return undefined;
+      } else {
+        const {client_secret: clientSecret} = await response.json();
+        return clientSecret;
+      }
+    };
+    return loadConnectAndInitialize({
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
+      fetchClientSecret: fetchClientSecret,
+      appearance: {
+        overlays: 'dialog',
+        variables: {
+          colorPrimary: '#625afa',
+        },
+      },
+    });
+});
+```
+
+- Add Connect Payouts component in app/(dashboard)/payouts/page.tsx
+```js
+<ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+    <ConnectPayouts />
+</ConnectComponentsProvider>
+```
+- Test Payouts component
