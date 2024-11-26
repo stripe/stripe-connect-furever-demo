@@ -1709,7 +1709,7 @@ def generate_account_sessions(account):
     # Generate 5 account sessions to hide the support ticket API log
     for _ in range(5):
         try:
-            stripe.v2.core.accountsession.create(
+            stripe.AccountSession.create(
                 account=account.id, components={"account_onboarding": {"enabled": True}}
             )
         except stripe.error.StripeError as e:
