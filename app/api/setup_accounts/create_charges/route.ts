@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
             currency:
               !staticCurrencyPaymentMethods.includes(status) && currency
                 ? currency
-                : session?.user.stripeAccount.default_currency,
+                : session?.user.stripeAccount.defaults?.currency,
             name,
             email,
             customerId: customer.id,

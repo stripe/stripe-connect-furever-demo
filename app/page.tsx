@@ -45,7 +45,10 @@ const AuthButtons = () => {
     let buttonLink = '/';
     let buttonText = '';
 
-    if (session?.user?.stripeAccount?.details_submitted === false) {
+    if (
+      !session?.user?.stripeAccount?.identity?.attestations?.terms_of_service
+        ?.account
+    ) {
       // Stripe account created but onboarding not complete
       buttonLink = '/onboarding';
       buttonText = 'Continue onboarding';

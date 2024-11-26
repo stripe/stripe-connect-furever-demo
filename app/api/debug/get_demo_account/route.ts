@@ -6,7 +6,7 @@ export async function POST() {
     let demoAccountId: string | undefined = process.env.EXAMPLE_DEMO_ACCOUNT;
     if (!demoAccountId) {
       // Look for a demo account
-      const accounts = await stripe.accounts.list({
+      const accounts = await stripe.v2.core.accounts.list({
         limit: 20,
       });
       const demoAccount = accounts.data.find((account) => {
@@ -22,8 +22,10 @@ export async function POST() {
           metadata.restricted !== 'true' &&
           metadata.elevated_fraud !== 'true' &&
           metadata.high_fraud !== 'true' &&
-          account.charges_enabled &&
-          account.payouts_enabled
+          account.configuration?.merchant?.features?.card_payments?.status ===
+            'active' &&
+          account.configuration.recipient?.features?.stripe_balance
+            ?.stripe_transfers?.status === 'active'
         );
       });
       if (!demoAccount) {

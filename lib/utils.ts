@@ -1,12 +1,12 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
-import {Stripe} from 'stripe';
+import {Stripe} from '@stripe/stripe';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-function resolveStripeDashboardTypeParam(stripeDashboardType: {}): Stripe.AccountCreateParams.Controller.StripeDashboard.Type {
+export function resolveStripeDashboardTypeParam(stripeDashboardType: {}): Stripe.V2.Core.AccountCreateParams.Dashboard {
   if (stripeDashboardType === 'none') {
     return 'none';
   } else if (stripeDashboardType === 'express') {
@@ -16,28 +16,22 @@ function resolveStripeDashboardTypeParam(stripeDashboardType: {}): Stripe.Accoun
   }
 }
 
-export function resolveControllerParams({
-  feePayer,
+export function resolveResponsibilitiesParams({
+  feesCollector,
   paymentLosses,
-  stripeDashboardType,
 }: {
-  feePayer: {};
+  feesCollector: {};
   paymentLosses: {};
-  stripeDashboardType: {};
-}): Stripe.AccountCreateParams.Controller {
+}): Stripe.V2.Core.AccountCreateParams.Defaults.Responsibilities {
   return {
-    fees: {
-      payer: feePayer === 'application' ? 'application' : 'account',
-    },
-    losses: {
-      payments: paymentLosses === 'application' ? 'application' : 'stripe',
-    },
-    stripe_dashboard: {
-      type: resolveStripeDashboardTypeParam(stripeDashboardType),
-    },
-    requirement_collection:
-      paymentLosses === 'application' && stripeDashboardType === 'none'
-        ? 'application'
-        : 'stripe',
+    fees_collector: feesCollector === 'application' ? 'application' : 'stripe',
+    losses_collector:
+      paymentLosses === 'application' ? 'application' : 'stripe',
   };
+}
+
+export function resolveCountryParam(
+  country: string
+): Stripe.V2.Core.AccountCreateParams.Identity.Country {
+  return country.toLowerCase() as Stripe.V2.Core.AccountCreateParams.Identity.Country;
 }

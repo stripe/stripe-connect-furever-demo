@@ -18,7 +18,7 @@ export default function Dashboard() {
     redirect('/');
   }
 
-  const name = session.user.stripeAccount.individual?.first_name;
+  const name = session.user.stripeAccount.identity?.individual?.given_name;
 
   const BREAKPOINT = 1190;
 
