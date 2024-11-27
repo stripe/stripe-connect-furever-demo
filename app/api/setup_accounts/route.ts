@@ -11,12 +11,24 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount.id;
+    if (!accountId) {
+      throw new Error('Stripe account ID is undefined');
+    }
     while (true) {
-      const acc = await stripe.accounts.retrieve({stripeAccount: accountId});
-      if (
-        acc.requirements?.disabled_reason !==
-        'requirements.pending_verification'
-      ) {
+      const acc = await stripe.v2.core.accounts.retrieve(accountId, {
+        include: [
+          'configuration.customer',
+          'configuration.merchant',
+          'configuration.recipient',
+          'defaults',
+          'identity',
+          'requirements',
+        ],
+      });
+      const pendingVerification = !!acc.requirements?.entries?.find((req) => {
+        req.awaiting_action_from === 'stripe';
+      });
+      if (!pendingVerification) {
         break;
       }
     }

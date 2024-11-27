@@ -112,18 +112,68 @@ export const countries = [
   'VN',
 ] as const;
 export type Country = (typeof countries)[number];
-
-export const stripeDashboardTypes = ['none', 'full', 'express'] as const;
+export const currencyForCountry: Record<string, string> = {
+  AE: 'aed',
+  AT: 'eur',
+  AU: 'aud',
+  BE: 'eur',
+  BG: 'bgn',
+  BR: 'brl',
+  CA: 'cad',
+  CH: 'chf',
+  CI: 'xof',
+  CR: 'crc',
+  CY: 'eur',
+  CZ: 'czk',
+  DE: 'eur',
+  DK: 'dkk',
+  DO: 'dop',
+  EE: 'eur',
+  ES: 'eur',
+  FI: 'eur',
+  FR: 'eur',
+  GB: 'gbp',
+  GI: 'gbp',
+  GR: 'eur',
+  GT: 'gtq',
+  HK: 'hkd',
+  HR: 'eur',
+  HU: 'huf',
+  ID: 'idr',
+  IE: 'eur',
+  IN: 'inr',
+  IT: 'eur',
+  JP: 'jpy',
+  LI: 'chf',
+  LT: 'eur',
+  LU: 'eur',
+  LV: 'eur',
+  MT: 'eur',
+  MX: 'mxn',
+  MY: 'myr',
+  NL: 'eur',
+  NO: 'nok',
+  NZ: 'nzd',
+  PE: 'pen',
+  PH: 'php',
+  PL: 'pln',
+  PT: 'eur',
+  RO: 'ron',
+  SE: 'sek',
+  SG: 'sgd',
+  SI: 'eur',
+  SK: 'eur',
+  SN: 'xof',
+  TH: 'thb',
+  TT: 'ttd',
+  US: 'usd',
+  UY: 'uyu',
+};
+export const stripeDashboardTypes = ['none'] as const;
 export type StripeDashboardType = (typeof stripeDashboardTypes)[number];
 
 export const paymentLosses = ['stripe', 'application'] as const;
 export type PaymentLosses = (typeof paymentLosses)[number];
 
-export const feePayers = ['account', 'application'] as const;
-export type FeePayer = (typeof feePayers)[number];
-
-export type ControllerProperties = {
-  stripeDashboardType: StripeDashboardType;
-  paymentLosses: PaymentLosses;
-  feePayer: FeePayer;
-};
+export const feesCollector = ['stripe', 'application'] as const;
+export type FeesCollector = (typeof feesCollector)[number];

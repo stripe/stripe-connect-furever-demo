@@ -1,5 +1,5 @@
 import NextAuth, {DefaultSession} from 'next-auth';
-import Stripe from 'stripe';
+import Stripe from '@stripe/stripe';
 
 declare module 'next-auth' {
   /**
@@ -8,7 +8,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's Stripe account. */
-      stripeAccount: Stripe.Account;
+      stripeAccount: Stripe.V2.Core.Account;
       businessName?: string | null;
       password?: string | null;
       setup?: boolean;

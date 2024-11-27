@@ -1,8 +1,9 @@
-import {Stripe} from 'stripe';
+import {Stripe} from '@stripe/stripe';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 import {NextRequest} from 'next/server';
+import {defaultCurrency} from '@/lib/utils';
 
 const customers = [
   {
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
     const currency =
       params.currency && params.currency !== '_default'
         ? params.currency
-        : session?.user.stripeAccount.default_currency;
+        : defaultCurrency(session?.user.stripeAccount);
     const amount = params.amount
       ? parseFloat(params.amount) * 100
       : getRandomInt(4000, 12000);

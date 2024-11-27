@@ -34,7 +34,19 @@ export async function POST(req: NextRequest) {
       console.log(
         `Looking for the demo onboarding account ${accountId} for locale ${locale}`
       );
-      const demoOnboardingAccount = await stripe.accounts.retrieve(accountId);
+      const demoOnboardingAccount = await stripe.v2.core.accounts.retrieve(
+        accountId,
+        {
+          include: [
+            'configuration.customer',
+            'configuration.merchant',
+            'configuration.recipient',
+            'defaults',
+            'identity',
+            'requirements',
+          ],
+        }
+      );
       if (demoOnboardingAccount) {
         console.log(
           `Using demo onboarding account: ${demoOnboardingAccount.id}`
@@ -54,18 +66,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const account = await stripe.accounts.retrieve(stripeAccountId);
+    const account = await stripe.v2.core.accounts.retrieve(stripeAccountId, {
+      include: [
+        'configuration.customer',
+        'configuration.merchant',
+        'configuration.recipient',
+        'defaults',
+        'identity',
+        'requirements',
+      ],
+    });
 
     const isCustom =
-      account?.controller?.stripe_dashboard?.type === 'none' &&
-      account?.controller?.losses?.payments === 'application' &&
-      account?.controller?.requirement_collection === 'application';
+      account?.dashboard === 'none' &&
+      account?.defaults?.responsibilities?.losses_collector === 'application' &&
+      account?.defaults.responsibilities.fees_collector === 'application';
 
     // We can only request the components if the account has both issuing and treasury capabilities
-    const hasIssuingAndTreasury = ['card_issuing', 'treasury'].every(
-      (capability) =>
-        Object.keys(account?.capabilities || []).includes(capability)
-    );
+    const hasIssuingAndTreasury = false;
+    // TODO KUSHAL
+    // ['card_issuing', 'treasury'].every(
+    //   (capability) =>
+    //     Object.keys(account?.capabilities || []).includes(capability)
+    // );
     const issuingAndTreasuryComponents = {
       issuing_card: {
         enabled: true,
@@ -131,7 +154,7 @@ export async function POST(req: NextRequest) {
           },
         },
         // @ts-ignore
-        payment_method_settings: {enabled: true},
+        // payment_method_settings: {enabled: true},
         documents: {enabled: true},
         notification_banner: {
           enabled: true,
@@ -139,18 +162,18 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        capital_overview: {
-          enabled: true,
-        },
+        // capital_overview: {
+        //   enabled: true,
+        // },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
         // @ts-ignore
-        tax_settings: {
-          enabled: true,
-        },
-        // @ts-ignore
-        tax_registrations: {
-          enabled: true,
-        },
+        // tax_settings: {
+        //   enabled: true,
+        // },
+        // // @ts-ignore
+        // tax_registrations: {
+        //   enabled: true,
+        // },
       },
     });
 

@@ -3,8 +3,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
 import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
-import {resolveControllerParams} from './utils';
-import Stripe from 'stripe';
+import {
+  resolveCountryParam,
+  resolveResponsibilitiesParams,
+  resolveStripeDashboardTypeParam,
+} from './utils';
+import Stripe from '@stripe/stripe';
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -58,7 +62,19 @@ export const authOptions: AuthOptions = {
       let stripeAccount;
       if (salon.stripeAccountId) {
         try {
-          stripeAccount = await stripe.accounts.retrieve(salon.stripeAccountId);
+          stripeAccount = await stripe.v2.core.accounts.retrieve(
+            salon.stripeAccountId,
+            {
+              include: [
+                'configuration.customer',
+                'configuration.merchant',
+                'configuration.recipient',
+                'defaults',
+                'identity',
+                'requirements',
+              ],
+            }
+          );
         } catch (err) {
           console.error('Could not retrieve stripe account for user', err);
           throw err;
@@ -148,15 +164,26 @@ export const authOptions: AuthOptions = {
           user = await Salon.findOne({stripeAccountId: stripeAccountId});
           if (!user) {
             // See if they exist on the platform
-            const stripeAccount =
-              await stripe.accounts.retrieve(stripeAccountId);
-            if (stripeAccount?.email) {
+            const stripeAccount = await stripe.v2.core.accounts.retrieve(
+              stripeAccountId,
+              {
+                include: [
+                  'configuration.customer',
+                  'configuration.merchant',
+                  'configuration.recipient',
+                  'defaults',
+                  'identity',
+                  'requirements',
+                ],
+              }
+            );
+            if (stripeAccount?.contact_email) {
               // Create the account locally
               user = new Salon({
-                email: stripeAccount.email,
+                email: stripeAccount.contact_email,
                 password,
-                firstName: stripeAccount.individual?.first_name,
-                lastName: stripeAccount.individual?.last_name,
+                firstName: stripeAccount?.identity?.individual?.given_name,
+                lastName: stripeAccount.identity?.individual?.surname,
                 stripeAccountId: stripeAccountId,
               });
               console.log('Creating Salon...');
@@ -247,98 +274,110 @@ export const authOptions: AuthOptions = {
             return null;
           }
           console.log('Creating stripe account for the email', email);
-          const account = await stripe.accounts.create({
-            country: 'US',
-            email: email,
-            external_account: bankAccountToken,
-            controller: resolveControllerParams({
-              feePayer: 'application',
-              paymentLosses: 'application',
-              stripeDashboardType: 'none',
-            }),
-            business_type: 'individual',
-            business_profile: {
-              mcc: '7299',
-              name: credentials?.businessName || 'Furever',
-              product_description: 'Description',
-              support_address: {
-                line1: '354 Oyster Point Blvd',
-                city: 'South San Francisco',
-                state: 'CA',
-                postal_code: '94080',
+
+          const account = await stripe.v2.core.accounts.create({
+            contact_email: email,
+            configuration: {
+              merchant: {
+                mcc: '7299',
+                statement_descriptor: {
+                  descriptor: 'FurEver',
+                  prefix: 'FurEver',
+                },
+                support: {
+                  address: {
+                    line1: '354 Oyster Point Blvd',
+                    city: 'South San Francisco',
+                    state: 'ca',
+                    postal_code: '94080',
+                    country: 'us',
+                  },
+                  email: 'furever@stripe.com',
+                  phone: '8581234567',
+                  url: 'https://furever.dev',
+                },
+                features: {
+                  card_payments: {
+                    requested: true,
+                  },
+                },
               },
-              support_email: 'furever@stripe.com',
-              support_phone: '8581234567',
-              support_url: 'https://furever.dev',
-              url: 'https://furever.dev',
-            },
-            individual: {
-              first_name: 'Jenny',
-              last_name: 'Rosen',
-              id_number: '000000000',
-              email: email,
-              address: {
-                line1: '354 Oyster Point Blvd',
-                city: 'South San Francisco',
-                state: 'CA',
-                postal_code: '94080',
-              },
-              dob: {
-                day: 1,
-                month: 1,
-                year: 1902,
-              },
-              phone: '8581234567',
-              ssn_last_4: '0000',
-            },
-            company: {
-              tax_id: '000000000', // There is a bug where prefilling id_number for individual is not working
-              name: 'Jenny Rosen', // There is a bug with prefilling that also requires this field for GS
-            },
-            settings: {
-              card_payments: {
-                statement_descriptor_prefix: 'FurEver',
-                statement_descriptor_prefix_kana: null,
-                statement_descriptor_prefix_kanji: null,
-              },
-              payments: {
-                statement_descriptor: 'FurEver',
-                statement_descriptor_kana: undefined,
-                statement_descriptor_kanji: undefined,
+              recipient: {
+                features: {
+                  stripe_balance: {
+                    stripe_transfers: {
+                      requested: true,
+                    },
+                  },
+                },
               },
             },
-            tos_acceptance: {
-              date: Math.floor(Date.now() / 1000),
-              ip: '50.123.109.237',
-              service_agreement: 'full',
-              user_agent:
-                'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
-            },
-            capabilities: {
-              card_payments: {
-                requested: true,
+            identity: {
+              country: 'us',
+              entity_type: 'individual',
+              business_details: {
+                registered_name: credentials?.businessName || 'Furever',
+                product_description: 'Description',
+                url: 'https://furever.dev',
               },
-              transfers: {
-                requested: true,
+              individual: {
+                given_name: 'Jenny',
+                surname: 'Rosen',
+                id_numbers: [
+                  {
+                    type: 'us_ssn_last_4',
+                    value: '0000',
+                  },
+                  {
+                    type: 'us_ssn',
+                    value: '000000000',
+                  },
+                ],
+                email: email,
+                address: {
+                  line1: '354 Oyster Point Blvd',
+                  city: 'South San Francisco',
+                  state: 'CA',
+                  postal_code: '94080',
+                  country: 'us',
+                },
+                date_of_birth: {
+                  day: 1,
+                  month: 1,
+                  year: 1902,
+                },
+                phone: '8581234567',
+              },
+              attestations: {
+                terms_of_service: {
+                  account: {
+                    date: new Date().toISOString(),
+                    ip: '50.123.109.237',
+                    user_agent:
+                      'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
+                  },
+                },
               },
             },
+            defaults: {
+              responsibilities: resolveResponsibilitiesParams({
+                feesCollector: 'application',
+                paymentLosses: 'application',
+              }),
+            },
+            dashboard: resolveStripeDashboardTypeParam('none'),
           });
-          console.log(
-            'Created stripe account',
-            account.id,
-            account.requirements?.disabled_reason
-          );
+          await stripe.accounts.createExternalAccount(account.id, {
+            external_account: bankAccountToken,
+          });
+          console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;
           user.businessName = credentials?.businessName;
           console.log('Updating Salon...');
           await user!.save();
 
-          console.log(
-            'Salon was updated and updated salon is',
-            user,
-            account.requirements?.disabled_reason
-          );
+          console.log('Salon was updated and updated salon is', user);
         } catch (error: any) {
           console.log('Got an error creating a Stripe account', error);
           return null;
@@ -362,7 +401,7 @@ export const authOptions: AuthOptions = {
         country: {},
         stripeDashboardType: {},
         paymentLosses: {},
-        feePayer: {},
+        feesCollector: {},
       },
       async authorize(credentials, req) {
         await dbConnect();
@@ -387,33 +426,49 @@ export const authOptions: AuthOptions = {
             case 'company':
             case 'individual':
               businessType =
-                credentials?.businessType as Stripe.AccountCreateParams.BusinessType;
+                credentials?.businessType as Stripe.V2.Core.AccountCreateParams.Identity.EntityType;
             default:
               businessType = undefined; // We default to undefined so user can pick the business type during onboarding
           }
 
           console.log('Creating stripe account for the email', email);
-          const account = await stripe.accounts.create({
-            country: credentials?.country || 'US',
-            business_type: businessType,
-            business_profile: {
-              name: credentials?.businessName || 'Furever Pet Salon',
+          const account = await stripe.v2.core.accounts.create({
+            contact_email: email,
+            identity: {
+              country: resolveCountryParam(credentials?.country) || 'us',
+              entity_type: businessType,
+              business_details: {
+                registered_name: credentials?.businessName || 'Furever',
+              },
             },
-            email: email,
-            controller: resolveControllerParams({
-              feePayer: credentials.feePayer,
-              paymentLosses: credentials.paymentLosses,
-              stripeDashboardType: credentials.stripeDashboardType,
-            }),
+            defaults: {
+              responsibilities: resolveResponsibilitiesParams({
+                feesCollector: credentials.feesCollector,
+                paymentLosses: credentials.paymentLosses,
+              }),
+            },
+            dashboard: resolveStripeDashboardTypeParam(
+              credentials.stripeDashboardType
+            ),
             ...(credentials.stripeDashboardType === 'full'
               ? {}
               : {
-                  capabilities: {
-                    card_payments: {
-                      requested: true,
+                  configuration: {
+                    merchant: {
+                      features: {
+                        card_payments: {
+                          requested: true,
+                        },
+                      },
                     },
-                    transfers: {
-                      requested: true,
+                    recipient: {
+                      features: {
+                        stripe_balance: {
+                          stripe_transfers: {
+                            requested: true,
+                          },
+                        },
+                      },
                     },
                   },
                 }),

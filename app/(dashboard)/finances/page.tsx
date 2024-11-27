@@ -11,6 +11,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {LandmarkIcon, LoaderCircle} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
+import Stripe from '@stripe/stripe';
 
 export default function Finances() {
   const {
@@ -24,13 +25,20 @@ export default function Finances() {
   const onClick = async () => {
     setButtonLoading(true);
 
-    const capabilities = {
-      card_issuing: {
-        requested: true,
+    const configuration: Stripe.V2.Core.AccountCreateParams.Configuration = {
+      merchant: {
+        features: {
+          card_payments: {
+            requested: true,
+          },
+        },
       },
-      treasury: {
-        requested: true,
-      },
+      // card_issuing: {
+      //   requested: true,
+      // },
+      // treasury: {
+      //   requested: true,
+      // },
     };
 
     try {
@@ -40,7 +48,7 @@ export default function Finances() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          capabilities: capabilities,
+          configuration: configuration,
         }),
       });
 

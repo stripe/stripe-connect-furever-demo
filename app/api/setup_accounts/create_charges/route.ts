@@ -196,9 +196,12 @@ export async function POST(req: NextRequest) {
             customers[Math.floor(Math.random() * customers.length)];
           console.log('creating customer', name, email, description);
           // Note: normally, you won't create a separate customer per payment - this is only done for the purposes of this demo
-          const customer = await stripe.customers.create(
+          const customer = await stripe.v2.core.accounts.create(
             {
-              email,
+              contact_email: email,
+              configuration: {
+                customer: {},
+              },
             },
             {
               stripeAccount: accountId,
@@ -212,7 +215,7 @@ export async function POST(req: NextRequest) {
             currency:
               !staticCurrencyPaymentMethods.includes(status) && currency
                 ? currency
-                : session?.user.stripeAccount.default_currency,
+                : session?.user.stripeAccount.defaults?.currency,
             name,
             email,
             customerId: customer.id,
@@ -230,7 +233,7 @@ export async function POST(req: NextRequest) {
                 payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
-                statement_descriptor: process.env.APP_NAME,
+                statement_descriptor_suffix: process.env.APP_NAME,
                 confirmation_method: 'manual',
                 confirm: true,
                 ...(status === 'card_uncaptured'

@@ -30,6 +30,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@stripe/connect-js": "3.3.22-preview-2",
     "@stripe/react-connect-js": "3.3.25-preview-1",
+    "@stripe/stripe": "file:vendors/@stripe/stripe",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",

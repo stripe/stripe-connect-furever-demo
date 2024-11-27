@@ -1,4 +1,4 @@
-import {Stripe} from 'stripe';
+import {Stripe} from '@stripe/stripe';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';

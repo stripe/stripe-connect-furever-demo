@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
-import Stripe from 'stripe';
+import Stripe from '@stripe/stripe';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
@@ -52,10 +52,12 @@ const navigationMenuItems = [
     href: '/finances',
     icon: LandmarkIcon,
     paths: ['/finances/cards'],
-    shouldDisplayFilter: (stripeAccount: Stripe.Account) =>
-      stripeAccount.controller?.stripe_dashboard?.type === 'none' &&
-      stripeAccount.controller?.losses?.payments === 'application' &&
-      stripeAccount.controller?.requirement_collection === 'application',
+    shouldDisplayFilter: (stripeAccount: Stripe.V2.Core.Account) =>
+      stripeAccount.dashboard === 'none' &&
+      stripeAccount.defaults?.responsibilities?.losses_collector ===
+        'application' &&
+      stripeAccount.defaults?.responsibilities?.fees_collector ===
+        'application',
   },
   {
     label: 'Account',
