@@ -1,7 +1,7 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import {Stripe} from '@stripe/stripe';
-import { Country, currencyForCountry } from '../types/account';
+import {Country, currencyForCountry} from '../types/account';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -45,7 +45,7 @@ export function defaultCurrency(account?: Stripe.V2.Core.Account) {
   if (!account) {
     return 'usd';
   }
-  if (account.defaults?.currency){
+  if (account.defaults?.currency) {
     return account.defaults.currency;
   }
 

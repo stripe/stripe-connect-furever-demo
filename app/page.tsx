@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
-import { accountDetailsSubmitted } from '@/lib/utils';
+import {accountDetailsSubmitted} from '@/lib/utils';
 
 function Card({
   icon,
@@ -46,9 +46,7 @@ const AuthButtons = () => {
     let buttonLink = '/';
     let buttonText = '';
 
-    if (
-      !accountDetailsSubmitted(session?.user?.stripeAccount)
-    ) {
+    if (!accountDetailsSubmitted(session?.user?.stripeAccount)) {
       // Stripe account created but onboarding not complete
       buttonLink = '/onboarding';
       buttonText = 'Continue onboarding';

@@ -30,8 +30,8 @@ export default function Finances() {
         features: {
           card_payments: {
             requested: true,
-          }
-        }
+          },
+        },
       },
       // card_issuing: {
       //   requested: true,

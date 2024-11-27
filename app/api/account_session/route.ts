@@ -34,10 +34,19 @@ export async function POST(req: NextRequest) {
       console.log(
         `Looking for the demo onboarding account ${accountId} for locale ${locale}`
       );
-      const demoOnboardingAccount =
-        await stripe.v2.core.accounts.retrieve(accountId, {
-          include: ['configuration.customer', 'configuration.merchant', 'configuration.recipient', 'defaults', 'identity', 'requirements'],
-        });
+      const demoOnboardingAccount = await stripe.v2.core.accounts.retrieve(
+        accountId,
+        {
+          include: [
+            'configuration.customer',
+            'configuration.merchant',
+            'configuration.recipient',
+            'defaults',
+            'identity',
+            'requirements',
+          ],
+        }
+      );
       if (demoOnboardingAccount) {
         console.log(
           `Using demo onboarding account: ${demoOnboardingAccount.id}`
@@ -58,7 +67,14 @@ export async function POST(req: NextRequest) {
     }
 
     const account = await stripe.v2.core.accounts.retrieve(stripeAccountId, {
-      include: ['configuration.customer', 'configuration.merchant', 'configuration.recipient', 'defaults', 'identity', 'requirements'],
+      include: [
+        'configuration.customer',
+        'configuration.merchant',
+        'configuration.recipient',
+        'defaults',
+        'identity',
+        'requirements',
+      ],
     });
 
     const isCustom =

@@ -16,7 +16,14 @@ export async function POST() {
     }
     while (true) {
       const acc = await stripe.v2.core.accounts.retrieve(accountId, {
-        include: ['configuration.customer', 'configuration.merchant', 'configuration.recipient', 'defaults', 'identity', 'requirements'],
+        include: [
+          'configuration.customer',
+          'configuration.merchant',
+          'configuration.recipient',
+          'defaults',
+          'identity',
+          'requirements',
+        ],
       });
       const pendingVerification = !!acc.requirements?.entries?.find((req) => {
         req.awaiting_action_from === 'stripe';
