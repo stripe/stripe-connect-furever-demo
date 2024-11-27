@@ -29,16 +29,15 @@ const StripePricingTable = ({
     'pricing-table-id': 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w',
     'publishable-key':
       'pk_test_51QPruLPohO0XT1fpWpEciHgkU2awScnyBaMA1hESnsaHAKjqRM94kl2qnLD6dqbaAsqUOUVLvJzJPATPy0Mr31xR00bN6fnSzg',
-    // 'customer-session-client-secret': customerSessionClientSecret,
+    'customer-session-client-secret': customerSessionClientSecret,
   });
 };
 
 export default function Billing() {
   const {data: session} = useSession();
 
-  // TODO: actually fetch the customer session
-  const [loading, setLoading] = React.useState(false); // TODO: default should be true
-  const [customerSession, setCustomerSession] = React.useState('fake'); // TODO: default should be null
+  const [loading, setLoading] = React.useState(true);
+  const [customerSession, setCustomerSession] = React.useState(null);
 
   React.useEffect(() => {
     if (customerSession) {
@@ -56,7 +55,7 @@ export default function Billing() {
         setLoading(false);
       }
     };
-    // fetchData();
+    fetchData();
   }, [customerSession]);
 
   return (

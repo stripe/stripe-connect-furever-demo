@@ -16,19 +16,14 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const customerSession = await stripe.customerSessions.create(
-      {
-        customer: accountId,
-        components: {
-          pricing_table: {
-            enabled: true,
-          },
+    const customerSession = await stripe.customerSessions.create({
+      customer: accountId,
+      components: {
+        pricing_table: {
+          enabled: true,
         },
       },
-      {
-        stripeAccount: accountId,
-      }
-    );
+    });
     return new Response(
       JSON.stringify({
         session: customerSession.client_secret,
