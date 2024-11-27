@@ -82,48 +82,6 @@ export async function POST(req: NextRequest) {
       account?.defaults?.responsibilities?.losses_collector === 'application' &&
       account?.defaults.responsibilities.fees_collector === 'application';
 
-    // We can only request the components if the account has both issuing and treasury capabilities
-    const hasIssuingAndTreasury = false;
-    // TODO KUSHAL
-    // ['card_issuing', 'treasury'].every(
-    //   (capability) =>
-    //     Object.keys(account?.capabilities || []).includes(capability)
-    // );
-    const issuingAndTreasuryComponents = {
-      issuing_card: {
-        enabled: true,
-        features: {
-          card_management: true,
-          cardholder_management: true,
-          card_spend_dispute_management: true,
-          spend_control_management: true,
-        },
-      },
-      issuing_cards_list: {
-        enabled: true,
-        features: {
-          card_management: true,
-          cardholder_management: true,
-          card_spend_dispute_management: true,
-          spend_control_management: true,
-        },
-      },
-      financial_account: {
-        enabled: true,
-        features: {
-          send_money: true,
-          transfer_balance: true,
-          disable_stripe_user_authentication: isCustom,
-        },
-      },
-      financial_account_transactions: {
-        enabled: true,
-        features: {
-          card_spend_dispute_management: true,
-        },
-      },
-    };
-
     const accountSession = await stripe.accountSessions.create({
       account: stripeAccountId,
       components: {
@@ -153,8 +111,6 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        // @ts-ignore
-        // payment_method_settings: {enabled: true},
         documents: {enabled: true},
         notification_banner: {
           enabled: true,
@@ -162,18 +118,6 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        // capital_overview: {
-        //   enabled: true,
-        // },
-        ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
-        // @ts-ignore
-        // tax_settings: {
-        //   enabled: true,
-        // },
-        // // @ts-ignore
-        // tax_registrations: {
-        //   enabled: true,
-        // },
       },
     });
 

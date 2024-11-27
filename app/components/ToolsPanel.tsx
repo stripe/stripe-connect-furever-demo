@@ -40,7 +40,6 @@ import ThemePicker from './Tools/ThemePicker';
 import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
-import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
 import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
 
 const ToolsPanel = () => {
@@ -86,11 +85,6 @@ const ToolsPanel = () => {
       description: 'Simulate a risk intervention',
       href: '/home',
       component: CreateInterventionsButton,
-    },
-    {
-      description: 'Create a test financial credit',
-      href: '/finances',
-      component: CreateFinancialCreditButton,
     },
   ];
 

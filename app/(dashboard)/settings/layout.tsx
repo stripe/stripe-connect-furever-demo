@@ -24,7 +24,6 @@ export default function SettingsLayout({
             routes={[
               {path: '/settings', label: 'General'},
               {path: '/settings/documents', label: 'Documents'},
-              {path: '/settings/tax', label: 'Tax'},
             ]}
           />
           <div>
