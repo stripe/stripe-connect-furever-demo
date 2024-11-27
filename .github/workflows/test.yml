@@ -1,9 +1,13 @@
 name: build
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - v2-accounts-main
   pull_request:
-    branches: [master]
+    branches:
+      - master
+      - v2-accounts-main
 
 env:
   STRIPE_SECRET_KEY: sk_secret_key
