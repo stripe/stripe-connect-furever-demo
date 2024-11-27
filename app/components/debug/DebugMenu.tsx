@@ -28,17 +28,11 @@ import {
 
 import {SettingsContext} from '@/app/contexts/settings';
 import changeLocale from '@/app/components/debug/commands/ChangeLocale';
-import CreateReceivedCredit from '@/app/components/debug/commands/CreateReceivedCredit';
-import CreateIssuingCardAuthorization from '@/app/components/debug/commands/CreateIssuingCardAuthorization';
 import CreateCheckoutSession from '@/app/components/debug/commands/CreateCheckoutSession';
 
 const settingsCommands = [changeLocale];
 
-const stripeCommands = [
-  CreateReceivedCredit,
-  CreateIssuingCardAuthorization,
-  CreateCheckoutSession,
-];
+const stripeCommands = [CreateCheckoutSession];
 
 const DebugMenu = () => {
   const [open, setOpen] = React.useState(false);
@@ -147,15 +141,6 @@ const DebugMenu = () => {
                 >
                   <CoinsIcon className="mr-2 h-4 w-4" />
                   <span>Payouts</span>
-                </CommandItem>
-                <CommandItem
-                  onSelect={() => {
-                    router.push('/finances');
-                    setOpen(false);
-                  }}
-                >
-                  <LandmarkIcon className="mr-2 h-4 w-4" />
-                  <span>Finances</span>
                 </CommandItem>
                 <CommandItem
                   onSelect={() => {
