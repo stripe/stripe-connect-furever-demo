@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 20
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=\${{ secrets.NPM_TOKEN }}\n@stripe:registry=https://npm.pkg.github.com" > ~/.npmrc
       - run: yarn install --frozen-lockfile
       - run: yarn run validate-change
       - run: yarn run build

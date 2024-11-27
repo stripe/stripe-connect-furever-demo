@@ -1217,6 +1217,14 @@
   resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.25-preview-1.tgz#b7ca4865ac184900bcb8bf23a300a8837d2bd1cd"
   integrity sha512-DdNTRTYe7XQODoFzWus6nSOlGJPkPgZ6FEcmwACydYya5Nbg5ddsdoDq1AyyuxHN5UKCbAzDCrlTl8b1B7AZbQ==
 
+"@stripe/stripe@0.59.0":
+  version "0.59.0"
+  resolved "https://npm.pkg.github.com/download/@stripe/stripe/0.59.0/b7211cb33f706a947842dc9edbc37b6d29d71db5#b7211cb33f706a947842dc9edbc37b6d29d71db5"
+  integrity sha512-ozqTuSA9wPkgkIbauSTyKKizI4HLgdXq4zTLp3KiKsbbWlGuVdK/MFBGfTUuV3m1n0QG8COatjrTWddGSMWmNA==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.11.0"
+
 "@swc/helpers@0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.2.tgz#85ea0c76450b61ad7d10a37050289eded783c27d"
