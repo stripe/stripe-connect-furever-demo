@@ -48,6 +48,15 @@ const navigationMenuItems = [
     paths: [],
   },
   {
+<<<<<<< Updated upstream
+=======
+    label: 'Billing',
+    href: '/billing',
+    icon: CoinsIcon,
+    paths: [],
+  },
+  {
+>>>>>>> Stashed changes
     label: 'Account',
     href: '/settings',
     icon: SettingsIcon,

@@ -11,5 +11,6 @@ export const config = {
     '/settings',
     '/settings/paymentmethods',
     '/finance',
+    '/billin',
   ],
 };

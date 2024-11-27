@@ -311,6 +311,7 @@ export const authOptions: AuthOptions = {
                   },
                 },
               },
+              customer: {},
             },
             identity: {
               country: 'us',
@@ -470,6 +471,7 @@ export const authOptions: AuthOptions = {
                         },
                       },
                     },
+                    customer: {},
                   },
                 }),
           });
