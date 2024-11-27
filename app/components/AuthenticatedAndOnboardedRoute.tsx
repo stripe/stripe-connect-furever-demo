@@ -3,6 +3,7 @@
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
+import {accountDetailsSubmitted} from '@/lib/utils';
 
 export default function AuthenticatedAndOnboardedRoute({
   children,
@@ -13,7 +14,7 @@ export default function AuthenticatedAndOnboardedRoute({
   const {data: session, status} = useSession();
 
   useEffect(() => {
-    if (session?.user?.stripeAccount?.details_submitted === false) {
+    if (status !== 'loading' && !accountDetailsSubmitted(session?.user?.stripeAccount)) {
       router.push('/onboarding');
     }
   }, [session, router]);

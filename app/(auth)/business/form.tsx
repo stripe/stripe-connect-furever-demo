@@ -31,9 +31,9 @@ import {
   countries,
   stripeDashboardTypes,
   paymentLosses,
-  feePayers,
+  feesCollector,
 } from '@/types/account';
-import type {FeePayer, StripeDashboardType} from '@/types/account';
+import type {FeesCollector, StripeDashboardType} from '@/types/account';
 
 const businessTypeLabels = {
   individual: 'Independent salon',
@@ -164,8 +164,8 @@ const paymentLossesLabels = {
   application: 'Furever',
 };
 
-const feePayerLabels = {
-  account: 'Stripe collects fees from connected accounts',
+const feesCollectorLabels = {
+  stripe: 'Stripe collects fees from connected accounts',
   application: 'Stripe collects fees from Furever',
 };
 
@@ -175,31 +175,31 @@ const formSchema = z.object({
   country: z.enum(countries),
   stripeDashboardType: z.enum(stripeDashboardTypes),
   paymentLosses: z.enum(paymentLosses),
-  feePayer: z.enum(feePayers),
+  feesCollector: z.enum(feesCollector),
 });
 
 function StripeFeeCollectionSelect({
   field,
-  feePayerLabels,
-  validFeePayers,
+  feesCollectorLabels,
+  validFeesCollectors,
 }: {
-  field: ControllerRenderProps<z.infer<typeof formSchema>, 'feePayer'>;
-  feePayerLabels: Record<string, string>;
-  validFeePayers: readonly FeePayer[];
+  field: ControllerRenderProps<z.infer<typeof formSchema>, 'feesCollector'>;
+  feesCollectorLabels: Record<string, string>;
+  validFeesCollectors: readonly FeesCollector[];
 }) {
   return (
     <Select {...field} onValueChange={(value) => field.onChange(value)}>
       <SelectTrigger className="mt-1">
-        <SelectValue>{feePayerLabels[field.value]}</SelectValue>
+        <SelectValue>{feesCollectorLabels[field.value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {feePayers.map((option) => (
+        {feesCollector.map((option) => (
           <SelectItem
             key={option}
             value={option}
-            disabled={!validFeePayers.includes(option)}
+            disabled={!validFeesCollectors.includes(option)}
           >
-            {feePayerLabels[option]}
+            {feesCollectorLabels[option]}
           </SelectItem>
         ))}
       </SelectContent>
@@ -247,7 +247,11 @@ function StripeDashboardTypeSelect({
   stripeDashboardTypeLabels: Record<StripeDashboardType, string>;
 }) {
   return (
-    <Select {...field} onValueChange={(value) => field.onChange(value)}>
+    <Select
+      {...field}
+      onValueChange={(value) => field.onChange(value)}
+      disabled={stripeDashboardTypes.length === 1}
+    >
       <SelectTrigger className="mt-1">
         <SelectValue>{stripeDashboardTypeLabels[field.value]}</SelectValue>
       </SelectTrigger>
@@ -274,37 +278,21 @@ export default function BusinessDetailsForm({email}: {email: string}) {
       country: 'US',
       stripeDashboardType: 'none',
       paymentLosses: 'stripe',
-      feePayer: 'account',
+      feesCollector: 'stripe',
     },
   });
 
   const watchAccountControllerProperties = form.watch([
     'stripeDashboardType',
     'paymentLosses',
-    'feePayer',
+    'feesCollector',
   ]);
   React.useEffect(() => {
     if (
-      form.getValues('stripeDashboardType') === 'full' &&
-      (form.getValues('paymentLosses') !== 'stripe' ||
-        form.getValues('feePayer') !== 'account')
+      form.getValues('paymentLosses') === 'application' &&
+      form.getValues('feesCollector') !== 'application'
     ) {
-      form.setValue('paymentLosses', 'stripe');
-      form.setValue('feePayer', 'account');
-    } else if (
-      form.getValues('stripeDashboardType') === 'express' &&
-      (form.getValues('paymentLosses') !== 'application' ||
-        form.getValues('feePayer') !== 'application')
-    ) {
-      form.setValue('paymentLosses', 'application');
-      form.setValue('feePayer', 'application');
-    } else {
-      if (
-        form.getValues('paymentLosses') === 'application' &&
-        form.getValues('feePayer') !== 'application'
-      ) {
-        form.setValue('feePayer', 'application');
-      }
+      form.setValue('feesCollector', 'application');
     }
   }, [form, watchAccountControllerProperties]);
 
@@ -317,7 +305,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
         country: values.country,
         stripeDashboardType: values.stripeDashboardType,
         paymentLosses: values.paymentLosses,
-        feePayer: values.feePayer,
+        feesCollector: values.feesCollector,
         redirect: false,
       });
 
@@ -328,22 +316,12 @@ export default function BusinessDetailsForm({email}: {email: string}) {
   };
 
   const formValues = form.getValues();
-  const validPaymentLosses = paymentLosses.filter((option) => {
+
+  const validFeesCollectors = feesCollector.filter((option) => {
     if (option === 'application') {
-      return formValues.stripeDashboardType !== 'full';
+      return true;
     } else if (option === 'stripe') {
-      return formValues.stripeDashboardType !== 'express';
-    }
-  });
-  const validFeePayers = feePayers.filter((option) => {
-    if (option === 'application') {
-      return formValues.stripeDashboardType !== 'full';
-    } else if (option === 'account') {
-      return (
-        formValues.stripeDashboardType === 'full' ||
-        (formValues.stripeDashboardType === 'none' &&
-          formValues.paymentLosses === 'stripe')
-      );
+      return formValues.paymentLosses === 'stripe';
     }
   });
 
@@ -489,7 +467,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                     <FormControl>
                       <NegativeBalanceLiabilitySelect
                         field={field}
-                        validPaymentLosses={validPaymentLosses}
+                        validPaymentLosses={paymentLosses}
                       />
                     </FormControl>
                   </>
@@ -500,7 +478,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
             <div>
               <FormField
                 control={form.control}
-                name="feePayer"
+                name="feesCollector"
                 render={({field}) => (
                   <>
                     <FormLabel className="text-base text-primary">
@@ -509,8 +487,8 @@ export default function BusinessDetailsForm({email}: {email: string}) {
                     <FormControl>
                       <StripeFeeCollectionSelect
                         field={field}
-                        feePayerLabels={feePayerLabels}
-                        validFeePayers={validFeePayers}
+                        feesCollectorLabels={feesCollectorLabels}
+                        validFeesCollectors={validFeesCollectors}
                       />
                     </FormControl>
                   </>
