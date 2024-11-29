@@ -13,6 +13,7 @@ import {
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
   Menu as MenuIcon,
+  CreditCard as CreditCardIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
@@ -50,7 +51,7 @@ const navigationMenuItems = [
   {
     label: 'Billing',
     href: '/billing',
-    icon: CoinsIcon,
+    icon: CreditCardIcon,
     paths: [],
   },
   {
