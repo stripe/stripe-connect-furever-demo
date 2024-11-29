@@ -71,62 +71,64 @@ const Nav = () => {
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
 
   return (
-    <div className="border-gray-border fixed z-50 w-full flex-col border-b bg-screen-foreground sm:fixed sm:flex sm:h-screen sm:w-52 sm:border-b-0 sm:border-r sm:p-1 lg:w-64 lg:p-3">
-      <div className="flex items-center justify-between p-3 sm:mb-4">
-        <Link href="/home">
-          <div className="flex items-center gap-3 text-xl font-bold text-primary">
-            <Image
-              src={FureverLogo}
-              alt="Furever Logo"
-              className="h-9 w-9 sm:h-10 sm:w-10"
-              sizes="100px"
-              priority
-            />
-            Furever
-          </div>
-        </Link>
-        <Button
-          variant="ghost"
-          className="sm:hidden"
-          onClick={() => setShowMobileNavItems(!showMobileNavItems)}
+    <div className="border-gray-border w-full flex-col border-b bg-screen-foreground  sm:flex sm:w-52 sm:flex-col sm:border-b-0 sm:border-r sm:p-1 lg:w-64 lg:p-3">
+      <div className="sm:flex-grow">
+        <div className="flex items-center justify-between p-3 sm:mb-4">
+          <Link href="/home">
+            <div className="flex items-center gap-3 text-xl font-bold text-primary">
+              <Image
+                src={FureverLogo}
+                alt="Furever Logo"
+                className="h-9 w-9 sm:h-10 sm:w-10"
+                sizes="100px"
+                priority
+              />
+              Furever
+            </div>
+          </Link>
+          <Button
+            variant="ghost"
+            className="sm:hidden"
+            onClick={() => setShowMobileNavItems(!showMobileNavItems)}
+          >
+            <MenuIcon />
+          </Button>
+        </div>
+        <nav
+          className={`${showMobileNavItems ? 'flex' : 'hidden'} z-50 w-full flex-1 p-2 pb-3 shadow-xl transition sm:flex sm:p-0 sm:shadow-none`}
         >
-          <MenuIcon />
-        </Button>
-      </div>
-      <nav
-        className={`${showMobileNavItems ? 'flex' : 'hidden'} w-full flex-1 p-2 pb-3 shadow-xl transition sm:flex sm:p-0 sm:shadow-none`}
-      >
-        <ul className="w-full flex-col">
-          {navigationMenuItems.map((item) => (
-            <li key={item.label} className="p-1">
-              <Link href={item.href}>
-                <Button
-                  className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
-                    pathname === item.href || item.paths.includes(pathname)
-                      ? 'bg-accent-subdued text-accent'
-                      : 'bg-foreground'
-                  }`}
-                  onClick={() => setShowMobileNavItems(false)}
-                  tabIndex={-1}
-                >
-                  <item.icon
-                    className="mr-2"
-                    size={20}
-                    color={`${
+          <ul className="w-full flex-col">
+            {navigationMenuItems.map((item) => (
+              <li key={item.label} className="p-1">
+                <Link href={item.href}>
+                  <Button
+                    className={`w-full justify-start text-lg text-primary hover:bg-accent-subdued ${
                       pathname === item.href || item.paths.includes(pathname)
-                        ? 'var(--accent)'
-                        : 'var(--primary)'
+                        ? 'bg-accent-subdued text-accent'
+                        : 'bg-foreground'
                     }`}
-                  />{' '}
-                  {item.label}
-                </Button>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+                    onClick={() => setShowMobileNavItems(false)}
+                    tabIndex={-1}
+                  >
+                    <item.icon
+                      className="mr-2"
+                      size={20}
+                      color={`${
+                        pathname === item.href || item.paths.includes(pathname)
+                          ? 'var(--accent)'
+                          : 'var(--primary)'
+                      }`}
+                    />{' '}
+                    {item.label}
+                  </Button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
       <div
-        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 shadow-lg transition dark:bg-gradient-to-tr dark:from-[#2D314A] dark:to-[#233B48] sm:relative sm:bottom-0 sm:w-full sm:p-3 sm:shadow-none`}
+        className={`${open ? 'invisible opacity-0' : 'opacity-100'} fixed bottom-2 left-1/2 z-50 w-[calc(100%-20px)] -translate-x-1/2 rounded-lg border bg-gradient-to-tr from-[#E4E5F9] to-[#DAEFF7] p-2 shadow-lg transition dark:bg-gradient-to-tr dark:from-[#2D314A] dark:to-[#233B48] sm:relative sm:bottom-0 sm:w-full sm:p-3 sm:shadow-none`}
       >
         <div className="flex hidden items-center gap-2 font-bold text-primary sm:flex">
           <SparklesIcon size={20} color="var(--primary)" />
