@@ -9,7 +9,7 @@ export async function GET() {
   if (!stripeAccount) {
     return new Response(
       JSON.stringify({
-        has_subscription: true,
+        subscriptions: [],
       }),
       {status: 200}
     );
@@ -17,10 +17,11 @@ export async function GET() {
   try {
     const subscriptions = await stripe.subscriptions.list({
       customer: stripeAccount.id,
+      expand: ['data.default_payment_method', 'data.plan.product'],
     });
     return new Response(
       JSON.stringify({
-        has_subscription: subscriptions.data.length > 0,
+        subscriptions: subscriptions.data,
       }),
       {status: 200}
     );
@@ -29,7 +30,7 @@ export async function GET() {
     // It is not critical for the user to see the banner.
     return new Response(
       JSON.stringify({
-        has_subscription: false,
+        subscriptions: [],        
       }),
       {status: 200}
     );

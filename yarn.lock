@@ -4105,6 +4105,11 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-svg-credit-card-payment-icons@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-svg-credit-card-payment-icons/-/react-svg-credit-card-payment-icons-3.1.1.tgz#1df9b41eb2ab774168078bbfb3343d431483adf9"
+  integrity sha512-+sTrIsEjCP4TZI5nRAC4e4UA55Hc0ptrm4eelqltdlt3nBLLxa629YSLKqkwJKeFQB470gMGwqKp/gdmVZdkrA==
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
