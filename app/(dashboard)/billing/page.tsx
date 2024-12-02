@@ -1,19 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import {ConnectPayments} from '@stripe/react-connect-js';
-import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import MonthToDateWidget from '@/app/components/MonthToDateWidget';
-import CustomersWidget from '@/app/components/CustomersWidget';
 import {LoaderCircle, Plus} from 'lucide-react';
 import {useSession} from 'next-auth/react';
+import {useSettings} from '@/app/hooks/useSettings';
+
+const PRICING_TABLE_LIGHTMODE = 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w';
+const PRICING_TABLE_DARKMODE = 'prctbl_1QReWBPohO0XT1fppR505n6b';
 
 const StripePricingTable = ({
   customerSessionClientSecret,
 }: {
   customerSessionClientSecret: String;
 }) => {
+  const {theme} = useSettings();
   React.useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.stripe.com/v3/pricing-table.js';
@@ -26,7 +26,8 @@ const StripePricingTable = ({
   }, []);
 
   return React.createElement('stripe-pricing-table', {
-    'pricing-table-id': 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w',
+    'pricing-table-id':
+      theme === 'dark' ? PRICING_TABLE_DARKMODE : PRICING_TABLE_LIGHTMODE,
     'publishable-key':
       'pk_test_51QPruLPohO0XT1fpWpEciHgkU2awScnyBaMA1hESnsaHAKjqRM94kl2qnLD6dqbaAsqUOUVLvJzJPATPy0Mr31xR00bN6fnSzg',
     'customer-session-client-secret': customerSessionClientSecret,
