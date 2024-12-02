@@ -54,6 +54,7 @@ export const SubscriptionsBanner = () => {
               setShowBanner(true);
             }, 10000);
           }}
+          cursor={'pointer'}
         />
       </div>
     </Banner>

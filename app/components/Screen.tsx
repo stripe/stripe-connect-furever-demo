@@ -9,6 +9,7 @@ import OnboardingDialog from '../components/OnboardingDialog';
 import {useSettings} from '../hooks/useSettings';
 import {SubscriptionsBanner} from './SubscriptionsBanner';
 import React from 'react';
+import {SuccessfulSubscriptionBanner} from './SuccessfulSubscriptionBanner';
 
 export default function Screen({
   children,
@@ -40,6 +41,7 @@ export default function Screen({
         >
           <div className="flex h-screen flex-col">
             <SubscriptionsBanner />
+            <SuccessfulSubscriptionBanner />
             <div className="flex flex-1 flex-col overflow-hidden sm:flex-row">
               <Nav />
               {/* Main Content */}
