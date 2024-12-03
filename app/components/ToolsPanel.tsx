@@ -2,45 +2,22 @@
 
 import {useSession} from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import Stripe from '@/public/stripe-gray.svg';
-import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
-  Coins as CoinsIcon,
-  Landmark as LandmarkIcon,
-  Dog as PetsIcon,
-  Settings as SettingsIcon,
-  Sparkles as SparklesIcon,
-  Menu as MenuIcon,
-  File as FileIcon,
-  PanelLeftClose,
-  X,
-} from 'lucide-react';
+import {File as FileIcon, PanelLeftClose, X, Sparkles} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import FureverLogo from '@/public/furever_logo.png';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from '@/components/ui/select';
-import {RadioGroup, RadioGroupItem} from '@/components/ui/radiogroup';
-import {Sparkles} from 'lucide-react';
 import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
-import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
+import Container from './Container';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -170,6 +147,39 @@ const ToolsPanel = () => {
           On this page
         </div>
         <CustomTools />
+      </div>
+      <div className="my-4 flex flex-grow items-end sm:mb-6">
+        <Container>
+          <div className="flex h-min flex-row gap-2">
+            <span>
+              <Sparkles className="text-accent" size={20} />
+            </span>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-subdued">
+                About this integration
+              </span>
+              <div className="text-sm font-normal text-subdued">
+                This demo site is built using the Account V2 API and various
+                embedded products.{' '}
+                <a
+                  className="text-accent transition hover:opacity-80"
+                  href="https://github.com/stripe/stripe-connect-furever-demo/tree/v2-accounts-main"
+                  target="_blank"
+                >
+                  View it on GitHub
+                </a>
+                {' or '}
+                <a
+                  className="text-accent transition hover:opacity-80"
+                  href="https://docs.stripe.com/connect/accounts-v2/saas-platform-payments-billing"
+                  target="_blank"
+                >
+                  view the docs.
+                </a>
+              </div>
+            </div>
+          </div>
+        </Container>
       </div>
       <div className="hidden justify-between md:flex">
         <Image src={Stripe} alt="stripe logo" height={24} />
