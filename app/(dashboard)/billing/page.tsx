@@ -7,7 +7,6 @@ import Stripe from '@stripe/stripe';
 import {SubscriptionPortalWidget} from '@/app/components//SubscriptionPortalWidget';
 import {SubscriptionNextBillWidget} from '@/app/components/SubscriptionNextBillWidget';
 import {useQueries} from 'react-query';
-import {useRouter} from 'next/router';
 import {usePathname, useSearchParams} from 'next/navigation';
 
 const PRICING_TABLE_LIGHTMODE = 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w';
