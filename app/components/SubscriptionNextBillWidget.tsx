@@ -28,7 +28,7 @@ export const SubscriptionNextBillWidget = ({
     }
     setLoading(true);
     const resp = await fetch('/api/customer_portal');
-    const body = await resp.json();
+    const body = (await resp.json()) as Stripe.BillingPortal.Session;
     router.push(body.url);
   };
 
