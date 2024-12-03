@@ -37,7 +37,7 @@ export const SubscriptionNextBillWidget = ({
       <div className="flex flex-row items-center pb-2">
         <h1 className="flex-grow text-lg font-bold ">Next bill</h1>
         <span
-          className="flex cursor-pointer flex-row text-sm text-accent font-medium	hover:opacity-80"
+          className="flex cursor-pointer flex-row text-sm font-medium text-accent	hover:opacity-80"
           onClick={handleCustomerPortal}
         >
           See history

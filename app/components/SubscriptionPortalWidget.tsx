@@ -86,7 +86,7 @@ export const SubscriptionPortalWidget = ({
           {product.description}
         </h1>
         <span
-          className="cursor-pointer text-sm text-accent font-medium	hover:opacity-80"
+          className="cursor-pointer text-sm font-medium text-accent	hover:opacity-80"
           onClick={handleCustomerPortal}
         >
           Plan details
