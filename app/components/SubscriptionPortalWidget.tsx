@@ -37,11 +37,14 @@ const RowButton = React.forwardRef<
 >(({children, ...props}, ref) => {
   return (
     <a className="flex flex-row py-5 hover:opacity-80" {...props} ref={ref}>
-      <span className="flex-grow text-subdued text-lg font-medium">{children}</span>
+      <span className="flex-grow text-lg font-medium text-subdued">
+        {children}
+      </span>
       <ChevronRight className="text-subdued" />
     </a>
   );
 });
+RowButton.displayName = 'RowButton';
 
 export const SubscriptionPortalWidget = ({
   paymentMethod,
@@ -53,7 +56,7 @@ export const SubscriptionPortalWidget = ({
   product: Stripe.Product;
 }) => {
   return (
-    <Container className="flex flex-col flex-grow">
+    <Container className="flex flex-grow flex-col">
       <div className="flex flex-row items-center">
         <h1 className="flex-grow text-xl font-bold text-accent">
           {product.description}
@@ -75,7 +78,7 @@ export const SubscriptionPortalWidget = ({
         </span>
       </div>
       {paymentMethod.type === 'card' && paymentMethod.card && (
-        <div className="flex flex-row items-center mb-4">
+        <div className="mb-4 flex flex-row items-center">
           <PaymentIcon
             type={stripeBrandToIcon[paymentMethod.card.brand || 'unknown']}
             format="flatRounded"
@@ -87,7 +90,7 @@ export const SubscriptionPortalWidget = ({
           </span>
         </div>
       )}
-      <div className='divide-y flex flex-col'>
+      <div className="flex flex-col divide-y">
         <RowButton>Change plans</RowButton>
         <RowButton>Saved payment method</RowButton>
         <RowButton>Cancel subscription</RowButton>

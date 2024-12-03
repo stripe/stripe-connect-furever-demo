@@ -68,7 +68,7 @@ export default function Billing() {
     if (successfulSubscription && withinBilling) {
       subscriptionsApi.refetch();
     }
-  }, [successfulSubscription, withinBilling]);
+  }, [successfulSubscription, withinBilling, subscriptionsApi]);
 
   let body = null;
   const subscriptions = subscriptionsApi.data;

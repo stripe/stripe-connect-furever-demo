@@ -30,7 +30,7 @@ export async function GET() {
     // It is not critical for the user to see the banner.
     return new Response(
       JSON.stringify({
-        subscriptions: [],        
+        subscriptions: [],
       }),
       {status: 200}
     );
