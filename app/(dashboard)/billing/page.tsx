@@ -1,18 +1,24 @@
 'use client';
 
 import * as React from 'react';
-import {LoaderCircle} from 'lucide-react';
 import {useSettings} from '@/app/hooks/useSettings';
-import {useSearchParams} from 'next/navigation';
+import {LoaderCircle} from 'lucide-react';
+import Stripe from '@stripe/stripe';
+import {SubscriptionPortalWidget} from '@/app/components//SubscriptionPortalWidget';
+import {SubscriptionNextBillWidget} from '@/app/components/SubscriptionNextBillWidget';
+import {useQueries} from 'react-query';
+import {useRouter} from 'next/router';
+import {usePathname, useSearchParams} from 'next/navigation';
 
 const PRICING_TABLE_LIGHTMODE = 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w';
 const PRICING_TABLE_DARKMODE = 'prctbl_1QReWBPohO0XT1fppR505n6b';
 
-const StripePricingTable = () => {
+const StripePricingTable = ({
+  customerSessionSecret,
+}: {
+  customerSessionSecret: string;
+}) => {
   const {theme} = useSettings();
-  const [customerSession, setCustomerSession] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-
   React.useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.stripe.com/v3/pricing-table.js';
@@ -24,47 +30,87 @@ const StripePricingTable = () => {
     };
   }, []);
 
-  React.useEffect(() => {
-    if (customerSession) {
-      return;
-    }
-    const fetchData = async () => {
-      const response = await fetch('/api/customer_session', {method: 'POST'});
-      const json = await response.json();
-      if (!response.ok) {
-        // Handle errors on the client side here
-        const {error} = json;
-        console.warn('An error occurred: ', error);
-      } else {
-        setCustomerSession(json.session);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [customerSession]);
-
-  if (loading || !customerSession) {
-    return (
-      <LoaderCircle className="align-center ml-1 animate-spin" size={60} />
-    );
-  }
-
   return React.createElement('stripe-pricing-table', {
     'pricing-table-id':
       theme === 'dark' ? PRICING_TABLE_DARKMODE : PRICING_TABLE_LIGHTMODE,
-    'publishable-key':
-      'pk_test_51QPruLPohO0XT1fpWpEciHgkU2awScnyBaMA1hESnsaHAKjqRM94kl2qnLD6dqbaAsqUOUVLvJzJPATPy0Mr31xR00bN6fnSzg',
-    'customer-session-client-secret': customerSession,
+    'publishable-key': process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+    'customer-session-client-secret': customerSessionSecret,
   });
 };
 
 export default function Billing() {
+  const [subscriptionsApi, customerSessionSecretApi] = useQueries([
+    {
+      queryKey: 'subscriptions',
+      queryFn: async () => {
+        const response = await fetch('/api/subscriptions');
+        const json = await response.json();
+        return json.subscriptions as Stripe.Subscription[];
+      },
+    },
+    {
+      queryKey: 'customerSessionSecret',
+      queryFn: async () => {
+        const response = await fetch('/api/customer_session', {
+          method: 'POST',
+        });
+        const json = await response.json();
+        return json.session as string;
+      },
+    },
+  ]);
+  const pathname = usePathname();
+  const withinBilling = pathname.startsWith('/billing');
+  const searchParams = useSearchParams();
+  const successfulSubscription = searchParams.get('success') === 'true';
+
+  React.useEffect(() => {
+    if (successfulSubscription && withinBilling) {
+      subscriptionsApi.refetch();
+    }
+  }, [successfulSubscription, withinBilling, subscriptionsApi]);
+
+  let body = null;
+  const subscriptions = subscriptionsApi.data;
+  const customerSessionSecret = customerSessionSecretApi.data;
+  if (subscriptionsApi.isLoading || customerSessionSecretApi.isLoading) {
+    body = (
+      <div className="flex items-center justify-center">
+        <div className="mt-20 flex flex-row items-center text-lg font-medium text-accent">
+          Loading
+          <LoaderCircle className="ml-2 animate-spin" size={20} />
+        </div>
+      </div>
+    );
+  } else if (subscriptions && subscriptions.length > 0) {
+    const subscription = subscriptions[0];
+    const paymentMethod =
+      subscription.default_payment_method as Stripe.PaymentMethod;
+    // We expanded these properties in the API call, so we need to cast them as the full objects
+    const plan = (subscription as any).plan as Stripe.Plan;
+    const product = plan.product as Stripe.Product;
+    body = (
+      <div className="flex flex-col xl:flex-row">
+        <SubscriptionPortalWidget
+          paymentMethod={paymentMethod}
+          product={product}
+          plan={plan}
+        />
+        <SubscriptionNextBillWidget subscription={subscription} />
+      </div>
+    );
+  } else if (customerSessionSecret) {
+    body = <StripePricingTable customerSessionSecret={customerSessionSecret} />;
+  } else {
+    body = <div>Something went wrong</div>;
+  }
+
   return (
     <>
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-3xl font-bold">Billing</h1>
       </div>
-      <StripePricingTable />
+      {body}
     </>
   );
 }

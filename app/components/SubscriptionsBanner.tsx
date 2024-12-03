@@ -1,5 +1,6 @@
 import {Banner} from '@/components/ui/banner';
 import {Button} from '@/components/ui/button';
+import Stripe from '@stripe/stripe';
 import {CreditCard as CreditCardIcon, X as CancelIcon} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import {useRouter, usePathname} from 'next/navigation';
@@ -10,9 +11,9 @@ const fetchSubscription = async () => {
   const json = await response.json();
   if (!response.ok) {
     console.warn('An error occurred: ', json.error);
-    return {hasSubscription: true};
+    return {subscriptions: []};
   }
-  return {hasSubscription: json.has_subscription as boolean};
+  return {subscriptions: json.subscriptions as Stripe.Subscription[]};
 };
 
 export const SubscriptionsBanner = () => {
@@ -22,8 +23,8 @@ export const SubscriptionsBanner = () => {
 
   const [showBanner, setShowBanner] = React.useState(false);
   React.useEffect(() => {
-    fetchSubscription().then(({hasSubscription}) => {
-      setShowBanner(!hasSubscription);
+    fetchSubscription().then(({subscriptions}) => {
+      setShowBanner(subscriptions.length === 0);
     });
   }, []);
 
