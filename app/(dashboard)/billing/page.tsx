@@ -6,13 +6,17 @@ import {LoaderCircle} from 'lucide-react';
 import Stripe from '@stripe/stripe';
 import {SubscriptionPortalWidget} from '@/app/components//SubscriptionPortalWidget';
 import {SubscriptionNextBillWidget} from '@/app/components/SubscriptionNextBillWidget';
+import {useQueries} from 'react-query';
+import {useRouter} from 'next/router';
+import {usePathname, useSearchParams} from 'next/navigation';
+
 const PRICING_TABLE_LIGHTMODE = 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w';
 const PRICING_TABLE_DARKMODE = 'prctbl_1QReWBPohO0XT1fppR505n6b';
 
 const StripePricingTable = ({
-  customerSession,
+  customerSessionSecret,
 }: {
-  customerSession: Stripe.CustomerSession;
+  customerSessionSecret: string;
 }) => {
   const {theme} = useSettings();
   React.useEffect(() => {
@@ -29,58 +33,52 @@ const StripePricingTable = ({
   return React.createElement('stripe-pricing-table', {
     'pricing-table-id':
       theme === 'dark' ? PRICING_TABLE_DARKMODE : PRICING_TABLE_LIGHTMODE,
-    'publishable-key': process.env.STRIPE_PUBLISHABLE_KEY,
-    'customer-session-client-secret': customerSession,
+    'publishable-key': process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+    'customer-session-client-secret': customerSessionSecret,
   });
 };
 
 export default function Billing() {
-  const [loading, setLoading] = React.useState(true);
-  const [customerSession, setCustomerSession] = React.useState(null);
-  const [subscriptions, setSubscriptions] =
-    React.useState<Array<Stripe.Subscription> | null>(null);
+  const [subscriptionsApi, customerSessionSecretApi] = useQueries([
+    {
+      queryKey: 'subscriptions',
+      queryFn: async () => {
+        const response = await fetch('/api/subscriptions');
+        const json = await response.json();
+        return json.subscriptions as Stripe.Subscription[];
+      },
+    },
+    {
+      queryKey: 'customerSessionSecret',
+      queryFn: async () => {
+        const response = await fetch('/api/customer_session', {
+          method: 'POST',
+        });
+        const json = await response.json();
+        return json.session as string;
+      },
+    },
+  ]);
+  const pathname = usePathname();
+  const withinBilling = pathname.startsWith('/billing');
+  const searchParams = useSearchParams();
+  const successfulSubscription = searchParams.get('success') === 'true';
 
   React.useEffect(() => {
-    if (customerSession && subscriptions) {
-      return;
+    if (successfulSubscription && withinBilling) {
+      subscriptionsApi.refetch();
     }
-    const fetchSubscription = async () => {
-      const response = await fetch('/api/subscriptions');
-      const json = await response.json();
-      if (!response.ok) {
-        // Handle errors on the client side here
-        const {error} = json;
-        console.warn('An error occurred: ', error);
-      } else {
-        setSubscriptions(json.subscriptions);
-      }
-    };
-    const fetchCustomerSession = async () => {
-      const response = await fetch('/api/customer_session', {method: 'POST'});
-      const json = await response.json();
-      if (!response.ok) {
-        // Handle errors on the client side here
-        const {error} = json;
-        console.warn('An error occurred: ', error);
-      } else {
-        setCustomerSession(json.session);
-      }
-    };
-    // We fetch the customer session and subscription data in parallel
-    // to avoid lag. If the user has subscriptions, we won't use the session.
-    Promise.all([fetchCustomerSession(), fetchSubscription()]).then(() => {
-      setLoading(false);
-    });
-  }, [customerSession, subscriptions]);
+  }, [successfulSubscription, withinBilling]);
 
   let body = null;
-
-  if (loading) {
+  const subscriptions = subscriptionsApi.data;
+  const customerSessionSecret = customerSessionSecretApi.data;
+  if (subscriptionsApi.isLoading || customerSessionSecretApi.isLoading) {
     body = (
       <div className="flex items-center justify-center">
-        <div className='text-accent font-medium flex flex-row items-center text-lg mt-20'>
-          Loading your billing details
-          <LoaderCircle className="animate-spin ml-2" size={20} />
+        <div className="mt-20 flex flex-row items-center text-lg font-medium text-accent">
+          Loading
+          <LoaderCircle className="ml-2 animate-spin" size={20} />
         </div>
       </div>
     );
@@ -101,8 +99,8 @@ export default function Billing() {
         <SubscriptionNextBillWidget subscription={subscription} />
       </div>
     );
-  } else if (customerSession) {
-    body = <StripePricingTable customerSession={customerSession} />;
+  } else if (customerSessionSecret) {
+    body = <StripePricingTable customerSessionSecret={customerSessionSecret} />;
   } else {
     body = <div>Something went wrong</div>;
   }
