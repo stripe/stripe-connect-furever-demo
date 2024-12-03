@@ -26,7 +26,7 @@ export const SubscriptionsBanner = () => {
     fetchSubscription().then(({subscriptions}) => {
       setShowBanner(subscriptions.length === 0);
     });
-  }, []);
+  });
 
   return (
     <Banner open={showBanner && !withinBilling} variant="cool_gradient">

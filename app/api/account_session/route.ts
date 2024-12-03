@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
 
     let stripeAccountId = session?.user?.stripeAccount?.id;
 
+    let demoAccount = undefined;
     if (demoOnboarding !== undefined) {
       const accountId: string = (() => {
         switch (locale) {
@@ -37,14 +38,7 @@ export async function POST(req: NextRequest) {
       const demoOnboardingAccount = await stripe.v2.core.accounts.retrieve(
         accountId,
         {
-          include: [
-            'configuration.customer',
-            'configuration.merchant',
-            'configuration.recipient',
-            'defaults',
-            'identity',
-            'requirements',
-          ],
+          include: ['defaults', 'identity'],
         }
       );
       if (demoOnboardingAccount) {
@@ -52,6 +46,7 @@ export async function POST(req: NextRequest) {
           `Using demo onboarding account: ${demoOnboardingAccount.id}`
         );
         stripeAccountId = demoOnboardingAccount.id;
+        demoAccount = demoOnboardingAccount;
       } else {
         console.log('No demo onboarding account found');
       }
@@ -66,16 +61,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const account = await stripe.v2.core.accounts.retrieve(stripeAccountId, {
-      include: [
-        'configuration.customer',
-        'configuration.merchant',
-        'configuration.recipient',
-        'defaults',
-        'identity',
-        'requirements',
-      ],
-    });
+    const account =
+      demoAccount ??
+      (await stripe.v2.core.accounts.retrieve(stripeAccountId, {
+        include: ['defaults', 'identity'],
+      }));
 
     const isCustom =
       account?.dashboard === 'none' &&

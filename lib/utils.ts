@@ -37,11 +37,15 @@ export function resolveCountryParam(
   return country.toLowerCase() as Stripe.V2.Core.AccountCreateParams.Identity.Country;
 }
 
-export function accountDetailsSubmitted(account?: Stripe.V2.Core.Account) {
+export function accountDetailsSubmitted(
+  account?: Pick<Stripe.V2.Core.Account, 'identity'>
+) {
   return !!account?.identity?.attestations?.terms_of_service?.account;
 }
 
-export function defaultCurrency(account?: Stripe.V2.Core.Account) {
+export function defaultCurrency(
+  account?: Pick<Stripe.V2.Core.Account, 'identity' | 'defaults'>
+) {
   if (!account) {
     return 'usd';
   }

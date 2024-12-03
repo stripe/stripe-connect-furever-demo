@@ -65,14 +65,7 @@ export const authOptions: AuthOptions = {
           stripeAccount = await stripe.v2.core.accounts.retrieve(
             salon.stripeAccountId,
             {
-              include: [
-                'configuration.customer',
-                'configuration.merchant',
-                'configuration.recipient',
-                'defaults',
-                'identity',
-                'requirements',
-              ],
+              include: ['defaults', 'identity'],
             }
           );
         } catch (err) {
@@ -167,14 +160,7 @@ export const authOptions: AuthOptions = {
             const stripeAccount = await stripe.v2.core.accounts.retrieve(
               stripeAccountId,
               {
-                include: [
-                  'configuration.customer',
-                  'configuration.merchant',
-                  'configuration.recipient',
-                  'defaults',
-                  'identity',
-                  'requirements',
-                ],
+                include: ['defaults', 'identity'],
               }
             );
             if (stripeAccount?.contact_email) {
