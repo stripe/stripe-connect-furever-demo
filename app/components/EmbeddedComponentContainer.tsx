@@ -48,6 +48,7 @@ const EmbeddedComponentContainer = ({
         'https://docs.stripe.com/connect/supported-embedded-components/tax-registrations',
       TaxSettings:
         'https://docs.stripe.com/connect/supported-embedded-components/tax-settings',
+      PricingTable: 'https://docs.stripe.com/no-code/pricing-table',
     };
 
     if (!enableBorder) {

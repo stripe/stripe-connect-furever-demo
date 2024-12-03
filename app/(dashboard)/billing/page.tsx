@@ -8,6 +8,7 @@ import {SubscriptionPortalWidget} from '@/app/components//SubscriptionPortalWidg
 import {SubscriptionNextBillWidget} from '@/app/components/SubscriptionNextBillWidget';
 import {useQueries} from 'react-query';
 import {usePathname, useSearchParams} from 'next/navigation';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
 const PRICING_TABLE_LIGHTMODE = 'prctbl_1QPsgcPohO0XT1fpB7GNfR0w';
 const PRICING_TABLE_DARKMODE = 'prctbl_1QReWBPohO0XT1fppR505n6b';
@@ -29,12 +30,16 @@ const StripePricingTable = ({
     };
   }, []);
 
-  return React.createElement('stripe-pricing-table', {
-    'pricing-table-id':
-      theme === 'dark' ? PRICING_TABLE_DARKMODE : PRICING_TABLE_LIGHTMODE,
-    'publishable-key': process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
-    'customer-session-client-secret': customerSessionSecret,
-  });
+  return (
+    <EmbeddedComponentContainer componentName="PricingTable">
+      {React.createElement('stripe-pricing-table', {
+        'pricing-table-id':
+          theme === 'dark' ? PRICING_TABLE_DARKMODE : PRICING_TABLE_LIGHTMODE,
+        'publishable-key': process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+        'customer-session-client-secret': customerSessionSecret,
+      })}
+    </EmbeddedComponentContainer>
+  );
 };
 
 export default function Billing() {
