@@ -269,7 +269,7 @@ export default function LandingPage() {
           </a>
           <a
             className="flex items-center gap-1 text-sm font-medium text-white transition hover:opacity-80 sm:text-base"
-            href="https://github.com/stripe/stripe-connect-furever-demo"
+            href="https://github.com/stripe/stripe-connect-furever-demo/tree/v2-accounts-main"
             target="_blank"
           >
             View on GitHub

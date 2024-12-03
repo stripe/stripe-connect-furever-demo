@@ -4,7 +4,7 @@ import {cva, type VariantProps} from 'class-variance-authority';
 import {cn} from '@/lib/utils';
 
 const bannerVariants = cva(
-  'flex justify-between w-full p-4 align-middle sticky top-0 z-50',
+  'flex justify-between w-full py-4 px-8 align-middle sticky top-0 z-50',
   {
     variants: {
       variant: {
