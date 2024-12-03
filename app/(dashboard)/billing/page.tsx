@@ -47,6 +47,8 @@ export default function Billing() {
         const json = await response.json();
         return json.subscriptions as Stripe.Subscription[];
       },
+      staleTime: 5000,
+      refetchOnMount: false,
     },
     {
       queryKey: 'customerSessionSecret',
@@ -57,6 +59,7 @@ export default function Billing() {
         const json = await response.json();
         return json.session as string;
       },
+      staleTime: 120000,
     },
   ]);
   const pathname = usePathname();
@@ -73,7 +76,7 @@ export default function Billing() {
   let body = null;
   const subscriptions = subscriptionsApi.data;
   const customerSessionSecret = customerSessionSecretApi.data;
-  if (subscriptionsApi.isLoading || customerSessionSecretApi.isLoading) {
+  if (subscriptionsApi.isLoading || (subscriptions && subscriptions.length === 0 && customerSessionSecretApi.isLoading)) {
     body = (
       <div className="flex items-center justify-center">
         <div className="mt-20 flex flex-row items-center text-lg font-medium text-accent">
