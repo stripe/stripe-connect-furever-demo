@@ -46,17 +46,6 @@ export const SubscriptionsBanner = () => {
           <CreditCardIcon className="mr-2" />
           {'Subscribe'}
         </Button>
-        <CancelIcon
-          className="ml-2 text-white hover:opacity-80"
-          size={20}
-          onClick={() => {
-            setShowBanner(false);
-            setTimeout(() => {
-              setShowBanner(true);
-            }, 10000);
-          }}
-          cursor={'pointer'}
-        />
       </div>
     </Banner>
   );
