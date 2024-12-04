@@ -21,7 +21,7 @@ export const SubscriptionsBanner = () => {
     staleTime: 30000,
     refetchOnMount: false,
   });
-  const showBanner = data?.length === 0;
+  const showBanner = Boolean(data && data.length === 0);
 
   return (
     <Banner open={showBanner && !withinBilling} variant="cool_gradient">
