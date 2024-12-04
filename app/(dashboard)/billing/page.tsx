@@ -6,7 +6,7 @@ import {LoaderCircle} from 'lucide-react';
 import Stripe from '@stripe/stripe';
 import {SubscriptionPortalWidget} from '@/app/components//SubscriptionPortalWidget';
 import {SubscriptionNextBillWidget} from '@/app/components/SubscriptionNextBillWidget';
-import {useQueries} from 'react-query';
+import {useQueries, useQueryClient} from 'react-query';
 import {usePathname, useSearchParams} from 'next/navigation';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
@@ -70,12 +70,18 @@ export default function Billing() {
   const withinBilling = pathname.startsWith('/billing');
   const searchParams = useSearchParams();
   const successfulSubscription = searchParams.get('success') === 'true';
-
+  const subscriptionsQueryInvalidated = React.useRef(false);
+  const queryClient = useQueryClient();
   React.useEffect(() => {
-    if (successfulSubscription && withinBilling) {
-      subscriptionsApi.refetch();
+    if (
+      successfulSubscription &&
+      withinBilling &&
+      !subscriptionsQueryInvalidated.current
+    ) {
+      queryClient.invalidateQueries('subscriptions');
+      subscriptionsQueryInvalidated.current = true;
     }
-  }, [successfulSubscription, withinBilling, subscriptionsApi]);
+  }, [successfulSubscription, withinBilling, subscriptionsApi, queryClient]);
 
   let body = null;
   const subscriptions = subscriptionsApi.data;

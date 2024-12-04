@@ -5,28 +5,23 @@ import {CreditCard as CreditCardIcon, X as CancelIcon} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import {useRouter, usePathname} from 'next/navigation';
 import React from 'react';
-
-const fetchSubscription = async () => {
-  const response = await fetch('/api/subscriptions');
-  const json = await response.json();
-  if (!response.ok) {
-    console.warn('An error occurred: ', json.error);
-    return {subscriptions: []};
-  }
-  return {subscriptions: json.subscriptions as Stripe.Subscription[]};
-};
+import {useQuery} from 'react-query';
 
 export const SubscriptionsBanner = () => {
   const router = useRouter();
   const pathname = usePathname();
   const withinBilling = pathname.startsWith('/billing');
-
-  const [showBanner, setShowBanner] = React.useState(false);
-  React.useEffect(() => {
-    fetchSubscription().then(({subscriptions}) => {
-      setShowBanner(subscriptions.length === 0);
-    });
+  const {data} = useQuery({
+    queryKey: 'subscriptions',
+    queryFn: async () => {
+      const response = await fetch('/api/subscriptions');
+      const json = await response.json();
+      return json.subscriptions as Stripe.Subscription[];
+    },
+    staleTime: 30000,
+    refetchOnMount: false,
   });
+  const showBanner = data?.length === 0;
 
   return (
     <Banner open={showBanner && !withinBilling} variant="cool_gradient">
