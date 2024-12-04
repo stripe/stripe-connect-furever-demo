@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     const returnUrl =
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3000/billing'
-        : 'https://stripe-connect-furever-v2.onrender.com/billing';
+        : 'https://v2.furever.dev/billing';
 
     const billingPortalSession = await stripe.billingPortal.sessions.create({
       customer: accountId,
