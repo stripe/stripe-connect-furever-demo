@@ -14,11 +14,17 @@ export default function AuthenticatedAndOnboardedRoute({
   const {data: session, status} = useSession();
 
   useEffect(() => {
-    if (
-      status !== 'loading' &&
-      !accountDetailsSubmitted(session?.user?.stripeAccount)
-    ) {
-      router.push('/onboarding');
+    if (status !== 'loading') {
+      if (
+        session &&
+        session.user &&
+        session.user.stripeAccount &&
+        !accountDetailsSubmitted(session.user.stripeAccount)
+      ) {
+        router.push('/onboarding');
+      } else if (!session || !session.user || !session.user.stripeAccount) {
+        router.push('/');
+      }
     }
   }, [session, router, status]);
   if (!session || !session.user) {
