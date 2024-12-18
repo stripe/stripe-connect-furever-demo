@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
           cardholder_management: true,
           card_spend_dispute_management: true,
           spend_control_management: true,
+          disable_stripe_user_authentication: isCustom,
         },
       },
       financial_account: {
