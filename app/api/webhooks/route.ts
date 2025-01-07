@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Handle events
+  // Handle events - see full event list: https://docs.stripe.com/api/events/types
   switch (event.type) {
     case 'account.updated':
       break;
