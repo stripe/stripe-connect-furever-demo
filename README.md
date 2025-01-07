@@ -86,3 +86,15 @@ yarn dev
 ```
 
 Go to `http://localhost:{process.env.PORT}` in your browser to start using the app.
+
+To test events sent to your event handler, you can do the following:
+
+```
+stripe listen --forward-to localhost:3000/api/webhooks
+```
+
+Then, trigger a test event with:
+
+```
+stripe trigger payment_intent.succeeded
+```
