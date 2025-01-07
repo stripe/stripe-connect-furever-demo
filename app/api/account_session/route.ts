@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        capital_overview: {
+        capital_financing_promotion: {
           enabled: true,
         },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
