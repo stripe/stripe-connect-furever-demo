@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ConnectCapitalFinancing,
   ConnectCapitalFinancingPromotion,
@@ -11,16 +11,15 @@ import {
 } from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import { LandmarkIcon, LoaderCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useFinancialAccount } from '@/app/hooks/useFinancialAccount';
-import { FinancingProductType } from '@stripe/connect-js';
+import {LandmarkIcon, LoaderCircle} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
+import {FinancingProductType} from '@stripe/connect-js';
 
 export default function Finances() {
-
   // Only show the financing offer if there is one to show
   const [showFinancingOffer, setShowFinancingOffer] = React.useState(false);
-  const handleFinancingOfferLoaded = ({ productType }: FinancingProductType) => {
+  const handleFinancingOfferLoaded = ({productType}: FinancingProductType) => {
     switch (productType) {
       case 'none':
         setShowFinancingOffer(false);
@@ -90,7 +89,9 @@ export default function Finances() {
         <>
           <Container className={showFinancingOffer ? '' : 'hidden'}>
             <EmbeddedComponentContainer componentName="CapitalFinancingPromotion">
-              <ConnectCapitalFinancingPromotion onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded} />
+              <ConnectCapitalFinancingPromotion
+                onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
+              />
             </EmbeddedComponentContainer>
           </Container>
           <Container>
