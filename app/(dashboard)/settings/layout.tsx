@@ -1,10 +1,11 @@
 'use client';
 
-import {signOut} from 'next-auth/react';
+import {signOut, useSession} from 'next-auth/react';
 import SubNav from '@/app/components/SubNav';
 import {Button} from '@/components/ui/button';
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
+import {useMemo} from 'react';
+import {ExternalLink} from 'lucide-react';
 
 export default function SettingsLayout({
   children,
@@ -12,6 +13,22 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }>) {
   const connectJSContext = useConnectJSContext();
+  const {data: session} = useSession();
+
+  const hasExpressDashboardAccess =
+    session?.user?.stripeAccount?.controller?.stripe_dashboard?.type ===
+    'express';
+
+  const expressDashboardLoginLink = useMemo(async () => {
+    if (hasExpressDashboardAccess) {
+      const res = await fetch('/api/login_link');
+      const data = await res.json();
+      return data.url;
+    } else {
+      null;
+    }
+  }, [hasExpressDashboardAccess]);
+
   return (
     <>
       <header className="flex flex-col justify-between md:flex-row">
@@ -27,6 +44,21 @@ export default function SettingsLayout({
               {path: '/settings/tax', label: 'Tax'},
             ]}
           />
+          {hasExpressDashboardAccess && (
+            <div>
+              <Button
+                className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
+                variant="ghost"
+                onClick={async () => {
+                  window.open(await expressDashboardLoginLink, '_blank');
+                }}
+                aria-label="Open Stripe Express Dashboard"
+              >
+                Express Dashboard &nbsp;
+                <ExternalLink color="var(--accent)" size={20} />
+              </Button>
+            </div>
+          )}
           <div>
             <Button
               className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
