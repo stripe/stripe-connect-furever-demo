@@ -1,10 +1,9 @@
 'use client';
 
-import {signOut, useSession} from 'next-auth/react';
+import {signOut} from 'next-auth/react';
 import SubNav from '@/app/components/SubNav';
 import {Button} from '@/components/ui/button';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
-import {useMemo} from 'react';
 import {ExternalLink} from 'lucide-react';
 import {useExpressDashboardLoginLink} from '@/app/hooks/useExpressDashboardLoginLink';
 
