@@ -3,8 +3,9 @@
 import {signOut} from 'next-auth/react';
 import SubNav from '@/app/components/SubNav';
 import {Button} from '@/components/ui/button';
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
+import {ExternalLink} from 'lucide-react';
+import {useExpressDashboardLoginLink} from '@/app/hooks/useExpressDashboardLoginLink';
 
 export default function SettingsLayout({
   children,
@@ -12,6 +13,10 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }>) {
   const connectJSContext = useConnectJSContext();
+
+  const {hasExpressDashboardAccess, expressDashboardLoginLink} =
+    useExpressDashboardLoginLink();
+
   return (
     <>
       <header className="flex flex-col justify-between md:flex-row">
@@ -27,6 +32,21 @@ export default function SettingsLayout({
               {path: '/settings/tax', label: 'Tax'},
             ]}
           />
+          {hasExpressDashboardAccess && (
+            <div>
+              <Button
+                className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
+                variant="ghost"
+                onClick={async () => {
+                  window.open(expressDashboardLoginLink, '_blank');
+                }}
+                aria-label="Open Stripe Express Dashboard"
+              >
+                Express Dashboard &nbsp;
+                <ExternalLink color="var(--subdued)" size={20} />
+              </Button>
+            </div>
+          )}
           <div>
             <Button
               className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
