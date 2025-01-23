@@ -6,6 +6,7 @@ import {Button} from '@/components/ui/button';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
 import {useMemo} from 'react';
 import {ExternalLink} from 'lucide-react';
+import {useExpressDashboardLoginLink} from '@/app/hooks/useExpressDashboardLoginLink';
 
 export default function SettingsLayout({
   children,
@@ -13,21 +14,9 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }>) {
   const connectJSContext = useConnectJSContext();
-  const {data: session} = useSession();
 
-  const hasExpressDashboardAccess =
-    session?.user?.stripeAccount?.controller?.stripe_dashboard?.type ===
-    'express';
-
-  const expressDashboardLoginLink = useMemo(async () => {
-    if (hasExpressDashboardAccess) {
-      const res = await fetch('/api/login_link');
-      const data = await res.json();
-      return data.url;
-    } else {
-      null;
-    }
-  }, [hasExpressDashboardAccess]);
+  const {hasExpressDashboardAccess, expressDashboardLoginLink} =
+    useExpressDashboardLoginLink();
 
   return (
     <>
@@ -50,12 +39,12 @@ export default function SettingsLayout({
                 className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
                 variant="ghost"
                 onClick={async () => {
-                  window.open(await expressDashboardLoginLink, '_blank');
+                  window.open(expressDashboardLoginLink, '_blank');
                 }}
                 aria-label="Open Stripe Express Dashboard"
               >
                 Express Dashboard &nbsp;
-                <ExternalLink color="var(--accent)" size={20} />
+                <ExternalLink color="var(--subdued)" size={20} />
               </Button>
             </div>
           )}
