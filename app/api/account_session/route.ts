@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
         tax_registrations: {
           enabled: true,
         },
-         // @ts-ignore
+        // @ts-ignore
         tax_threshold_monitoring: {
           enabled: true,
         },
