@@ -131,7 +131,6 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        // @ts-ignore
         payment_method_settings: {enabled: true},
         documents: {enabled: true},
         notification_banner: {
@@ -144,15 +143,12 @@ export async function POST(req: NextRequest) {
           enabled: true,
         },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
-        // @ts-ignore
         tax_settings: {
           enabled: true,
         },
-        // @ts-ignore
         tax_registrations: {
           enabled: true,
         },
-        // @ts-ignore
         tax_threshold_monitoring: {
           enabled: true,
         },
