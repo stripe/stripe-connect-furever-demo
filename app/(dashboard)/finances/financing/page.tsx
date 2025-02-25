@@ -44,7 +44,7 @@ function CapitalFinancingPromotionSection() {
 function CapitalFinancingSection() {
   return (
     <Container>
-      <EmbeddedComponentContainer componentName="CapitalFinancingPromotion">
+      <EmbeddedComponentContainer componentName="CapitalFinancing">
         <ConnectCapitalFinancing onFinancingsLoaded={() => {}} />
       </EmbeddedComponentContainer>
     </Container>
