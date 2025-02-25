@@ -22,6 +22,10 @@ const EmbeddedComponentContainer = ({
         'https://docs.stripe.com/connect/supported-embedded-components/balances',
       CapitalFinancingPromotion:
         'https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion',
+      CapitalFinancingApplication:
+        'https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application',
+      CapitalFinancing:
+        'https://docs.stripe.com/connect/supported-embedded-components/capital-financing',
       Documents:
         'https://docs.stripe.com/connect/supported-embedded-components/documents',
       FinancialAccount:

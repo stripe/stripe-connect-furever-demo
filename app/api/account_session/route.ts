@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
       (capability) =>
         Object.keys(account?.capabilities || []).includes(capability)
     );
+
     const issuingAndTreasuryComponents = {
       issuing_card: {
         enabled: true,
@@ -140,6 +141,12 @@ export async function POST(req: NextRequest) {
           },
         },
         capital_financing_promotion: {
+          enabled: true,
+        },
+        capital_financing_application: {
+          enabled: true,
+        },
+        capital_financing: {
           enabled: true,
         },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),

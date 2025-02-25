@@ -16,21 +16,7 @@ import {Button} from '@/components/ui/button';
 import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
 import {FinancingProductType} from '@stripe/connect-js';
 
-export default function Finances() {
-  // Only show the financing offer if there is one to show
-  const [showFinancingOffer, setShowFinancingOffer] = React.useState(false);
-  const handleFinancingOfferLoaded = ({productType}: FinancingProductType) => {
-    switch (productType) {
-      case 'none':
-        setShowFinancingOffer(false);
-        break;
-      case 'standard':
-      case 'refill':
-        setShowFinancingOffer(true);
-        break;
-    }
-  };
-
+function FinancialAccountSection() {
   const {
     financialAccount,
     error: useFinancialAccountError,
@@ -87,13 +73,6 @@ export default function Finances() {
     <>
       {displayFinancialAccount ? (
         <>
-          <Container className={showFinancingOffer ? '' : 'hidden'}>
-            <EmbeddedComponentContainer componentName="CapitalFinancingPromotion">
-              <ConnectCapitalFinancingPromotion
-                onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
-              />
-            </EmbeddedComponentContainer>
-          </Container>
           <Container>
             <h1 className="mb-2 text-xl font-bold">Financial account</h1>
             <EmbeddedComponentContainer componentName="FinancialAccount">
@@ -127,6 +106,42 @@ export default function Finances() {
           </Button>
         </Container>
       )}
+    </>
+  );
+}
+
+function CapitalFinancingSection() {
+  // Only show the financing offer if there is one to show
+  const [showFinancingOffer, setShowFinancingOffer] = React.useState(false);
+  const handleFinancingOfferLoaded = ({productType}: FinancingProductType) => {
+    switch (productType) {
+      case 'none':
+        setShowFinancingOffer(false);
+        break;
+      case 'standard':
+      case 'refill':
+        setShowFinancingOffer(true);
+        break;
+    }
+  };
+
+  return (
+    <Container className={showFinancingOffer ? '' : 'hidden'}>
+      <EmbeddedComponentContainer componentName="CapitalFinancingPromotion">
+        <ConnectCapitalFinancingPromotion
+          onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
+          layout={'banner'}
+        />
+      </EmbeddedComponentContainer>
+    </Container>
+  );
+}
+
+export default function Finances() {
+  return (
+    <>
+      <CapitalFinancingSection />
+      <FinancialAccountSection />
     </>
   );
 }
