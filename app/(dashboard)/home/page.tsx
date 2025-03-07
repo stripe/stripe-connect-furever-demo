@@ -11,6 +11,7 @@ import {ConnectNotificationBanner} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
+import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancingPromotionSection';
 
 export default function Dashboard() {
   const {data: session} = useSession();
@@ -48,7 +49,6 @@ export default function Dashboard() {
           />
         </EmbeddedComponentContainer>
       </div>
-
       <div className="flex flex-col items-start gap-2 md:gap-5 xl:flex-row">
         <Container className="flex w-full flex-1 flex-col p-5">
           <Schedule />
@@ -56,6 +56,10 @@ export default function Dashboard() {
         <div className="-order-1 flex w-full flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
           <div className="flex flex-grow flex-col gap-2 md:gap-4 md:max-xl:flex-row">
             <BalanceWidget />
+            <CapitalFinancingPromotionSection
+              layout="banner"
+              className="w-full px-5"
+            />
             <RecentPaymentsWidget />
           </div>
           <h2 className="hidden pt-4 text-lg font-bold xl:block">
