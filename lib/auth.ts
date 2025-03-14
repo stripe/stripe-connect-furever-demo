@@ -262,23 +262,23 @@ export const authOptions: AuthOptions = {
               name: credentials?.businessName || 'Furever',
               product_description: 'Description',
               support_address: {
-                line1: '354 Oyster Point Blvd',
+                line1: 'address_full_match',
                 city: 'South San Francisco',
                 state: 'CA',
                 postal_code: '94080',
               },
               support_email: 'furever@stripe.com',
-              support_phone: '8581234567',
+              support_phone: '0000000000',
               support_url: 'https://furever.dev',
-              url: 'https://furever.dev',
+              url: 'https://accessible.stripe.com',
             },
             individual: {
               first_name: 'Jenny',
               last_name: 'Rosen',
-              id_number: '000000000',
+              id_number: '222222222',
               email: email,
               address: {
-                line1: '354 Oyster Point Blvd',
+                line1: 'address_full_match',
                 city: 'South San Francisco',
                 state: 'CA',
                 postal_code: '94080',
@@ -288,12 +288,12 @@ export const authOptions: AuthOptions = {
                 month: 1,
                 year: 1902,
               },
-              phone: '8581234567',
-              ssn_last_4: '0000',
+              phone: '0000000000',
+              ssn_last_4: '2222',
             },
             company: {
-              tax_id: '000000000', // There is a bug where prefilling id_number for individual is not working
-              name: 'Jenny Rosen', // There is a bug with prefilling that also requires this field for GS
+              tax_id: '222222222',
+              name: 'Jenny Rosen',
             },
             settings: {
               card_payments: {
