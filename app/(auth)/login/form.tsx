@@ -17,24 +17,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+import {UserFormSchema} from '@/lib/forms';
 
 export default function LoginForm() {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof UserFormSchema>) => {
     try {
       const result = await signIn('login', {
         email: values.email,
