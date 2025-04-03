@@ -93,5 +93,10 @@
     "name": "Jake",
     "date": "Mar 1",
     "profilePhoto": "jake"
+  },
+  {
+    "name": "Cooper",
+    "date": "Jul 17",
+    "profilePhoto": "cooper"
   }
 ]
