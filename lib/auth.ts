@@ -270,7 +270,7 @@ export const authOptions: AuthOptions = {
               support_email: 'furever@stripe.com',
               support_phone: '0000000000',
               support_url: 'https://furever.dev',
-              url: 'https://accessible.stripe.com',
+              url: 'https://furever.dev',
             },
             individual: {
               first_name: 'Jenny',
