@@ -1212,10 +1212,10 @@
   resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.31-preview-1.tgz#f2c9f95744b0b13964a9e2dad58a658553db1fc1"
   integrity sha512-18HPi/PyUEMvHLRCTYd/AlwJd6EeDtmc18tHtg88cpYZm4zYHJk3vMtALiEH/vEYW8GUBLGFCokT+6fDetvjOg==
 
-"@stripe/react-connect-js@3.3.30-preview-1":
-  version "3.3.30-preview-1"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.30-preview-1.tgz#f5ab8ce11314c02804d5035f0804542a7ff18ccf"
-  integrity sha512-nCpqsk/dQskfDj4Msie907UL32PUBObmgnxyxFK+hdHLs2xBmUWXQKY8fsGGdBxecT/peknr+Ga/x2NP4l70zw==
+"@stripe/react-connect-js@3.3.31-preview-1":
+  version "3.3.31-preview-1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.31-preview-1.tgz#9d30e7d148c49afbba7fc5ca9a03a420b357b7a4"
+  integrity sha512-KfBoBmcWtlrx5sAnDXVyOpZz5i3ry1y4JeSoJmO9p2lRBB3HbOCC2yyUwG5SlS6su4t4NcpsT3SEmp+eN8EyUQ==
 
 "@swc/helpers@0.5.2":
   version "0.5.2"
