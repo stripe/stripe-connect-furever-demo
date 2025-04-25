@@ -38,7 +38,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold" data-testid="title-header">Woof woof, {name || 'human'}!</h1>
+      <h1 className="text-3xl font-bold" data-testid="login-button">
+        Woof woof, {name || 'human'}!
+      </h1>
       <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
         <EmbeddedComponentContainer
           componentName="NotificationBanner"
