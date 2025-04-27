@@ -171,7 +171,11 @@ const feePayerLabels = {
 
 const formSchema = z.object({
   businessType: z.enum(businessTypes),
-  businessName: z.string().min(3),
+  businessName: z
+    .string({
+      required_error: 'Business name is required',
+    })
+    .min(3, {message: 'Business name must be 3 or more characters'}),
   country: z.enum(countries),
   stripeDashboardType: z.enum(stripeDashboardTypes),
   paymentLosses: z.enum(paymentLosses),
@@ -389,18 +393,19 @@ export default function BusinessDetailsForm({email}: {email: string}) {
               control={form.control}
               name="businessName"
               render={({field}) => (
-                <>
+                <FormItem>
                   <FormLabel className="text-base text-primary">
                     Business name
                   </FormLabel>
                   <FormControl>
                     <Input
-                      {...field}
                       className="mt-1 placeholder:text-gray-400"
                       placeholder="My business name"
+                      {...field}
                     />
                   </FormControl>
-                </>
+                  <FormMessage />
+                </FormItem>
               )}
             />
           </div>
