@@ -54,7 +54,7 @@ To integrate Stripe Connect embedded components, check out our [documentation](h
 
 You'll need a Stripe account to manage pet salon onboarding and payments:
 
-- [Sign up for free](https://dashboard.stripe.com/register/connect) Stripe account. Follow the instructions to enable Connect.
+- [Sign up for a free](https://dashboard.stripe.com/register/connect) Stripe account. Follow the instructions to enable Connect.
 - Fill in the necessary information in the **Branding** section in your [Connect settings](https://dashboard.stripe.com/settings/connect).
 
 ### Getting started
