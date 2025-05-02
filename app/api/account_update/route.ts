@@ -1,4 +1,6 @@
-import {type NextRequest} from 'next/server';
+'use server';
+
+import { type NextRequest } from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import Salon from '@/app/models/salon';

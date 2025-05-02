@@ -2,7 +2,7 @@
 
 FurEver is a vertical SaaS grooming platform for pet salons to manage their e2e business operations. FurEver wants to provide access to Stripe products and UIs directly in their website, at a fraction of the engineering cost, using [Stripe Connect](https://stripe.com/connect) and [Stripe Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components).
 
-**See a live version on [furever.dev](https://furever.dev).**
+**See a live version at [furever.dev](https://furever.dev).**
 
 <img src="public/cover.png">
 
@@ -54,8 +54,8 @@ To integrate Stripe Connect embedded components, check out our [documentation](h
 
 You'll need a Stripe account to manage pet salon onboarding and payments:
 
-- [Sign up for free](https://dashboard.stripe.com/register), then [enable Connect](https://dashboard.stripe.com/account/applications/settings) by filling in your Connect settings.
-- Fill in the necessary information in the **Branding** section in [Connect settings](https://dashboard.stripe.com/test/settings/connect).
+- [Sign up for free](https://dashboard.stripe.com/register/connect) Stripe account. Follow the instructions to enable Connect.
+- Fill in the necessary information in the **Branding** section in your [Connect settings](https://dashboard.stripe.com/settings/connect).
 
 ### Getting started
 
@@ -65,7 +65,7 @@ Install dependencies using npm (or yarn):
 yarn
 ```
 
-Copy the environment file and add your own [Stripe API keys](https://dashboard.stripe.com/account/apikeys):
+Copy the environment file and add your own [Stripe API keys](https://dashboard.stripe.com/apikeys):
 
 ```
 cp .env.example .env
@@ -98,3 +98,17 @@ Then, trigger a test event with:
 ```
 stripe trigger payment_intent.succeeded
 ```
+
+#### Setting up in Vercel
+
+The following environment variables should be configured in Vercel:
+
+- `STRIPE_SECRET_KEY`: your [Stripe secret key](https://dashboard.stripe.com/apikeys) (ex. `sk_test_abc`)
+- `STRIPE_PUBLIC_KEY`: your [Stripe publishable key](https://dashboard.stripe.com/apikeys) (ex. `pk_test_abc`)
+- `STRIPE_WEBHOOK_SECRET`: your Stripe webhook secret (ex. `whsec_abc`)
+- `NEXT_PUBLIC_STRIPE_PUBLIC_KEY`: an alias to `STRIPE_PUBLIC_KEY`
+- `APP_NAME`: Something like Furever
+- `NEXTAUTH_URL`: The [canonical URL for your site](https://next-auth.js.org/configuration/options)
+- `NEXTAUTH_SECRET`: The secret to hash your passwords (ex. `X-s_6PdEeTNWvNsUfyEvQAVFr`)
+- `SECRET`: an alias to `NEXTAUTH_SECRET`
+- `MONGO_URI`: A url to your Mongo DB (ex. `mongodb+srv://user:pass@cluster.mongodb.net/dbname?options`)
