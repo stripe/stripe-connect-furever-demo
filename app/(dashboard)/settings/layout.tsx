@@ -14,8 +14,7 @@ export default function SettingsLayout({
 }>) {
   const connectJSContext = useConnectJSContext();
 
-  const {hasDashboardAccess, dashboardLoginLink} =
-    useDashboardLoginLink();
+  const {hasDashboardAccess, dashboardLoginLink} = useDashboardLoginLink();
 
   return (
     <>
