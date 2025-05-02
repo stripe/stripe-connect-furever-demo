@@ -1,14 +1,10 @@
 import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import Stripe from 'stripe';
 import dbConnect from '@/lib/dbConnect';
-import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
-import Stripe from 'stripe';
-
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import Salon from '../app/models/salon';
 
 export const authOptions: AuthOptions = {
   session: {

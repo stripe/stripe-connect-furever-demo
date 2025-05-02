@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Container from './Container';
-import {Badge} from '@/components/ui/badge';
 import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
+import {Badge} from '@/components/ui/badge';
+import Container from './Container';
 
 const CustomersWidget = () => {
   return (

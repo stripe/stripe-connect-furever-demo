@@ -1,4 +1,4 @@
-import {useContext, useCallback} from 'react';
+import {useCallback, useContext} from 'react';
 import {SettingsContext} from '@/app/contexts/settings';
 import {RadioGroup, RadioGroupItem} from '@/components/ui/radiogroup';
 

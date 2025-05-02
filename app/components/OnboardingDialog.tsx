@@ -1,5 +1,9 @@
 'use client';
 
+import Image from 'next/image';
+import {ArrowRight} from 'lucide-react';
+import {useRouter, useSearchParams} from 'next/navigation';
+import * as React from 'react';
 import {
   Dialog,
   DialogClose,
@@ -7,17 +11,12 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
-import Image from 'next/image';
 import ImageStep1 from '@/public/onboarding-images/step-1.png';
 import ImageStep2 from '@/public/onboarding-images/step-2.png';
 import ImageStep3 from '@/public/onboarding-images/step-3.png';
 import PointingHand from '@/public/onboarding-images/pointinghand.png';
-import {ArrowRight} from 'lucide-react';
-import {useSearchParams, useRouter} from 'next/navigation';
-import * as React from 'react';
 
 const OnboardingDialog = () => {
   // Set theme to light mode

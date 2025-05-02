@@ -1,8 +1,7 @@
-import Salon from '@/app/models/salon';
-import {authOptions} from '@/lib/auth';
-import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 import {type NextRequest} from 'next/server';
+import {authOptions} from '@/lib/auth';
+import {stripe} from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
   try {

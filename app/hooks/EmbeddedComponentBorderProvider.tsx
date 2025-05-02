@@ -35,12 +35,12 @@ export const EmbeddedComponentBorderProvider = ({
   );
 
   const handleEnableBorderChange = useCallback(
-    (enableBorder: boolean) => {
+    (localEnableBorder: boolean) => {
       if (!localWindow) {
         return;
       }
 
-      if (enableBorder) {
+      if (localEnableBorder) {
         localWindow.localStorage.setItem('enableBorder', '1');
         setEnableBorder(true);
       } else {

@@ -1,6 +1,4 @@
 import * as React from 'react';
-import {ChevronUp, ChevronDown} from 'lucide-react';
-import {cn} from '@/lib/utils';
 
 export interface CollapsibleProps {
   open: boolean;
@@ -8,7 +6,7 @@ export interface CollapsibleProps {
 }
 
 const Collapsible = React.forwardRef<HTMLInputElement, CollapsibleProps>(
-  ({open, children, ...props}, ref) => {
+  ({open, children, ..._props}, _ref) => {
     return <>{open && children}</>;
   }
 );

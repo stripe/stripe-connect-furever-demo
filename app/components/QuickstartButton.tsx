@@ -5,8 +5,8 @@ import {Loader2} from 'lucide-react';
 import {generate} from 'random-words';
 import {signIn} from 'next-auth/react';
 import {ArrowRight} from 'lucide-react';
-import {Button} from '@/components/ui/button';
 import {useRouter} from 'next/navigation';
+import {Button} from '@/components/ui/button';
 
 const QuickstartButton = () => {
   const [loading, setLoading] = React.useState(false);

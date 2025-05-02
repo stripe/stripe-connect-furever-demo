@@ -1,15 +1,19 @@
 'use client';
 
 import * as React from 'react';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {ControllerRenderProps, useForm} from 'react-hook-form';
+import {z} from 'zod';
+import {LoaderCircle} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from '@/components/ui/dialog';
 import {Input} from '@/components/ui/input';
 import {
@@ -27,11 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {ControllerRenderProps, useForm} from 'react-hook-form';
-import {z} from 'zod';
-import {useRouter} from 'next/navigation';
-import {LoaderCircle} from 'lucide-react';
 
 const formSchema = z.object({
   amount: z.string(),
@@ -90,8 +89,6 @@ export default function CreateCheckoutSessionButton({
 }: {
   classes?: string;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -134,7 +131,6 @@ export default function CreateCheckoutSessionButton({
       }
 
       setLoading(false);
-      setOpen(false);
     }
   };
 

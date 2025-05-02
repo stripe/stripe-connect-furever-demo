@@ -1,12 +1,12 @@
 'use client';
 
-import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {
-  ConnectTaxSettings,
   ConnectTaxRegistrations,
+  ConnectTaxSettings,
   ConnectTaxThresholdMonitoring,
 } from '@stripe/react-connect-js';
+import Container from '@/app/components/Container';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 
 export default function Tax() {
   return (

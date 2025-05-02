@@ -1,8 +1,7 @@
-import {Stripe} from 'stripe';
-import {authOptions} from '@/lib/auth';
-import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 import {NextRequest} from 'next/server';
+import {authOptions} from '@/lib/auth';
+import {stripe} from '@/lib/stripe';
 
 const customers = [
   {

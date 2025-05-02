@@ -2,19 +2,14 @@
 
 import React from 'react';
 import {useRouter} from 'next/navigation';
-import {signIn} from 'next-auth/react';
 
 // https://lucide.dev/icons/
 import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
   Coins as CoinsIcon,
+  Home as HomeIcon,
   Landmark as LandmarkIcon,
   Settings as SettingsIcon,
-  Milestone as MilestoneIcon,
-  LogIn as LogInIcon,
-  Loader as LoaderIcon,
-  Key as KeyIcon,
+  Wallet as WalletIcon,
 } from 'lucide-react';
 
 import {
@@ -42,8 +37,6 @@ const stripeCommands = [
 
 const DebugMenu = () => {
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [commandError, setCommandError] = React.useState<Error | null>(null);
   const [actionMenu, setActionMenu] = React.useState<React.ReactNode | null>(
     null
   );

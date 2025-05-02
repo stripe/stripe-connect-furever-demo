@@ -6,6 +6,7 @@ import {signIn} from 'next-auth/react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {ControllerRenderProps, useForm} from 'react-hook-form';
 import {z} from 'zod';
+import {ArrowRight, ChevronDown, ChevronUp, Loader2} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
   Form,
@@ -24,14 +25,12 @@ import {
 } from '@/components/ui/select';
 import {Input} from '@/components/ui/input';
 import {Collapsible} from '@/components/ui/collapsible';
-import {ChevronUp, ChevronDown, ArrowRight, Loader2} from 'lucide-react';
-import {Link} from '@/components/ui/link';
 import {
   businessTypes,
   countries,
-  stripeDashboardTypes,
-  paymentLosses,
   feePayers,
+  paymentLosses,
+  stripeDashboardTypes,
 } from '@/types/account';
 import type {FeePayer, StripeDashboardType} from '@/types/account';
 

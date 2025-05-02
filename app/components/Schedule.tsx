@@ -1,8 +1,7 @@
-import schedule from '@/app/data/schedule.json';
-import Container from '@/app/components/Container';
 import Image from 'next/image';
+import {ChevronDown} from 'lucide-react';
+import schedule from '@/app/data/schedule.json';
 import {Badge} from '@/components/ui/badge';
-import {ChevronLeft, ChevronRight, ChevronDown} from 'lucide-react';
 
 const SCHEDULE_HEIGHT = 1440;
 const MINUTES_IN_BUSINESS_DAY = 600;
@@ -23,7 +22,6 @@ function getMinutesSince9AM() {
   const currentMinute = now.getMinutes();
 
   const targetHour = 9; // 9 AM
-  const targetMinute = 0; // 0 minutes
 
   let minutesSince9AM = 0;
 

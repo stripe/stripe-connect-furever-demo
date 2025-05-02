@@ -1,10 +1,10 @@
 'use client';
 
 import {signOut} from 'next-auth/react';
+import {ExternalLink} from 'lucide-react';
 import SubNav from '@/app/components/SubNav';
 import {Button} from '@/components/ui/button';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
-import {ExternalLink} from 'lucide-react';
 import {useDashboardLoginLink} from '@/app/hooks/useDashboardLoginLink';
 
 export default function SettingsLayout({

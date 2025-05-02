@@ -1,15 +1,14 @@
 'use client';
 import React from 'react';
-import {useState} from 'react';
+import {ConnectNotificationBanner} from '@stripe/react-connect-js';
+import {useSession} from 'next-auth/react';
+import {redirect} from 'next/navigation';
 import Schedule from '@/app/components/Schedule';
 import BalanceWidget from '@/app/components/BalanceWidget';
 import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {ConnectNotificationBanner} from '@stripe/react-connect-js';
-import {useSession} from 'next-auth/react';
-import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
 import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancingPromotionSection';
 
@@ -20,8 +19,6 @@ export default function Dashboard() {
   }
 
   const name = session.user.stripeAccount.individual?.first_name;
-
-  const BREAKPOINT = 1190;
 
   const [showBanner, setShowBanner] = React.useState(false);
 

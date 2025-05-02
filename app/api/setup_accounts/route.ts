@@ -1,7 +1,7 @@
+import {getServerSession} from 'next-auth';
 import Salon from '@/app/models/salon';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
-import {getServerSession} from 'next-auth';
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -2,14 +2,12 @@
 
 import * as React from 'react';
 import {ConnectPayments} from '@stripe/react-connect-js';
+import {LoaderCircle} from 'lucide-react';
+import {useSession} from 'next-auth/react';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
-import {useSession} from 'next-auth/react';
-import CreatePaymentsButton from '@/app/components/testdata/CreatePaymentsButton';
 
 export default function Payments() {
   const {data: session} = useSession();

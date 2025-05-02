@@ -6,12 +6,12 @@ import {
   ConnectFinancialAccount,
   ConnectFinancialAccountTransactions,
 } from '@stripe/react-connect-js';
+import {LandmarkIcon, LoaderCircle} from 'lucide-react';
+import {FinancingProductType} from '@stripe/connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {LandmarkIcon, LoaderCircle} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
-import {FinancingProductType} from '@stripe/connect-js';
 
 function FinancialAccountSection() {
   const {

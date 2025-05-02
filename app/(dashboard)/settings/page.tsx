@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 import {
-  ConnectPaymentMethodSettings,
   ConnectAccountManagement,
   ConnectNotificationBanner,
+  ConnectPaymentMethodSettings,
 } from '@stripe/react-connect-js';
+import {useSession} from 'next-auth/react';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
 

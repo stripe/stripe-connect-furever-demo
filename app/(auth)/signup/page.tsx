@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
-import {Sparkles, KeyRound, Pencil} from 'lucide-react';
-import Form from './form';
-import QuickstartButton from '@/app/components/QuickstartButton';
+import {KeyRound, Pencil, Sparkles} from 'lucide-react';
 import {getServerSession} from 'next-auth';
 import {redirect} from 'next/navigation';
+import QuickstartButton from '@/app/components/QuickstartButton';
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import Form from './form';
 
 export default async function Signup() {
   const session = await getServerSession();

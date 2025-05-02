@@ -1,4 +1,5 @@
-import {useContext, useCallback} from 'react';
+import {useCallback, useContext} from 'react';
+import {OverlayOption} from '@stripe/connect-js';
 import {
   Select,
   SelectContent,
@@ -7,7 +8,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {SettingsContext} from '@/app/contexts/settings';
-import {OverlayOption} from '@stripe/connect-js';
 
 const Overlays: Array<{overlayType: OverlayOption; label: string}> = [
   {label: 'Dialog', overlayType: 'dialog'},

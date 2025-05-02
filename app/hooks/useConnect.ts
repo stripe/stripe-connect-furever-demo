@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState, useCallback} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
