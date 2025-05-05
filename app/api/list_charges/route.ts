@@ -1,7 +1,7 @@
 import {getServerSession} from 'next-auth/next';
+import {NextRequest} from 'next/server';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
-import {NextRequest} from 'next/server';
 
 export async function GET(req: NextRequest) {
   const json = await req.json();

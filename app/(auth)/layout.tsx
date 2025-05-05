@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import Container from '@/app/components/Container';
-import FureverLogo from '@/public/furever_logo.png';
-import Stripe from '@/public/stripe-gray.svg';
 import Link from 'next/link';
 import {signOut} from 'next-auth/react';
 import {useSession} from 'next-auth/react';
+import Container from '@/app/components/Container';
+import FureverLogo from '@/public/furever_logo.png';
+import Stripe from '@/public/stripe-gray.svg';
 import {Button} from '@/components/ui/button';
 
 export default function AuthLayout({

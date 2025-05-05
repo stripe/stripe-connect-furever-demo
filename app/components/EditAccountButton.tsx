@@ -1,18 +1,11 @@
 import Link from 'next/link';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import {z} from 'zod';
-import {Button} from '@/components/ui/button';
-import {Input} from '@/components/ui/input';
 import {useSession} from 'next-auth/react';
 import {redirect, useRouter} from 'next/navigation';
 import React from 'react';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+import bcrypt from 'bcryptjs';
 import {
   Form,
   FormControl,
@@ -21,9 +14,16 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {useForm} from 'react-hook-form';
-import bcrypt from 'bcryptjs';
+import {Input} from '@/components/ui/input';
+import {Button} from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -42,7 +42,6 @@ const EditAccountButton = () => {
     }
 
     const email = session?.user?.email;
-    const password = session?.user?.password;
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {

@@ -1,4 +1,4 @@
-import {useContext, useCallback} from 'react';
+import {useCallback, useContext} from 'react';
 import {
   Select,
   SelectContent,
@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {LocaleType, Locales} from '@/types/settings';
+import {Locales} from '@/types/settings';
 import {SettingsContext} from '@/app/contexts/settings';
 
 type LocaleProps = {

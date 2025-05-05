@@ -5,22 +5,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
   Coins as CoinsIcon,
+  Home as HomeIcon,
   Landmark as LandmarkIcon,
+  Menu as MenuIcon,
   Dog as PetsIcon,
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
-  Menu as MenuIcon,
+  Wallet as WalletIcon,
 } from 'lucide-react';
+import Stripe from 'stripe';
+import * as React from 'react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
-import Stripe from 'stripe';
-import {Switch} from '@/components/ui/switch';
-import {Label} from '@/components/ui/label';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
-import * as React from 'react';
 
 const navigationMenuItems = [
   {

@@ -1,3 +1,5 @@
+'use server';
+
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
@@ -14,27 +16,34 @@ export async function GET() {
       });
     }
 
-    if (
-      session.user.stripeAccount.controller?.stripe_dashboard?.type !==
-      'express'
-    ) {
-      console.error('User does not have access to Express dashboard');
-      return new Response('User does not have access to Express dashboard.', {
-        status: 400,
-      });
-    }
+    let url = '';
 
-    const link = await stripe.accounts.createLoginLink(stripeAccount);
+    switch (session.user.stripeAccount.controller?.stripe_dashboard?.type) {
+      case 'express':
+        const link = await stripe.accounts.createLoginLink(stripeAccount);
+        url = link.url;
+        break;
+      case 'full':
+        url = `https://dashboard.stripe.com/a/${stripeAccount}`;
+        break;
+      default:
+        return new Response(
+          'User does not have access to a Stripe dashboard.',
+          {
+            status: 400,
+          }
+        );
+    }
 
     return new Response(
       JSON.stringify({
-        url: link.url,
+        url,
       }),
       {status: 200, headers: {'Content-Type': 'application/json'}}
     );
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create a login link',
+      'An error occurred when generating a link for the dashboard',
       error
     );
     return new Response(error.message, {status: 500});

@@ -1,11 +1,11 @@
 'use client';
 
 import {signOut} from 'next-auth/react';
+import {ExternalLink} from 'lucide-react';
 import SubNav from '@/app/components/SubNav';
 import {Button} from '@/components/ui/button';
 import {useConnectJSContext} from '@/app/hooks/EmbeddedComponentProvider';
-import {ExternalLink} from 'lucide-react';
-import {useExpressDashboardLoginLink} from '@/app/hooks/useExpressDashboardLoginLink';
+import {useDashboardLoginLink} from '@/app/hooks/useDashboardLoginLink';
 
 export default function SettingsLayout({
   children,
@@ -14,8 +14,7 @@ export default function SettingsLayout({
 }>) {
   const connectJSContext = useConnectJSContext();
 
-  const {hasExpressDashboardAccess, expressDashboardLoginLink} =
-    useExpressDashboardLoginLink();
+  const {hasDashboardAccess, dashboardLoginLink} = useDashboardLoginLink();
 
   return (
     <>
@@ -32,17 +31,17 @@ export default function SettingsLayout({
               {path: '/settings/tax', label: 'Tax'},
             ]}
           />
-          {hasExpressDashboardAccess && (
+          {hasDashboardAccess && (
             <div>
               <Button
                 className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
                 variant="ghost"
                 onClick={async () => {
-                  window.open(expressDashboardLoginLink, '_blank');
+                  window.open(dashboardLoginLink, '_blank');
                 }}
-                aria-label="Open Stripe Express Dashboard"
+                aria-label="Open Stripe Dashboard"
               >
-                Express Dashboard &nbsp;
+                Stripe Dashboard &nbsp;
                 <ExternalLink color="var(--subdued)" size={20} />
               </Button>
             </div>

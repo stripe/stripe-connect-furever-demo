@@ -1,10 +1,10 @@
 import React from 'react';
-import Container from './Container';
 import {ConnectCapitalFinancingPromotion} from '@stripe/react-connect-js';
 import {FinancingProductType} from '@stripe/connect-js';
 
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import type {FinancingPromotionLayoutType} from '@stripe/connect-js';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import Container from './Container';
 
 export function CapitalFinancingPromotionSection({
   className = '',

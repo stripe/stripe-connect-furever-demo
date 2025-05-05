@@ -1,61 +1,30 @@
 'use client';
 
-import {useSession} from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import Stripe from '@/public/stripe-gray.svg';
-import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
-  Coins as CoinsIcon,
-  Landmark as LandmarkIcon,
-  Dog as PetsIcon,
-  Settings as SettingsIcon,
-  Sparkles as SparklesIcon,
-  Menu as MenuIcon,
-  File as FileIcon,
-  PanelLeftClose,
-  X,
-} from 'lucide-react';
-import {Button} from '@/components/ui/button';
-import FureverLogo from '@/public/furever_logo.png';
-import {Switch} from '@/components/ui/switch';
-import {Label} from '@/components/ui/label';
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from '@/components/ui/select';
-import {RadioGroup, RadioGroupItem} from '@/components/ui/radiogroup';
+import {File as FileIcon, PanelLeftClose, X} from 'lucide-react';
 import {Sparkles} from 'lucide-react';
-import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
-import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import * as React from 'react';
+import {Label} from '@/components/ui/label';
+import {Switch} from '@/components/ui/switch';
+import {Button} from '@/components/ui/button';
+import Stripe from '@/public/stripe-gray.svg';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
-import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
 import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
+import {useToolsContext} from '../hooks/ToolsPanelProvider';
+import {useEmbeddedComponentBorder} from '../hooks/EmbeddedComponentBorderProvider';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
-  const {data: session} = useSession();
 
-  const stripeAccount = session?.user?.stripeAccount;
-
-  const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
   const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
   const {handleOpenChange} = useToolsContext();
   const [border, setBorder] = React.useState(true);
-  const [theme, setTheme] = React.useState('light');
-  const [locale, setLocale] = React.useState('english');
-  const [overlay, setOverlay] = React.useState('dialog');
 
   const actions = [
     {
@@ -100,16 +69,7 @@ const ToolsPanel = () => {
         {actions.map(
           (action) =>
             pathname.includes(action.href) &&
-            action.component && (
-              // <Button
-              //   className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
-              //   variant="secondary"
-              //   key={action.description}
-              // >
-              //   {action.description}
-              // </Button>
-              <action.component key={action.description} />
-            )
+            action.component && <action.component key={action.description} />
         )}
       </div>
     );
@@ -141,12 +101,6 @@ const ToolsPanel = () => {
           </Label>
           <LocaleSelector />
         </div>
-        {/* <div className="flex flex-row justify-between">
-          <Label className="text-left" htmlFor="outline">
-            Overlay style
-          </Label>
-          <OverlaySelector />
-        </div> */}
       </div>
     );
   };

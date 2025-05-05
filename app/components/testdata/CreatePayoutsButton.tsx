@@ -1,6 +1,6 @@
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
+import {LoaderCircle} from 'lucide-react';
 import React from 'react';
+import {Button} from '@/components/ui/button';
 
 export default function CreatePayoutsButton({classes}: {classes?: string}) {
   const [buttonLoading, setButtonLoading] = React.useState(false);

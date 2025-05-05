@@ -2,19 +2,14 @@
 
 import React from 'react';
 import {useRouter} from 'next/navigation';
-import {signIn} from 'next-auth/react';
 
 // https://lucide.dev/icons/
 import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
   Coins as CoinsIcon,
+  Home as HomeIcon,
   Landmark as LandmarkIcon,
   Settings as SettingsIcon,
-  Milestone as MilestoneIcon,
-  LogIn as LogInIcon,
-  Loader as LoaderIcon,
-  Key as KeyIcon,
+  Wallet as WalletIcon,
 } from 'lucide-react';
 
 import {
@@ -42,8 +37,6 @@ const stripeCommands = [
 
 const DebugMenu = () => {
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [commandError, setCommandError] = React.useState<Error | null>(null);
   const [actionMenu, setActionMenu] = React.useState<React.ReactNode | null>(
     null
   );
@@ -167,90 +160,6 @@ const DebugMenu = () => {
                   <span>Settings</span>
                 </CommandItem>
               </CommandGroup>
-              {process.env.NODE_ENV !== 'production' && (
-                <CommandGroup heading="Demo">
-                  <CommandItem
-                    onSelect={async () => {
-                      // Get the login as demo account id
-                      setLoading(true);
-                      setCommandError(null);
-
-                      try {
-                        const response = await fetch(
-                          '/api/debug/get_demo_account',
-                          {
-                            method: 'POST',
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                          }
-                        );
-                        const json = await response.json();
-                        if (json.error) {
-                          throw new Error(json.error);
-                        }
-                        const {accountId} = json;
-
-                        // Login as that account
-                        await signIn('loginas', {
-                          accountId,
-                          redirect: false,
-                        });
-
-                        console.log('Logged in as demo account', accountId);
-
-                        // Ensure we're in the en-US locale
-                        settings.handleUpdate({locale: 'en-US'});
-
-                        router.push('/');
-                        setLoading(false);
-                        setOpen(false);
-                      } catch (error: any) {
-                        console.error(
-                          'An error occurred when logging in as a demo account',
-                          error
-                        );
-                        setCommandError(error);
-                        setLoading(false);
-                      }
-                    }}
-                  >
-                    {loading ? (
-                      <LoaderIcon className="mr-2 h-4 w-4" />
-                    ) : (
-                      <LogInIcon className="mr-2 h-4 w-4" />
-                    )}
-                    <span>
-                      {loading
-                        ? 'Logging in as Demo account...'
-                        : 'Login as Demo Account'}
-                    </span>
-                    {commandError && (
-                      <div className="ml-2 text-red-500">
-                        Error: {commandError.message}
-                      </div>
-                    )}
-                  </CommandItem>
-                  <CommandItem
-                    onSelect={() => {
-                      router.push('/register');
-                      setOpen(false);
-                    }}
-                  >
-                    <MilestoneIcon className="mr-2 h-4 w-4" />
-                    <span>Demo Onboarding Registration</span>
-                  </CommandItem>
-                  <CommandItem
-                    onSelect={() => {
-                      router.push('/loginas');
-                      setOpen(false);
-                    }}
-                  >
-                    <KeyIcon className="mr-2 h-4 w-4" />
-                    <span>Login As</span>
-                  </CommandItem>
-                </CommandGroup>
-              )}
             </CommandList>
           </>
         )}

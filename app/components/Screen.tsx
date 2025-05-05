@@ -1,9 +1,5 @@
 import Nav from '@/app/components/Nav';
-import Container from '@/app/components/Container';
-import {
-  useToolsContext,
-  ToolsPanelProvider,
-} from '@/app/hooks/ToolsPanelProvider';
+import {useToolsContext} from '@/app/hooks/ToolsPanelProvider';
 import ToolsPanel from '@/app/components/ToolsPanel';
 import OnboardingDialog from '../components/OnboardingDialog';
 import {useSettings} from '../hooks/useSettings';
@@ -13,7 +9,7 @@ export default function Screen({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {open, handleOpenChange} = useToolsContext();
+  const {open} = useToolsContext();
   const {theme} = useSettings();
 
   return (

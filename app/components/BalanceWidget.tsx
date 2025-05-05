@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import Container from './Container';
 import {ChevronRight} from 'lucide-react';
+import Container from './Container';
 
 const BalanceWidget = () => {
   return (

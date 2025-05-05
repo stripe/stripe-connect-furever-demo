@@ -1,13 +1,6 @@
 'use client';
 
-import Dog from '@/public/landing-page.jpeg';
-import FureverLogo from '@/public/furever_logo.png';
 import Image from 'next/image';
-import DogHug from '@/public/testimonial.jpeg';
-import QuotePortrait from '@/public/testimonial-portrait.jpg';
-import Dashboard from '@/public/dashboard.png';
-import Stripe from '@/public/stripe.svg';
-import {Button} from '@/components/ui/button';
 import {
   ArrowRight,
   CalendarCheck,
@@ -17,6 +10,13 @@ import {
 } from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
+import Dog from '@/public/landing-page.jpeg';
+import FureverLogo from '@/public/furever_logo.png';
+import DogHug from '@/public/testimonial.jpeg';
+import QuotePortrait from '@/public/testimonial-portrait.jpg';
+import Dashboard from '@/public/dashboard.png';
+import Stripe from '@/public/stripe.svg';
+import {Button} from '@/components/ui/button';
 
 function Card({
   icon,

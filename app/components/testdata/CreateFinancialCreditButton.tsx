@@ -1,7 +1,7 @@
+import {LoaderCircle} from 'lucide-react';
+import React from 'react';
 import {useFinancialAccount} from '@/app/hooks/useFinancialAccount';
 import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
-import React from 'react';
 
 export default function CreateFinancialCreditButton({
   classes,

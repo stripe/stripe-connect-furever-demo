@@ -1,5 +1,5 @@
-import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
 import {ChevronRight} from 'lucide-react';
+import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
 
 const EmbeddedComponentContainer = ({
   children,

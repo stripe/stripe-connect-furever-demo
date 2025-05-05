@@ -1,14 +1,10 @@
 import type {AuthOptions} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import Stripe from 'stripe';
 import dbConnect from '@/lib/dbConnect';
-import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
-import Stripe from 'stripe';
-
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import Salon from '../app/models/salon';
 
 export const authOptions: AuthOptions = {
   session: {
@@ -122,62 +118,6 @@ export const authOptions: AuthOptions = {
         return {
           id: user._id,
           email: user.email,
-        };
-      },
-    }),
-    CredentialsProvider({
-      id: 'loginas',
-      name: 'Account ID',
-      credentials: {
-        accountId: {},
-      },
-      async authorize(credentials, req) {
-        await dbConnect();
-
-        let user = null;
-        try {
-          const stripeAccountId = credentials?.accountId;
-          // Login as sets the password if it doesn't exist
-          const password = 'go bears';
-
-          if (!stripeAccountId) {
-            console.log('Could not find an account id for provider');
-            return null;
-          }
-
-          user = await Salon.findOne({stripeAccountId: stripeAccountId});
-          if (!user) {
-            // See if they exist on the platform
-            const stripeAccount =
-              await stripe.accounts.retrieve(stripeAccountId);
-            if (stripeAccount?.email) {
-              // Create the account locally
-              user = new Salon({
-                email: stripeAccount.email,
-                password,
-                firstName: stripeAccount.individual?.first_name,
-                lastName: stripeAccount.individual?.last_name,
-                stripeAccountId: stripeAccountId,
-              });
-              console.log('Creating Salon...');
-              await user!.save();
-              console.log('Salon was created');
-            } else {
-              console.log(
-                'Could not find a user for account id',
-                stripeAccountId
-              );
-              return null;
-            }
-          }
-        } catch (err) {
-          console.warn('Got an error authorizing a user during login', err);
-          return null;
-        }
-
-        return {
-          id: user!._id,
-          email: user!.email,
         };
       },
     }),

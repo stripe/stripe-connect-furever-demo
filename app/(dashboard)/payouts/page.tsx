@@ -1,13 +1,11 @@
 'use client';
 
 import {ConnectPayouts} from '@stripe/react-connect-js';
-import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
+import {LoaderCircle} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import React from 'react';
-import CreatePayoutsButton from '@/app/components/testdata/CreatePayoutsButton';
+import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import Container from '@/app/components/Container';
 
 export default function Payouts() {
   const {data: session} = useSession();
