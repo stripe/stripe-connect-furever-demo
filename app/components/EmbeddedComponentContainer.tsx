@@ -52,6 +52,10 @@ const EmbeddedComponentContainer = ({
         'https://docs.stripe.com/connect/supported-embedded-components/tax-registrations',
       TaxSettings:
         'https://docs.stripe.com/connect/supported-embedded-components/tax-settings',
+      TaxThresholdMonitoring:
+        'https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring',
+      ExportTaxTransactions:
+        'https://docs.stripe.com/connect/supported-embedded-components/export-tax-transactions',
     };
 
     if (!enableBorder) {
