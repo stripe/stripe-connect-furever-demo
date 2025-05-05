@@ -55,9 +55,9 @@ export default function Dashboard() {
         <Container className="flex w-full flex-1 flex-col p-5">
           <Schedule />
         </Container>
-        <div className="-order-1 flex w-full flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
+        <div className="-order-1 flex w-full min-w-[370px] flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
           <div className="flex flex-grow flex-col gap-2 md:gap-4 md:max-xl:flex-row">
-            <Container className="px-3 py-4">
+            <Container className="flex-grow px-3 py-4">
               <EmbeddedComponentContainer componentName="Balances">
                 <ConnectBalances />
               </EmbeddedComponentContainer>
