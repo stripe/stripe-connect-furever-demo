@@ -63,8 +63,8 @@ function FinancialAccountSection() {
 
   if (loading) {
     return (
-      <Container>
-        <LoaderCircle className="align-center ml-1 animate-spin" size={60} />
+      <Container className="h-64 content-center">
+        <LoaderCircle className="mx-auto animate-spin" size={30} />
       </Container>
     );
   }
@@ -95,7 +95,7 @@ function FinancialAccountSection() {
             <h1 className="text-xl font-medium"> Financial account </h1>
             <p className="font-normal text-subdued">
               A financial account allows you to access loans, create cards, and
-              more. Learn more
+              more.
             </p>
           </div>
           <Button className="mb-14" onClick={onClick} disabled={buttonLoading}>

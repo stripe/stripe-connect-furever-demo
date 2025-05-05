@@ -1,13 +1,11 @@
 'use client';
 
-import {ConnectPayouts} from '@stripe/react-connect-js';
+import {ConnectPayouts, ConnectBalances} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
+import {LoaderCircle} from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import React from 'react';
-import CreatePayoutsButton from '@/app/components/testdata/CreatePayoutsButton';
 
 export default function Payouts() {
   const {data: session} = useSession();
@@ -23,7 +21,6 @@ export default function Payouts() {
         <h1 className="text-3xl font-bold">Payouts</h1>
       </div>
       <Container>
-        <h1 className="ml-1 text-xl font-bold">Recent payouts</h1>
         <EmbeddedComponentContainer componentName="Payouts">
           {loading ? (
             <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">

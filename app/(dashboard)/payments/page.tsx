@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {ConnectPayments} from '@stripe/react-connect-js';
+import {ConnectPayments, ConnectReportingChart} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';

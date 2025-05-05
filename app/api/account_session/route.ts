@@ -110,6 +110,15 @@ export async function POST(req: NextRequest) {
         payments: {
           enabled: true,
         },
+        balances: {
+          enabled: true,
+          features: {
+            instant_payouts: true,
+            standard_payouts: true,
+            edit_payout_schedule: true,
+            disable_stripe_user_authentication: isCustom,
+          },
+        },
         payouts: {
           enabled: true,
           features: {

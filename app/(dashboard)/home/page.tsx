@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
-import {useState} from 'react';
 import Schedule from '@/app/components/Schedule';
-import BalanceWidget from '@/app/components/BalanceWidget';
-import RecentPaymentsWidget from '@/app/components/RecentPaymentsWidget';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {ConnectNotificationBanner} from '@stripe/react-connect-js';
+import {
+  ConnectNotificationBanner,
+  ConnectBalances,
+} from '@stripe/react-connect-js';
 import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
@@ -57,12 +57,15 @@ export default function Dashboard() {
         </Container>
         <div className="-order-1 flex w-full flex-col gap-2 md:gap-4 xl:order-2 xl:w-[30%]">
           <div className="flex flex-grow flex-col gap-2 md:gap-4 md:max-xl:flex-row">
-            <BalanceWidget />
+            <Container className="px-3 py-4">
+              <EmbeddedComponentContainer componentName="Balances">
+                <ConnectBalances />
+              </EmbeddedComponentContainer>
+            </Container>
             <CapitalFinancingPromotionSection
               layout="banner"
               className="w-full px-5"
             />
-            <RecentPaymentsWidget />
           </div>
           <h2 className="hidden pt-4 text-lg font-bold xl:block">
             Performance
