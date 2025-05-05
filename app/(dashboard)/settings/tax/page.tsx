@@ -6,6 +6,7 @@ import {
   ConnectTaxSettings,
   ConnectTaxRegistrations,
   ConnectTaxThresholdMonitoring,
+  ConnectExportTaxTransactions,
 } from '@stripe/react-connect-js';
 
 export default function Tax() {
@@ -38,6 +39,16 @@ export default function Tax() {
         </p>
         <EmbeddedComponentContainer componentName="TaxThresholdMonitoring">
           <ConnectTaxThresholdMonitoring />
+        </EmbeddedComponentContainer>
+      </Container>
+      <Container>
+        <h1 className="text-xl font-semibold">Export tax transactions</h1>
+        <p className="text-subdued">
+          Retrieve and export your tax transactions for reporting and analysis
+          purposes, ensuring compliance with tax regulations.
+        </p>
+        <EmbeddedComponentContainer componentName="ExportTaxTransactions">
+          <ConnectExportTaxTransactions />
         </EmbeddedComponentContainer>
       </Container>
     </>

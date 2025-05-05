@@ -168,6 +168,9 @@ export async function POST(req: NextRequest) {
         tax_threshold_monitoring: {
           enabled: true,
         },
+        export_tax_transactions: {
+          enabled: true,
+        },
       },
     });
 
