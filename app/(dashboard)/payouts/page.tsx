@@ -1,6 +1,6 @@
 'use client';
 
-import {ConnectPayouts, ConnectBalances} from '@stripe/react-connect-js';
+import {ConnectPayouts} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {LoaderCircle} from 'lucide-react';
