@@ -93,5 +93,30 @@
     "name": "Jake",
     "date": "Mar 1",
     "profilePhoto": "jake"
+  },
+  {
+    "name": "Miko",
+    "date": "Nov 23",
+    "profilePhoto": "miko"
+  },
+  {
+    "name": "Feifei and Celery",
+    "date": "Jan 18",
+    "profilePhoto": "feifei_celery"
+  },
+  {
+    "name": "Duoduo",
+    "date": "May 5",
+    "profilePhoto": "duoduo"
+  },
+  {
+    "name": "Cedar",
+    "date": "July 1",
+    "profilePhoto": "cedar"
+  },
+  {
+    "name": "Rambo",
+    "date": "Dec 11",
+    "profilePhoto": "rambo"
   }
 ]
