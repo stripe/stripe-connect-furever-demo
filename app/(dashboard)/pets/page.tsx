@@ -44,9 +44,7 @@ export default function Pets() {
               <div className="flex w-full flex-col gap-4 md:flex-row md:items-center">
                 <div className="flex-1">
                   <h3 className="text-lg font-medium">{pet.name}</h3>
-                  <p className="text-sm text-subdued">
-                    Member since: {pet.date}
-                  </p>
+                  <p className="text-sm text-subdued">Joined {pet.date}</p>
                 </div>
                 <div className="flex gap-5">
                   <PhoneIcon size={24} color="var(--accent)" />
