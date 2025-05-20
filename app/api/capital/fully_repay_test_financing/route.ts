@@ -13,7 +13,7 @@ export async function POST() {
       .filter((o) => o.status === 'paid_out')
       .at(0);
 
-    if (offer == undefined) {
+    if (offer === undefined) {
       throw Error(
         'Unable to find offer with status `paid_out` for connected account: ' +
           connected_account
