@@ -13,6 +13,13 @@ export async function POST() {
       .filter((o) => o.status === 'delivered')
       .at(0);
 
+    if (offer == undefined) {
+      throw Error(
+        'Unable to find offer with status `delivered` for connected account: ' +
+          connected_account
+      );
+    }
+
     await stripe.rawRequest(
       'POST',
       `/v1/capital/financing_offers/${offer!.id}/expire`,

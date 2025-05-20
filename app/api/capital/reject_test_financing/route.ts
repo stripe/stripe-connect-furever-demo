@@ -13,6 +13,13 @@ export async function POST() {
       .filter((o) => o.status === 'accepted')
       .at(0);
 
+    if (offer == undefined) {
+      throw Error(
+        'Unable to find offer with status `accepted` for connected account: ' +
+          connected_account
+      );
+    }
+
     await stripe.rawRequest(
       'POST',
       `/v1/capital/financing_offers/${offer!.id}/revoke_v2`,
