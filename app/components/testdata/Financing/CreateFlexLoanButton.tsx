@@ -64,24 +64,24 @@ export function CreateFlexLoanButton({
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: 15,
                   alignItems: 'center',
+                  flexDirection: 'row',
                 }}
               >
-                <FormLabel>Offer state</FormLabel>
+                <FormLabel style={{flexGrow: 1}}>Offer state</FormLabel>
                 <Select
                   {...field}
                   onValueChange={(val) => setFinancingState(val as any)}
                 >
                   <SelectTrigger
-                    className="w-[162px] text-sm"
+                    className="w-[162px] text-xs"
                     disabled={buttonLoading}
                   >
-                    <SelectValue className="text-sm" placeholder="Locale">
+                    <SelectValue className="text-xs" placeholder="Locale">
                       {enumValueToSentenceCase(financingState)}
                     </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="z-[130] text-sm">
+                  <SelectContent className="z-[130] text-xs">
                     {SELECTABLE_OFFER_STATES_ARRAY.map((offerState, index) => (
                       <SelectItem value={`${offerState}`} key={index}>
                         {enumValueToSentenceCase(offerState)}
