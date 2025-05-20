@@ -52,7 +52,7 @@ export function TransitionFinancingButton({
     return (
       <Button
         className={`${classes || 'border'}`}
-        variant="default"
+        variant="secondary"
         onClick={form ? form.handleSubmit(onClick) : onClick}
         disabled={buttonLoading}
         size="sm"

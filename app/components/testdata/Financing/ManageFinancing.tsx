@@ -59,27 +59,27 @@ export default function ManageFinancing({classes}: {classes?: string}) {
           />
 
           <TransitionFinancingButton
-            label={'Expire Financing Offer'}
+            label={'Expire financing offer'}
             fetchUrl="/api/capital/expire_test_financing"
             visibleForOfferStates={['delivered']}
             offerState={offerState}
           />
 
           <TransitionFinancingButton
-            label={'Approve Financing Application'}
+            label={'Approve financing application'}
             fetchUrl="/api/capital/approve_test_financing"
             visibleForOfferStates={['accepted']}
             offerState={offerState}
           />
           <TransitionFinancingButton
-            label={'Reject Financing Application'}
+            label={'Reject financing application'}
             fetchUrl="/api/capital/reject_test_financing"
             visibleForOfferStates={['accepted']}
             offerState={offerState}
           />
 
           <TransitionFinancingButton
-            label={'Fully repay Financing'}
+            label={'Fully repay financing'}
             fetchUrl="/api/capital/fully_repay_test_financing"
             visibleForOfferStates={['paid_out']}
             offerState={offerState}

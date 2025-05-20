@@ -26,6 +26,12 @@ const SELECTABLE_OFFER_STATES_ARRAY: Array<
 
 type SelectableOfferStates = (typeof SELECTABLE_OFFER_STATES_ARRAY)[0];
 
+const enumValueToSentenceCase = (value: String) => {
+  const words = value.split('_');
+  words[0] = words[0].at(0)?.toUpperCase() + words[0].substring(1);
+  return words.join(' ');
+};
+
 export function CreateFlexLoanButton({
   classes,
   offerState: existingOfferState,
@@ -46,7 +52,7 @@ export function CreateFlexLoanButton({
     return (
       <>
         <div className="flex items-center text-sm font-bold text-primary">
-          Create Flex Loan
+          Create flex loan
         </div>
 
         <Form {...form}>
@@ -62,7 +68,7 @@ export function CreateFlexLoanButton({
                   alignItems: 'center',
                 }}
               >
-                <FormLabel>Offer Status</FormLabel>
+                <FormLabel>Offer state</FormLabel>
                 <Select
                   {...field}
                   onValueChange={(val) => setFinancingState(val as any)}
@@ -72,13 +78,13 @@ export function CreateFlexLoanButton({
                     disabled={buttonLoading}
                   >
                     <SelectValue className="text-xs" placeholder="Locale">
-                      {financingState}
+                      {enumValueToSentenceCase(financingState)}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent className="z-[130] text-xs">
                     {SELECTABLE_OFFER_STATES_ARRAY.map((offerState, index) => (
                       <SelectItem value={`${offerState}`} key={index}>
-                        {offerState}
+                        {enumValueToSentenceCase(offerState)}
                       </SelectItem>
                     ))}
                   </SelectContent>
