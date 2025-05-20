@@ -84,8 +84,8 @@ export function CreateFlexLoanButton({
                   <SelectContent className="z-[130] text-xs">
                     {SELECTABLE_OFFER_STATES_ARRAY.map((offerState, index) => (
                       <SelectItem
-                        value={`${offerState}`}
-                        key={index}
+                        value={offerState}
+                        key={offerState}
                         className="z-[130] text-xs"
                       >
                         {enumValueToSentenceCase(offerState)}
