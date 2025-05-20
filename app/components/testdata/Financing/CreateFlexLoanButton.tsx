@@ -82,7 +82,7 @@ export function CreateFlexLoanButton({
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent className="z-[130] text-xs">
-                    {SELECTABLE_OFFER_STATES_ARRAY.map((offerState, index) => (
+                    {SELECTABLE_OFFER_STATES_ARRAY.map((offerState) => (
                       <SelectItem
                         value={offerState}
                         key={offerState}
