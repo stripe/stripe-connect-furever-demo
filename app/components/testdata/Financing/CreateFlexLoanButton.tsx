@@ -74,14 +74,14 @@ export function CreateFlexLoanButton({
                   onValueChange={(val) => setFinancingState(val as any)}
                 >
                   <SelectTrigger
-                    className="w-[162px] text-xs"
+                    className="w-[162px] text-sm"
                     disabled={buttonLoading}
                   >
-                    <SelectValue className="text-xs" placeholder="Locale">
+                    <SelectValue className="text-sm" placeholder="Locale">
                       {enumValueToSentenceCase(financingState)}
                     </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="z-[130] text-xs">
+                  <SelectContent className="z-[130] text-sm">
                     {SELECTABLE_OFFER_STATES_ARRAY.map((offerState, index) => (
                       <SelectItem value={`${offerState}`} key={index}>
                         {enumValueToSentenceCase(offerState)}
