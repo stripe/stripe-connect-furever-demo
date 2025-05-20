@@ -42,6 +42,7 @@ import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
 import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
+import ManageFinancing from './testdata/Financing/ManageFinancing';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -91,6 +92,11 @@ const ToolsPanel = () => {
       description: 'Create a test financial credit',
       href: '/finances',
       component: CreateFinancialCreditButton,
+    },
+    {
+      description: 'Manage Financing',
+      href: '/finances',
+      component: ManageFinancing,
     },
   ];
 
