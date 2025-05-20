@@ -38,11 +38,10 @@ export default function ManageFinancing({classes}: {classes?: string}) {
     <>
       <div className="text-md my-4 flex items-center gap-x-2 font-bold text-primary">
         Capital
-        {loading && !offerState && (
-          <LoaderCircle className="ml-2 animate-spin items-center" size={20} />
-        )}
       </div>
-
+      {loading && !offerState && (
+        <LoaderCircle className="ml-2 animate-spin items-center" size={20} />
+      )}
       {!loading && offerState && (
         <>
           <CreateFlexLoanButton
