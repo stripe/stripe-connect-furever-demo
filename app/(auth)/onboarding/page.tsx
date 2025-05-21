@@ -27,6 +27,27 @@ export default function Onboarding() {
       publishableKey:
         'pk_test_51MZRIlLirQdaQn8EJpw9mcVeXokTGaiV1ylz5AVQtcA0zAkoM9fLFN81yQeHYBLkCiID1Bj0sL1Ngzsq9ksRmbBN00O3VsIUdQ',
       fetchClientSecret: fetchClientSecret,
+      appearance: {
+        variables: {
+          fontFamily: 'Sohne, inherit',
+          colorPrimary: '#27AE60',
+          colorBackground: '#ffffff',
+          colorBorder: '#D8DEE4',
+
+          buttonPrimaryColorBackground: '#27AE60',
+          buttonPrimaryColorText: '#f4f4f5',
+
+          badgeSuccessColorBackground: '#D6FCE6',
+          badgeSuccessColorText: '#1E884B',
+          badgeSuccessColorBorder: '#94D5AF',
+
+          badgeWarningColorBackground: '#FFEACC',
+          badgeWarningColorText: '#C95B4D',
+          badgeWarningColorBorder: '#FFD28C',
+
+          overlayBackdropColor: 'rgba(0,0,0,0.3)',
+        },
+      },
     });
   });
 
