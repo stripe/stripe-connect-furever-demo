@@ -1,4 +1,4 @@
-import {OverlayOption} from '@stripe/connect-js';
+import type {OverlayOption} from '@/app/components/Tools/OverlaySelector';
 
 export type LocaleType =
   | 'bg-BG'

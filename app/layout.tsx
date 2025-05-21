@@ -7,11 +7,14 @@ import NextAuthProvider from './auth';
 import DebugMenu from '@/app/components/debug/DebugMenu';
 import {SettingsProvider} from '@/app/contexts/settings';
 import {EmbeddedComponentBorderProvider} from '@/app/hooks/EmbeddedComponentBorderProvider';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
 });
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -32,7 +35,9 @@ export default function RootLayout({
         <NextAuthProvider>
           <SettingsProvider>
             <EmbeddedComponentBorderProvider>
-              {children}
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
             </EmbeddedComponentBorderProvider>
             <DebugMenu />
           </SettingsProvider>

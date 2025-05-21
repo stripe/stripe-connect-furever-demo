@@ -1,13 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  ConnectPaymentMethodSettings,
-  ConnectAccountManagement,
-  ConnectNotificationBanner,
-} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
@@ -36,17 +30,6 @@ export default function Settings() {
 
   return (
     <>
-      <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
-        <EmbeddedComponentContainer
-          componentName="NotificationBanner"
-          className="overflow-hidden rounded-lg px-0 py-0 pb-1"
-        >
-          <ConnectNotificationBanner
-            onNotificationsChange={renderConditionallyCallback}
-          />
-        </EmbeddedComponentContainer>
-      </div>
-
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
@@ -92,11 +75,6 @@ export default function Settings() {
             </header>
           </div>
         </div>
-        <div className="flex flex-col space-y-4">
-          <EmbeddedComponentContainer componentName="AccountManagement">
-            <ConnectAccountManagement />
-          </EmbeddedComponentContainer>
-        </div>
       </Container>
 
       <Container>
@@ -104,9 +82,6 @@ export default function Settings() {
           <h1 className="text-xl font-semibold">Payment methods</h1>
           <h2 className="text-subdued">Add and manage your payment methods.</h2>
         </header>
-        <EmbeddedComponentContainer componentName="PaymentMethodSettings">
-          <ConnectPaymentMethodSettings />
-        </EmbeddedComponentContainer>
       </Container>
     </>
   );
