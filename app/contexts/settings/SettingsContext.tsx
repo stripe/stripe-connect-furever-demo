@@ -1,7 +1,7 @@
 import {createContext} from 'react';
 
 import type {Settings} from '@/types/settings';
-import {OverlayOption} from '@stripe/connect-js';
+import type {OverlayOption} from '@/app/components/Tools/OverlaySelector';
 
 export const defaultSettings: Settings = {
   locale: 'en-US',

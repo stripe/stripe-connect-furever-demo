@@ -37,7 +37,7 @@ export default function AuthLayout({
 
   return (
     <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-4 sm:py-16">
-      <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-6">
+      <div className="mx-auto flex max-w-[600px] flex-col gap-6 p-3 sm:gap-6">
         <div className="mb-6 flex w-full justify-center">
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">

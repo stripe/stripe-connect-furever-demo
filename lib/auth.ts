@@ -392,32 +392,36 @@ export const authOptions: AuthOptions = {
               businessType = undefined; // We default to undefined so user can pick the business type during onboarding
           }
 
-          console.log('Creating stripe account for the email', email);
-          const account = await stripe.accounts.create({
-            country: credentials?.country || 'US',
-            business_type: businessType,
-            business_profile: {
-              name: credentials?.businessName || 'Furever Pet Salon',
-            },
+          console.log('Creating stripe account with params: ', {
             email: email,
-            controller: resolveControllerParams({
-              feePayer: credentials.feePayer,
-              paymentLosses: credentials.paymentLosses,
-              stripeDashboardType: credentials.stripeDashboardType,
-            }),
-            ...(credentials.stripeDashboardType === 'full'
-              ? {}
-              : {
-                  capabilities: {
-                    card_payments: {
-                      requested: true,
-                    },
-                    transfers: {
-                      requested: true,
-                    },
-                  },
-                }),
+            businessType: businessType,
+            country: credentials?.country,
+            businessName: credentials?.businessName,
           });
+
+          const account = await stripe.accounts.create({
+            controller: {
+              stripe_dashboard: {
+                type: 'none',
+              },
+              fees: {
+                payer: 'application',
+              },
+              losses: {
+                payments: 'application',
+              },
+              requirement_collection: 'application',
+            },
+            capabilities: {
+              card_payments: {requested: true},
+              transfers: {requested: true},
+            },
+            // Options selected in the UI
+            country: credentials?.country || 'US',
+            business_type: businessType || 'individual',
+            email: email,
+          });
+
           console.log('Created stripe account', account.id);
 
           user.stripeAccountId = account.id;

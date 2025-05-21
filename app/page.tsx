@@ -171,7 +171,7 @@ export default function LandingPage() {
               placeholder="blur"
               quality={100}
               sizes="100vw"
-              className="w-full max-w-[450px] overflow-hidden rounded-xl object-cover shadow-lg"
+              className="w-full max-w-[600px] overflow-hidden rounded-xl object-cover shadow-lg"
             />
             <div className="flex flex-col gap-y-6">
               <p className="relative text-3xl font-bold text-black">
