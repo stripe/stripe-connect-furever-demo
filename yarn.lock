@@ -1207,6 +1207,16 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz#391d528054f758f81e53210f1a1eebcf1a8b1d20"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
 
+"@stripe/connect-js@^3.3.23":
+  version "3.3.23"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.23.tgz#caa232a2efc8aaa39833aa2904ee14d3c16b5155"
+  integrity sha512-HOEG6R/nZzk+4zJ3yxt81Ox3uBOC/qj8TZ2DyQ/Unn0MsUl/GfX3FQpxZSqo8iltuA8qMqHGaLTlv9fYqiPqGg==
+
+"@stripe/react-connect-js@^3.3.22":
+  version "3.3.22"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.22.tgz#498e56ff358b0c29f3118df405c160b37807a284"
+  integrity sha512-PFJeJZ2Kb5uLtcU8/3ZfU6yE7Fes5bWmHFI2GX6RplFLWzEzwT/LPrutj5UgL99U4DtKM74hHYuj2tpUP2XnEQ==
+
 "@swc/helpers@0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.2.tgz#85ea0c76450b61ad7d10a37050289eded783c27d"
