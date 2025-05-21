@@ -16,6 +16,7 @@ export default function Onboarding() {
       });
       if (!response.ok) {
         console.error('An error occurred: ');
+        setErrorMessage('Failed to initialize Session');
         throw new Error('Failed to fetch account session');
       } else {
         const {client_secret} = await response.json();
@@ -62,6 +63,10 @@ export default function Onboarding() {
               onExit={() => {
                 console.log('Onboarding flow exited. Redirecting to home...');
                 window.location.href = '/home';
+              }}
+              onStepChange={(step) => {
+                console.log(`User is in step ${step} of onboarding`);
+                // Send this information to my platform's analytics provider...
               }}
             />
           </ConnectComponentsProvider>
