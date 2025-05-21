@@ -21,6 +21,9 @@ export async function POST() {
       account_onboarding: {
         enabled: true,
       },
+      payments: {
+        enabled: true,
+      },
     },
   });
 
