@@ -44,9 +44,7 @@ export function CreateFlexLoanButton({
   const [financingState, setFinancingState] =
     React.useState<SelectableOfferStates>('delivered');
 
-  const form = useForm<{financingStateFieldValue: SelectableOfferStates}>({
-    defaultValues: {financingStateFieldValue: financingState},
-  });
+  const form = useForm<{financingStateFieldValue: SelectableOfferStates}>({});
 
   if (visibleForOfferStates.includes(existingOfferState)) {
     return (
@@ -72,12 +70,13 @@ export function CreateFlexLoanButton({
                 <Select
                   {...field}
                   onValueChange={(val) => setFinancingState(val as any)}
+                  defaultValue={financingState}
                 >
                   <SelectTrigger
                     className="w-[162px] text-xs"
                     disabled={buttonLoading}
                   >
-                    <SelectValue className="text-xs" placeholder="Locale">
+                    <SelectValue className="text-xs">
                       {enumValueToSentenceCase(financingState)}
                     </SelectValue>
                   </SelectTrigger>

@@ -57,6 +57,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
             fetchUrl="/api/capital/expire_test_financing"
             visibleForOfferStates={['delivered']}
             offerState={offerState}
+            classes={classes}
           />
 
           <TransitionFinancingButton
@@ -64,12 +65,14 @@ export default function ManageFinancing({classes}: {classes?: string}) {
             fetchUrl="/api/capital/approve_test_financing"
             visibleForOfferStates={['accepted']}
             offerState={offerState}
+            classes={classes}
           />
           <TransitionFinancingButton
             label={'Reject financing application'}
             fetchUrl="/api/capital/reject_test_financing"
             visibleForOfferStates={['accepted']}
             offerState={offerState}
+            classes={classes}
           />
 
           <TransitionFinancingButton
@@ -77,6 +80,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
             fetchUrl="/api/capital/fully_repay_test_financing"
             visibleForOfferStates={['paid_out']}
             offerState={offerState}
+            classes={classes}
           />
         </>
       )}
