@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const state = (await req.json())['offerState'] || 'delivered';
 
     await stripe.rawRequest('POST', '/v1/capital/financing_offers/test_mode', {
-      max_premium_amount: 2000_00,
+      max_premium_amount: 10000_00,
       max_advance_amount: 100000_00,
       max_withhold_rate_str: 0.15,
       is_refill: false,
