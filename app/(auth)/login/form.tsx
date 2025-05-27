@@ -74,6 +74,7 @@ export default function LoginForm() {
                     autoFocus
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="jenny.rosen@example.com"
+                    data-testid="email-input"
                     {...field}
                   />
                 </FormControl>
@@ -94,6 +95,7 @@ export default function LoginForm() {
                     className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
                     placeholder="••••••••"
                     type="password"
+                    data-testid="password-input"
                     {...field}
                   />
                 </FormControl>
@@ -105,6 +107,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
+          data-testid="submit-login-button"
           className={'w-full rounded-md bg-accent p-2 font-bold text-white'}
         >
           {!form.formState.isSubmitting && (
