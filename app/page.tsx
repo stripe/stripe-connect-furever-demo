@@ -71,7 +71,12 @@ const AuthButtons = () => {
     return (
       <>
         <Link href="/login">
-          <Button variant="secondary" className="bg-white" size="lg">
+          <Button
+            variant="secondary"
+            className="bg-white"
+            size="lg"
+            data-testid="login-button"
+          >
             Log in
           </Button>
         </Link>
