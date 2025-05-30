@@ -1,23 +1,59 @@
 'use client';
 
 import * as React from 'react';
-import {ConnectPayments} from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import {Button} from '@/components/ui/button';
-import {LoaderCircle, Plus} from 'lucide-react';
-import {useSession} from 'next-auth/react';
-import CreatePaymentsButton from '@/app/components/testdata/CreatePaymentsButton';
+import {loadConnectAndInitialize} from '@stripe/connect-js';
+import {
+  ConnectComponentsProvider,
+  ConnectPayments,
+} from '@stripe/react-connect-js';
 
 export default function Payments() {
-  const {data: session} = useSession();
-  const [loading, setLoading] = React.useState(true);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [stripeConnectInstance] = React.useState(() => {
+    const fetchClientSecret = async () => {
+      const response = await fetch('/api/create_account_session', {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        console.error('An error occurred: ');
+        setErrorMessage('Failed to initialize Session');
+        throw new Error('Failed to fetch account session');
+      } else {
+        const {client_secret} = await response.json();
+        return client_secret;
+      }
+    };
 
-  React.useEffect(() => {
-    setLoading(!session?.user.setup);
-  }, [session?.user.setup]);
+    return loadConnectAndInitialize({
+      publishableKey:
+        'pk_test_51MZRIlLirQdaQn8EJpw9mcVeXokTGaiV1ylz5AVQtcA0zAkoM9fLFN81yQeHYBLkCiID1Bj0sL1Ngzsq9ksRmbBN00O3VsIUdQ',
+      fetchClientSecret: fetchClientSecret,
+      appearance: {
+        variables: {
+          fontFamily: 'Sohne, inherit',
+          colorPrimary: '#27AE60',
+          colorBackground: '#ffffff',
+          colorBorder: '#D8DEE4',
+
+          buttonPrimaryColorBackground: '#27AE60',
+          buttonPrimaryColorText: '#f4f4f5',
+
+          badgeSuccessColorBackground: '#D6FCE6',
+          badgeSuccessColorText: '#1E884B',
+          badgeSuccessColorBorder: '#94D5AF',
+
+          badgeWarningColorBackground: '#FFEACC',
+          badgeWarningColorText: '#C95B4D',
+          badgeWarningColorBorder: '#FFD28C',
+
+          overlayBackdropColor: 'rgba(0,0,0,0.3)',
+        },
+      },
+    });
+  });
 
   return (
     <>
@@ -34,19 +70,20 @@ export default function Payments() {
       </div>
       <Container>
         <h1 className="text-xl font-bold">Recent payments</h1>
-        <EmbeddedComponentContainer componentName="Payments">
-          {loading ? (
-            <div className="text-l flex items-center justify-center gap-1 py-16 text-center font-medium">
-              <LoaderCircle
-                className="mr-1 animate-spin items-center"
-                size={20}
-              />
-              Creating test data
-            </div>
+        <div style={{height: '20px'}} />
+        <>
+          {errorMessage ? (
+            <div>{`Error: ${errorMessage}`}</div>
           ) : (
-            <ConnectPayments />
+            <div className="container">
+              <ConnectComponentsProvider
+                connectInstance={stripeConnectInstance}
+              >
+                <ConnectPayments />
+              </ConnectComponentsProvider>
+            </div>
           )}
-        </EmbeddedComponentContainer>
+        </>
       </Container>
     </>
   );

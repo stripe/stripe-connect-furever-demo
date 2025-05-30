@@ -1,8 +1,6 @@
 'use client';
 
 import Container from '@/app/components/Container';
-import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {ConnectDocuments} from '@stripe/react-connect-js';
 
 export default function Documents() {
   return (
@@ -13,9 +11,6 @@ export default function Documents() {
           Access documents and account statements.
         </h2>
       </header>
-      <EmbeddedComponentContainer componentName="Documents">
-        <ConnectDocuments />
-      </EmbeddedComponentContainer>
     </Container>
   );
 }
