@@ -20,12 +20,6 @@ export async function POST() {
     components: {
       account_onboarding: {
         enabled: true,
-        features: {
-          disable_stripe_user_authentication: true,
-        },
-      },
-      payments: {
-        enabled: true,
       },
     },
   });
