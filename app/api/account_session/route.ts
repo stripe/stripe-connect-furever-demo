@@ -141,7 +141,6 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        payment_method_settings: {enabled: true},
         documents: {enabled: true},
         notification_banner: {
           enabled: true,
@@ -149,26 +148,11 @@ export async function POST(req: NextRequest) {
             disable_stripe_user_authentication: isCustom,
           },
         },
-        capital_financing_promotion: {
-          enabled: true,
-        },
-        capital_financing_application: {
-          enabled: true,
-        },
-        capital_financing: {
-          enabled: true,
-        },
         ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
         tax_settings: {
           enabled: true,
         },
         tax_registrations: {
-          enabled: true,
-        },
-        tax_threshold_monitoring: {
-          enabled: true,
-        },
-        export_tax_transactions: {
           enabled: true,
         },
       },
