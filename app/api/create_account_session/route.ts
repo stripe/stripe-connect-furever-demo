@@ -15,11 +15,14 @@ export async function POST() {
     );
   }
 
-  const accountLink = await stripe.accountSessions.create({
+  const accountSession = await stripe.accountSessions.create({
     account: stripeAccountId,
     components: {
       account_onboarding: {
         enabled: true,
+        features: {
+          disable_stripe_user_authentication: true,
+        },
       },
       payments: {
         enabled: true,
@@ -27,7 +30,7 @@ export async function POST() {
     },
   });
 
-  return new Response(JSON.stringify(accountLink), {
+  return new Response(JSON.stringify(accountSession), {
     status: 200,
     headers: {'Content-Type': 'application/json'},
   });

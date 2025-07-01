@@ -399,6 +399,7 @@ export const authOptions: AuthOptions = {
             businessName: credentials?.businessName,
           });
 
+          // This is where we create the Stripe account during the onboarding flow.
           const account = await stripe.accounts.create({
             controller: {
               stripe_dashboard: {
