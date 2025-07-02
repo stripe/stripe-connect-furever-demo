@@ -274,7 +274,7 @@ export default function BusinessDetailsForm({email}: {email: string}) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       businessType: 'individual',
-      businessName: '',
+      businessName: "Jorge's pet salon",
       country: 'US',
       stripeDashboardType: 'none',
       paymentLosses: 'stripe',

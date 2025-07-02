@@ -19,14 +19,18 @@ import {
 import {Input} from '@/components/ui/input';
 import {UserFormSchema} from '@/lib/forms';
 
+const random8DigitNumber = () => {
+  return Math.floor(10000000 + Math.random() * 90000000).toString();
+};
+
 export default function SignupForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'jorgea' + random8DigitNumber() + '@example.com',
+      password: 'password',
     },
   });
 
