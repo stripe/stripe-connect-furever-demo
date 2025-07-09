@@ -37,6 +37,7 @@ import * as React from 'react';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
+import ColorPicker from './Tools/ColorPicker';
 import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
@@ -140,6 +141,12 @@ const ToolsPanel = () => {
             Theme
           </Label>
           <ThemePicker />
+        </div>
+        <div className="flex flex-col gap-y-2">
+          <Label className="text-left" htmlFor="primaryColor">
+            Primary Color
+          </Label>
+          <ColorPicker />
         </div>
         <div className="flex flex-row items-center justify-between">
           <Label className="text-left align-middle" htmlFor="outline">

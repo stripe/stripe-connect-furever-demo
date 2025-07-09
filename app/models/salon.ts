@@ -31,6 +31,7 @@ const SalonSchema = new Schema<Express.Request['user']>({
   quickstartAccount: Boolean,
   changedPassword: Boolean,
   setup: Boolean,
+  primaryColor: String,
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).

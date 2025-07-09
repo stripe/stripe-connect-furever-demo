@@ -7,12 +7,14 @@ export const defaultSettings: Settings = {
   locale: 'en-US',
   theme: 'light',
   overlay: 'dialog',
+  primaryColor: '#27AE60',
 };
 
 export interface SettingsContextType {
   locale?: string;
   theme?: string;
   overlay?: OverlayOption;
+  primaryColor?: string;
   handleUpdate: (settings: Settings) => void;
 }
 

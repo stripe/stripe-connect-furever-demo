@@ -94,4 +94,6 @@ export interface Settings {
   locale?: LocaleType;
   theme?: string;
   overlay?: OverlayOption;
+  primaryColor?: string;
+  isInitialized?: boolean;
 }
