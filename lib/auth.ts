@@ -403,21 +403,24 @@ export const authOptions: AuthOptions = {
           const account = await stripe.accounts.create({
             controller: {
               stripe_dashboard: {
-                type: 'none',
+                type: 'none', // 'none' means this account will not have access to a Stripe dashboard
               },
               fees: {
+                // 'application' means FurEver will be collecting fees on the account
                 payer: 'application',
               },
               losses: {
+                // 'losses' means FurEver is liable for negative payments balances on the account
                 payments: 'application',
               },
+              // 'application' means FurEver want to collect requirements for the application
               requirement_collection: 'application',
             },
             capabilities: {
               card_payments: {requested: true},
               transfers: {requested: true},
             },
-            // Options selected in the UI
+            // Options selected in the UI are "prefilled" on the account
             country: credentials?.country || 'US',
             business_type: businessType || 'individual',
             email: email,
