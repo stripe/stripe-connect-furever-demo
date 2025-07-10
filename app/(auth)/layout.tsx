@@ -45,6 +45,8 @@ export default function AuthLayout({
                 src={data?.user?.companyLogoUrl || FureverLogo}
                 alt={`${data?.user?.companyName || 'Furever'} Logo`}
                 className="h-12 w-12 sm:h-16 sm:w-16"
+                width={40}
+                height={40}
               />
               {data?.user?.companyName || 'Furever'}
             </div>

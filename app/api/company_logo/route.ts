@@ -87,7 +87,7 @@ export async function DELETE(request: Request) {
       return new Response('Salon not found', {status: 404});
     }
 
-    return new Response(JSON.stringify({success: true, companyLogoUrl: null}), {
+    return new Response(JSON.stringify({success: true}), {
       status: 200,
       headers: {'Content-Type': 'application/json'},
     });
