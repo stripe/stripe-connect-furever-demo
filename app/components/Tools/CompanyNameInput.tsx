@@ -1,17 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, useContext } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Loader2, Check, X } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { SettingsContext } from '@/app/contexts/settings/SettingsContext';
+import React, {useState, useEffect, useContext} from 'react';
+import {Input} from '@/components/ui/input';
+import {Button} from '@/components/ui/button';
+import {Label} from '@/components/ui/label';
+import {Loader2, Check, X} from 'lucide-react';
+import {useSession} from 'next-auth/react';
+import {SettingsContext} from '@/app/contexts/settings/SettingsContext';
 
 const CompanyNameInput = () => {
   const {data: session, update} = useSession();
   const settings = useContext(SettingsContext);
-  const [companyName, setCompanyName] = useState(settings.companyName || 'Furever');
+  const [companyName, setCompanyName] = useState(
+    settings.companyName || 'Furever'
+  );
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -28,7 +30,7 @@ const CompanyNameInput = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ companyName: companyName.trim() }),
+        body: JSON.stringify({companyName: companyName.trim()}),
       });
 
       if (response.ok) {
@@ -36,8 +38,8 @@ const CompanyNameInput = () => {
         await update({
           user: {
             ...session?.user,
-            companyName: companyName.trim()
-          }
+            companyName: companyName.trim(),
+          },
         });
         setStatus('success');
       } else {
@@ -94,4 +96,4 @@ const CompanyNameInput = () => {
   );
 };
 
-export default CompanyNameInput; 
+export default CompanyNameInput;

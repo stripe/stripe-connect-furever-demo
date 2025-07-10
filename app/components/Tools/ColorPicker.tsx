@@ -1,15 +1,15 @@
 import {useContext, useCallback, useState, useEffect} from 'react';
 import {SettingsContext} from '@/app/contexts/settings';
 import {Input} from '@/components/ui/input';
-import { defaultPrimaryColor } from '@/app/contexts/themes/ThemeConstants';
-import { Button } from '@/components/ui/button';
+import {defaultPrimaryColor} from '@/app/contexts/themes/ThemeConstants';
+import {Button} from '@/components/ui/button';
 
 const ColorPicker = () => {
   const settings = useContext(SettingsContext);
   const [customColor, setCustomColor] = useState(
-    settings.primaryColor ||
-    defaultPrimaryColor
+    settings.primaryColor || defaultPrimaryColor
   );
+  const isValidColor = /^#[0-9A-F]{6}$/i.test(customColor);
   const [isDirty, setIsDirty] = useState(false);
 
   const updatePrimaryColor = useCallback(async () => {
@@ -30,7 +30,7 @@ const ColorPicker = () => {
   };
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <Input
         type="color"
         value={customColor}
@@ -42,18 +42,17 @@ const ColorPicker = () => {
         type="text"
         value={customColor}
         onChange={(e) => {
-          if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
-            handleColorChange(e.target.value);
-          }
+          handleColorChange(e.target.value);
         }}
         className="h-8 flex-1 text-sm"
         placeholder={defaultPrimaryColor}
       />
       {isDirty && (
-        <Button 
+        <Button
           onClick={updatePrimaryColor}
           size="sm"
           className="whitespace-nowrap"
+          disabled={!isValidColor}
         >
           Apply
         </Button>

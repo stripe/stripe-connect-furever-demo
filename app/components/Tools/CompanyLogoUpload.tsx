@@ -1,19 +1,21 @@
 'use client';
 
-import React, { useState, useRef, useContext } from 'react';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Loader2, Check, X, Upload } from 'lucide-react';
+import React, {useState, useRef, useContext} from 'react';
+import {Button} from '@/components/ui/button';
+import {Label} from '@/components/ui/label';
+import {Loader2, Check, X, Upload} from 'lucide-react';
 import Image from 'next/image';
-import { SettingsContext } from '@/app/contexts/settings/SettingsContext';
-import { useSession } from 'next-auth/react';
+import {SettingsContext} from '@/app/contexts/settings/SettingsContext';
+import {useSession} from 'next-auth/react';
 
 const CompanyLogoUpload = () => {
   const settings = useContext(SettingsContext);
   const {data: session, update} = useSession();
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [logoUrl, setLogoUrl] = useState<string | null>(settings.companyLogoUrl || null);
+  const [logoUrl, setLogoUrl] = useState<string | null>(
+    settings.companyLogoUrl || null
+  );
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -64,8 +66,8 @@ const CompanyLogoUpload = () => {
         await update({
           user: {
             ...session?.user,
-            companyLogoUrl: data.companyLogoUrl
-          }
+            companyLogoUrl: data.companyLogoUrl,
+          },
         });
       } else {
         const errorData = await response.json();
@@ -99,8 +101,8 @@ const CompanyLogoUpload = () => {
         await update({
           user: {
             ...session?.user,
-            companyLogoUrl: undefined
-          }
+            companyLogoUrl: undefined,
+          },
         });
       } else {
         const errorData = await response.json();
@@ -122,10 +124,10 @@ const CompanyLogoUpload = () => {
   return (
     <div className="space-y-3">
       <Label>Company Logo</Label>
-      
+
       {/* Current logo display */}
       {logoUrl && !preview && (
-        <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden group">
+        <div className="group relative h-16 w-16 overflow-hidden rounded-lg bg-gray-100">
           <Image
             src={logoUrl}
             alt="Company Logo"
@@ -134,7 +136,7 @@ const CompanyLogoUpload = () => {
           />
           <button
             onClick={handleDelete}
-            className="absolute top-0 right-0 p-1 bg-black/50 text-white rounded-bl opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-0 top-0 rounded-bl bg-black/50 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
             title="Remove logo"
           >
             <X className="h-4 w-4" />
@@ -144,7 +146,7 @@ const CompanyLogoUpload = () => {
 
       {/* Preview display */}
       {preview && (
-        <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden group">
+        <div className="group relative h-16 w-16 overflow-hidden rounded-lg bg-gray-100">
           <Image
             src={preview}
             alt="Logo Preview"
@@ -153,7 +155,7 @@ const CompanyLogoUpload = () => {
           />
           <button
             onClick={handleDelete}
-            className="absolute top-0 right-0 p-1 bg-black/50 text-white rounded-bl opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-0 top-0 rounded-bl bg-black/50 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
             title="Remove logo"
           >
             <X className="h-4 w-4" />
@@ -201,12 +203,10 @@ const CompanyLogoUpload = () => {
         onChange={handleFileSelect}
         className="hidden"
       />
-      
-      <p className="text-xs text-gray-500">
-        Upload an image file (max 5MB)
-      </p>
+
+      <p className="text-xs text-gray-500">Upload an image file (max 5MB)</p>
     </div>
   );
 };
 
-export default CompanyLogoUpload; 
+export default CompanyLogoUpload;

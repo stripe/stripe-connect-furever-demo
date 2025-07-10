@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import type {Settings} from '@/types/settings';
 import {defaultSettings, SettingsContext} from './SettingsContext';
-import { Session } from 'next-auth';
+import {Session} from 'next-auth';
 
 const STORAGE_KEY = 'furever.app.settings';
 
@@ -80,12 +80,14 @@ const restoreSettingsFromLocalStorage = (): Settings | null => {
   return value;
 };
 
-const restoreSettingsFromSession = (session: Session | null): Settings | null => {
-  if(session?.user) {
+const restoreSettingsFromSession = (
+  session: Session | null
+): Settings | null => {
+  if (session?.user) {
     return {
-     primaryColor: session.user.primaryColor || undefined,
-     companyName: session.user.companyName || undefined,
-     companyLogoUrl: session.user.companyLogoUrl || undefined,
+      primaryColor: session.user.primaryColor || undefined,
+      companyName: session.user.companyName || undefined,
+      companyLogoUrl: session.user.companyLogoUrl || undefined,
     };
   }
 
@@ -138,28 +140,12 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
     initializeSettings();
   }, [session]);
 
-  // // Separate effect to handle session changes and fetch primary color from DB
-  // useEffect(() => {
-  //   const fetchAndUpdatePrimaryColor = async () => {
-  //     if (status === 'authenticated' && session) {
-  //       try {
-  //         const dbPrimaryColor = await fetchPrimaryColorFromDB();
-          
-  //         if (dbPrimaryColor) {
-  //           setState(prevState => ({
-  //             ...prevState,
-  //             primaryColor: dbPrimaryColor,
-  //           }));
-  //           updateCSSVariables(dbPrimaryColor);
-  //         }
-  //       } catch (error) {
-  //         console.error('Error fetching primary color after login:', error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchAndUpdatePrimaryColor();
-  // }, [session, status]);
+  // Update CSS variables on first render
+  useEffect(() => {
+    if (state.primaryColor) {
+      updateCSSVariables(state.primaryColor);
+    }
+  }, [state.primaryColor]);
 
   const handleUpdate = (settings: Settings): void => {
     setState((prevState) => {

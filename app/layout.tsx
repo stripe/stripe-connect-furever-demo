@@ -20,7 +20,8 @@ function DynamicTitle() {
 
   useEffect(() => {
     const companyName = session?.user?.companyName || 'Furever';
-    document.title = companyName === 'Furever' ? companyName : `(DEMO) ${companyName}`;
+    document.title =
+      companyName === 'Furever' ? companyName : `(DEMO) ${companyName}`;
   }, [session?.user?.companyName]);
 
   return null;
@@ -32,7 +33,9 @@ function DynamicFavicon() {
 
   useEffect(() => {
     const companyLogo = session?.user?.companyLogoUrl;
-    const link = (document.querySelector("link[rel*='icon']") as HTMLLinkElement) || document.createElement('link');
+    const link =
+      (document.querySelector("link[rel*='icon']") as HTMLLinkElement) ||
+      document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'shortcut icon';
     link.href = companyLogo || defaultFavicon;
@@ -51,6 +54,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Furever</title>
+        <link rel="icon" href="/favicon.png" />
       </head>
       <body
         className={cn(
