@@ -95,5 +95,7 @@ export interface Settings {
   theme?: string;
   overlay?: OverlayOption;
   primaryColor?: string;
+  companyName?: string;
+  companyLogoUrl?: string;
   isInitialized?: boolean;
 }

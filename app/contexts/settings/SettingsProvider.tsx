@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import type {Settings} from '@/types/settings';
 import {defaultSettings, SettingsContext} from './SettingsContext';
+import { Session } from 'next-auth';
 
 const STORAGE_KEY = 'furever.app.settings';
 
@@ -50,7 +51,7 @@ const updateCSSVariables = (primaryColor: string) => {
   }
 };
 
-const restoreSettings = (): Settings | null => {
+const restoreSettingsFromLocalStorage = (): Settings | null => {
   let value = null;
 
   if (window.location.pathname == '/') {
@@ -69,9 +70,6 @@ const restoreSettings = (): Settings | null => {
         root && root.classList.remove('light', 'dark');
         root && root.classList.add(value.theme);
       }
-      if (value.primaryColor) {
-        updateCSSVariables(value.primaryColor);
-      }
     }
   } catch (err) {
     console.error(err);
@@ -82,25 +80,24 @@ const restoreSettings = (): Settings | null => {
   return value;
 };
 
+const restoreSettingsFromSession = (session: Session | null): Settings | null => {
+  if(session?.user) {
+    return {
+     primaryColor: session.user.primaryColor || undefined,
+     companyName: session.user.companyName || undefined,
+     companyLogoUrl: session.user.companyLogoUrl || undefined,
+    };
+  }
+
+  return null;
+};
+
 const storeSettings = (value: Record<string, any>): void => {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
   } catch (err) {
     console.error(err);
   }
-};
-
-const fetchPrimaryColorFromDB = async (): Promise<string | null> => {
-  try {
-    const response = await fetch('/api/primary_color');
-    if (response.ok) {
-      const data = await response.json();
-      return data.primaryColor;
-    }
-  } catch (error) {
-    console.error('Error fetching primary color from database:', error);
-  }
-  return null;
 };
 
 interface SettingsProviderProps {
@@ -110,12 +107,13 @@ interface SettingsProviderProps {
 export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
   const {children} = props;
   const [state, setState] = useState<Settings>(defaultSettings);
-  const {data: session, status} = useSession();
+  const {data: session} = useSession();
 
   useEffect(() => {
     const initializeSettings = async () => {
       // First restore from localStorage
-      const restored = restoreSettings();
+      const restored = restoreSettingsFromLocalStorage();
+      const sessionSettings = restoreSettingsFromSession(session);
 
       let initialState = defaultSettings;
 
@@ -127,34 +125,41 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
         };
       }
 
+      if (sessionSettings) {
+        initialState = {
+          ...initialState,
+          ...sessionSettings,
+          isInitialized: true,
+        };
+      }
       setState(initialState);
     };
 
     initializeSettings();
-  }, []);
+  }, [session]);
 
-  // Separate effect to handle session changes and fetch primary color from DB
-  useEffect(() => {
-    const fetchAndUpdatePrimaryColor = async () => {
-      if (status === 'authenticated' && session) {
-        try {
-          const dbPrimaryColor = await fetchPrimaryColorFromDB();
+  // // Separate effect to handle session changes and fetch primary color from DB
+  // useEffect(() => {
+  //   const fetchAndUpdatePrimaryColor = async () => {
+  //     if (status === 'authenticated' && session) {
+  //       try {
+  //         const dbPrimaryColor = await fetchPrimaryColorFromDB();
           
-          if (dbPrimaryColor) {
-            setState(prevState => ({
-              ...prevState,
-              primaryColor: dbPrimaryColor,
-            }));
-            updateCSSVariables(dbPrimaryColor);
-          }
-        } catch (error) {
-          console.error('Error fetching primary color after login:', error);
-        }
-      }
-    };
+  //         if (dbPrimaryColor) {
+  //           setState(prevState => ({
+  //             ...prevState,
+  //             primaryColor: dbPrimaryColor,
+  //           }));
+  //           updateCSSVariables(dbPrimaryColor);
+  //         }
+  //       } catch (error) {
+  //         console.error('Error fetching primary color after login:', error);
+  //       }
+  //     }
+  //   };
 
-    fetchAndUpdatePrimaryColor();
-  }, [session, status]);
+  //   fetchAndUpdatePrimaryColor();
+  // }, [session, status]);
 
   const handleUpdate = (settings: Settings): void => {
     setState((prevState) => {

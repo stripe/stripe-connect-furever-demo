@@ -7,7 +7,6 @@ import {
   defaultPrimaryColor,
   LightTheme,
 } from '@/app/contexts/themes/ThemeConstants';
-import {useSession} from 'next-auth/react';
 
 export const useConnect = (demoOnboarding: boolean) => {
   const [hasError, setHasError] = useState(false);
@@ -15,10 +14,9 @@ export const useConnect = (demoOnboarding: boolean) => {
     useState<StripeConnectInstance | null>(null);
 
   const settings = useSettings();
-  const {data: session} = useSession();
   const locale = settings.locale;
   const theme = settings.theme;
-  const primaryColor = session?.user?.primaryColor || defaultPrimaryColor;
+  const primaryColor = settings.primaryColor || defaultPrimaryColor;
   const [overlay, setOverlay] = useState(settings.overlay);
   const [localTheme, setTheme] = useState(settings.theme);
 
