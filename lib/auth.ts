@@ -68,6 +68,11 @@ export const authOptions: AuthOptions = {
         session.user.password = salon.password;
         session.user.setup = salon.setup;
         session.user.changedPassword = salon.changedPassword;
+
+        // Custom branding options
+        session.user.primaryColor = salon.primaryColor;
+        session.user.companyName = salon.companyName;
+        session.user.companyLogoUrl = salon.companyLogoUrl;
       }
 
       console.log(`Got session for user ${salon.email}`);

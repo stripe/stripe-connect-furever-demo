@@ -42,11 +42,11 @@ export default function AuthLayout({
           <Link href="/">
             <div className="flex items-center gap-4 text-3xl font-bold text-primary">
               <Image
-                src={FureverLogo}
-                alt="Furever Logo"
+                src={data?.user?.companyLogoUrl || FureverLogo}
+                alt={`${data?.user?.companyName || 'Furever'} Logo`}
                 className="h-12 w-12 sm:h-16 sm:w-16"
               />
-              Furever
+              {data?.user?.companyName || 'Furever'}
             </div>
           </Link>
         </div>

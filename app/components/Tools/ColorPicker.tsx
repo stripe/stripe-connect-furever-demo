@@ -1,14 +1,17 @@
 import {useContext, useCallback, useState} from 'react';
 import {SettingsContext} from '@/app/contexts/settings';
 import {Input} from '@/components/ui/input';
+import { useSession } from 'next-auth/react';
+import { defaultPrimaryColor } from '@/app/contexts/themes/ThemeConstants';
 
 const ColorPicker = () => {
-  const settings = useContext(SettingsContext);
+  const {data: session, update} = useSession();
   const [customColor, setCustomColor] = useState(
-    settings.primaryColor || '#27AE60'
+     session?.user?.primaryColor ||
+    defaultPrimaryColor
   );
+
   const updatePrimaryColor = useCallback((color: string) => {
-    settings.handleUpdate({primaryColor: color}); 
     fetch('/api/primary_color', {
       method: 'POST',
       headers: {
@@ -46,7 +49,7 @@ const ColorPicker = () => {
           }
         }}
         className="h-8 flex-1 text-sm"
-        placeholder="#27AE60"
+        placeholder={defaultPrimaryColor}
       />
     </>
   );

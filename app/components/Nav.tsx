@@ -80,13 +80,15 @@ const Nav = () => {
         <Link href="/home">
           <div className="flex items-center gap-3 text-xl font-bold text-primary">
             <Image
-              src={FureverLogo}
-              alt="Furever Logo"
+              width={36}
+              height={36}
+              src={session?.user?.companyLogoUrl || FureverLogo}
+              alt={`${session?.user?.companyName || 'Furever'} Logo`}
               className="h-9 w-9 sm:h-10 sm:w-10"
               sizes="100px"
               priority
             />
-            Furever
+            {session?.user?.companyName || 'Furever'}
           </div>
         </Link>
         <Button

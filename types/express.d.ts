@@ -21,6 +21,9 @@ declare global {
       setup: boolean;
       quickstartAccount: boolean;
       changedPassword: boolean;
+      primaryColor: string;
+      companyName: string;
+      companyLogoUrl: string;
 
       // MongoDB methods
       isModified: (field: string) => boolean;

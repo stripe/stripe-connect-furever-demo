@@ -13,6 +13,11 @@ declare module 'next-auth' {
       password?: string | null;
       setup?: boolean;
       changedPassword: boolean;
+
+      // Custom branding options
+      primaryColor?: string | null;
+      companyName?: string | null;
+      companyLogoUrl?: string | null;
     } & DefaultSession['user'];
   }
 }

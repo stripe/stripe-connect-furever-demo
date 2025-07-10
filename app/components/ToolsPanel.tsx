@@ -39,6 +39,8 @@ import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
 import ColorPicker from './Tools/ColorPicker';
 import OverlaySelector from './Tools/OverlaySelector';
+import CompanyNameInput from './Tools/CompanyNameInput';
+import CompanyLogoUpload from './Tools/CompanyLogoUpload';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
@@ -154,6 +156,8 @@ const ToolsPanel = () => {
           </Label>
           <LocaleSelector />
         </div>
+        <CompanyNameInput />
+        <CompanyLogoUpload />
         {/* <div className="flex flex-row justify-between">
           <Label className="text-left" htmlFor="outline">
             Overlay style
