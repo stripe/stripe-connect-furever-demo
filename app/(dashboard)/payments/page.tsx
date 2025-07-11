@@ -4,7 +4,6 @@ import * as React from 'react';
 import Container from '@/app/components/Container';
 import MonthToDateWidget from '@/app/components/MonthToDateWidget';
 import CustomersWidget from '@/app/components/CustomersWidget';
-import {EmbeddedPayments} from '@/app/components/demo/EmbeddedPayments';
 
 export default function Payments() {
   return (
