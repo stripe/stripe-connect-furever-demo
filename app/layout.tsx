@@ -54,7 +54,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Furever</title>
-        <link rel="icon" href="/favicon.png" />
       </head>
       <body
         className={cn(

@@ -1,25 +1,16 @@
 'use client';
 
-import {useSession} from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {usePathname} from 'next/navigation';
+import {useSession} from 'next-auth/react';
 import Stripe from '@/public/stripe-gray.svg';
 import {
-  Home as HomeIcon,
-  Wallet as WalletIcon,
-  Coins as CoinsIcon,
-  Landmark as LandmarkIcon,
-  Dog as PetsIcon,
-  Settings as SettingsIcon,
   Sparkles as SparklesIcon,
-  Menu as MenuIcon,
   File as FileIcon,
   PanelLeftClose,
   X,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import FureverLogo from '@/public/furever_logo.png';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
 import {
@@ -37,15 +28,13 @@ import * as React from 'react';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
-import ColorPicker from './Tools/ColorPicker';
 import OverlaySelector from './Tools/OverlaySelector';
-import CompanyNameInput from './Tools/CompanyNameInput';
-import CompanyLogoUpload from './Tools/CompanyLogoUpload';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
 import CreateCheckoutSessionButton from './testdata/CreateCheckoutSessionButton';
 import ManageFinancing from './testdata/Financing/ManageFinancing';
+import BrandSettingsModal from './BrandSettingsModal';
 
 const ToolsPanel = () => {
   const pathname = usePathname();
@@ -144,20 +133,12 @@ const ToolsPanel = () => {
           </Label>
           <ThemePicker />
         </div>
-        <div className="flex flex-col gap-y-2">
-          <Label className="text-left" htmlFor="primaryColor">
-            Primary Color
-          </Label>
-          <ColorPicker />
-        </div>
         <div className="flex flex-row items-center justify-between">
           <Label className="text-left align-middle" htmlFor="outline">
             Locale
           </Label>
           <LocaleSelector />
         </div>
-        <CompanyNameInput />
-        <CompanyLogoUpload />
         {/* <div className="flex flex-row justify-between">
           <Label className="text-left" htmlFor="outline">
             Overlay style
@@ -182,9 +163,12 @@ const ToolsPanel = () => {
         <X size={20} />
       </Button>
       <div>
-        <div className="flex items-center gap-x-2 text-lg font-bold text-primary">
-          <Sparkles size={20} />
-          Tools
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-x-2 text-lg font-bold text-primary">
+            <Sparkles size={20} />
+            Tools
+          </div>
+          <BrandSettingsModal />
         </div>
         <DefaultTools />
         <hr />
