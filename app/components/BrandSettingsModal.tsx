@@ -172,10 +172,7 @@ const BrandSettingsModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          className="p-1 invisible sm:visible"
-        >
+        <Button variant="ghost" className="invisible p-1 sm:visible">
           <Image
             src={BrandSettingsIcon}
             alt="Brand settings"
