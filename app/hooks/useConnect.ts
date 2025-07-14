@@ -102,7 +102,6 @@ export const useConnect = (demoOnboarding: boolean) => {
     if (primaryColor && primaryColor !== defaultPrimaryColor) {
       return {
         ...baseTheme,
-        /// TODO: Override more values potentially?
         colorPrimary: primaryColor,
         buttonPrimaryColorBackground: primaryColor,
       };
