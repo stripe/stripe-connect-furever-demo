@@ -65,3 +65,31 @@ export async function POST(request: Request) {
     return new Response(error.message, {status: 500});
   }
 }
+
+export async function DELETE() {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.email) {
+      return new Response('Unauthorized', {status: 401});
+    }
+
+    const updatedSalon = await Salon.findOneAndUpdate(
+      {email: session.user.email},
+      {$unset: {companyName: 1}},
+      {new: true}
+    );
+
+    if (!updatedSalon) {
+      return new Response('Salon not found', {status: 404});
+    }
+
+    return new Response(JSON.stringify({success: true}), {
+      status: 200,
+      headers: {'Content-Type': 'application/json'},
+    });
+  } catch (error: any) {
+    console.error('An error occurred when deleting the company name:', error);
+    return new Response(error.message, {status: 500});
+  }
+}

@@ -183,6 +183,63 @@ const BrandSettingsModal = () => {
     }
   };
 
+  const handleReset = async () => {
+    setLoading(true);
+    try {
+      const requests = [
+        fetch('/api/primary_color', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({primaryColor: defaultPrimaryColor}),
+        }),
+        fetch('/api/company_name', {
+          method: 'DELETE',
+        }),
+        fetch('/api/company_logo', {
+          method: 'DELETE',
+        }),
+      ];
+
+      // Execute all requests in parallel
+      const responses = await Promise.all(requests);
+
+      // Check for errors in responses
+      for (const response of responses) {
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+      }
+
+      // Reset local state
+      setPrimaryColor(defaultPrimaryColor);
+      setCompanyName('Furever');
+      setCompanyLogo(null);
+      setLogoPreview(null);
+
+      // Update settings context
+      settings.handleUpdate({
+        primaryColor: defaultPrimaryColor,
+        companyName: 'Furever',
+        companyLogoUrl: undefined,
+      });
+
+      // Update session
+      await update({
+        user: {
+          ...session?.user,
+          companyName: 'Furever',
+          companyLogoUrl: undefined,
+        },
+      });
+
+    } catch (error) {
+      console.error('Error resetting brand settings:', error);
+      alert('Error resetting settings. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -292,25 +349,30 @@ const BrandSettingsModal = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flew-row flex justify-end space-x-2">
-          <Button variant="secondary" onClick={handleCancel} disabled={loading}>
-            Cancel
+        <div className="flex-row flex justify-between">
+          <Button variant="secondary" onClick={handleReset} disabled={loading}>
+            Reset
           </Button>
-          <Button
-            variant="default"
-            onClick={handleSave}
-            disabled={loading || !isValidColor || !companyName.trim()}
-            type="submit"
-          >
-            {loading ? (
-              <LoaderCircle
-                className="mr-1 animate-spin items-center"
-                size={20}
-              />
-            ) : (
-              'Save'
-            )}
-          </Button>
+          <div className="flex space-x-2">
+            <Button variant="secondary" onClick={handleCancel} disabled={loading}>
+              Cancel
+            </Button>
+            <Button
+              variant="default"
+              onClick={handleSave}
+              disabled={loading || !isValidColor || !companyName.trim()}
+              type="submit"
+            >
+              {loading ? (
+                <LoaderCircle
+                  className="mr-1 animate-spin items-center"
+                  size={20}
+                />
+              ) : (
+                'Save'
+              )}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
