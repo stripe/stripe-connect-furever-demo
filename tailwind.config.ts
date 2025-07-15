@@ -65,7 +65,7 @@ const config = {
         screen: {
           background: 'var(--screen-background)',
           foreground: 'var(--screen-foreground)',
-          custom: 'var(--screen-custom)',
+          custom: 'var(--offset)',
         },
         component: {
           DEFAULT: 'var(--embedded-component)',
