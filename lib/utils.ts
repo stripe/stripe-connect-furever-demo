@@ -41,3 +41,69 @@ export function resolveControllerParams({
         : 'stripe',
   };
 }
+
+/**
+ * Converts a hex color to RGBA format with specified opacity
+ * @param hex - Hex color string (e.g., "#27AE60")
+ * @param opacity - Opacity value between 0 and 1 (e.g., 0.25)
+ * @returns RGBA color string
+ */
+export function hexToRgba(hex: string, opacity: number): string {
+  // Remove # if present
+  const cleanHex = hex.replace('#', '');
+
+  // Parse RGB values
+  const r = parseInt(cleanHex.substr(0, 2), 16);
+  const g = parseInt(cleanHex.substr(2, 2), 16);
+  const b = parseInt(cleanHex.substr(4, 2), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+/**
+ * Calculates a secondary color based on the primary color
+ * The secondary color maintains visual contrast while being more subtle
+ * @param primaryColor - Primary hex color (e.g., "#27AE60")
+ * @param options - Configuration options for the secondary color
+ * @returns Secondary color string
+ */
+export function calculateSecondaryColor(
+  primaryColor: string,
+  options: {
+    opacity?: number;
+    darkenAmount?: number;
+  } = {}
+): string {
+  const {opacity = 0.25, darkenAmount = 0.1} = options;
+
+  // Remove # if present
+  const cleanHex = primaryColor.replace('#', '');
+
+  // Parse RGB values
+  let r = parseInt(cleanHex.substr(0, 2), 16);
+  let g = parseInt(cleanHex.substr(2, 2), 16);
+  let b = parseInt(cleanHex.substr(4, 2), 16);
+
+  // Slightly darken the color for better contrast
+  r = Math.floor(r * (1 - darkenAmount));
+  g = Math.floor(g * (1 - darkenAmount));
+  b = Math.floor(b * (1 - darkenAmount));
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+/**
+ * Converts RGB values to hex color
+ * @param r - Red value (0-255)
+ * @param g - Green value (0-255)
+ * @param b - Blue value (0-255)
+ * @returns Hex color string
+ */
+export function rgbToHex(r: number, g: number, b: number): string {
+  const toHex = (n: number) => {
+    const hex = Math.round(n).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}

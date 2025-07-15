@@ -1,11 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import Container from './Container';
 import {Badge} from '@/components/ui/badge';
 import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
+import { SettingsContext } from '../contexts/settings';
+import { calculateSecondaryColor } from '@/lib/utils';
+import { defaultPrimaryColor } from '../contexts/themes/ThemeConstants';
 
 const CustomersWidget = () => {
+  const {primaryColor} = useContext(SettingsContext);
+  const secondaryColor = calculateSecondaryColor(primaryColor || defaultPrimaryColor, {
+    opacity: 0.25,
+    darkenAmount: 0.1
+  });
+
   return (
     <Container className="w-full px-5">
       <div className="flex flex-row justify-between gap-6">
@@ -23,7 +32,7 @@ const CustomersWidget = () => {
             <SparkLineChart
               data={[0, 10, 5, 20, 10, 10, 0, 25, 25, 55, 35, 35, 40]}
               height={55}
-              colors={['#23840240']}
+              colors={[secondaryColor]}
               curve="natural"
               className="w-full"
             />
