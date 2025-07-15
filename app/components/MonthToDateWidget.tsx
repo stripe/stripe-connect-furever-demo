@@ -1,19 +1,22 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import Container from './Container';
 import {Badge} from '@/components/ui/badge';
 import {SparkLineChart} from '@mui/x-charts/SparkLineChart';
-import { calculateSecondaryColor } from '@/lib/utils';
-import { SettingsContext } from '../contexts/settings';
-import { defaultPrimaryColor } from '../contexts/themes/ThemeConstants';
+import {calculateSecondaryColor} from '@/lib/utils';
+import {SettingsContext} from '../contexts/settings';
+import {defaultPrimaryColor} from '../contexts/themes/ThemeConstants';
 
 const MonthToDateWidget = () => {
   const {primaryColor} = useContext(SettingsContext);
-  const secondaryColor = calculateSecondaryColor(primaryColor || defaultPrimaryColor, {
-    opacity: 0.25,
-    darkenAmount: 0.1
-  });
+  const secondaryColor = calculateSecondaryColor(
+    primaryColor || defaultPrimaryColor,
+    {
+      opacity: 0.25,
+      darkenAmount: 0.1,
+    }
+  );
 
   return (
     <Container className="w-full px-5">

@@ -20,6 +20,8 @@ import Stripe from 'stripe';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
+import {SettingsContext} from '../contexts/settings';
+import {hasCustomBranding} from '@/lib/utils';
 import * as React from 'react';
 
 const navigationMenuItems = [
@@ -68,6 +70,7 @@ const navigationMenuItems = [
 const Nav = () => {
   const pathname = usePathname();
   const {data: session} = useSession();
+  const settings = React.useContext(SettingsContext);
 
   const stripeAccount = session?.user?.stripeAccount;
   const {open, handleOpenChange} = useToolsContext();
@@ -104,7 +107,12 @@ const Nav = () => {
       >
         <ul className="w-full flex-col">
           {navigationMenuItems
-            .filter(({shouldDisplayFilter}) => {
+            .filter(({shouldDisplayFilter, label}) => {
+              // Hide Pets if user has custom branding
+              if (label === 'Pets' && hasCustomBranding(settings)) {
+                return false;
+              }
+
               // Not all pages require a filter.
               if (!shouldDisplayFilter || !stripeAccount) {
                 return true;

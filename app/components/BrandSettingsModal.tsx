@@ -231,7 +231,6 @@ const BrandSettingsModal = () => {
           companyLogoUrl: undefined,
         },
       });
-
     } catch (error) {
       console.error('Error resetting brand settings:', error);
       alert('Error resetting settings. Please try again.');
@@ -349,12 +348,16 @@ const BrandSettingsModal = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex-row flex justify-between">
+        <div className="flex flex-row justify-between">
           <Button variant="secondary" onClick={handleReset} disabled={loading}>
             Reset
           </Button>
           <div className="flex space-x-2">
-            <Button variant="secondary" onClick={handleCancel} disabled={loading}>
+            <Button
+              variant="secondary"
+              onClick={handleCancel}
+              disabled={loading}
+            >
               Cancel
             </Button>
             <Button

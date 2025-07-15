@@ -1,6 +1,7 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import {Stripe} from 'stripe';
+import {defaultPrimaryColor} from '@/app/contexts/themes/ThemeConstants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -106,4 +107,28 @@ export function rgbToHex(r: number, g: number, b: number): string {
   };
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/**
+ * Checks if the user has any custom branding values set
+ * @param settings - Settings object containing primaryColor, companyName, and companyLogoUrl
+ * @returns true if any custom branding is detected, false otherwise
+ */
+export function hasCustomBranding(settings: {
+  primaryColor?: string;
+  companyName?: string;
+  companyLogoUrl?: string;
+}): boolean {
+  const {primaryColor, companyName, companyLogoUrl} = settings;
+
+  // Check if primary color is set and differs from default
+  const hasCustomColor = primaryColor && primaryColor !== defaultPrimaryColor;
+
+  // Check if company name is set and differs from default
+  const hasCustomName = companyName && companyName !== 'Furever';
+
+  // Check if company logo is set
+  const hasCustomLogo = companyLogoUrl && companyLogoUrl !== '';
+
+  return Boolean(hasCustomColor || hasCustomName || hasCustomLogo);
 }
