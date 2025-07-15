@@ -150,6 +150,7 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
   const handleUpdate = (settings: Settings): void => {
     setState((prevState) => {
       storeSettings({
+        ...prevState,
         ...settings,
       });
 
