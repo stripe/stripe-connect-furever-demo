@@ -55,8 +55,8 @@ const BrandSettingsModal = () => {
     if (!file) return;
 
     // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
+    if (file.size > 512 * 1024) {
+      alert('File size must be less than 512KB');
       return;
     }
 
@@ -79,32 +79,46 @@ const BrandSettingsModal = () => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      // Update primary color
-      await fetch('/api/primary_color', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({primaryColor}),
-      });
+      // Prepare all API requests to run in parallel
+      const requests = [
+        // Update primary color
+        fetch('/api/primary_color', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({primaryColor}),
+        }),
+        // Update company name
+        fetch('/api/company_name', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({companyName: companyName.trim()}),
+        }),
+      ];
 
-      // Update company name
-      await fetch('/api/company_name', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({companyName: companyName.trim()}),
-      });
-
-      // Update company logo if changed
+      // Add company logo request if there's a new logo to upload
       if (companyLogo) {
         const formData = new FormData();
         formData.append('file', companyLogo);
-        await fetch('/api/company_logo', {
-          method: 'POST',
-          body: formData,
-        });
+        requests.push(
+          fetch('/api/company_logo', {
+            method: 'POST',
+            body: formData,
+          })
+        );
+      }
+
+      // Execute all requests in parallel
+      const responses = await Promise.all(requests);
+
+      // Check for errors in responses
+      for (const response of responses) {
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
       }
 
       // Update settings context
@@ -272,7 +286,7 @@ const BrandSettingsModal = () => {
               className="hidden"
             />
             <p className="text-xs text-gray-500">
-              Upload an image file (max 5MB)
+              Upload an image file (max 512KB)
             </p>
           </div>
         </div>
