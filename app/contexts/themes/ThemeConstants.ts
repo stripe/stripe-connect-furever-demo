@@ -1,10 +1,12 @@
+export const defaultPrimaryColor = '#27AE60';
+
 export const LightTheme = {
   fontFamily: 'Sohne, inherit',
-  colorPrimary: '#27AE60',
+  colorPrimary: defaultPrimaryColor,
   colorBackground: '#ffffff',
   colorBorder: '#D8DEE4',
 
-  buttonPrimaryColorBackground: '#27AE60',
+  buttonPrimaryColorBackground: defaultPrimaryColor,
   buttonPrimaryColorText: '#f4f4f5',
 
   badgeSuccessColorBackground: '#D6FCE6',
@@ -20,14 +22,14 @@ export const LightTheme = {
 
 export const DarkTheme = {
   fontFamily: 'Sohne, inherit',
-  colorPrimary: '#27AE60',
+  colorPrimary: defaultPrimaryColor,
   colorBackground: '#1e222a',
   colorBorder: '#4b5563',
 
   colorText: '#C9CED8',
   colorSecondaryText: '#8C99AD',
 
-  buttonPrimaryColorBackground: '#27AE60',
+  buttonPrimaryColorBackground: defaultPrimaryColor,
   buttonPrimaryColorText: '#f4f4f5',
 
   buttonSecondaryColorBackground: '#292E38',

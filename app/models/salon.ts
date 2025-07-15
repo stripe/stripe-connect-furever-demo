@@ -31,6 +31,9 @@ const SalonSchema = new Schema<Express.Request['user']>({
   quickstartAccount: Boolean,
   changedPassword: Boolean,
   setup: Boolean,
+  primaryColor: String,
+  companyName: String, // Custom company name to replace "Furever"
+  companyLogoUrl: String, // URL to custom company logo uploaded to Stripe
 });
 
 // Check the email address to make sure it's unique (no existing salon with that address).

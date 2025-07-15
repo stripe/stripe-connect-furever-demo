@@ -20,12 +20,6 @@ import {useSearchParams, useRouter} from 'next/navigation';
 import * as React from 'react';
 
 const OnboardingDialog = () => {
-  // Set theme to light mode
-  window.localStorage.setItem(
-    'furever.app.settings',
-    JSON.stringify({theme: 'light'})
-  );
-
   // Look for showNux query param in the URL.
   const searchParams = useSearchParams();
   const router = useRouter();

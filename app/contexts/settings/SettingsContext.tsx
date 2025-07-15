@@ -13,6 +13,9 @@ export interface SettingsContextType {
   locale?: string;
   theme?: string;
   overlay?: OverlayOption;
+  primaryColor?: string;
+  companyName?: string;
+  companyLogoUrl?: string;
   handleUpdate: (settings: Settings) => void;
 }
 

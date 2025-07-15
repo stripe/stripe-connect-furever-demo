@@ -2,7 +2,11 @@ import {useEffect, useMemo, useState, useCallback} from 'react';
 import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
-import {DarkTheme, LightTheme} from '@/app/contexts/themes/ThemeConstants';
+import {
+  DarkTheme,
+  defaultPrimaryColor,
+  LightTheme,
+} from '@/app/contexts/themes/ThemeConstants';
 
 export const useConnect = (demoOnboarding: boolean) => {
   const [hasError, setHasError] = useState(false);
@@ -12,6 +16,7 @@ export const useConnect = (demoOnboarding: boolean) => {
   const settings = useSettings();
   const locale = settings.locale;
   const theme = settings.theme;
+  const primaryColor = settings.primaryColor || defaultPrimaryColor;
   const [overlay, setOverlay] = useState(settings.overlay);
   const [localTheme, setTheme] = useState(settings.theme);
 
@@ -90,10 +95,20 @@ export const useConnect = (demoOnboarding: boolean) => {
     }
   }, [demoOnboarding, locale]);
 
-  const appearanceVariables = useMemo(
-    () => (theme === 'dark' ? DarkTheme : LightTheme),
-    [theme]
-  );
+  const appearanceVariables = useMemo(() => {
+    const baseTheme = theme === 'dark' ? DarkTheme : LightTheme;
+
+    // If we have a custom primary color, override the theme colors
+    if (primaryColor && primaryColor !== defaultPrimaryColor) {
+      return {
+        ...baseTheme,
+        colorPrimary: primaryColor,
+        buttonPrimaryColorBackground: primaryColor,
+      };
+    }
+
+    return baseTheme;
+  }, [theme, primaryColor]);
 
   useEffect(() => {
     // If we are demoing onboarding, re-init to get a new secret
