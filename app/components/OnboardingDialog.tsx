@@ -18,18 +18,8 @@ import PointingHand from '@/public/onboarding-images/pointinghand.png';
 import {ArrowRight} from 'lucide-react';
 import {useSearchParams, useRouter} from 'next/navigation';
 import * as React from 'react';
-import {useContext, useEffect} from 'react';
-import {SettingsContext} from '@/app/contexts/settings';
 
 const OnboardingDialog = () => {
-  const settings = useContext(SettingsContext);
-
-  // Set theme to light mode using proper settings context
-  useEffect(() => {
-    settings.handleUpdate({theme: 'light'});
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Look for showNux query param in the URL.
   const searchParams = useSearchParams();
   const router = useRouter();
