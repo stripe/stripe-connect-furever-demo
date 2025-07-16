@@ -7,6 +7,9 @@ import {
 import ToolsPanel from '@/app/components/ToolsPanel';
 import OnboardingDialog from '../components/OnboardingDialog';
 import {useSettings} from '../hooks/useSettings';
+import {SettingsContext} from '../contexts/settings';
+import {useContext} from 'react';
+import {hasCustomBranding} from '@/lib/utils';
 
 export default function Screen({
   children,
@@ -14,12 +17,25 @@ export default function Screen({
   children: React.ReactNode;
 }>) {
   const {open, handleOpenChange} = useToolsContext();
-  const {theme} = useSettings();
+  const settings = useContext(SettingsContext);
+  const hasCustomBrandingValues = hasCustomBranding(settings);
+
+  const getBackground = () => {
+    if (settings.theme === 'light') {
+      if (hasCustomBrandingValues) {
+        return 'bg-screen-custom';
+      } else {
+        return 'bg-paw-pattern bg-[size:426px]';
+      }
+    } else {
+      return 'bg-screen-background';
+    }
+  };
 
   return (
     <div className="flex grow flex-row text-primary transition-colors">
       <div
-        className={`h-full w-auto grow ${theme == 'light' ? 'bg-dot-grid bg-[size:224px]' : 'bg-dot-grid-dark bg-[size:224px]'}`}
+        className={`h-full w-auto grow ${settings.theme == 'light' ? 'bg-dot-grid bg-[size:224px]' : 'bg-dot-grid-dark bg-[size:224px]'}`}
       >
         {/* Tools Panel container */}
         <div
@@ -33,7 +49,7 @@ export default function Screen({
         <div
           className={`origin-left overflow-hidden transition duration-500 ease-in-out md:h-screen
             ${open ? 'shadow-xl md:translate-x-[calc(140px+22%)] md:scale-[0.6] md:rounded-xl md:border md:border-[1.5px] lg:translate-x-[calc(125px+19%)] lg:scale-[0.66] xl:translate-x-[calc(130px+15%)] xl:scale-[0.73]' : 'h-full min-h-screen w-full flex-col sm:flex-row'}
-            ${theme == 'light' ? 'bg-paw-pattern bg-[size:426px]' : 'bg-screen-background'}`}
+            ${getBackground()}`}
         >
           <Nav />
           <div className="mt-[74px] flex h-full grow justify-center overflow-scroll overscroll-contain p-3 pb-20 sm:ml-52 sm:mt-0 sm:mt-0 sm:p-8 lg:ml-64">

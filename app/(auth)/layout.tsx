@@ -8,6 +8,9 @@ import Link from 'next/link';
 import {signOut} from 'next-auth/react';
 import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
+import {hasCustomBranding} from '@/lib/utils';
+import {SettingsContext} from '../contexts/settings';
+import {useContext} from 'react';
 
 export default function AuthLayout({
   children,
@@ -15,6 +18,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   const {data, status} = useSession();
+  const settings = useContext(SettingsContext);
+  const hasCustomBrandingValues = hasCustomBranding(settings);
 
   const SignOut = () => {
     if (status == 'unauthenticated') {
@@ -36,7 +41,9 @@ export default function AuthLayout({
   };
 
   return (
-    <div className="min-h-screen bg-paw-pattern bg-[size:426px] py-4 sm:py-16">
+    <div
+      className={`min-h-screen ${hasCustomBrandingValues ? 'bg-screen-custom' : 'bg-paw-pattern bg-[size:426px]'} py-4 sm:py-16`}
+    >
       <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-6">
         <div className="mb-6 flex w-full justify-center">
           <Link href="/">
