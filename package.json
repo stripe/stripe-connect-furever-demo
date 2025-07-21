@@ -1,7 +1,11 @@
 {
   "name": "furever",
+  "description": "This is a test app built by Stripe: Furever is a SaaS platform for pet groomers, meant to showcase functionality that can be achieved by using Stripe Connect",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
