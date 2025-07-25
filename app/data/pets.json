@@ -118,5 +118,10 @@
     "name": "Rambo",
     "date": "Dec 11",
     "profilePhoto": "rambo"
+  },
+  {
+    "name": "Willow",
+    "date": "July 25",
+    "profilePhoto": "willow"
   }
 ]
