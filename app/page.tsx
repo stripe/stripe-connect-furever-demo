@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
+import React from 'react';
+import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 
 function Card({
   icon,
@@ -40,29 +42,38 @@ function Card({
 
 const AuthButtons = () => {
   const {data: session, status} = useSession();
+  const {stripeAccount: stripeAccountData, loading: isLoading} =
+    useGetStripeAccount();
 
-  if (status == 'authenticated') {
+  if (status === 'authenticated') {
     let buttonLink = '/';
     let buttonText = '';
 
-    if (session?.user?.stripeAccount?.details_submitted === false) {
-      // Stripe account created but onboarding not complete
-      buttonLink = '/onboarding';
-      buttonText = 'Continue onboarding';
-    } else if (session?.user?.stripeAccount == null) {
+    if (session?.user?.stripeAccountId == null) {
       // Stripe account not created
       buttonLink = '/business';
       buttonText = 'Continue onboarding';
-    } else {
+    } else if (stripeAccountData?.details_submitted === false) {
+      // Stripe account created but onboarding not complete
+      buttonLink = '/onboarding';
+      buttonText = 'Continue onboarding';
+    } else if (stripeAccountData) {
       buttonLink = '/home';
       buttonText = 'Go to dashboard';
+    } else {
+      // Still loading or no data yet
+      buttonText = 'Loading...';
     }
 
     return (
       <Link href={buttonLink}>
-        <Button size="lg" className="items-center gap-x-1">
+        <Button
+          size="lg"
+          className="items-center gap-x-1"
+          disabled={isLoading || !buttonText || buttonText === 'Loading...'}
+        >
           {buttonText}
-          <ArrowRight />
+          {!isLoading && <ArrowRight />}
         </Button>
       </Link>
     );

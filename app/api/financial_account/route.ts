@@ -11,7 +11,7 @@ export async function GET() {
         limit: 3,
       },
       {
-        stripeAccount: session?.user?.stripeAccount?.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
 

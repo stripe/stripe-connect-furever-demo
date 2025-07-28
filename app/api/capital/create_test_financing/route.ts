@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    const connected_account = session!.user.stripeAccount.id;
+    const connected_account = session!.user.stripeAccountId;
 
     const state = (await req.json())['offerState'] || 'delivered';
 

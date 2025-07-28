@@ -185,7 +185,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
+    const stripeAccount = await stripe.accounts.retrieve(accountId!);
 
     const count = Number(inputCount) || 1;
 
@@ -201,7 +202,7 @@ export async function POST(req: NextRequest) {
               email,
             },
             {
-              stripeAccount: accountId,
+              stripeAccount: accountId!,
             }
           );
 
@@ -212,12 +213,12 @@ export async function POST(req: NextRequest) {
             currency:
               !staticCurrencyPaymentMethods.includes(status) && currency
                 ? currency
-                : session?.user.stripeAccount.default_currency,
+                : stripeAccount.default_currency,
             name,
             email,
             customerId: customer.id,
             description,
-            connectedAccountId: accountId,
+            connectedAccountId: accountId!,
           };
 
           if (status.startsWith('card_')) {
@@ -240,7 +241,7 @@ export async function POST(req: NextRequest) {
                   : {}),
               },
               {
-                stripeAccount: accountId,
+                stripeAccount: accountId!,
               }
             );
           } else {

@@ -10,10 +10,10 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
 
     const balance = await stripe.balance.retrieve({
-      stripeAccount: accountId,
+      stripeAccount: accountId!,
     });
 
     // Find the first balance currency that can be paid out
@@ -28,7 +28,7 @@ export async function POST() {
             description: 'TEST PAYOUT',
           },
           {
-            stripeAccount: accountId,
+            stripeAccount: accountId!,
           }
         );
       }

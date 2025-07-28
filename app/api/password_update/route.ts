@@ -2,6 +2,7 @@ import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import Salon from '@/app/models/salon';
+import {getToken} from 'next-auth/jwt';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,12 +12,16 @@ export async function POST(req: NextRequest) {
     }
 
     const json = await req.json();
+    const token = await getToken({req});
+    let user = await Salon.findOne({
+      email: token?.email,
+    });
 
-    const {newEmail, newPassword} = json;
-    const updatedEmail = newEmail || session?.user?.email;
-    const updatedPassword = newPassword || session?.user?.password;
+    const oldPass = user?.password;
+
+    const {newPassword} = json;
+    const updatedPassword = newPassword || oldPass;
     const update = {
-      email: updatedEmail,
       password: updatedPassword,
       changedPassword: true,
     };
@@ -24,23 +29,12 @@ export async function POST(req: NextRequest) {
 
     await Salon.findOneAndUpdate({email: session?.user?.email}, update);
 
-    const newUser = await Salon.findOne({email: updatedEmail});
-    console.log('updated account, ', newUser);
-    return new Response(
-      JSON.stringify({
-        email: updatedEmail,
-        password: updatedPassword,
-      }),
-      {
-        status: 200,
-        headers: {'Content-Type': 'application/json'},
-      }
-    );
+    return new Response(JSON.stringify({success: true}), {
+      status: 200,
+      headers: {'Content-Type': 'application/json'},
+    });
   } catch (error: any) {
-    console.error(
-      'An error occurred when calling the Stripe API to create an account session',
-      error
-    );
+    console.error('An error occurred when updating account password', error);
     return new Response(JSON.stringify({error: error.message}), {status: 500});
   }
 }

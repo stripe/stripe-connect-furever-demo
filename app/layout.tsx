@@ -7,6 +7,7 @@ import NextAuthProvider from './auth';
 import DebugMenu from '@/app/components/debug/DebugMenu';
 import {SettingsProvider} from '@/app/contexts/settings';
 import {EmbeddedComponentBorderProvider} from '@/app/hooks/EmbeddedComponentBorderProvider';
+import QueryProvider from '@/app/providers/QueryProvider';
 import {useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 
@@ -62,14 +63,16 @@ export default function RootLayout({
         )}
       >
         <NextAuthProvider>
-          <DynamicTitle />
-          <DynamicFavicon />
-          <SettingsProvider>
-            <EmbeddedComponentBorderProvider>
-              {children}
-            </EmbeddedComponentBorderProvider>
-            <DebugMenu />
-          </SettingsProvider>
+          <QueryProvider>
+            <DynamicTitle />
+            <DynamicFavicon />
+            <SettingsProvider>
+              <EmbeddedComponentBorderProvider>
+                {children}
+              </EmbeddedComponentBorderProvider>
+              <DebugMenu />
+            </SettingsProvider>
+          </QueryProvider>
         </NextAuthProvider>
       </body>
     </html>

@@ -9,7 +9,7 @@ import {
 } from '@/app/hooks/ToolsPanelProvider';
 import {EmbeddedComponentWrapper} from '@/app/hooks/EmbeddedComponentWrapper';
 import OnboardingDialog from '../components/OnboardingDialog';
-import DataRequest from '../components/DataRequest';
+import {DataRequest} from '../components/DataRequest';
 import Screen from '../components/Screen';
 import * as React from 'react';
 import {useSettings} from '../hooks/useSettings';

@@ -10,7 +10,7 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
     await stripe.paymentIntents.create(
       {
         amount: getRandomInt(5000, 20000),
@@ -23,7 +23,7 @@ export async function POST() {
         payment_method: 'pm_card_createDispute',
       },
       {
-        stripeAccount: accountId,
+        stripeAccount: accountId!,
       }
     );
     return new Response('Success', {

@@ -22,6 +22,7 @@ import {Label} from '@/components/ui/label';
 import {useToolsContext} from '../hooks/ToolsPanelProvider';
 import {SettingsContext} from '../contexts/settings';
 import {hasCustomBranding} from '@/lib/utils';
+import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 import * as React from 'react';
 
 const navigationMenuItems = [
@@ -71,8 +72,7 @@ const Nav = () => {
   const pathname = usePathname();
   const {data: session} = useSession();
   const settings = React.useContext(SettingsContext);
-
-  const stripeAccount = session?.user?.stripeAccount;
+  const {stripeAccount: stripeAccountData} = useGetStripeAccount();
   const {open, handleOpenChange} = useToolsContext();
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
@@ -114,11 +114,11 @@ const Nav = () => {
               }
 
               // Not all pages require a filter.
-              if (!shouldDisplayFilter || !stripeAccount) {
+              if (!shouldDisplayFilter || !stripeAccountData) {
                 return true;
               }
 
-              return shouldDisplayFilter(stripeAccount);
+              return shouldDisplayFilter(stripeAccountData);
             })
             .map((item) => (
               <li key={item.label} className="p-1">

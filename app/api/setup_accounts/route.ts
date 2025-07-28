@@ -10,15 +10,24 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
+
+    // Wait for account verification to complete
     while (true) {
-      const acc = await stripe.accounts.retrieve({stripeAccount: accountId});
+      const account = await stripe.accounts.retrieve(accountId!);
+
       if (
-        acc.requirements?.disabled_reason !==
+        account.requirements?.disabled_reason !==
         'requirements.pending_verification'
       ) {
+        console.log('Account verification completed');
         break;
       }
+
+      console.log(
+        'Account still pending verification, checking again in 1 second'
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
     const charges = await stripe.charges.list(
@@ -26,7 +35,7 @@ export async function POST() {
         limit: 1,
       },
       {
-        stripeAccount: session?.user?.stripeAccount?.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
     const chargeCount = charges.data.length;
@@ -49,7 +58,7 @@ export async function POST() {
           receipt_email: 'receipt_test@stripe.com',
         },
         {
-          stripeAccount: accountId,
+          stripeAccount: accountId!,
         }
       );
     }
@@ -66,7 +75,7 @@ export async function POST() {
         receipt_email: 'dispute_test@stripe.com',
       },
       {
-        stripeAccount: accountId,
+        stripeAccount: accountId!,
       }
     );
     for (let i = 0; i < 3; i++) {
@@ -77,7 +86,7 @@ export async function POST() {
           description: 'TEST PAYOUT',
         },
         {
-          stripeAccount: accountId,
+          stripeAccount: accountId!,
         }
       );
     }
@@ -94,7 +103,7 @@ export async function POST() {
     });
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create a checkout session',
+      'An error occurred when calling the Stripe API to create test data',
       error
     );
     return new Response(error.message, {status: 500});

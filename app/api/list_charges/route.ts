@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
         limit: count,
       },
       {
-        stripeAccount: session?.user?.stripeAccount?.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
     return new Response(

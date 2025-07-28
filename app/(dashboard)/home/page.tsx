@@ -12,17 +12,16 @@ import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
 import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancingPromotionSection';
+import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 
 export default function Dashboard() {
   const {data: session} = useSession();
   if (!session) {
     redirect('/');
   }
-
-  const name = session.user.stripeAccount.individual?.first_name;
+  const {stripeAccount} = useGetStripeAccount();
 
   const BREAKPOINT = 1190;
-
   const [showBanner, setShowBanner] = React.useState(false);
 
   const renderConditionallyCallback = (response: {
@@ -39,7 +38,7 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-3xl font-bold" data-testid="title-header">
-        Woof woof, {name || 'human'}!
+        Woof woof, {stripeAccount?.individual?.first_name || 'human'}!
       </h1>
       <div className={`${showBanner ? 'flex' : 'hidden'} flex-col`}>
         <EmbeddedComponentContainer

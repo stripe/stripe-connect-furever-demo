@@ -45,13 +45,22 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const redirectUrl = `${process.env.NEXTAUTH_URL}/settings`;
-
     const params = await req.json();
+
+    if (!session?.user?.stripeAccountId) {
+      return new Response('Unauthorized or no Stripe account found', {
+        status: 401,
+      });
+    }
+
+    const stripeAccount = await stripe.accounts.retrieve(
+      session.user.stripeAccountId
+    );
 
     const currency =
       params.currency && params.currency !== '_default'
         ? params.currency
-        : session?.user.stripeAccount.default_currency;
+        : stripeAccount.default_currency;
     const amount = params.amount
       ? parseFloat(params.amount) * 100
       : getRandomInt(4000, 12000);
@@ -83,7 +92,7 @@ export async function POST(req: NextRequest) {
         cancel_url: redirectUrl,
       },
       {
-        stripeAccount: session?.user.stripeAccount.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
 

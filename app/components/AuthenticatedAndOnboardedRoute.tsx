@@ -3,6 +3,7 @@
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
+import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 import {LoaderCircle} from 'lucide-react';
 
 const LoadingView = () => {
@@ -13,31 +14,26 @@ const LoadingView = () => {
   );
 };
 
-const RedirectToOnboarding = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push('/onboarding');
-  }, [router]);
-
-  return <LoadingView />;
-};
-
 export default function AuthenticatedAndOnboardedRoute({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
   const {data: session, status} = useSession();
+  const {stripeAccount, loading} = useGetStripeAccount();
 
-  const isLoading = !session || !session.user;
-  const shouldRedirect = !session?.user?.stripeAccount?.details_submitted;
+  const isLoading = !session || !session.user || loading;
 
   if (isLoading) {
     return <LoadingView />;
-  } else if (shouldRedirect) {
-    return <RedirectToOnboarding />;
   }
+
+  useEffect(() => {
+    if (stripeAccount?.details_submitted === false) {
+      router.push('/onboarding');
+    }
+  }, [stripeAccount, loading, router]);
 
   return <>{children}</>;
 }

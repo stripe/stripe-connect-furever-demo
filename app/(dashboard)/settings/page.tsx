@@ -6,20 +6,47 @@ import {
   ConnectAccountManagement,
   ConnectNotificationBanner,
 } from '@stripe/react-connect-js';
+import {useQuery} from '@tanstack/react-query';
+import {LoaderCircle} from 'lucide-react';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
-import {useSession} from 'next-auth/react';
-import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
+import EditPasswordButton from '@/app/components/EditPasswordButton';
+import EditEmailButton from '@/app/components/EditEmailButton';
+
+const fetchAccountInfo = async () => {
+  const res = await fetch('/api/account_info', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch account info: ${res.status}`);
+  }
+
+  return res.json();
+};
 
 export default function Settings() {
-  const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
-  const email = session?.user.email;
-  const businessName = session?.user.businessName;
-  const password = session?.user.password;
 
-  const canShowPassword = !session?.user.changedPassword;
+  const {
+    data: accountData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['accountInfo'],
+    queryFn: fetchAccountInfo,
+  });
+
+  const businessName = accountData?.businessName || '';
+  const password = accountData?.password || '';
+  const changedPassword = accountData?.changedPassword || false;
+  const email = accountData?.email || '';
+
+  const canShowPassword = password && !changedPassword;
 
   const [showBanner, setShowBanner] = React.useState(false);
 
@@ -50,36 +77,49 @@ export default function Settings() {
       <Container className="pl-5">
         <div className="flex flex-row justify-between">
           <h1 className="mb-4 text-xl font-semibold">Details</h1>
-          <div className="text-right align-top text-sm font-semibold text-accent">
-            <EditAccountButton />
+          <div className="flex flex-col gap-0.5 text-right align-top text-sm font-semibold text-accent">
+            <EditEmailButton />
+            <EditPasswordButton />
           </div>
         </div>
-        <div className="flex flex-col gap-4 lg:flex-row lg:gap-20">
-          <div>
-            <div className="text-subdued">Business name</div>
-            <div className="font-medium">{businessName}</div>
+
+        {isLoading && (
+          <div className="flex items-center gap-2">
+            <LoaderCircle className="animate-spin" size={16} />
+            <span className="text-sm text-subdued">Loading...</span>
           </div>
-          <div>
-            <div className="text-subdued">Email</div>
-            <div className="font-medium">{email}</div>
-          </div>
-          <div>
-            <div className="text-subdued">Password</div>
-            <div className="font-medium">
-              {showPassword && canShowPassword ? password : '••••••••'}
+        )}
+
+        {error && <div className="text-sm text-red-600">Error</div>}
+
+        {!isLoading && !error && (
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-20">
+            <div>
+              <div className="text-subdued">Business name</div>
+              <div className="font-medium">{businessName}</div>
             </div>
-            {canShowPassword && (
-              <Link
-                className="text-sm font-semibold text-accent"
-                href="#"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {' '}
-                {showPassword ? 'Hide password' : 'Show password'}
-              </Link>
-            )}
+            <div>
+              <div className="text-subdued">Email</div>
+              <div className="font-medium">{email}</div>
+            </div>
+            <div>
+              <div className="text-subdued">Password</div>
+              <div className="font-medium">
+                {showPassword && canShowPassword ? password : '••••••••'}
+              </div>
+              {canShowPassword && (
+                <Link
+                  className="text-sm font-semibold text-accent"
+                  href="#"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {' '}
+                  {showPassword ? 'Hide password' : 'Show password'}
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </Container>
       <Container>
         <div className="flex flex-row items-center justify-between">

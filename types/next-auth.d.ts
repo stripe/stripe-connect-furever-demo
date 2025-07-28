@@ -8,10 +8,10 @@ declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's Stripe account. */
-      stripeAccount: Stripe.Account;
+      stripeAccountId?: string;
       businessName?: string | null;
       password?: string | null;
-      setup?: boolean;
+      setup?: boolean | null;
       changedPassword: boolean;
 
       // Custom branding options
@@ -30,6 +30,10 @@ declare module 'next-auth/jwt' {
       email?: string | null;
       image?: string | null;
       setup?: boolean | null;
+      stripeAccountId?: string;
+      primaryColor?: string | null;
+      companyName?: string | null;
+      companyLogoUrl?: string | null;
     };
   }
 }

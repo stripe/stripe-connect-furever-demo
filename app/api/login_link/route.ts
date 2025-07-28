@@ -6,25 +6,27 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
-    const stripeAccount = session?.user?.stripeAccount?.id;
-    if (!stripeAccount) {
+    if (!session?.user?.stripeAccountId) {
       console.error('No connected account found for user');
       return new Response('No connected account found for user', {
         status: 400,
       });
     }
 
-    if (
-      session.user.stripeAccount.controller?.stripe_dashboard?.type !==
-      'express'
-    ) {
+    const stripeAccount = await stripe.accounts.retrieve(
+      session?.user?.stripeAccountId
+    );
+
+    if (stripeAccount?.controller?.stripe_dashboard?.type !== 'express') {
       console.error('User does not have access to Express dashboard');
       return new Response('User does not have access to Express dashboard.', {
         status: 400,
       });
     }
 
-    const link = await stripe.accounts.createLoginLink(stripeAccount);
+    const link = await stripe.accounts.createLoginLink(
+      session?.user?.stripeAccountId
+    );
 
     return new Response(
       JSON.stringify({
