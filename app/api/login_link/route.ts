@@ -15,7 +15,7 @@ export async function GET() {
     }
 
     if (
-      session.user.stripeAccount.controller?.stripe_dashboard?.type !==
+      session.user.stripeAccount?.controller?.stripe_dashboard?.type !==
       'express'
     ) {
       console.error('User does not have access to Express dashboard');

@@ -24,8 +24,8 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session, token}) {
-      console.log('token', token);
-      if (token.user.stripeAccountId && !session.user.stripeAccount) {
+      console.log(process.env, 'process');
+      if (token.user.stripeAccountId && !session.user?.stripeAccount) {
         session.user.stripeAccount = await getStripeAccount(
           token.user.stripeAccountId
         );
@@ -40,13 +40,12 @@ export const authOptions: AuthOptions = {
       return session;
     },
     async jwt({token, trigger, session, user}) {
-      console.log('token from jwt', token, session, trigger, user);
       if (trigger === 'update') {
         if (session?.user.email) {
           token.email = session.user.email;
         }
         if (session?.user.stripeAccount?.id) {
-          token.stripeAccountId = session.user.stripeAccount.id;
+          token.stripeAccountId = session.user.stripeAccount?.id;
         }
         if (session?.user.primaryColor) {
           token.primaryColor = session.user.primaryColor;

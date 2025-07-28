@@ -15,6 +15,8 @@ import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancin
 import {getStripeAccount} from '@/lib/utils';
 
 export default function Dashboard() {
+  console.log(process.env, 'process');
+
   const {data: session} = useSession();
 
   if (!session) {

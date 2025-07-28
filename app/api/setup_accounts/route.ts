@@ -11,15 +11,6 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccount?.id;
-    while (true) {
-      const acc = await stripe.accounts.retrieve(accountId!);
-      if (
-        acc.requirements?.disabled_reason !==
-        'requirements.pending_verification'
-      ) {
-        break;
-      }
-    }
 
     const charges = await stripe.charges.list(
       {

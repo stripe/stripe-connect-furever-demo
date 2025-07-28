@@ -3,6 +3,7 @@ declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
 }
 
+console.log(process.env.MONGO_URI, 'process from dbConnect');
 const MONGO_URI = process.env.MONGO_URI!;
 
 if (!MONGO_URI) {

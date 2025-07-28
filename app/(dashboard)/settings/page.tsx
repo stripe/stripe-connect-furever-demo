@@ -11,15 +11,18 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
+import dbConnect from '@/lib/dbConnect';
 import Salon from '@/app/models/salon';
 
 async function getSalon(email: string | null | undefined) {
   if (!email) {
     return null;
   }
+  await dbConnect();
   const salon = await Salon.findOne({
-    email: email,
+    email,
   });
+  console.log('salon', salon);
   return salon;
 }
 

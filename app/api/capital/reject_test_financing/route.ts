@@ -6,7 +6,7 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
 
-    const connected_account = session!.user.stripeAccountId;
+    const connected_account = session!.user.stripeAccount?.id;
     const offer = (
       await stripe.capital.financingOffers.list({
         connected_account: connected_account!,
