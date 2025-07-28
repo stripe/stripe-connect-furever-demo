@@ -11,15 +11,32 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
+import Salon from '@/app/models/salon';
+
+async function getSalon(email: string | null | undefined) {
+  if (!email) {
+    return null;
+  }
+  const salon = await Salon.findOne({
+    email: email,
+  });
+  return salon;
+}
 
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [salon, setSalon] = React.useState<any>(null);
   const email = session?.user.email;
-  const businessName = session?.user.businessName;
-  const password = session?.user.password;
 
-  const canShowPassword = !session?.user.changedPassword;
+  React.useEffect(() => {
+    if (email) {
+      getSalon(email).then(setSalon);
+    }
+  }, [email]);
+  const businessName = salon?.businessName;
+  const password = salon?.password;
+  const canShowPassword = !salon?.changedPassword;
 
   const [showBanner, setShowBanner] = React.useState(false);
 

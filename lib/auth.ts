@@ -3,12 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
 import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
-import {resolveControllerParams} from './utils';
+import {getStripeAccount, resolveControllerParams} from './utils';
 import Stripe from 'stripe';
-
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 export const authOptions: AuthOptions = {
   session: {
@@ -28,65 +24,42 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session, token}) {
-      // If session is already populated then return it
-      if (session?.user?.stripeAccount) {
-        return session;
-      }
-      try {
-        await dbConnect();
-      } catch (err) {
-        console.error('Could not connect to the db');
-        throw err;
-      }
-
-      console.log(
-        'looking for salon for email',
-        session.user?.email,
-        session.user?.stripeAccount
-      );
-      const salon = await Salon.findOne({
-        email: session.user?.email,
-      });
-      if (!salon) {
-        console.error('Could not find a user for email in getting the session');
-        throw new Error(
-          'Could not find a user for email in getting the session'
+      console.log('token', token);
+      if (token.user.stripeAccountId && !session.user.stripeAccount) {
+        session.user.stripeAccount = await getStripeAccount(
+          token.user.stripeAccountId
         );
       }
-      console.log('Found salon', salon);
+      session.user.email = token.email;
+      session.user.primaryColor = token.user.primaryColor;
+      session.user.companyName = token.user.companyName;
+      session.user.companyLogoUrl = token.user.companyLogoUrl;
 
-      let stripeAccount;
-      if (salon.stripeAccountId) {
-        try {
-          stripeAccount = await stripe.accounts.retrieve(salon.stripeAccountId);
-        } catch (err) {
-          console.error('Could not retrieve stripe account for user', err);
-          throw err;
-        }
-        session.user.stripeAccount = stripeAccount;
-        session.user.businessName = salon.businessName;
-        session.user.password = salon.password;
-        session.user.setup = salon.setup;
-        session.user.changedPassword = salon.changedPassword;
-
-        // Custom branding options
-        session.user.primaryColor = salon.primaryColor;
-        session.user.companyName = salon.companyName;
-        session.user.companyLogoUrl = salon.companyLogoUrl;
-      }
-
-      console.log(`Got session for user ${salon.email}`);
+      console.log(`Got session for user ${token.email}`);
 
       return session;
     },
-    async jwt({token, trigger, session}) {
-      if (trigger === 'update' && session?.user) {
-        console.log('Updating token with name');
-        // Note, that `session` can be any arbitrary object, remember to validate it!
-        token.email = session.user.email;
-        token.setup = session.user.setup;
-        token.changedPassword = session.user.changedPassword;
-        console.log('finished updating token', token);
+    async jwt({token, trigger, session, user}) {
+      console.log('token from jwt', token, session, trigger, user);
+      if (trigger === 'update') {
+        if (session?.user.email) {
+          token.email = session.user.email;
+        }
+        if (session?.user.stripeAccount?.id) {
+          token.stripeAccountId = session.user.stripeAccount.id;
+        }
+        if (session?.user.primaryColor) {
+          token.primaryColor = session.user.primaryColor;
+        }
+        if (session?.user.companyName) {
+          token.companyName = session.user.companyName;
+        }
+        if (session?.user.companyLogoUrl) {
+          token.companyLogoUrl = session.user.companyLogoUrl;
+        }
+      }
+      if (user) {
+        token.user = {...token.user, ...user};
       }
       return token;
     },
@@ -183,6 +156,7 @@ export const authOptions: AuthOptions = {
         return {
           id: user!._id,
           email: user!.email,
+          stripeAccountId: user!.stripeAccountId,
         };
       },
     }),

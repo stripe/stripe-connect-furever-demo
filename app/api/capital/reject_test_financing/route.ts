@@ -6,9 +6,12 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
 
-    const connected_account = session!.user.stripeAccount.id;
+    const connected_account = session!.user.stripeAccountId;
     const offer = (
-      await stripe.capital.financingOffers.list({connected_account, limit: 1})
+      await stripe.capital.financingOffers.list({
+        connected_account: connected_account!,
+        limit: 1,
+      })
     ).data
       .filter((o) => o.status === 'accepted')
       .at(0);

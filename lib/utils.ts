@@ -1,6 +1,7 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import {Stripe} from 'stripe';
+import {stripe} from '@/lib/stripe';
 import {defaultPrimaryColor} from '@/app/contexts/themes/ThemeConstants';
 
 export function cn(...inputs: ClassValue[]) {
@@ -131,4 +132,9 @@ export function hasCustomBranding(settings: {
   const hasCustomLogo = companyLogoUrl && companyLogoUrl !== '';
 
   return Boolean(hasCustomColor || hasCustomName || hasCustomLogo);
+}
+
+export async function getStripeAccount(stripeAccountId: string) {
+  const stripeAccount = await stripe.accounts.retrieve(stripeAccountId);
+  return stripeAccount;
 }

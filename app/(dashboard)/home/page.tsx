@@ -12,14 +12,16 @@ import {useSession} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import Container from '@/app/components/Container';
 import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancingPromotionSection';
+import {getStripeAccount} from '@/lib/utils';
 
 export default function Dashboard() {
   const {data: session} = useSession();
+
   if (!session) {
     redirect('/');
   }
 
-  const name = session.user.stripeAccount.individual?.first_name;
+  const name = session.user.stripeAccount?.individual?.first_name;
 
   const BREAKPOINT = 1190;
 

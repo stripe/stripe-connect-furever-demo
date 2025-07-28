@@ -7,7 +7,7 @@ import {type NextRequest} from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccount?.id;
     const json = await req.json();
 
     if (!accountId) {

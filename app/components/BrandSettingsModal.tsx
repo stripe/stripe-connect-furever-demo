@@ -128,15 +128,6 @@ const BrandSettingsModal = () => {
         companyLogoUrl: logoPreview || undefined,
       });
 
-      // Update session
-      await update({
-        user: {
-          ...session?.user,
-          companyName: companyName.trim(),
-          companyLogoUrl: logoPreview || undefined,
-        },
-      });
-
       setIsOpen(false);
     } catch (error) {
       console.error('Error saving brand settings:', error);
@@ -163,14 +154,6 @@ const BrandSettingsModal = () => {
 
         // Update settings context
         settings.handleUpdate({companyLogoUrl: undefined});
-
-        // Update session
-        await update({
-          user: {
-            ...session?.user,
-            companyLogoUrl: undefined,
-          },
-        });
       } else {
         const errorData = await response.json();
         alert(errorData.message || 'Delete failed');
