@@ -39,7 +39,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
-    "dotenv": "^17.2.1",
     "lucide-react": "^0.363.0",
     "micro-cors": "^0.1.1",
     "mongoose": "^5.11.9",

@@ -49,7 +49,7 @@ const AuthButtons = () => {
       // Stripe account created but onboarding not complete
       buttonLink = '/onboarding';
       buttonText = 'Continue onboarding';
-    } else if (session?.user?.stripeAccount?.id == null) {
+    } else if (session?.user?.stripeAccount == null) {
       // Stripe account not created
       buttonLink = '/business';
       buttonText = 'Continue onboarding';
