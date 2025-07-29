@@ -45,9 +45,6 @@ export const authOptions: AuthOptions = {
         if (session?.user.email) {
           token.email = session.user.email;
         }
-        if (session?.user.stripeAccount?.id) {
-          token.user.stripeAccountId = session.user.stripeAccount?.id;
-        }
         if (session?.user.primaryColor) {
           token.user.primaryColor = session.user.primaryColor;
         }
