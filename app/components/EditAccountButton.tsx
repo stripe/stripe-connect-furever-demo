@@ -76,13 +76,11 @@ const EditAccountButton = () => {
           user: {
             ...session.user,
             email: newEmail,
-            password: newPassword,
-            changedPassword: true,
           },
         });
         console.log('updated user', promise?.user);
         setOpen(false);
-        router.refresh();
+        window.location.reload();
       }
     };
 

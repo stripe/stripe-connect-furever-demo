@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/lib/dbConnect';
 import Salon from '../app/models/salon';
 import {stripe} from '@/lib/stripe';
-import {getStripeAccount, resolveControllerParams} from './utils';
+import {resolveControllerParams} from './utils';
 import Stripe from 'stripe';
 
 export const authOptions: AuthOptions = {
@@ -24,13 +24,14 @@ export const authOptions: AuthOptions = {
     },
 
     async session({session, token}) {
-      console.log(process.env, 'process');
       if (token.user.stripeAccountId && !session.user?.stripeAccount) {
-        session.user.stripeAccount = await getStripeAccount(
+        session.user.stripeAccount = await stripe.accounts.retrieve(
           token.user.stripeAccountId
         );
       }
+
       session.user.email = token.email;
+      session.user.setup = token.user.setup;
       session.user.primaryColor = token.user.primaryColor;
       session.user.companyName = token.user.companyName;
       session.user.companyLogoUrl = token.user.companyLogoUrl;
@@ -45,16 +46,19 @@ export const authOptions: AuthOptions = {
           token.email = session.user.email;
         }
         if (session?.user.stripeAccount?.id) {
-          token.stripeAccountId = session.user.stripeAccount?.id;
+          token.user.stripeAccountId = session.user.stripeAccount?.id;
         }
         if (session?.user.primaryColor) {
-          token.primaryColor = session.user.primaryColor;
+          token.user.primaryColor = session.user.primaryColor;
         }
         if (session?.user.companyName) {
-          token.companyName = session.user.companyName;
+          token.user.companyName = session.user.companyName;
         }
         if (session?.user.companyLogoUrl) {
-          token.companyLogoUrl = session.user.companyLogoUrl;
+          token.user.companyLogoUrl = session.user.companyLogoUrl;
+        }
+        if (session?.user.setup) {
+          token.user.setup = session.user.setup;
         }
       }
       if (user) {
@@ -99,6 +103,7 @@ export const authOptions: AuthOptions = {
         return {
           id: user._id,
           email: user.email,
+          stripeAccountId: user.stripeAccountId,
         };
       },
     }),

@@ -133,8 +133,3 @@ export function hasCustomBranding(settings: {
 
   return Boolean(hasCustomColor || hasCustomName || hasCustomLogo);
 }
-
-export async function getStripeAccount(stripeAccountId: string) {
-  const stripeAccount = await stripe.accounts.retrieve(stripeAccountId);
-  return stripeAccount;
-}

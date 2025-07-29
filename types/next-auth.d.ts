@@ -11,7 +11,7 @@ declare module 'next-auth' {
       stripeAccount?: Stripe.Account | null;
       businessName?: string | null;
       password?: string | null;
-      setup?: boolean;
+      setup?: boolean | null;
       changedPassword: boolean;
 
       // Custom branding options

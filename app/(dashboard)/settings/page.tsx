@@ -11,35 +11,42 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {useSession} from 'next-auth/react';
 import EditAccountButton from '@/app/components/EditAccountButton';
 import {Link} from '@/components/ui/link';
-import dbConnect from '@/lib/dbConnect';
-import Salon from '@/app/models/salon';
-
-async function getSalon(email: string | null | undefined) {
-  if (!email) {
-    return null;
-  }
-  await dbConnect();
-  const salon = await Salon.findOne({
-    email,
-  });
-  console.log('salon', salon);
-  return salon;
-}
 
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [salon, setSalon] = React.useState<any>(null);
+  const [businessName, setBusinessName] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [changedPassword, setChangedPassword] = React.useState(false);
   const email = session?.user.email;
 
   React.useEffect(() => {
-    if (email) {
-      getSalon(email).then(setSalon);
-    }
-  }, [email]);
-  const businessName = salon?.businessName;
-  const password = salon?.password;
-  const canShowPassword = !salon?.changedPassword;
+    const fetchAccountInfo = async () => {
+      try {
+        const res = await fetch('/api/account_info', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setBusinessName(data.businessName || '');
+          setPassword(data.password || '');
+          setChangedPassword(data.changedPassword || false);
+        } else {
+          console.error('Failed to fetch account info:', res.status);
+        }
+      } catch (e) {
+        console.error('Error with fetching account info: ', e);
+      }
+    };
+
+    fetchAccountInfo();
+  }, []);
+
+  const canShowPassword = password && !changedPassword;
 
   const [showBanner, setShowBanner] = React.useState(false);
 
