@@ -222,7 +222,7 @@ export default function LandingPage() {
                   size="lg"
                   className="gap-1.5 text-primary"
                 >
-                  Get Started
+                  Get started
                   <ArrowRight size={22} />
                 </Button>
               </Link>
