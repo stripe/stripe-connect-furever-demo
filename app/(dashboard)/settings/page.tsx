@@ -15,11 +15,38 @@ import {Link} from '@/components/ui/link';
 export default function Settings() {
   const {data: session} = useSession();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [businessName, setBusinessName] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [changedPassword, setChangedPassword] = React.useState(false);
   const email = session?.user.email;
-  const businessName = session?.user.businessName;
-  const password = session?.user.password;
 
-  const canShowPassword = !session?.user.changedPassword;
+  React.useEffect(() => {
+    const fetchAccountInfo = async () => {
+      try {
+        const res = await fetch('/api/account_info', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setBusinessName(data.businessName || '');
+          setPassword(data.password || '');
+          setChangedPassword(data.changedPassword || false);
+        } else {
+          console.error('Failed to fetch account info:', res.status);
+        }
+      } catch (e) {
+        console.error('Error with fetching account info: ', e);
+      }
+    };
+
+    fetchAccountInfo();
+  }, []);
+
+  const canShowPassword = password && !changedPassword;
 
   const [showBanner, setShowBanner] = React.useState(false);
 

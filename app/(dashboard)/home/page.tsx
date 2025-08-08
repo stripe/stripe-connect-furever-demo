@@ -15,13 +15,12 @@ import {CapitalFinancingPromotionSection} from '@/app/components/CapitalFinancin
 
 export default function Dashboard() {
   const {data: session} = useSession();
+
   if (!session) {
     redirect('/');
   }
 
-  const name = session.user.stripeAccount.individual?.first_name;
-
-  const BREAKPOINT = 1190;
+  const name = session.user.stripeAccount?.individual?.first_name;
 
   const [showBanner, setShowBanner] = React.useState(false);
 

@@ -7,19 +7,48 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+async function waitForAccountVerification(
+  accountId: string,
+  maxRetries = 30,
+  delayMs = 2000
+): Promise<void> {
+  let retries = 0;
+
+  while (retries < maxRetries) {
+    try {
+      const account = await stripe.accounts.retrieve(accountId);
+
+      if (
+        account.requirements?.disabled_reason !==
+        'requirements.pending_verification'
+      ) {
+        console.log('Account verification completed');
+        return;
+      }
+
+      console.log(
+        `Account still pending verification, retry ${retries + 1}/${maxRetries}`
+      );
+
+      // Wait before next check
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      retries++;
+    } catch (error) {
+      console.error('Error checking account status:', error);
+      throw new Error('Failed to check account verification status');
+    }
+  }
+
+  throw new Error('Account verification timeout - max retries exceeded');
+}
+
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
-    while (true) {
-      const acc = await stripe.accounts.retrieve({stripeAccount: accountId});
-      if (
-        acc.requirements?.disabled_reason !==
-        'requirements.pending_verification'
-      ) {
-        break;
-      }
-    }
+    const accountId = session?.user.stripeAccount?.id;
+
+    // Wait for account verification to complete
+    await waitForAccountVerification(accountId!);
 
     const charges = await stripe.charges.list(
       {
@@ -49,7 +78,7 @@ export async function POST() {
           receipt_email: 'receipt_test@stripe.com',
         },
         {
-          stripeAccount: accountId,
+          stripeAccount: accountId!,
         }
       );
     }
@@ -66,7 +95,7 @@ export async function POST() {
         receipt_email: 'dispute_test@stripe.com',
       },
       {
-        stripeAccount: accountId,
+        stripeAccount: accountId!,
       }
     );
     for (let i = 0; i < 3; i++) {
@@ -77,7 +106,7 @@ export async function POST() {
           description: 'TEST PAYOUT',
         },
         {
-          stripeAccount: accountId,
+          stripeAccount: accountId!,
         }
       );
     }
@@ -94,7 +123,7 @@ export async function POST() {
     });
   } catch (error: any) {
     console.error(
-      'An error occurred when calling the Stripe API to create a checkout session',
+      'An error occurred when calling the Stripe API to create test data',
       error
     );
     return new Response(error.message, {status: 500});

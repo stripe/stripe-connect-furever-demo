@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const currency =
       params.currency && params.currency !== '_default'
         ? params.currency
-        : session?.user.stripeAccount.default_currency;
+        : session?.user.stripeAccount?.default_currency;
     const amount = params.amount
       ? parseFloat(params.amount) * 100
       : getRandomInt(4000, 12000);
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         cancel_url: redirectUrl,
       },
       {
-        stripeAccount: session?.user.stripeAccount.id,
+        stripeAccount: session?.user.stripeAccount?.id,
       }
     );
 
