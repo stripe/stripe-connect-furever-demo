@@ -18,9 +18,10 @@ export async function POST(req: NextRequest) {
     // Generate correlation ID for tracking
     const correlationId = `manual_${accountId}_${Date.now()}`;
 
-    
     // Log structured start for monitoring
-    console.log(`[CAPITAL_OFFER_START] account_id=${accountId} correlation_id=${correlationId} offer_state=${offerState} source=manual`);
+    console.log(
+      `[CAPITAL_OFFER_START] account_id=${accountId} correlation_id=${correlationId} offer_state=${offerState} source=manual`
+    );
 
     // Create test financing offer
     const startTime = Date.now();
@@ -41,7 +42,9 @@ export async function POST(req: NextRequest) {
     const duration = Date.now() - startTime;
 
     // Log structured success for monitoring
-    console.log(`[CAPITAL_OFFER_SUCCESS] account_id=${accountId} correlation_id=${correlationId} duration_ms=${duration} offer_state=${offerState} source=manual`);
+    console.log(
+      `[CAPITAL_OFFER_SUCCESS] account_id=${accountId} correlation_id=${correlationId} duration_ms=${duration} offer_state=${offerState} source=manual`
+    );
 
     return new Response(
       JSON.stringify({
@@ -58,9 +61,11 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     const accountId = session?.user?.stripeAccount?.id || 'unknown';
     const correlationId = `manual_error_${Date.now()}`;
-    
+
     // Log structured error for monitoring/alerting
-    console.error(`[CAPITAL_OFFER_FAILURE] account_id=${accountId} correlation_id=${correlationId} error_type=${error.constructor.name} error_message=${(error.message || '').substring(0, 200)} source=manual`);
+    console.error(
+      `[CAPITAL_OFFER_FAILURE] account_id=${accountId} correlation_id=${correlationId} error_type=${error.constructor.name} error_message=${(error.message || '').substring(0, 200)} source=manual`
+    );
 
     return new Response(
       JSON.stringify({
