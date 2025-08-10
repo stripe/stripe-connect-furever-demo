@@ -81,6 +81,42 @@ export async function POST() {
         }
       );
     }
+    // Create Capital financing offer for demo accounts
+    // This only affects accounts created through the demo flow, so it's always safe
+    const correlationId = `web_${accountId}_${Date.now()}`;
+    
+    try {
+      // Log structured start for monitoring
+      console.log(`[CAPITAL_OFFER_START] account_id=${accountId} correlation_id=${correlationId} source=web`);
+
+      const startTime = Date.now();
+      await stripe.rawRequest('POST', '/v1/capital/financing_offers/test_mode', {
+        max_premium_amount: 10000_00,
+        max_advance_amount: 100000_00,
+        max_withhold_rate_str: 0.15,
+        is_refill: false,
+        financing_type: 'flex_loan',
+        state: 'delivered',
+        is_youlend: false,
+        is_fixed_term: false,
+        'loan_repayment_details[repayment_interval_duration_days]': 60,
+        'loan_repayment_details[target_payback_weeks]': 42,
+        country: 'US',
+        connected_account: accountId,
+      });
+      const duration = Date.now() - startTime;
+
+      // Log structured success for monitoring
+      console.log(`[CAPITAL_OFFER_SUCCESS] account_id=${accountId} correlation_id=${correlationId} duration_ms=${duration} source=web`);
+
+      // Note: We don't update account metadata here since this is for web sessions
+      // The Python script handles metadata for bulk account management
+    } catch (error: any) {
+      // Log structured error for monitoring/alerting
+      console.error(`[CAPITAL_OFFER_FAILURE] account_id=${accountId} correlation_id=${correlationId} error_type=${error.constructor.name} error_message=${(error.message || '').substring(0, 200)} source=web`);
+      // Continue with setup even if Capital offer creation fails
+    }
+
     const update = {
       setup: true,
     };
