@@ -1,7 +1,6 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
-import {getStripeAccountFromSession} from '@/lib/utils';
 
 export async function POST() {
   try {

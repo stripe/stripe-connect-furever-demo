@@ -134,15 +134,3 @@ export function hasCustomBranding(settings: {
 
   return Boolean(hasCustomColor || hasCustomName || hasCustomLogo);
 }
-
-export const getStripeAccountFromSession = (
-  session: Session
-): string | Response => {
-  if (!session.user.stripeAccountId) {
-    return new Response('The current route requires authentication', {
-      status: 403,
-    });
-  }
-
-  return session.user.stripeAccountId;
-};

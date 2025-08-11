@@ -1,6 +1,5 @@
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
-import {getStripeAccountFromSession} from '@/lib/utils';
 import {getServerSession} from 'next-auth';
 import {NextRequest} from 'next/server';
 
