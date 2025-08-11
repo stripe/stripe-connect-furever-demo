@@ -23,7 +23,7 @@ export async function POST() {
         payment_method: 'pm_card_createDispute',
       },
       {
-        stripeAccount: accountId!,
+        stripeAccount: accountId,
       }
     );
     return new Response('Success', {

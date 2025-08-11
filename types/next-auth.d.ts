@@ -8,7 +8,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's Stripe account. */
-      stripeAccountId?: string;
+      stripeAccountId: string;
       businessName?: string | null;
       password?: string | null;
       setup?: boolean | null;
@@ -30,7 +30,7 @@ declare module 'next-auth/jwt' {
       email?: string | null;
       image?: string | null;
       setup?: boolean | null;
-      stripeAccountId?: string;
+      stripeAccountId: string;
       primaryColor?: string | null;
       companyName?: string | null;
       companyLogoUrl?: string | null;

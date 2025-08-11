@@ -10,11 +10,17 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccountId;
+    if (!session) {
+      return new Response('The current route requires authentication', {
+        status: 403,
+      });
+    }
+
+    const accountId = session.user.stripeAccountId;
 
     // Wait for account verification to complete
     while (true) {
-      const account = await stripe.accounts.retrieve(accountId!);
+      const account = await stripe.accounts.retrieve(accountId);
 
       if (
         account.requirements?.disabled_reason !==
@@ -58,7 +64,7 @@ export async function POST() {
           receipt_email: 'receipt_test@stripe.com',
         },
         {
-          stripeAccount: accountId!,
+          stripeAccount: accountId,
         }
       );
     }
@@ -75,7 +81,7 @@ export async function POST() {
         receipt_email: 'dispute_test@stripe.com',
       },
       {
-        stripeAccount: accountId!,
+        stripeAccount: accountId,
       }
     );
     for (let i = 0; i < 3; i++) {
@@ -86,7 +92,7 @@ export async function POST() {
           description: 'TEST PAYOUT',
         },
         {
-          stripeAccount: accountId!,
+          stripeAccount: accountId,
         }
       );
     }

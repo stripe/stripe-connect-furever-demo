@@ -3,6 +3,7 @@ import {twMerge} from 'tailwind-merge';
 import {Stripe} from 'stripe';
 import {stripe} from '@/lib/stripe';
 import {defaultPrimaryColor} from '@/app/contexts/themes/ThemeConstants';
+import {Session} from 'next-auth';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -133,3 +134,15 @@ export function hasCustomBranding(settings: {
 
   return Boolean(hasCustomColor || hasCustomName || hasCustomLogo);
 }
+
+export const getStripeAccountFromSession = (
+  session: Session
+): string | Response => {
+  if (!session.user.stripeAccountId) {
+    return new Response('The current route requires authentication', {
+      status: 403,
+    });
+  }
+
+  return session.user.stripeAccountId;
+};

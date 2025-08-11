@@ -13,7 +13,7 @@ export async function POST() {
     const accountId = session?.user.stripeAccountId;
 
     const balance = await stripe.balance.retrieve({
-      stripeAccount: accountId!,
+      stripeAccount: accountId,
     });
 
     // Find the first balance currency that can be paid out
@@ -28,7 +28,7 @@ export async function POST() {
             description: 'TEST PAYOUT',
           },
           {
-            stripeAccount: accountId!,
+            stripeAccount: accountId,
           }
         );
       }

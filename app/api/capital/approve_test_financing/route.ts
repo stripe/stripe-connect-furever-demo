@@ -1,15 +1,22 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
+import {getStripeAccountFromSession} from '@/lib/utils';
 
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
+    if (!session) {
+      return new Response('The current route requires authentication', {
+        status: 403,
+      });
+    }
 
-    const connected_account = session!.user.stripeAccountId;
+    const connected_account = session.user.stripeAccountId;
+
     const offer = (
       await stripe.capital.financingOffers.list({
-        connected_account: connected_account!,
+        connected_account: connected_account,
         limit: 1,
       })
     ).data

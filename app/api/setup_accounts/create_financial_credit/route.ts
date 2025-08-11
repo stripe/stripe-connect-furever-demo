@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         network: 'ach',
       },
       {
-        stripeAccount: accountId!,
+        stripeAccount: accountId,
       }
     );
 
