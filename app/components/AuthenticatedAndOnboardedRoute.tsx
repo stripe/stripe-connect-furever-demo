@@ -23,17 +23,17 @@ export default function AuthenticatedAndOnboardedRoute({
   const {data: session, status} = useSession();
   const {stripeAccount, loading} = useGetStripeAccount();
 
+  useEffect(() => {
+    if (!loading && stripeAccount?.details_submitted === false) {
+      router.push('/onboarding');
+    }
+  }, [stripeAccount, loading, router]);
+
   const isLoading = !session || !session.user || loading;
 
   if (isLoading) {
     return <LoadingView />;
   }
-
-  useEffect(() => {
-    if (stripeAccount?.details_submitted === false) {
-      router.push('/onboarding');
-    }
-  }, [stripeAccount, loading, router]);
 
   return <>{children}</>;
 }
