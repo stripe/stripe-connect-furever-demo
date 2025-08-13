@@ -37,7 +37,7 @@ export default function SettingsLayout({
               <Button
                 className="text-md ml-2 self-end p-2 hover:bg-white/80 hover:text-primary"
                 variant="ghost"
-                onClick={async () => {
+                onClick={() => {
                   window.open(expressDashboardLoginLink, '_blank');
                 }}
                 aria-label="Open Stripe Express Dashboard"

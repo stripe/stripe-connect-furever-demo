@@ -12,7 +12,7 @@ export async function POST() {
         status: 'active',
       },
       {
-        stripeAccount: session?.user?.stripeAccount?.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
 
@@ -30,7 +30,7 @@ export async function POST() {
           card: issuingCards.data[0].id,
         },
         {
-          stripeAccount: session?.user?.stripeAccount?.id,
+          stripeAccount: session?.user.stripeAccountId,
         }
       );
 

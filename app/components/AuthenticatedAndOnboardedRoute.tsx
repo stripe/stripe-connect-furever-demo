@@ -4,6 +4,7 @@ import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 import {LoaderCircle} from 'lucide-react';
+import {useGetStripeAccount} from '../hooks/useGetStripeAccount';
 
 const LoadingView = () => {
   return (
@@ -29,9 +30,10 @@ export default function AuthenticatedAndOnboardedRoute({
   children: React.ReactNode;
 }>) {
   const {data: session, status} = useSession();
+  const {stripeAccount, loading} = useGetStripeAccount();
 
-  const isLoading = !session || !session.user;
-  const shouldRedirect = !session?.user?.stripeAccount?.details_submitted;
+  const isLoading = !session || !session.user || loading;
+  const shouldRedirect = !stripeAccount?.details_submitted;
 
   if (isLoading) {
     return <LoadingView />;

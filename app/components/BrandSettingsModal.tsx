@@ -134,6 +134,7 @@ const BrandSettingsModal = () => {
           ...session?.user,
           companyName: companyName.trim(),
           companyLogoUrl: logoPreview || undefined,
+          primaryColor: primaryColor,
         },
       });
 

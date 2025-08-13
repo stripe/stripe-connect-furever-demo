@@ -11,7 +11,7 @@ export async function POST() {
         limit: 1,
       },
       {
-        stripeAccount: session?.user?.stripeAccount?.id,
+        stripeAccount: session?.user.stripeAccountId,
       }
     );
 
@@ -31,7 +31,7 @@ export async function POST() {
           network: 'ach',
         },
         {
-          stripeAccount: session?.user?.stripeAccount?.id,
+          stripeAccount: session?.user.stripeAccountId,
         }
       );
 

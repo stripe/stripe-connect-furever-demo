@@ -16,7 +16,7 @@ const merchantIssueResource = Stripe.StripeResource.extend({
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
 
     const interventionResource = new merchantIssueResource(stripe);
     const interventionResponse = await interventionResource.create({

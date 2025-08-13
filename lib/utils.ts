@@ -1,7 +1,9 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import {Stripe} from 'stripe';
+import {stripe} from '@/lib/stripe';
 import {defaultPrimaryColor} from '@/app/contexts/themes/ThemeConstants';
+import {Session} from 'next-auth';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
