@@ -11,7 +11,7 @@ import {z} from 'zod';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {useSession} from 'next-auth/react';
-import {redirect, useRouter} from 'next/navigation';
+import {redirect} from 'next/navigation';
 import React from 'react';
 import {
   Form,
@@ -26,27 +26,22 @@ import {useForm} from 'react-hook-form';
 import bcrypt from 'bcryptjs';
 
 const formSchema = z.object({
-  email: z.string().email(),
   password: z.string().min(8),
 });
 
-const EditAccountButton = () => {
+const EditPasswordButton = () => {
   const [open, setOpen] = React.useState(false);
-  const router = useRouter();
 
   const EditAccountForm = () => {
-    const {data: session, update} = useSession();
+    const {data: session} = useSession();
 
     if (!session) {
       redirect('/home');
     }
 
-    const email = session?.user?.email;
-    const password = session?.user?.password;
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        email: email || '',
         password: '',
       },
     });
@@ -54,12 +49,11 @@ const EditAccountButton = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
       console.log('submitting');
       const data = {
-        newEmail: values.email,
         newPassword: bcrypt.hashSync(values.password, 8),
         changedPassword: true,
       };
 
-      const response = await fetch('/api/account_update', {
+      const response = await fetch('/api/password_update', {
         method: 'POST',
         body: JSON.stringify(data),
       });
@@ -69,20 +63,8 @@ const EditAccountButton = () => {
         console.warn('An error occurred: ', error);
         return undefined;
       } else {
-        const {email: newEmail, password: newPassword} = await response.json();
-
-        console.log('response ok', newEmail, newPassword);
-        const promise = await update({
-          user: {
-            ...session.user,
-            email: newEmail,
-            password: newPassword,
-            changedPassword: true,
-          },
-        });
-        console.log('updated user', promise?.user);
         setOpen(false);
-        router.refresh();
+        window.location.reload();
       }
     };
 
@@ -91,25 +73,6 @@ const EditAccountButton = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex flex-col space-y-2">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
-                        placeholder={email || 'email@email.com'}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="pb-3">
               <FormField
                 control={form.control}
                 name="password"
@@ -148,11 +111,11 @@ const EditAccountButton = () => {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Link href="#">Edit </Link>
+        <Link href="#">Edit password</Link>
       </DialogTrigger>
       <DialogContent className="text-primary">
         <DialogHeader>
-          <DialogTitle>Edit login details</DialogTitle>
+          <DialogTitle>Edit password</DialogTitle>
         </DialogHeader>
         <EditAccountForm />
       </DialogContent>
@@ -160,4 +123,4 @@ const EditAccountButton = () => {
   );
 };
 
-export default EditAccountButton;
+export default EditPasswordButton;

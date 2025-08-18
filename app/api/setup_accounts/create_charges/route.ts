@@ -185,7 +185,14 @@ export async function POST(req: NextRequest) {
 
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    if (!session) {
+      return new Response('The current route requires authentication', {
+        status: 403,
+      });
+    }
+
+    const accountId = session.user.stripeAccountId;
+    const stripeAccount = await stripe.accounts.retrieve(accountId);
 
     const count = Number(inputCount) || 1;
 
@@ -212,7 +219,7 @@ export async function POST(req: NextRequest) {
             currency:
               !staticCurrencyPaymentMethods.includes(status) && currency
                 ? currency
-                : session?.user.stripeAccount.default_currency,
+                : stripeAccount.default_currency,
             name,
             email,
             customerId: customer.id,

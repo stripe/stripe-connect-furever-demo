@@ -10,7 +10,7 @@ function getRandomInt(min: number, max: number) {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
 
     const balance = await stripe.balance.retrieve({
       stripeAccount: accountId,

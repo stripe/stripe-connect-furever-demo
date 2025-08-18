@@ -1,21 +1,38 @@
 'use client';
-import * as React from 'react';
 import {useSession} from 'next-auth/react';
-import {useRouter} from 'next/navigation';
-import {useEffect} from 'react';
+import * as React from 'react';
 
-export default function DataRequest({
+export const DataRequest = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
-  const router = useRouter();
+}>) => {
   const {data: session, update} = useSession();
-
   React.useEffect(() => {
     const fetchData = async () => {
+      console.log('fetching data', session?.user.setup, session?.user);
       if (session?.user.setup) {
         return;
+      }
+      const info = await fetch('/api/account_info', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (info.ok) {
+        const data = await info.json();
+        if (data.setup) {
+          await update({
+            user: {
+              ...session?.user,
+              setup: true,
+            },
+          });
+          return;
+        }
+      } else {
+        console.error('Failed to fetch account info:', info.status);
       }
 
       const res = await fetch('/api/setup_accounts', {
@@ -31,11 +48,10 @@ export default function DataRequest({
             setup: true,
           },
         });
-        window.location.reload();
       }
     };
     setTimeout(() => fetchData(), 10000);
   });
 
   return <>{children}</>;
-}
+};

@@ -6,9 +6,19 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
-    const connected_account = session!.user.stripeAccount.id;
+    if (!session) {
+      return new Response('The current route requires authentication', {
+        status: 403,
+      });
+    }
+
+    const connected_account = session.user.stripeAccountId;
+
     const offer = (
-      await stripe.capital.financingOffers.list({connected_account, limit: 1})
+      await stripe.capital.financingOffers.list({
+        connected_account: connected_account,
+        limit: 1,
+      })
     ).data.at(0);
 
     return new Response(

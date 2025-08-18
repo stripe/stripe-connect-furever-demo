@@ -8,7 +8,8 @@ export async function POST(req: NextRequest) {
   if (!session) {
     return new Response('Unauthorized', {status: 401});
   }
-  const accountId = session?.user.stripeAccount.id;
+  const accountId = session.user.stripeAccountId;
+
   const json = await req.json();
   const {capabilities} = json;
 

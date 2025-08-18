@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     const {demoOnboarding, locale} = json;
 
-    let stripeAccountId = session?.user?.stripeAccount?.id;
+    let stripeAccountId = session?.user?.stripeAccountId;
 
     if (demoOnboarding !== undefined) {
       const accountId: string = (() => {

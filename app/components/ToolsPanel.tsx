@@ -28,7 +28,6 @@ import * as React from 'react';
 import CreatePaymentsButton from './testdata/CreatePaymentsButton';
 import LocaleSelector from './Tools/LocaleSelector';
 import ThemePicker from './Tools/ThemePicker';
-import OverlaySelector from './Tools/OverlaySelector';
 import CreateInterventionsButton from './testdata/CreateInterventionsButton';
 import CreatePayoutsButton from './testdata/CreatePayoutsButton';
 import CreateFinancialCreditButton from './testdata/CreateFinancialCreditButton';
@@ -39,8 +38,6 @@ import BrandSettingsModal from './BrandSettingsModal';
 const ToolsPanel = () => {
   const pathname = usePathname();
   const {data: session} = useSession();
-
-  const stripeAccount = session?.user?.stripeAccount;
 
   const [showMobileNavItems, setShowMobileNavItems] = React.useState(false);
   const {handleEnableBorderChange, enableBorder} = useEmbeddedComponentBorder();
@@ -139,12 +136,6 @@ const ToolsPanel = () => {
           </Label>
           <LocaleSelector />
         </div>
-        {/* <div className="flex flex-row justify-between">
-          <Label className="text-left" htmlFor="outline">
-            Overlay style
-          </Label>
-          <OverlaySelector />
-        </div> */}
       </div>
     );
   };

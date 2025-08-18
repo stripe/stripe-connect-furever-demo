@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const {financialAccount} = json;
   try {
     const session = await getServerSession(authOptions);
-    const accountId = session?.user.stripeAccount.id;
+    const accountId = session?.user.stripeAccountId;
 
     await stripe.testHelpers.treasury.receivedCredits.create(
       {
