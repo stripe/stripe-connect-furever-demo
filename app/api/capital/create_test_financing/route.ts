@@ -1,36 +1,27 @@
-import {getServerSession} from 'next-auth/next';
-import {authOptions} from '@/lib/auth';
-import {stripe} from '@/lib/stripe';
 import {NextRequest} from 'next/server';
+import {createFinancingOffer, validateSession} from '@/lib/capital';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const sessionResult = await validateSession();
 
-    if (!session) {
-      return new Response('The current route requires authentication', {
-        status: 403,
+    if ('error' in sessionResult) {
+      return new Response(sessionResult.error, {
+        status: sessionResult.status,
       });
     }
 
-    const connected_account = session.user.stripeAccountId;
+    const body = await req.json().catch(() => ({}));
+    const offerState = body.offerState || 'delivered';
 
-    const state = (await req.json())['offerState'] || 'delivered';
-
-    await stripe.rawRequest('POST', '/v1/capital/financing_offers/test_mode', {
-      max_premium_amount: 10000_00,
-      max_advance_amount: 100000_00,
-      max_withhold_rate_str: 0.15,
-      is_refill: false,
-      financing_type: 'flex_loan',
-      state,
-      is_youlend: false,
-      is_fixed_term: false,
-      'loan_repayment_details[repayment_interval_duration_days]': 60,
-      'loan_repayment_details[target_payback_weeks]': 42,
-      country: 'US',
-      connected_account,
+    const result = await createFinancingOffer({
+      offerState,
+      source: 'test_api',
     });
+
+    if (!result.success) {
+      return new Response(result.error, {status: 500});
+    }
 
     return new Response(JSON.stringify({}), {
       status: 200,

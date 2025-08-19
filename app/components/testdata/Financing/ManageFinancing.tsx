@@ -35,7 +35,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-stretch gap-2">
       {!loading && offerState && (
         <>
           <CreateFlexLoanButton
@@ -84,6 +84,6 @@ export default function ManageFinancing({classes}: {classes?: string}) {
           />
         </>
       )}
-    </>
+    </div>
   );
 }

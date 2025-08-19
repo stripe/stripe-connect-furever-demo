@@ -87,24 +87,20 @@ const ToolsPanel = () => {
       href: '/finances',
       component: ManageFinancing,
     },
+    {
+      description: 'Manage Financing',
+      href: '/home',
+      component: ManageFinancing,
+    },
   ];
 
   const CustomTools = () => {
     return (
-      <div className="mt-4 flex flex-col items-stretch gap-2">
+      <div className="mt-4 flex flex-col items-stretch gap-6">
         {actions.map(
           (action) =>
             pathname.includes(action.href) &&
-            action.component && (
-              // <Button
-              //   className="my-1 rounded-lg border border-[#D8DEE4] bg-white py-1 text-sm font-medium shadow"
-              //   variant="secondary"
-              //   key={action.description}
-              // >
-              //   {action.description}
-              // </Button>
-              <action.component key={action.description} />
-            )
+            action.component && <action.component key={action.description} />
         )}
       </div>
     );
