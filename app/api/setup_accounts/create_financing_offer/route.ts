@@ -7,11 +7,11 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.stripeAccount?.id) {
+    if (!session?.user?.stripeAccountId) {
       return new Response('No account found in session', {status: 400});
     }
 
-    const accountId = session.user.stripeAccount.id;
+    const accountId = session.user.stripeAccountId;
     const body = await req.json().catch(() => ({}));
     const offerState = body.offerState || 'delivered';
 
@@ -59,7 +59,8 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error: any) {
-    const accountId = session?.user?.stripeAccount?.id || 'unknown';
+    const session = await getServerSession(authOptions);
+    const accountId = session?.user?.stripeAccountId || 'unknown';
     const correlationId = `manual_error_${Date.now()}`;
 
     // Log structured error for monitoring/alerting
