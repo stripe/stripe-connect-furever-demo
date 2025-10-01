@@ -3,9 +3,9 @@ import {type StripeConnectInstance} from '@stripe/connect-js';
 import {loadConnectAndInitialize} from '@stripe/connect-js';
 import {useSettings} from '@/app/hooks/useSettings';
 import {
-  DarkTheme,
+  // DarkTheme,
   defaultPrimaryColor,
-  LightTheme,
+  // LightTheme,
 } from '@/app/contexts/themes/ThemeConstants';
 
 export const useConnect = (demoOnboarding: boolean) => {
@@ -95,38 +95,41 @@ export const useConnect = (demoOnboarding: boolean) => {
     }
   }, [demoOnboarding, locale]);
 
-  const appearanceVariables = useMemo(() => {
-    const baseTheme = theme === 'dark' ? DarkTheme : LightTheme;
+  // const appearanceVariables = useMemo(() => {
+  //   const baseTheme = theme === 'dark' ? DarkTheme : DarkTheme;
 
-    // If we have a custom primary color, override the theme colors
-    if (primaryColor && primaryColor !== defaultPrimaryColor) {
-      return {
-        ...baseTheme,
-        colorPrimary: primaryColor,
-        buttonPrimaryColorBackground: primaryColor,
-      };
-    }
+  //   // If we have a custom primary color, override the theme colors
+  //   if (primaryColor && primaryColor !== defaultPrimaryColor) {
+  //     return {
+  //       ...baseTheme,
+  //       colorPrimary: primaryColor,
+  //       buttonPrimaryColorBackground: primaryColor,
+  //     };
+  //   }
 
-    return baseTheme;
-  }, [theme, primaryColor]);
+  //   return baseTheme;
+  // }, [theme, primaryColor]);
 
   useEffect(() => {
     // If we are demoing onboarding, re-init to get a new secret
-    if (stripeConnectInstance) {
-      stripeConnectInstance.update({
-        appearance: {
-          overlays: overlay || 'dialog',
-          variables: appearanceVariables || LightTheme,
-        },
-        locale,
-      });
-    } else {
+    // if (stripeConnectInstance) {
+    //   // stripeConnectInstance.update({
+    //   //   appearance: {
+    //   //     overlays: overlay || 'dialog',
+    //   //     variables: appearanceVariables || LightTheme,
+    //   //   },
+    //   //   locale,
+    //   // });
+    // } else 
+    if (!stripeConnectInstance) {
       const instance = loadConnectAndInitialize({
         publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
-        appearance: {
-          overlays: overlay || 'dialog',
-          variables: appearanceVariables || LightTheme,
-        },
+        // appearance: {
+        //   // overlays: 'overlay || 'dialog',
+        //   // variables: appearanceVariables || LightTheme,
+        //   // variables: LightTheme,
+        //   overlays: 'drawer',
+        // },
         locale,
         fetchClientSecret: async () => {
           return await fetchClientSecret();
@@ -141,12 +144,12 @@ export const useConnect = (demoOnboarding: boolean) => {
 
       setStripeConnectInstance(instance);
     }
-  }, [
+    }, [
     stripeConnectInstance,
     locale,
     fetchClientSecret,
     demoOnboarding,
-    appearanceVariables,
+    // appearanceVariables,
     overlay,
   ]);
 
