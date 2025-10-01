@@ -3,13 +3,19 @@
 import {ConnectAccountOnboarding} from '@stripe/react-connect-js';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
 import React from 'react';
+import {LoaderCircle} from 'lucide-react';
 
 export default function Onboarding() {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] =
     React.useState(false);
 
   if (hasCompletedOnboarding) {
-    return <div>Onboarding finished! Redirecting to dashboard...</div>;
+    // If we render this, we are in the process of redirecting
+    return (
+      <div className="flex w-full items-center justify-center">
+        <LoaderCircle className="mr-1 animate-spin" size={20} />
+      </div>
+    );
   }
 
   return (
