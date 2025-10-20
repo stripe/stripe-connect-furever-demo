@@ -264,6 +264,7 @@ export const authOptions: AuthOptions = {
             country: 'US',
             email: email,
             external_account: bankAccountToken,
+            // By default, on the quickstart, we create a custom account
             controller: resolveControllerParams({
               feePayer: 'application',
               paymentLosses: 'application',

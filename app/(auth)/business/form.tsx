@@ -276,9 +276,10 @@ export default function BusinessDetailsForm({email}: {email: string}) {
       businessType: 'individual',
       businessName: '',
       country: 'US',
+      // Default to a custom account
       stripeDashboardType: 'none',
-      paymentLosses: 'stripe',
-      feePayer: 'account',
+      paymentLosses: 'application',
+      feePayer: 'application',
     },
   });
 
