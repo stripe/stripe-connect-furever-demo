@@ -21,5 +21,5 @@ export interface SettingsContextType {
 
 export const SettingsContext = createContext<SettingsContextType>({
   ...defaultSettings,
-  handleUpdate: (settings: Settings) => {},
+  handleUpdate: (_settings: Settings) => {},
 });

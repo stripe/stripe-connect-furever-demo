@@ -1,4 +1,3 @@
-import {useSession} from 'next-auth/react';
 import {useEffect, useState} from 'react';
 import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 
