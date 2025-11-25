@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_ENABLE_PREVIEW_COMPONENTS?.toLowerCase() ===
         'true';
 
-    console.log('hasPreviewComponents', hasPreviewComponents);
 
     const issuingAndTreasuryComponents = {
       issuing_card: {
