@@ -8,6 +8,7 @@ import {
   ConnectTaxThresholdMonitoring,
   ConnectExportTaxTransactions,
 } from '@stripe/react-connect-js';
+import {arePreviewComponentsEnabled} from '../../utils/arePreviewComponentsEnabled';
 
 export default function Tax() {
   return (
@@ -31,26 +32,33 @@ export default function Tax() {
           <ConnectTaxRegistrations />
         </EmbeddedComponentContainer>
       </Container>
-      <Container>
-        <h1 className="text-xl font-semibold">Threshold Monitoring</h1>
-        <p className="text-subdued">
-          Sales tracked by tax location. Locations where thresholds have been
-          exceeded may require registering to collect taxes.
-        </p>
-        <EmbeddedComponentContainer componentName="TaxThresholdMonitoring">
-          <ConnectTaxThresholdMonitoring />
-        </EmbeddedComponentContainer>
-      </Container>
-      <Container>
-        <h1 className="text-xl font-semibold">Export tax transactions</h1>
-        <p className="text-subdued">
-          Retrieve and export your tax transactions for reporting and analysis
-          purposes, ensuring compliance with tax regulations.
-        </p>
-        <EmbeddedComponentContainer componentName="ExportTaxTransactions">
-          <ConnectExportTaxTransactions />
-        </EmbeddedComponentContainer>
-      </Container>
+      {arePreviewComponentsEnabled && (
+        <>
+          <Container>
+            <h1 className="text-xl font-semibold">Threshold Monitoring</h1>
+            <p className="text-subdued">
+              Sales tracked by tax location. Locations where thresholds have
+              been exceeded may require registering to collect taxes.
+            </p>
+            <EmbeddedComponentContainer
+              componentName="TaxThresholdMonitoring"
+              isPreviewComponent
+            >
+              <ConnectTaxThresholdMonitoring />
+            </EmbeddedComponentContainer>
+          </Container>
+          <Container>
+            <h1 className="text-xl font-semibold">Export tax transactions</h1>
+            <p className="text-subdued">
+              Retrieve and export your tax transactions for reporting and
+              analysis purposes, ensuring compliance with tax regulations.
+            </p>
+            <EmbeddedComponentContainer componentName="ExportTaxTransactions">
+              <ConnectExportTaxTransactions />
+            </EmbeddedComponentContainer>
+          </Container>
+        </>
+      )}
     </>
   );
 }

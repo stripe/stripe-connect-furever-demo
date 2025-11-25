@@ -98,3 +98,11 @@ Then, trigger a test event with:
 ```
 stripe trigger payment_intent.succeeded
 ```
+
+## Preview components
+
+By default, preview components are turned off in this repository. If you'd like to enable them, make sure to request access to them for your platforms in [the stripe doc site](https://docs.corp.stripe.com/connect/supported-embedded-components). You can then add this variable to the .env file to activate these components.
+
+```
+NEXT_PUBLIC_ENABLE_PREVIEW_COMPONENTS=1
+```

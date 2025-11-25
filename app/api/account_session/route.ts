@@ -1,7 +1,7 @@
 import {type NextRequest} from 'next/server';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
-import {stripe} from '@/lib/stripe';
+import {latestApiVersion, stripe} from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,6 +32,13 @@ export async function POST(req: NextRequest) {
       (capability) =>
         Object.keys(account?.capabilities || []).includes(capability)
     );
+
+    const hasPreviewComponents =
+      process.env.NEXT_PUBLIC_ENABLE_PREVIEW_COMPONENTS === '1' ||
+      process.env.NEXT_PUBLIC_ENABLE_PREVIEW_COMPONENTS?.toLowerCase() ===
+        'true';
+
+    console.log('hasPreviewComponents', hasPreviewComponents);
 
     const issuingAndTreasuryComponents = {
       issuing_card: {
@@ -69,76 +76,90 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    const accountSession = await stripe.accountSessions.create({
-      account: stripeAccountId,
-      components: {
-        // Payments
-        payments: {
-          enabled: true,
-        },
-        balances: {
-          enabled: true,
-          features: {
-            instant_payouts: true,
-            standard_payouts: true,
-            edit_payout_schedule: true,
-            disable_stripe_user_authentication: isCustom,
+    const accountSession = await stripe.accountSessions.create(
+      {
+        account: stripeAccountId,
+        components: {
+          // GA components
+          payments: {
+            enabled: true,
           },
-        },
-        payouts: {
-          enabled: true,
-          features: {
-            instant_payouts: true,
-            standard_payouts: true,
-            edit_payout_schedule: true,
-            disable_stripe_user_authentication: isCustom,
+          balances: {
+            enabled: true,
+            features: {
+              instant_payouts: true,
+              standard_payouts: true,
+              edit_payout_schedule: true,
+              disable_stripe_user_authentication: isCustom,
+            },
           },
-        },
-        // Connect
-        account_management: {
-          enabled: true,
-          features: {
-            disable_stripe_user_authentication: isCustom,
+          payouts: {
+            enabled: true,
+            features: {
+              instant_payouts: true,
+              standard_payouts: true,
+              edit_payout_schedule: true,
+              disable_stripe_user_authentication: isCustom,
+            },
           },
-        },
-        account_onboarding: {
-          enabled: true,
-          features: {
-            disable_stripe_user_authentication: isCustom,
+          // Connect
+          account_management: {
+            enabled: true,
+            features: {
+              disable_stripe_user_authentication: isCustom,
+            },
           },
-        },
-        payment_method_settings: {enabled: true},
-        documents: {enabled: true},
-        notification_banner: {
-          enabled: true,
-          features: {
-            disable_stripe_user_authentication: isCustom,
+          account_onboarding: {
+            enabled: true,
+            features: {
+              disable_stripe_user_authentication: isCustom,
+            },
           },
-        },
-        capital_financing_promotion: {
-          enabled: true,
-        },
-        capital_financing_application: {
-          enabled: true,
-        },
-        capital_financing: {
-          enabled: true,
-        },
-        ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
-        tax_settings: {
-          enabled: true,
-        },
-        tax_registrations: {
-          enabled: true,
-        },
-        tax_threshold_monitoring: {
-          enabled: true,
-        },
-        export_tax_transactions: {
-          enabled: true,
+          documents: {enabled: true},
+          notification_banner: {
+            enabled: true,
+            features: {
+              disable_stripe_user_authentication: isCustom,
+            },
+          },
+          tax_settings: {
+            enabled: true,
+          },
+          tax_registrations: {
+            enabled: true,
+          },
+
+          // Preview components - only enabled if the environment variable is set
+          ...(hasPreviewComponents
+            ? {
+                payment_method_settings: {enabled: true},
+                capital_financing_promotion: {
+                  enabled: true,
+                },
+                capital_financing_application: {
+                  enabled: true,
+                },
+                capital_financing: {
+                  enabled: true,
+                },
+                tax_threshold_monitoring: {
+                  enabled: true,
+                },
+                export_tax_transactions: {
+                  enabled: true,
+                },
+                ...(hasIssuingAndTreasury ? issuingAndTreasuryComponents : {}),
+              }
+            : {}),
         },
       },
-    });
+      {
+        // Only set the API version with the embedded_connect_beta if preview components are enabled
+        apiVersion: hasPreviewComponents
+          ? `${latestApiVersion}; embedded_connect_beta=v2`
+          : latestApiVersion,
+      }
+    );
 
     return new Response(
       JSON.stringify({

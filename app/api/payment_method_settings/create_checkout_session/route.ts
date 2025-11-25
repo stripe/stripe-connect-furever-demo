@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
         ],
         payment_intent_data: {
           description: nameAndDescription,
-          statement_descriptor: process.env.APP_NAME,
+          statement_descriptor: 'FurEver',
         },
         mode: 'payment',
         success_url: redirectUrl,

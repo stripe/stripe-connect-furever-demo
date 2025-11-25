@@ -1,11 +1,8 @@
 'use client';
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
-  ConnectCapitalFinancing,
   ConnectCapitalFinancingPromotion,
-  ConnectCapitalOverview,
-  ConnectComponentsProvider,
   ConnectFinancialAccount,
   ConnectFinancialAccountTransactions,
 } from '@stripe/react-connect-js';
@@ -127,7 +124,10 @@ function CapitalFinancingSection() {
 
   return (
     <Container className={showFinancingOffer ? '' : 'hidden'}>
-      <EmbeddedComponentContainer componentName="CapitalFinancingPromotion">
+      <EmbeddedComponentContainer
+        componentName="CapitalFinancingPromotion"
+        isPreviewComponent
+      >
         <ConnectCapitalFinancingPromotion
           onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
           layout={'banner'}
