@@ -98,4 +98,5 @@ export interface Settings {
   companyName?: string;
   companyLogoUrl?: string;
   isInitialized?: boolean;
+  previewEnabled?: boolean;
 }

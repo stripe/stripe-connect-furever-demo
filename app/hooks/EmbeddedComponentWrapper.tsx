@@ -5,13 +5,11 @@ import {EmbeddedComponentProvider} from '@/app/hooks/EmbeddedComponentProvider';
 import {useConnect} from '@/app/hooks/useConnect';
 
 export const EmbeddedComponentWrapper = ({
-  demoOnboarding,
   children,
 }: {
-  demoOnboarding?: boolean;
   children: React.ReactNode;
 }) => {
-  const {hasError, stripeConnectInstance} = useConnect(!!demoOnboarding);
+  const {hasError, stripeConnectInstance} = useConnect();
   if (hasError || !stripeConnectInstance) {
     return null;
   }

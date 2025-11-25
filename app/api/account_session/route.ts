@@ -7,43 +7,9 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    const json = await req.json();
-
-    const {demoOnboarding, locale} = json;
+    const _json = await req.json();
 
     let stripeAccountId = session?.user?.stripeAccountId;
-
-    if (demoOnboarding !== undefined) {
-      const accountId: string = (() => {
-        switch (locale) {
-          case 'fr-FR':
-            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_FR!;
-          case 'en-SG':
-            // This doesn't actually have a locale. So this can never be hit
-            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_SG!;
-          case 'en-GB':
-          // Use GB english for Hong Kong so fall through
-          case 'zh-Hant-HK':
-            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT_HK!;
-          default:
-            // Ignore
-            return process.env.EXAMPLE_DEMO_ONBOARDING_ACCOUNT!;
-        }
-      })();
-
-      console.log(
-        `Looking for the demo onboarding account ${accountId} for locale ${locale}`
-      );
-      const demoOnboardingAccount = await stripe.accounts.retrieve(accountId);
-      if (demoOnboardingAccount) {
-        console.log(
-          `Using demo onboarding account: ${demoOnboardingAccount.id}`
-        );
-        stripeAccountId = demoOnboardingAccount.id;
-      } else {
-        console.log('No demo onboarding account found');
-      }
-    }
 
     if (!stripeAccountId) {
       return new Response(
