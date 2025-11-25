@@ -17,6 +17,7 @@ export interface SettingsContextType {
   companyName?: string;
   companyLogoUrl?: string;
   handleUpdate: (settings: Settings) => void;
+  enableBetaComponents?: boolean;
 }
 
 export const SettingsContext = createContext<SettingsContextType>({

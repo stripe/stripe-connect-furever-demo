@@ -24,6 +24,7 @@ import {SettingsContext} from '../contexts/settings';
 import {hasCustomBranding} from '@/lib/utils';
 import {useGetStripeAccount} from '@/app/hooks/useGetStripeAccount';
 import * as React from 'react';
+import {arePreviewComponentsEnabled} from '../(dashboard)/utils/arePreviewComponentsEnabled';
 
 const navigationMenuItems = [
   {
@@ -58,7 +59,8 @@ const navigationMenuItems = [
     shouldDisplayFilter: (stripeAccount: Stripe.Account) =>
       stripeAccount.controller?.stripe_dashboard?.type === 'none' &&
       stripeAccount.controller?.losses?.payments === 'application' &&
-      stripeAccount.controller?.requirement_collection === 'application',
+      stripeAccount.controller?.requirement_collection === 'application' &&
+      arePreviewComponentsEnabled, // Only show Finances if preview components are enabled
   },
   {
     label: 'Account',

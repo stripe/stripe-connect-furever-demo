@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 
+export const latestApiVersion: Stripe.LatestApiVersion = '2025-04-30.preview';
+
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  // @ts-ignore
-  apiVersion: '2023-10-16; embedded_connect_beta=v2',
+  apiVersion: latestApiVersion,
 });

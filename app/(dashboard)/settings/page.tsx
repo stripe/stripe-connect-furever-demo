@@ -13,6 +13,7 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 import {Link} from '@/components/ui/link';
 import EditPasswordButton from '@/app/components/EditPasswordButton';
 import EditEmailButton from '@/app/components/EditEmailButton';
+import {arePreviewComponentsEnabled} from '../utils/arePreviewComponentsEnabled';
 
 const fetchAccountInfo = async () => {
   const res = await fetch('/api/account_info', {
@@ -139,15 +140,22 @@ export default function Settings() {
         </div>
       </Container>
 
-      <Container>
-        <header className="mb-5 ml-2">
-          <h1 className="text-xl font-semibold">Payment methods</h1>
-          <h2 className="text-subdued">Add and manage your payment methods.</h2>
-        </header>
-        <EmbeddedComponentContainer componentName="PaymentMethodSettings">
-          <ConnectPaymentMethodSettings />
-        </EmbeddedComponentContainer>
-      </Container>
+      {arePreviewComponentsEnabled && (
+        <Container>
+          <header className="mb-5 ml-2">
+            <h1 className="text-xl font-semibold">Payment methods</h1>
+            <h2 className="text-subdued">
+              Add and manage your payment methods.
+            </h2>
+          </header>
+          <EmbeddedComponentContainer
+            componentName="PaymentMethodSettings"
+            isPreviewComponent
+          >
+            <ConnectPaymentMethodSettings />
+          </EmbeddedComponentContainer>
+        </Container>
+      )}
     </>
   );
 }

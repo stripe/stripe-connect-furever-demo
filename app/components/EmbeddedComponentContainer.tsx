@@ -1,14 +1,17 @@
 import {useEmbeddedComponentBorder} from '@/app/hooks/EmbeddedComponentBorderProvider';
 import {ChevronRight} from 'lucide-react';
+import {arePreviewComponentsEnabled} from '../(dashboard)/utils/arePreviewComponentsEnabled';
 
 const EmbeddedComponentContainer = ({
   children,
   className,
   componentName,
+  isPreviewComponent,
 }: {
   children: React.ReactNode;
   className?: string;
   componentName: string;
+  isPreviewComponent?: boolean;
 }) => {
   const {enableBorder} = useEmbeddedComponentBorder();
 
@@ -88,6 +91,16 @@ const EmbeddedComponentContainer = ({
       </div>
     );
   };
+
+  if (!arePreviewComponentsEnabled && isPreviewComponent) {
+    return (
+      <p>
+        The preview component {componentName} did not render because preview
+        components are not enabled. See the README.md for instructions on how to
+        enable them.
+      </p>
+    );
+  }
 
   return (
     <div
