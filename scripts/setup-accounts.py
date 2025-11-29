@@ -371,6 +371,7 @@ PROTECTED_TAG = "protected"
 DEMO_ACCOUNT_TAG = "demo_account"
 DEMO_ONBOARDING_ACCOUNT_TAG = "demo_onboarding_account"
 SUPPORT_TICKET_ADDED_TAG = "support_ticket"
+CAPITAL_OFFER_ADDED_TAG = "capital_offer_added"
 
 
 # The following are weights for the tags
@@ -442,6 +443,15 @@ def has_support_ticket(account):
     This is used to not add another support ticket.
     """
     return account.metadata.get(SUPPORT_TICKET_ADDED_TAG, False)
+
+
+def has_capital_offer(account):
+    """
+    Is this account one with a Capital financing offer?
+
+    This is used to not add another financing offer.
+    """
+    return account.metadata.get(CAPITAL_OFFER_ADDED_TAG, False)
 
 
 def fetch_accounts(limit=None):
@@ -1716,6 +1726,86 @@ def generate_account_sessions(account):
             pass
 
 
+def create_financing_offer_for_demo_account(account, skip_existing=True):
+    """
+    Create a Capital financing offer for a demo connected account.
+    This enables the embedded financing components to display a visible offer.
+    
+    Only creates offers for demo accounts to avoid affecting real accounts.
+    Account creation always succeeds even if offer creation fails.
+    """
+    assert isinstance(account, stripe.Account)
+
+    # Only create offers for demo accounts
+    if not is_demo_account(account):
+        return
+
+    # Skip if account already has an offer
+    if has_capital_offer(account) and skip_existing:
+        return
+
+    # Don't create offers for rejected or restricted accounts
+    if is_rejected_account(account) or is_restricted_account(account):
+        log.info(f"Skipping Capital offer for rejected/restricted account {account.id}")
+        return
+
+    # Generate correlation ID for tracking
+    correlation_id = f"demo_{account.id}_{int(time.time())}"
+    
+    # Log structured information for monitoring
+    log.info(f"[CAPITAL_OFFER_START] account_id={account.id} correlation_id={correlation_id}")
+
+    try:
+        # Create test financing offer using the same parameters as the existing API
+        offer_start_time = time.time()
+        stripe.raw_request('POST', '/v1/capital/financing_offers/test_mode', {
+            'max_premium_amount': 10000_00,
+            'max_advance_amount': 100000_00,
+            'max_withhold_rate_str': 0.15,
+            'is_refill': False,
+            'financing_type': 'flex_loan',
+            'state': 'delivered',
+            'is_youlend': False,
+            'is_fixed_term': False,
+            'loan_repayment_details[repayment_interval_duration_days]': 60,
+            'loan_repayment_details[target_payback_weeks]': 42,
+            'country': 'US',
+            'connected_account': account.id,
+        })
+        offer_duration = time.time() - offer_start_time
+
+        # Mark this account as having a Capital offer
+        stripe.Account.modify(
+            account.id,
+            metadata={
+                CAPITAL_OFFER_ADDED_TAG: "true",
+                "capital_offer_correlation_id": correlation_id,
+                "capital_offer_created_at": str(int(time.time())),
+            },
+        )
+        
+        # Log structured success for monitoring
+        log.info(f"[CAPITAL_OFFER_SUCCESS] account_id={account.id} correlation_id={correlation_id} duration_ms={int(offer_duration * 1000)}")
+
+    except stripe.error.StripeError as e:
+        # Log structured error for monitoring/alerting
+        log.error(f"[CAPITAL_OFFER_FAILURE] account_id={account.id} correlation_id={correlation_id} error_type={type(e).__name__} error_code={getattr(e, 'code', 'unknown')} error_message={str(e)[:200]}")
+        
+        # Mark the failure in account metadata for debugging
+        try:
+            stripe.Account.modify(
+                account.id,
+                metadata={
+                    "capital_offer_failed": "true",
+                    "capital_offer_correlation_id": correlation_id,
+                    "capital_offer_error": str(e)[:500],  # Limit error message length
+                    "capital_offer_failed_at": str(int(time.time())),
+                },
+            )
+        except stripe.error.StripeError as metadata_error:
+            log.error(f"[CAPITAL_OFFER_METADATA_FAILURE] account_id={account.id} correlation_id={correlation_id} metadata_error={str(metadata_error)[:200]}")
+
+
 def generate_sonar_data(demo_desk=False):
     accounts = [a for a in fetch_accounts() if a.controller.is_controller]
 
@@ -1864,6 +1954,10 @@ def main(
         if create_support:
             # Generate a support ticket
             generate_support_ticket(account, skip_existing=not untag_support)
+            
+        # Always try to create Capital financing offers for demo accounts
+        # This ensures embedded financing components have visible offers
+        create_financing_offer_for_demo_account(account)
 
     log.info("All done")
 
