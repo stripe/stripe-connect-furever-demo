@@ -4615,10 +4615,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@18.2.0-beta.1:
-  version "18.2.0-beta.1"
-  resolved "https://registry.npmjs.org/stripe/-/stripe-18.2.0-beta.1.tgz"
-  integrity sha512-WPwqyU5IurhtGrRmVW881lFe6Uc7Mpas/4w0txmiipXxWi57ufE47WJn/Khy0zzST0nMJJx/5+9X9g+kO/GmXg==
+stripe@20.2.0-alpha.1:
+  version "20.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-20.2.0-alpha.1.tgz#722b113bc055768dab11c71371b3cb6cf5737d85"
+  integrity sha512-AYHF1q+NH/BsY1gbEON0fCMo6JVuY5+8JpBBNveIeetSRVDlw5+TC93/cdy1X/1caOT+0GfZBA4K4A1hLiRkUw==
   dependencies:
     qs "^6.11.0"
 
