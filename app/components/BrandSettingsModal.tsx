@@ -230,6 +230,7 @@ const BrandSettingsModal = () => {
           ...session?.user,
           companyName: 'Furever',
           companyLogoUrl: undefined,
+          primaryColor: defaultPrimaryColor,
         },
       });
     } catch (error) {
@@ -243,12 +244,12 @@ const BrandSettingsModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="invisible p-1 sm:visible">
+        <Button variant="ghost" className="invisible p-1.5 sm:visible">
           <Image
             src={BrandSettingsIcon}
             alt="Brand settings"
-            width={12}
-            height={12}
+            width={16}
+            height={16}
           />
         </Button>
       </DialogTrigger>
