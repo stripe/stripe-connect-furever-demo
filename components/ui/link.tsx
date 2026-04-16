@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import {cn} from '@/lib/utils';
 
-export interface InputProps
-  extends React.LinkHTMLAttributes<HTMLAnchorElement> {}
+export interface LinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
-const Link = React.forwardRef<HTMLAnchorElement, InputProps>(
+const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ({className, type, ...props}, ref) => {
     return (
       <a
