@@ -101,13 +101,6 @@ export default function ManageFinancing({classes}: {classes?: string}) {
   const formFinancingOfferType = form.watch('financingOfferType');
   const formOfferState = form.watch('offerState');
 
-  const statesForProductType = STATES_FOR_PRODUCT_TYPE[formFinancingOfferType];
-
-  // If the product type changes and the offer state is not valid for the new product type, set the offer state to the first valid state for the new product type
-  if (!statesForProductType.includes(formOfferState)) {
-    form.setValue('offerState', statesForProductType[0]);
-  }
-
   const offerStateToFormType: {
     [key in OfferState]: TestmodeFinancingFormType | undefined;
   } = {
@@ -160,12 +153,20 @@ export default function ManageFinancing({classes}: {classes?: string}) {
               return (
                 <Select
                   {...field}
-                  onValueChange={(val) =>
+                  onValueChange={(val) => {
                     form.setValue(
                       'financingOfferType',
                       val as FinancingOfferProductType
-                    )
-                  }
+                    );
+
+                    const statesForProductType =
+                      STATES_FOR_PRODUCT_TYPE[formFinancingOfferType];
+
+                    // If the product type changes and the offer state is not valid for the new product type, set the offer state to the first valid state for the new product type
+                    if (!statesForProductType.includes(formOfferState)) {
+                      form.setValue('offerState', statesForProductType[0]);
+                    }
+                  }}
                   defaultValue={field.value}
                 >
                   <SelectTrigger
