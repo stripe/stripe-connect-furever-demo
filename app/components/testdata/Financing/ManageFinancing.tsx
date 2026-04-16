@@ -154,13 +154,12 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                 <Select
                   {...field}
                   onValueChange={(val) => {
-                    form.setValue(
-                      'financingOfferType',
-                      val as FinancingOfferProductType
-                    );
+                    const newFinancingOfferType =
+                      val as FinancingOfferProductType;
+                    form.setValue('financingOfferType', newFinancingOfferType);
 
                     const statesForProductType =
-                      STATES_FOR_PRODUCT_TYPE[formFinancingOfferType];
+                      STATES_FOR_PRODUCT_TYPE[newFinancingOfferType];
 
                     // If the product type changes and the offer state is not valid for the new product type, set the offer state to the first valid state for the new product type
                     if (!statesForProductType.includes(formOfferState)) {
