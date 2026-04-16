@@ -95,7 +95,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
   }, [offerState]);
 
   if (!offerState || hasLineOfCreditLine) {
-    return undefined;
+    return null;
   }
 
   const formFinancingOfferType = form.watch('financingOfferType');
@@ -250,13 +250,11 @@ export default function ManageFinancing({classes}: {classes?: string}) {
         </>
       )}
       {formType === 'expire' && (
-        <>
-          <TransitionFinancingButton
-            label={'Expire offer'}
-            fetchUrl="/api/capital/expire_test_financing"
-            form={form}
-          />
-        </>
+        <TransitionFinancingButton
+          label={'Expire offer'}
+          fetchUrl="/api/capital/expire_test_financing"
+          form={form}
+        />
       )}
 
       {formType === 'approve_reject' && (
@@ -276,14 +274,12 @@ export default function ManageFinancing({classes}: {classes?: string}) {
       )}
 
       {formType === 'fully_repay' && (
-        <>
-          <TransitionFinancingButton
-            label={'Fully repay financing'}
-            fetchUrl="/api/capital/fully_repay_test_financing"
-            classes={classes}
-            form={form}
-          />
-        </>
+        <TransitionFinancingButton
+          label={'Fully repay financing'}
+          fetchUrl="/api/capital/fully_repay_test_financing"
+          classes={classes}
+          form={form}
+        />
       )}
     </Form>
   );

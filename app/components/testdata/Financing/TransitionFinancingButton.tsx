@@ -1,11 +1,7 @@
 import {Button} from '@/components/ui/button';
 import {LoaderCircle} from 'lucide-react';
 import React from 'react';
-import Stripe from 'stripe';
-import {OfferState} from './types';
 import {UseFormReturn} from 'react-hook-form';
-
-const OFFER_STATES_TO_DISPLAY_ON: OfferState[] = ['accepted'];
 
 export function TransitionFinancingButton({
   classes,
