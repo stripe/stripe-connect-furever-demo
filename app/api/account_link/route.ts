@@ -34,7 +34,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-
     link = await stripe.accountLinks.create({
       account: session?.user?.stripeAccountId,
       type: linkType as Parameters<
