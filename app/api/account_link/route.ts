@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const args = req.nextUrl.searchParams;
-    const linkType = args.get('type') || 'capital_financing_offer';
-    shouldRedirect = args.get('shouldRedirect') === 'true';
+    const searchParams = new URLSearchParams(req.nextUrl.search);
+    const linkType = searchParams.get('type');
+    shouldRedirect = searchParams.get('shouldRedirect') === 'true';
 
     const baseUrl = req.nextUrl.origin;
 
@@ -29,15 +29,15 @@ export async function GET(req: NextRequest) {
       type: linkType as Parameters<
         typeof stripe.accountLinks.create
       >[0]['type'],
-      return_url: `${baseUrl}/api/capital/account_link?shouldRedirect=true&type=capital_financing_offer`,
-      refresh_url: `${baseUrl}/api/capital/account_link?shouldRedirect=true&type=capital_financing_offer`,
+      return_url: `${baseUrl}/api/account_link?shouldRedirect=true&type=${linkType}`,
+      refresh_url: `${baseUrl}/api/account_link?shouldRedirect=true&type=${linkType}`,
     });
   } catch (error: any) {
     console.error('Error creating account link: ', error);
     return new Response(error.message, {status: 500});
   }
 
-  // Returns status code 307/303 to the caller
+  // Returns status code 307/303 to the caller, this needs to be outside of the try/catch block since nextjs throws an error it later catches
   if (shouldRedirect) {
     redirect(link?.url, RedirectType.push);
   } else {

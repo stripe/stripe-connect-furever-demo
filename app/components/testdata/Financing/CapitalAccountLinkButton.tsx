@@ -14,7 +14,7 @@ export function CapitalAccountLinkButton({
   const onClick = async () => {
     setButtonLoading(true);
     try {
-      const url = new URL('/api/capital/account_link', window.location.origin);
+      const url = new URL('/api/account_link', window.location.origin);
       url.searchParams.set('shouldRedirect', 'false');
 
       url.searchParams.set('type', type);
