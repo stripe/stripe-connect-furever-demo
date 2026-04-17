@@ -24,8 +24,6 @@ export function CapitalAccountLinkButton({
       });
 
       const accountLink = (await res.json()).url;
-      setButtonLoading(false);
-
       window.open(accountLink, '_blank', 'noopener,noreferrer');
     } catch (e) {
       console.log('Error attempting to create capital account link: ', e);

@@ -8,6 +8,8 @@ import {Stripe} from 'stripe';
 export async function GET(req: NextRequest) {
   let link = null;
   let shouldRedirect = false;
+  const baseUrl = req.nextUrl.origin;
+
   try {
     const session = await getServerSession(authOptions);
 
@@ -22,7 +24,13 @@ export async function GET(req: NextRequest) {
     const linkType = searchParams.get('type');
     shouldRedirect = searchParams.get('shouldRedirect') === 'true';
 
-    const baseUrl = req.nextUrl.origin;
+    if (!linkType) {
+      console.error('Account Link type is required');
+      return new Response('Account Link type is required', {
+        status: 400,
+      });
+    }
+
 
     link = await stripe.accountLinks.create({
       account: session?.user?.stripeAccountId,
@@ -39,7 +47,7 @@ export async function GET(req: NextRequest) {
 
   // Returns status code 307/303 to the caller, this needs to be outside of the try/catch block since nextjs throws an error it later catches
   if (shouldRedirect) {
-    redirect(link?.url, RedirectType.push);
+    redirect(link?.url || baseUrl, RedirectType.push);
   } else {
     return new Response(JSON.stringify({url: link?.url}), {status: 200});
   }
