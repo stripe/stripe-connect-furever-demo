@@ -95,9 +95,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
     }
   }, [offerState]);
 
-  if (!offerState || hasLineOfCreditLine) {
-    return null;
-  }
+  const showCreateFinancingOfferForm = offerState && !hasLineOfCreditLine;
 
   const formFinancingOfferType = form.watch('financingOfferType');
   const formOfferState = form.watch('offerState');
@@ -127,169 +125,174 @@ export default function ManageFinancing({classes}: {classes?: string}) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <div className="gap-2 text-sm font-bold">Create financing offer</div>
-        <Form {...form}>
-          {formType === 'create' && (
-            <>
-              <ManageFinancingOfferFormField
-                name="financingOfferType"
-                label={
-                  <div>
-                    <Link
-                      href="https://docs.stripe.com/capital/how-capital-for-platforms-works#types-of-financing-offers"
-                      target="_blank"
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: '2px',
-                      }}
-                    >
-                      {'Product Type'}
-                      <ExternalLinkIcon className="h-3 w-3" />
-                    </Link>
-                  </div>
-                }
-                form={form}
-                loading={loading}
-                render={({field}) => {
-                  return (
-                    <Select
-                      {...field}
-                      onValueChange={(val) => {
-                        const newFinancingOfferType =
-                          val as FinancingOfferProductType;
-                        form.setValue(
-                          'financingOfferType',
-                          newFinancingOfferType
-                        );
+      {showCreateFinancingOfferForm && (
+        <div className="flex flex-col gap-2">
+          <div className="gap-2 text-sm font-bold">Create financing offer</div>
+          <Form {...form}>
+            {formType === 'create' && (
+              <>
+                <ManageFinancingOfferFormField
+                  name="financingOfferType"
+                  label={
+                    <div>
+                      <Link
+                        href="https://docs.stripe.com/capital/how-capital-for-platforms-works#types-of-financing-offers"
+                        target="_blank"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: '2px',
+                        }}
+                      >
+                        {'Product Type'}
+                        <ExternalLinkIcon className="h-3 w-3" />
+                      </Link>
+                    </div>
+                  }
+                  form={form}
+                  loading={loading}
+                  render={({field}) => {
+                    return (
+                      <Select
+                        {...field}
+                        onValueChange={(val) => {
+                          const newFinancingOfferType =
+                            val as FinancingOfferProductType;
+                          form.setValue(
+                            'financingOfferType',
+                            newFinancingOfferType
+                          );
 
-                        const statesForProductType =
-                          STATES_FOR_PRODUCT_TYPE[newFinancingOfferType];
+                          const statesForProductType =
+                            STATES_FOR_PRODUCT_TYPE[newFinancingOfferType];
 
-                        // If the product type changes and the offer state is not valid for the new product type, set the offer state to the first valid state for the new product type
-                        if (!statesForProductType.includes(formOfferState)) {
-                          form.setValue('offerState', statesForProductType[0]);
+                          // If the product type changes and the offer state is not valid for the new product type, set the offer state to the first valid state for the new product type
+                          if (!statesForProductType.includes(formOfferState)) {
+                            form.setValue(
+                              'offerState',
+                              statesForProductType[0]
+                            );
+                          }
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger
+                          className="w-[120px] text-xs"
+                          disabled={loading}
+                        >
+                          <SelectValue className="text-xs">
+                            {enumValueToSentenceCase(field.value)}
+                          </SelectValue>
+                        </SelectTrigger>
+
+                        <SelectContent className="z-[100] text-xs">
+                          {supportedProductTypes.map((productType) => (
+                            <SelectItem
+                              value={productType}
+                              key={productType}
+                              className="z-[130] text-xs"
+                              disabled={
+                                !hasLineOfCreditFeature &&
+                                LINE_OF_CREDIT_PRODUCT_TYPES_ARRAY.includes(
+                                  productType as any
+                                )
+                              }
+                            >
+                              {enumValueToSentenceCase(productType)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    );
+                  }}
+                />
+                <ManageFinancingOfferFormField
+                  name="offerState"
+                  label="Offer State"
+                  form={form}
+                  loading={loading}
+                  render={({field}) => {
+                    return (
+                      <Select
+                        {...field}
+                        onValueChange={(val) =>
+                          form.setValue('offerState', val as OfferState)
                         }
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger
-                        className="w-[120px] text-xs"
-                        disabled={loading}
+                        defaultValue={field.value}
                       >
-                        <SelectValue className="text-xs">
-                          {enumValueToSentenceCase(field.value)}
-                        </SelectValue>
-                      </SelectTrigger>
+                        <SelectTrigger
+                          className="w-[120px] text-xs"
+                          disabled={loading}
+                        >
+                          <SelectValue className="text-xs">
+                            {enumValueToSentenceCase(field.value)}
+                          </SelectValue>
+                        </SelectTrigger>
 
-                      <SelectContent className="z-[100] text-xs">
-                        {supportedProductTypes.map((productType) => (
-                          <SelectItem
-                            value={productType}
-                            key={productType}
-                            className="z-[130] text-xs"
-                            disabled={
-                              !hasLineOfCreditFeature &&
-                              LINE_OF_CREDIT_PRODUCT_TYPES_ARRAY.includes(
-                                productType as any
-                              )
-                            }
-                          >
-                            {enumValueToSentenceCase(productType)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  );
-                }}
-              />
-              <ManageFinancingOfferFormField
-                name="offerState"
-                label="Offer State"
-                form={form}
-                loading={loading}
-                render={({field}) => {
-                  return (
-                    <Select
-                      {...field}
-                      onValueChange={(val) =>
-                        form.setValue('offerState', val as OfferState)
-                      }
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger
-                        className="w-[120px] text-xs"
-                        disabled={loading}
-                      >
-                        <SelectValue className="text-xs">
-                          {enumValueToSentenceCase(field.value)}
-                        </SelectValue>
-                      </SelectTrigger>
+                        <SelectContent className="z-[100] text-xs">
+                          {STATES_FOR_PRODUCT_TYPE[
+                            form.watch('financingOfferType')
+                          ].map((productType) => (
+                            <SelectItem
+                              value={productType}
+                              key={productType}
+                              className="z-[100] text-xs"
+                            >
+                              {enumValueToSentenceCase(productType)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    );
+                  }}
+                />
 
-                      <SelectContent className="z-[100] text-xs">
-                        {STATES_FOR_PRODUCT_TYPE[
-                          form.watch('financingOfferType')
-                        ].map((productType) => (
-                          <SelectItem
-                            value={productType}
-                            key={productType}
-                            className="z-[100] text-xs"
-                          >
-                            {enumValueToSentenceCase(productType)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  );
-                }}
-              />
-
+                <TransitionFinancingButton
+                  label={'Create'}
+                  fetchUrl={createUrl}
+                  fetchBody={{
+                    offerState: form.watch('offerState'),
+                  }}
+                  form={form}
+                />
+              </>
+            )}
+            {formType === 'expire' && (
               <TransitionFinancingButton
-                label={'Create'}
-                fetchUrl={createUrl}
-                fetchBody={{
-                  offerState: form.watch('offerState'),
-                }}
+                label={'Expire offer'}
+                fetchUrl="/api/capital/expire_test_financing"
                 form={form}
               />
-            </>
-          )}
-          {formType === 'expire' && (
-            <TransitionFinancingButton
-              label={'Expire offer'}
-              fetchUrl="/api/capital/expire_test_financing"
-              form={form}
-            />
-          )}
+            )}
 
-          {formType === 'approve_reject' && (
-            <>
+            {formType === 'approve_reject' && (
+              <>
+                <TransitionFinancingButton
+                  label={'Approve financing application'}
+                  fetchUrl="/api/capital/approve_test_financing"
+                  classes={classes}
+                />
+                <TransitionFinancingButton
+                  label={'Reject financing application'}
+                  fetchUrl="/api/capital/reject_test_financing"
+                  classes={classes}
+                  form={form}
+                />
+              </>
+            )}
+
+            {formType === 'fully_repay' && (
               <TransitionFinancingButton
-                label={'Approve financing application'}
-                fetchUrl="/api/capital/approve_test_financing"
-                classes={classes}
-              />
-              <TransitionFinancingButton
-                label={'Reject financing application'}
-                fetchUrl="/api/capital/reject_test_financing"
+                label={'Fully repay financing'}
+                fetchUrl="/api/capital/fully_repay_test_financing"
                 classes={classes}
                 form={form}
               />
-            </>
-          )}
-
-          {formType === 'fully_repay' && (
-            <TransitionFinancingButton
-              label={'Fully repay financing'}
-              fetchUrl="/api/capital/fully_repay_test_financing"
-              classes={classes}
-              form={form}
-            />
-          )}
-        </Form>
-      </div>
+            )}
+          </Form>
+        </div>
+      )}
       <div className="flex flex-col gap-4">
         <div className="gap-2 text-sm font-bold">
           Stripe Hosted Capital
