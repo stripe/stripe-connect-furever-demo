@@ -26,9 +26,12 @@ export async function GET(req: NextRequest) {
 
     if (!linkType) {
       console.error('Account Link type is required');
-      return new Response('Account Link type is required', {
-        status: 400,
-      });
+      return new Response(
+        'app/api/account_link/route.ts Link type is required',
+        {
+          status: 400,
+        }
+      );
     }
 
 
