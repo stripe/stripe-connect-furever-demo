@@ -20,7 +20,7 @@ export const LINE_OF_CREDIT_PRODUCT_TYPES_ARRAY = [
 // Flex Loan Offer States
 export const FLEX_LOAN_OFFER_STATES_ARRAY: Array<
   Extract<
-    Stripe.Capital.FinancingOfferListParams.Status,
+    Stripe.Capital.FinancingOfferListParams['status'],
     'delivered' | 'accepted' | 'rejected' | 'fully_repaid' | 'paid_out'
   >
 > = ['delivered', 'accepted', 'rejected', 'paid_out', 'fully_repaid'] as const;
@@ -29,7 +29,7 @@ export const FLEX_LOAN_OFFER_STATES_ARRAY: Array<
 // We only support paid_out for now
 export const LINE_OF_CREDIT_OFFER_STATES_ARRAY: Array<
   Extract<
-    Stripe.Capital.FinancingOfferListParams.Status,
+    Stripe.Capital.FinancingOfferListParams['status'],
     'paid_out' | 'fully_repaid'
   >
 > = ['paid_out'] as const;

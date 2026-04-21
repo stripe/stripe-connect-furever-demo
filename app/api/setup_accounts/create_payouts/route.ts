@@ -12,9 +12,12 @@ export async function POST() {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccountId;
 
-    const balance = await stripe.balance.retrieve({
-      stripeAccount: accountId,
-    });
+    const balance = await stripe.balance.retrieve(
+      {},
+      {
+        stripeAccount: accountId,
+      }
+    );
 
     // Find the first balance currency that can be paid out
     const selectedBalance = balance.available.find(({amount}) => amount > 0);

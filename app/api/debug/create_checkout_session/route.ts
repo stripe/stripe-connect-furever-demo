@@ -50,9 +50,12 @@ export async function POST() {
     let tax_behavior: undefined | 'exclusive' = undefined;
 
     if (session?.user.stripeAccountId) {
-      const taxSettings = await stripe.tax.settings.retrieve({
-        stripeAccount: session?.user.stripeAccountId,
-      });
+      const taxSettings = await stripe.tax.settings.retrieve(
+        {},
+        {
+          stripeAccount: session?.user.stripeAccountId,
+        }
+      );
       automaticTaxEnabled = taxSettings.status === 'active';
       taxCode = taxSettings.defaults.tax_code
         ? taxSettings.defaults.tax_code

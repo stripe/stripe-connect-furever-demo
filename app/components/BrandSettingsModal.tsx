@@ -339,12 +339,12 @@ const BrandSettingsModal = () => {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/png"
               onChange={handleLogoSelect}
               className="hidden"
             />
             <p className="text-xs text-gray-500">
-              Upload an image file (max 512KB)
+              Upload a PNG image file (max 512KB)
             </p>
           </div>
         </div>

@@ -101,7 +101,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
   const formOfferState = form.watch('offerState');
 
   const offerStateToFormType: {
-    [key in OfferState]: TestmodeFinancingFormType | undefined;
+    [key in NonNullable<OfferState>]: TestmodeFinancingFormType | undefined;
   } = {
     no_offer: 'create',
     fully_repaid: 'create',
@@ -182,7 +182,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                           disabled={loading}
                         >
                           <SelectValue className="text-xs">
-                            {enumValueToSentenceCase(field.value)}
+                            {enumValueToSentenceCase(field.value ?? '')}
                           </SelectValue>
                         </SelectTrigger>
 
@@ -226,7 +226,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                           disabled={loading}
                         >
                           <SelectValue className="text-xs">
-                            {enumValueToSentenceCase(field.value)}
+                            {enumValueToSentenceCase(field.value ?? '')}
                           </SelectValue>
                         </SelectTrigger>
 
@@ -235,11 +235,11 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                             form.watch('financingOfferType')
                           ].map((productType) => (
                             <SelectItem
-                              value={productType}
+                              value={productType ?? ''}
                               key={productType}
                               className="z-[100] text-xs"
                             >
-                              {enumValueToSentenceCase(productType)}
+                              {enumValueToSentenceCase(productType ?? '')}
                             </SelectItem>
                           ))}
                         </SelectContent>

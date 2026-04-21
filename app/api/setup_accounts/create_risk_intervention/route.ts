@@ -3,8 +3,8 @@ import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 
-const merchantIssueResource = Stripe.StripeResource.extend({
-  create: Stripe.StripeResource.method({
+const merchantIssueResource = (Stripe.StripeResource as any).extend({
+  create: (Stripe.StripeResource as any).method({
     method: 'POST',
     path: '/test_helpers/demo/merchant_issue',
   }) as (...args: any[]) => Promise<Stripe.Response<object>>,
