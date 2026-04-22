@@ -14,7 +14,7 @@ export async function GET() {
 
     const connected_account = session.user.stripeAccountId;
 
-    return await stripe.capital.financingSummary
+    return await stripe.capital.financingSummaries
       .retrieve(
         {},
         {
@@ -22,13 +22,13 @@ export async function GET() {
           stripeAccount: connected_account,
         }
       )
-      .then((summary) => {
+      .then((summary: object) => {
         return new Response(JSON.stringify(summary), {
           status: 200,
           headers: {'Content-Type': 'application/json'},
         });
       })
-      .catch((reason) => {
+      .catch((reason: any) => {
         const message = reason?.['raw']?.['message'];
         if (
           message?.includes(

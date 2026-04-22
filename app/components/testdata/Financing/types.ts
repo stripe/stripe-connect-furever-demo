@@ -5,7 +5,7 @@ import {
 } from './constants';
 
 export type OfferState =
-  | Stripe.Capital.FinancingOfferListParams.Status
+  | NonNullable<Stripe.Capital.FinancingOfferListParams['status']>
   | 'no_offer';
 
 export type TestmodeFinancingForm = {
@@ -26,7 +26,7 @@ export type FlexLoanOfferStates = (typeof FLEX_LOAN_OFFER_STATES_ARRAY)[0];
 
 // Side by Side Offer States
 export const SIDE_BY_SIDE_OFFER_STATES_ARRAY: Array<
-  Extract<Stripe.Capital.FinancingOfferListParams.Status, 'delivered'>
+  Extract<NonNullable<Stripe.Capital.FinancingOfferListParams['status']>, 'delivered'>
 > = ['delivered'] as const;
 
 // Helpers

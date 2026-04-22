@@ -3,12 +3,12 @@ import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 
-const merchantIssueResource = Stripe.StripeResource.extend({
-  create: Stripe.StripeResource.method({
-    method: 'POST',
-    path: '/test_helpers/demo/merchant_issue',
-  }) as (...args: any[]) => Promise<Stripe.Response<object>>,
-});
+const StripeResourceBase = Stripe.StripeResource;
+class MerchantIssueResource extends StripeResourceBase {
+  create(params: Record<string, any>): Promise<Stripe.Response<object>> {
+    return this._makeRequest('POST', '/test_helpers/demo/merchant_issue', params, undefined);
+  }
+}
 
 /**
  * Generates test intervention for the logged-in salon. This is only used for testing purposes
@@ -18,7 +18,7 @@ export async function POST() {
     const session = await getServerSession(authOptions);
     const accountId = session?.user.stripeAccountId;
 
-    const interventionResource = new merchantIssueResource(stripe);
+    const interventionResource = new MerchantIssueResource(stripe);
     const interventionResponse = await interventionResource.create({
       account: accountId,
       issue_type: 'additional_info',
