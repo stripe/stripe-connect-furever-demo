@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
         {
           financing_type: 'flex_loan',
           max_premium_amount: 1000_00,
-          max_advance_amount: 100000_00,
+          max_advance_amount: 75000_00,
           max_withhold_rate_str: 0.15,
           multi_draw_details: {multi_draw_offer_type: 'line'},
           is_fixed_term: true,

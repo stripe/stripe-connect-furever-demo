@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       {
         connected_account: connected_account,
         country: 'US',
-        max_advance_amount: 100000_00,
+        max_advance_amount: 75000_00,
         max_premium_amount: 2000_00,
         max_withhold_rate_str: '0.15',
         accepted_advance_amount: 5000_00,
