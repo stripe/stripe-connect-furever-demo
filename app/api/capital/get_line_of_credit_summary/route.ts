@@ -14,7 +14,7 @@ export async function GET() {
 
     const connected_account = session.user.stripeAccountId;
 
-    return await stripe.capital.financingSummaries
+    return await stripe.capital.financingSummary
       .retrieve(
         {},
         {
