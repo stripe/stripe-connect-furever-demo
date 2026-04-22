@@ -22,13 +22,13 @@ export async function GET() {
           stripeAccount: connected_account,
         }
       )
-      .then((summary: object) => {
+      .then((summary) => {
         return new Response(JSON.stringify(summary), {
           status: 200,
           headers: {'Content-Type': 'application/json'},
         });
       })
-      .catch((reason: any) => {
+      .catch((reason) => {
         const message = reason?.['raw']?.['message'];
         if (
           message?.includes(
