@@ -9,7 +9,6 @@ import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -32,8 +31,10 @@ const BrandSettingsModal = () => {
   const [companyName, setCompanyName] = React.useState(
     settings.companyName || 'Furever'
   );
-  const [companyLogo, setCompanyLogo] = React.useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = React.useState<string | null>(
+  // Used for uploading the file
+  const [logoFileObject, setLogoFileObject] = React.useState<File | null>(null);
+  // Used for showing a preview of the selected logo before saving, or showing the existing logo from settings/session
+  const [logoFilePreview, setLogoFilePreview] = React.useState<string | null>(
     settings.companyLogoUrl || null
   );
 
@@ -45,8 +46,8 @@ const BrandSettingsModal = () => {
     if (isOpen) {
       setPrimaryColor(settings.primaryColor || defaultPrimaryColor);
       setCompanyName(settings.companyName || 'Furever');
-      setCompanyLogo(null);
-      setLogoPreview(settings.companyLogoUrl || null);
+      setLogoFileObject(null);
+      setLogoFilePreview(settings.companyLogoUrl || null);
     }
   }, [isOpen, settings]);
 
@@ -66,12 +67,13 @@ const BrandSettingsModal = () => {
       return;
     }
 
-    setCompanyLogo(file);
+    setLogoFileObject(file);
 
     // Create preview
     const reader = new FileReader();
     reader.onload = (e) => {
-      setLogoPreview(e.target?.result as string);
+      // At this point the file preview and file URL differ, because "save" is pending. Note the URL stored here is a base64, not a file link
+      setLogoFilePreview(e.target?.result as string);
     };
     reader.readAsDataURL(file);
   };
@@ -99,19 +101,7 @@ const BrandSettingsModal = () => {
         }),
       ];
 
-      // Add company logo request if there's a new logo to upload
-      if (companyLogo) {
-        const formData = new FormData();
-        formData.append('file', companyLogo);
-        requests.push(
-          fetch('/api/company_logo', {
-            method: 'POST',
-            body: formData,
-          })
-        );
-      }
-
-      // Execute all requests in parallel
+      // Run all non-logo requests in parallel
       const responses = await Promise.all(requests);
 
       // Check for errors in responses
@@ -121,11 +111,28 @@ const BrandSettingsModal = () => {
         }
       }
 
+      // Add company logo request if there's a new logo to upload
+      let newLogoUrl: string | undefined = undefined;
+      if (logoFileObject) {
+        const formData = new FormData();
+        formData.append('file', logoFileObject);
+        const response = await fetch('/api/company_logo', {
+          method: 'POST',
+          body: formData,
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Logo upload failed');
+        }
+        const body = await response.json();
+        newLogoUrl = body.companyLogoUrl;
+      }
+
       // Update settings context
       settings.handleUpdate({
         primaryColor,
         companyName: companyName.trim(),
-        companyLogoUrl: logoPreview || undefined,
+        companyLogoUrl: newLogoUrl,
       });
 
       // Update session
@@ -133,7 +140,7 @@ const BrandSettingsModal = () => {
         user: {
           ...session?.user,
           companyName: companyName.trim(),
-          companyLogoUrl: logoPreview || undefined,
+          companyLogoUrl: newLogoUrl,
           primaryColor: primaryColor,
         },
       });
@@ -159,8 +166,8 @@ const BrandSettingsModal = () => {
       });
 
       if (response.ok) {
-        setLogoPreview(null);
-        setCompanyLogo(null);
+        setLogoFileObject(null);
+        setLogoFilePreview(null);
 
         // Update settings context
         settings.handleUpdate({companyLogoUrl: undefined});
@@ -214,8 +221,8 @@ const BrandSettingsModal = () => {
       // Reset local state
       setPrimaryColor(defaultPrimaryColor);
       setCompanyName('Furever');
-      setCompanyLogo(null);
-      setLogoPreview(null);
+      setLogoFileObject(null);
+      setLogoFilePreview(null);
 
       // Update settings context
       settings.handleUpdate({
@@ -308,10 +315,10 @@ const BrandSettingsModal = () => {
           {/* Company Logo */}
           <div className="flex flex-col gap-y-2">
             <Label>Company logo</Label>
-            {logoPreview && (
+            {logoFilePreview && (
               <div className="group relative h-16 w-16 overflow-hidden rounded-lg bg-gray-100">
                 <Image
-                  src={logoPreview}
+                  src={logoFilePreview}
                   alt="Company Logo"
                   fill
                   className="object-cover"
