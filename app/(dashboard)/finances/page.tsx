@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import {useRouter} from 'next/navigation';
 import {
   ConnectCapitalFinancingPromotion,
   ConnectFinancialAccount,
@@ -108,6 +109,7 @@ function FinancialAccountSection() {
 }
 
 function CapitalFinancingSection() {
+  const router = useRouter();
   // Only show the financing offer if there is one to show
   const [showFinancingOffer, setShowFinancingOffer] = React.useState(false);
   const handleFinancingOfferLoaded = ({productType}: FinancingProductType) => {
@@ -131,6 +133,9 @@ function CapitalFinancingSection() {
         <ConnectCapitalFinancingPromotion
           onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
           layout={'banner'}
+          onApplicationSubmitted={() => {
+            router.push('/finances/financing');
+          }}
         />
       </EmbeddedComponentContainer>
     </Container>

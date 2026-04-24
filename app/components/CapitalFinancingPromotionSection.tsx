@@ -37,6 +37,9 @@ export function CapitalFinancingPromotionSection({
         <ConnectCapitalFinancingPromotion
           onEligibleFinancingOfferLoaded={handleFinancingOfferLoaded}
           layout={layout}
+          onApplicationSubmitted={() => {
+            window.location.reload();
+          }}
         />
       </EmbeddedComponentContainer>
     </Container>

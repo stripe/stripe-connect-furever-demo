@@ -26,16 +26,15 @@ import {TransitionFinancingButton} from './TransitionFinancingButton';
 import {Link} from '@/components/ui/link';
 import {ExternalLinkIcon} from '@radix-ui/react-icons';
 import {CapitalAccountLinkButton} from './CapitalAccountLinkButton';
+import {
+  useFinancingOfferFetchQuery,
+  useLineOfCreditSummaryFetchQuery,
+} from './financingQueryHooks';
 
 export default function ManageFinancing({classes}: {classes?: string}) {
-  const [loading, setLoading] = React.useState(true);
   const [offerState, setOfferState] = React.useState<OfferState | undefined>(
     undefined
   );
-
-  const [hasLineOfCreditFeature, setHasLineOfCreditFeature] =
-    React.useState(false);
-  const [hasLineOfCreditLine, setHasLineOfCreditLine] = React.useState(false);
 
   const form = useForm<TestmodeFinancingForm>({
     defaultValues: {
@@ -44,56 +43,35 @@ export default function ManageFinancing({classes}: {classes?: string}) {
     },
   });
 
-  React.useMemo(() => {
-    if (offerState === undefined) {
-      Promise.allSettled([
-        fetch('/api/capital/get_financing_offer', {
-          method: 'get',
-        }),
-        fetch('/api/capital/get_line_of_credit_summary', {
-          method: 'get',
-        }),
-      ])
-        .then(async ([offer, summary]) => {
-          if (summary.status === 'fulfilled') {
-            if (summary.value.ok) {
-              const summaryData = await summary.value.json();
-              setHasLineOfCreditFeature(true);
-              setHasLineOfCreditLine(summaryData.line_of_credit !== null);
-            } else {
-              const message = await summary.value.text();
-              if (
-                message.includes(
-                  'You do not have permission to pass this beta header'
-                )
-              ) {
-                setHasLineOfCreditFeature(false);
-                setHasLineOfCreditLine(false);
-              } else {
-                console.warn('An error occurred: ', message);
-              }
-            }
-          } else {
-            console.warn('An error occurred: ', summary.reason.message);
-          }
+  const {
+    isLoading: financingOfferLoading,
+    error: financingOfferError,
+    data: financingOffer,
+    refetch: refetchFinancingData,
+  } = useFinancingOfferFetchQuery();
 
-          if (offer.status === 'fulfilled') {
-            if (offer.value.ok) {
-              const status = (await offer.value.json()).offer?.status;
-              setOfferState(status || 'no_offer');
-            } else {
-              const message = await offer.value.text();
-              console.warn('An error occurred: ', message);
-            }
-          } else {
-            console.warn('An error occurred: ', offer.reason.message);
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+  const {
+    isLoading: lineOfCreditSummaryLoading,
+    error: lineOfCreditSummaryError,
+    data: lineOfCreditSummary,
+    refetch: refetchLineOfCreditSummary,
+  } = useLineOfCreditSummaryFetchQuery();
+
+  const queriesLoading = financingOfferLoading || lineOfCreditSummaryLoading;
+  const hasLineOfCreditFeature =
+    !lineOfCreditSummaryLoading && !lineOfCreditSummaryError;
+  const hasLineOfCreditLine =
+    !lineOfCreditSummaryLoading &&
+    !lineOfCreditSummaryError &&
+    lineOfCreditSummary?.line_of_credit !== null;
+
+  const offerStateRef = React.useRef<OfferState | undefined>(undefined);
+  if (!financingOfferLoading && !financingOfferError) {
+    offerStateRef.current = financingOffer?.offer?.status || 'no_offer';
+    if (offerStateRef.current != offerState) {
+      setOfferState(offerStateRef.current);
     }
-  }, [offerState]);
+  }
 
   const showCreateFinancingOfferForm = offerState && !hasLineOfCreditLine;
 
@@ -151,7 +129,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                     </div>
                   }
                   form={form}
-                  loading={loading}
+                  loading={queriesLoading}
                   render={({field}) => {
                     return (
                       <Select
@@ -179,7 +157,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                       >
                         <SelectTrigger
                           className="w-[120px] text-xs"
-                          disabled={loading}
+                          disabled={queriesLoading}
                         >
                           <SelectValue className="text-xs">
                             {enumValueToSentenceCase(field.value)}
@@ -211,7 +189,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                   name="offerState"
                   label="Offer State"
                   form={form}
-                  loading={loading}
+                  loading={queriesLoading}
                   render={({field}) => {
                     return (
                       <Select
@@ -223,7 +201,7 @@ export default function ManageFinancing({classes}: {classes?: string}) {
                       >
                         <SelectTrigger
                           className="w-[120px] text-xs"
-                          disabled={loading}
+                          disabled={queriesLoading}
                         >
                           <SelectValue className="text-xs">
                             {enumValueToSentenceCase(field.value)}

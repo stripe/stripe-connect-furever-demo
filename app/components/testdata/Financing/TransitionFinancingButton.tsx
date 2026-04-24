@@ -2,6 +2,7 @@ import {Button} from '@/components/ui/button';
 import {LoaderCircle} from 'lucide-react';
 import React from 'react';
 import {UseFormReturn} from 'react-hook-form';
+import {useMutation} from '@tanstack/react-query';
 
 export function TransitionFinancingButton({
   classes,
@@ -18,10 +19,8 @@ export function TransitionFinancingButton({
   fetchBody?: {};
   form?: UseFormReturn<any>;
 }) {
-  const [buttonLoading, setButtonLoading] = React.useState(false);
-  const onClick = async () => {
-    setButtonLoading(true);
-    try {
+  const {mutateAsync, isPending} = useMutation({
+    mutationFn: async () => {
       const res = await fetch(fetchUrl, {
         method,
         headers: {
@@ -29,15 +28,23 @@ export function TransitionFinancingButton({
         },
         body: JSON.stringify(fetchBody),
       });
-      setButtonLoading(false);
+      // Wait for 2 seconds to allow for side effects to complete
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       if (res.ok) {
-        window.location.reload();
+        return res.json();
+      } else {
+        throw new Error('Failed to transition financing', {
+          cause: res.text(),
+        });
       }
-    } catch (e) {
-      console.log(`Error attempting to \`${label}\`: `, e);
-      setButtonLoading(false);
-    }
+    },
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
+  const onClick = async () => {
+    await mutateAsync();
   };
 
   return (
@@ -45,11 +52,11 @@ export function TransitionFinancingButton({
       className={`${classes || 'border'}`}
       variant="secondary"
       onClick={form ? form.handleSubmit(onClick) : onClick}
-      disabled={buttonLoading}
+      disabled={isPending}
       size="sm"
     >
       {label}
-      {buttonLoading && (
+      {isPending && (
         <LoaderCircle className="ml-2 animate-spin items-center" size={20} />
       )}
     </Button>
