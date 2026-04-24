@@ -1,6 +1,7 @@
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/lib/auth';
 import {stripe} from '@/lib/stripe';
+import {getFinancingOffersList} from '../api_helpers';
 
 export async function POST() {
   try {
@@ -14,7 +15,7 @@ export async function POST() {
     const connected_account = session.user.stripeAccountId;
 
     const offer = (
-      await stripe.capital.financingOffers.list({
+      await getFinancingOffersList({
         connected_account: connected_account,
         limit: 1,
       })
