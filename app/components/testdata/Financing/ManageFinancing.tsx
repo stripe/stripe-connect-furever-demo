@@ -73,7 +73,6 @@ export default function ManageFinancing({classes}: {classes?: string}) {
     }
   }
 
-  const showCreateFinancingOfferForm = offerState && !hasLineOfCreditLine;
 
   const formFinancingOfferType = form.watch('financingOfferType');
   const formOfferState = form.watch('offerState');
@@ -98,6 +97,10 @@ export default function ManageFinancing({classes}: {classes?: string}) {
 
   const formType = offerStateToFormType[offerState || 'no_offer'];
   const createUrl = PRODUCT_TYPE_CREATE_URLS[formFinancingOfferType];
+
+    const showCreateFinancingOfferForm =
+      offerState && (formType === 'approve_reject' || !hasLineOfCreditLine);
+
 
   const supportedProductTypes = FINANCING_OFFER_PRODUCT_TYPES_ARRAY;
 
