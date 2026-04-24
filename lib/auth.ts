@@ -6,6 +6,27 @@ import {stripe} from '@/lib/stripe';
 import {resolveControllerParams} from './utils';
 import Stripe from 'stripe';
 
+type SalonDoc = {
+  _id: unknown;
+  email: string;
+  stripeAccountId?: string | null;
+  primaryColor?: string | null;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+};
+
+/** Fields merged into JWT `token.user` and used by the session callback after credentials sign-in. */
+function userPayloadFromSalon(user: SalonDoc, emailOverride?: string) {
+  return {
+    id: String(user._id),
+    email: emailOverride ?? user.email,
+    stripeAccountId: user.stripeAccountId,
+    primaryColor: user.primaryColor,
+    companyName: user.companyName,
+    companyLogoUrl: user.companyLogoUrl,
+  };
+}
+
 export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
@@ -91,11 +112,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        return {
-          id: user._id,
-          email: credentials?.email,
-          stripeAccountId: user.stripeAccountId,
-        };
+        return userPayloadFromSalon(user, credentials?.email);
       },
     }),
     CredentialsProvider({
@@ -130,11 +147,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        return {
-          id: user._id,
-          email: user.email,
-          stripeAccountId: user.stripeAccountId,
-        };
+        return userPayloadFromSalon(user);
       },
     }),
     CredentialsProvider({
@@ -187,11 +200,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        return {
-          id: user!._id,
-          email: user!.email,
-          stripeAccountId: user!.stripeAccountId,
-        };
+        return userPayloadFromSalon(user!);
       },
     }),
     CredentialsProvider({
