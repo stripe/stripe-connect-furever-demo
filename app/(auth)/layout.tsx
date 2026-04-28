@@ -42,7 +42,7 @@ export default function AuthLayout({
 
   return (
     <div
-      className={`min-h-screen ${hasCustomBrandingValues ? 'bg-screen-custom' : 'bg-paw-pattern bg-[size:426px]'} py-4 sm:py-16`}
+      className={`min-h-screen ${settings.theme === 'dark' ? 'bg-screen-background' : hasCustomBrandingValues ? 'bg-screen-custom' : 'bg-paw-pattern bg-[size:426px]'} py-4 transition-colors sm:py-16`}
     >
       <div className="mx-auto flex max-w-[450px] flex-col gap-6 p-3 sm:gap-6">
         <div className="mb-6 flex w-full justify-center">

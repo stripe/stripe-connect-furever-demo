@@ -1,10 +1,12 @@
 import Salon from '@/app/models/salon';
 import {authOptions} from '@/lib/auth';
+import dbConnect from '@/lib/dbConnect';
 import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 
 export async function POST(request: Request) {
   try {
+    await dbConnect();
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
@@ -71,6 +73,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    await dbConnect();
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
