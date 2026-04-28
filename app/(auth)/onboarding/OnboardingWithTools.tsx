@@ -5,6 +5,7 @@ import {
   ToolsPanelProvider,
   useToolsContext,
 } from '@/app/hooks/ToolsPanelProvider';
+import {OnboardingOptionsProvider} from '@/app/hooks/OnboardingOptionsProvider';
 import OnboardingToolsPanel from '@/app/components/OnboardingToolsPanel';
 import {Button} from '@/components/ui/button';
 import {Sparkles} from 'lucide-react';
@@ -48,7 +49,9 @@ export default function OnboardingWithTools({
   return (
     <EmbeddedComponentWrapper>
       <ToolsPanelProvider>
-        <OnboardingContent>{children}</OnboardingContent>
+        <OnboardingOptionsProvider>
+          <OnboardingContent>{children}</OnboardingContent>
+        </OnboardingOptionsProvider>
       </ToolsPanelProvider>
     </EmbeddedComponentWrapper>
   );
