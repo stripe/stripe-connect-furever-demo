@@ -17,7 +17,7 @@ function OnboardingContent({children}: {children: React.ReactNode}) {
     <>
       {/* Tools Panel - fixed bottom left popover */}
       <div
-        className={`${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 pointer-events-none'}
+        className={`${open ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'}
           fixed bottom-4 left-4 z-50 w-[320px] overflow-hidden rounded-xl border bg-screen-foreground shadow-lg transition duration-300 ease-in-out`}
       >
         <OnboardingToolsPanel />

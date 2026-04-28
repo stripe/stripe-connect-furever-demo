@@ -7,7 +7,10 @@ export type RequirementsMode = 'none' | 'exclude' | 'only';
 export const REQUIREMENT_OPTIONS = [
   {label: 'Business type', value: 'business_type'},
   {label: 'Business profile URL', value: 'business_profile.url'},
-  {label: 'Business profile description', value: 'business_profile.product_description'},
+  {
+    label: 'Business profile description',
+    value: 'business_profile.product_description',
+  },
   {label: 'External account', value: 'external_account'},
   {label: 'ToS acceptance', value: 'tos_acceptance.*'},
   {label: 'Representative (all)', value: 'representative.*'},
@@ -70,10 +73,7 @@ export const OnboardingOptionsProvider = ({
   const getCollectionOptions = useCallback(():
     | CollectionOptions
     | undefined => {
-    if (
-      requirementsMode === 'none' ||
-      selectedRequirements.length === 0
-    ) {
+    if (requirementsMode === 'none' || selectedRequirements.length === 0) {
       return undefined;
     }
 
