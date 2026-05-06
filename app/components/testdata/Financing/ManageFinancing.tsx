@@ -63,7 +63,10 @@ export default function ManageFinancing({classes}: {classes?: string}) {
   const hasLineOfCreditLine =
     !lineOfCreditSummaryLoading &&
     !lineOfCreditSummaryError &&
-    lineOfCreditSummary?.line_of_credit !== null;
+    // For some reason, line_of_credit isn't in the latest SDK...
+    // Despite it being in the doc site: https://docs.corp.stripe.com/api/capital/financing_summary_object#financing_summary_object-line_of_credit
+    lineOfCreditSummary &&
+    (lineOfCreditSummary as any)['line_of_credit'] !== null;
 
   const offerStateRef = React.useRef<OfferState | undefined>(undefined);
   if (!financingOfferLoading && !financingOfferError) {
