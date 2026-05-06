@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {useQuery} from '@tanstack/react-query';
+import {Stripe} from 'stripe';
 
 export const useFinancingOfferFetchQuery = () => {
   return useQuery({
@@ -21,7 +22,7 @@ export const useFinancingOfferFetchQuery = () => {
 };
 
 export const useLineOfCreditSummaryFetchQuery = () => {
-  return useQuery({
+  return useQuery<Stripe.Response<Stripe.Capital.FinancingSummary>>({
     queryKey: ['line-of-credit-summary'],
     queryFn: async () => {
       const response = await fetch('/api/capital/get_line_of_credit_summary', {
