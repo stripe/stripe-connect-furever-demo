@@ -129,9 +129,9 @@
     to-fast-properties "^2.0.0"
 
 "@emnapi/runtime@^1.1.1":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-1.5.0.tgz#9aebfcb9b17195dce3ab53c86787a6b7d058db73"
-  integrity sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-1.10.0.tgz#4b260c0d3534204e98c6110b8db1a987d26ec87c"
+  integrity sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA==
   dependencies:
     tslib "^2.4.0"
 
@@ -1209,12 +1209,12 @@
 
 "@stripe/connect-js@3.3.42-preview-1":
   version "3.3.42-preview-1"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.42-preview-1.tgz#58afabb0b01d00ce1f685cee3973f9f209a231c6"
+  resolved "https://registry.npmjs.org/@stripe/connect-js/-/connect-js-3.3.42-preview-1.tgz"
   integrity sha512-7nOVoV/BCV1OFeG099qGSFdDHwlMynZhSFiBylA6swkfMQS20puyKkEvct1TpVz7/cvzg45uSQntrHIlL4nq1g==
 
 "@stripe/react-connect-js@3.3.41-preview-1":
   version "3.3.41-preview-1"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.41-preview-1.tgz#0e9db07b57d6fcdc73b279dca5a44b5336a15099"
+  resolved "https://registry.npmjs.org/@stripe/react-connect-js/-/react-connect-js-3.3.41-preview-1.tgz"
   integrity sha512-+TsBSa+HYkJi1lNjFB0W3EgFAMpjAQ1kdEVuMfHzwWauX50qlaSQPpqgdobsjNqPF6AwJnoni80pEfW6WSaREQ==
 
 "@swc/helpers@0.5.2":
@@ -1325,16 +1325,9 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/node@*":
-  version "20.14.10"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.14.10.tgz"
-  integrity sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==
-  dependencies:
-    undici-types "~5.26.4"
-
-"@types/node@22.16.0":
+"@types/node@*", "@types/node@22.16.0":
   version "22.16.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.16.0.tgz#352bc4951fd089df32f2b6412a61d339b67ded8b"
+  resolved "https://registry.npmjs.org/@types/node/-/node-22.16.0.tgz"
   integrity sha512-B2egV9wALML1JCpv3VQoQ+yesQKAmNMBIAY7OteVrikcOcAkWm+dGL6qpeCktPjAv6N1JLnhbNiqS35UpFyBsQ==
   dependencies:
     undici-types "~6.21.0"
@@ -4615,10 +4608,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@21.1.0-alpha.2:
-  version "21.1.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-21.1.0-alpha.2.tgz#d9fe8dfd817aa84b21b6b2f3ce734e4f4a8165c0"
-  integrity sha512-k5iR+3Ox/ingDhwJzaOf2l43au5XhzU0RJ/sKEVarY1WIeewrUaGukqahfHBXjA7keIDB97Mtna5hWRuYc+Cxw==
+stripe@^22.3.0-alpha.2:
+  version "22.3.0-alpha.2"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-22.3.0-alpha.2.tgz"
+  integrity sha512-uzH5gAOvs9CK7WXhzl9mL6wJdMKYm2hH5WeIK+B1UVRwne3joT9SfgehspWe4iDBylHx3bw0lcAILxFHq7qy7Q==
 
 styled-jsx@5.1.1:
   version "5.1.1"
@@ -4851,14 +4844,9 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
-undici-types@~5.26.4:
-  version "5.26.5"
-  resolved "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz"
-  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
-
 undici-types@~6.21.0:
   version "6.21.0"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.21.0.tgz#691d00af3909be93a7faa13be61b3a5b50ef12cb"
+  resolved "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz"
   integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
 
 update-browserslist-db@^1.1.0:
