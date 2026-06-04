@@ -22,14 +22,14 @@ export async function GET() {
           stripeAccount: connected_account,
         }
       )
-      .then((summary: any) => {
+      .then((summary) => {
         return new Response(JSON.stringify(summary), {
           status: 200,
           headers: {'Content-Type': 'application/json'},
         });
       })
-      .catch((reason: any) => {
-        const message = reason?.['raw']?.['message'];
+      .catch((error) => {
+        const message = error?.['raw']?.['message'];
         if (
           message?.includes(
             'You do not have permission to pass this beta header'
@@ -45,7 +45,7 @@ export async function GET() {
             }
           );
         } else {
-          return new Response(JSON.stringify(reason), {
+          return new Response(JSON.stringify(error), {
             status: 500,
             headers: {'Content-Type': 'application/json'},
           });
