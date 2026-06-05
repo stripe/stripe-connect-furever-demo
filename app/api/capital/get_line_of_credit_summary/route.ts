@@ -18,7 +18,7 @@ export async function GET() {
       .retrieve(
         {},
         {
-          apiVersion: '2026-05-27.dahlia; capital_line_of_credit_preview=v1',
+          apiVersion: '2026-06-03.preview; capital_line_of_credit_preview=v1',
           stripeAccount: connected_account,
         }
       )
