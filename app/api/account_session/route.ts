@@ -130,6 +130,9 @@ export async function POST(req: NextRequest) {
           // Preview components - only enabled if the environment variable is set
           ...(hasPreviewComponents
             ? {
+                product_tax_code_selector: {
+                  enabled: true,
+                },
                 payment_method_settings: {enabled: true},
                 capital_financing_promotion: {
                   enabled: true,
