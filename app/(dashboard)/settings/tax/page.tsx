@@ -7,6 +7,7 @@ import {
   ConnectTaxRegistrations,
   ConnectTaxThresholdMonitoring,
   ConnectExportTaxTransactions,
+  ConnectProductTaxCodeSelector,
 } from '@stripe/react-connect-js';
 import {arePreviewComponentsEnabled} from '../../utils/arePreviewComponentsEnabled';
 
@@ -34,6 +35,26 @@ export default function Tax() {
       </Container>
       {arePreviewComponentsEnabled && (
         <>
+          <Container>
+            <h1 className="text-xl font-semibold">Product tax code</h1>
+            <p className="text-subdued">
+              Assign a tax code to your &ldquo;Wash and groom&rdquo; service so
+              Stripe Tax calculates the correct tax on each booking.
+            </p>
+            <EmbeddedComponentContainer
+              componentName="ProductTaxCodeSelector"
+              isPreviewComponent
+            >
+              <ConnectProductTaxCodeSelector
+                initialTaxCode="txcd_20030003"
+                onTaxCodeSelect={(id) => {
+                  // Persist the selected tax code against the "Wash and groom"
+                  // product/service in your catalog.
+                  console.log('Selected tax code for Wash and groom:', id);
+                }}
+              />
+            </EmbeddedComponentContainer>
+          </Container>
           <Container>
             <h1 className="text-xl font-semibold">Threshold Monitoring</h1>
             <p className="text-subdued">
