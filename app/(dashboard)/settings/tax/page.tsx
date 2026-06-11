@@ -48,8 +48,7 @@ export default function Tax() {
               <ConnectProductTaxCodeSelector
                 initialTaxCode="txcd_20030003"
                 onTaxCodeSelect={(id) => {
-                  // Persist the selected tax code against the "Wash and groom"
-                  // product/service in your catalog.
+                  // Normally we'd update the tax code here via an API. However since this is a demo implementation, we simply log to console
                   console.log('Selected tax code for Wash and groom:', id);
                 }}
               />
