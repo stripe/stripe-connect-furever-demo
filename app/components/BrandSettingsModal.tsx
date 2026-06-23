@@ -176,7 +176,7 @@ const BrandSettingsModal = () => {
         await update({
           user: {
             ...session?.user,
-            companyLogoUrl: undefined,
+            companyLogoUrl: null,
           },
         });
       } else {
@@ -236,7 +236,7 @@ const BrandSettingsModal = () => {
         user: {
           ...session?.user,
           companyName: 'Furever',
-          companyLogoUrl: undefined,
+          companyLogoUrl: null,
           primaryColor: defaultPrimaryColor,
         },
       });

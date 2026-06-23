@@ -65,7 +65,10 @@ export const authOptions: AuthOptions = {
         if (session?.user.companyName) {
           token.user.companyName = session.user.companyName;
         }
-        if (session?.user.companyLogoUrl) {
+        if (
+          session?.user.companyLogoUrl ||
+          session?.user.companyLogoUrl === null
+        ) {
           token.user.companyLogoUrl = session.user.companyLogoUrl;
         }
         if (session?.user.setup) {
