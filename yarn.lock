@@ -4608,10 +4608,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@^22.3.0-alpha.2:
-  version "22.3.0-alpha.2"
-  resolved "https://registry.npmjs.org/stripe/-/stripe-22.3.0-alpha.2.tgz"
-  integrity sha512-uzH5gAOvs9CK7WXhzl9mL6wJdMKYm2hH5WeIK+B1UVRwne3joT9SfgehspWe4iDBylHx3bw0lcAILxFHq7qy7Q==
+stripe@22.4.0-beta.1:
+  version "22.4.0-beta.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-22.4.0-beta.1.tgz#a85e0c4ef4a9550fdf65c59cb9df2d6bb7c01813"
+  integrity sha512-tuV9BlNQhEpxscZpADb8VavhM5lONFk3qZ5CbbnVe5H8VISIzhUbKTGX7qeZAmWXVeoiavHizEOhWyKnyGgZ+g==
 
 styled-jsx@5.1.1:
   version "5.1.1"

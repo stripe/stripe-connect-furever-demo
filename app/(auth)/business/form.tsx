@@ -296,13 +296,14 @@ export default function BusinessDetailsForm({email}: {email: string}) {
     ) {
       form.setValue('paymentLosses', 'stripe');
       form.setValue('feePayer', 'account');
-    } else if (
-      form.getValues('stripeDashboardType') === 'express' &&
-      (form.getValues('paymentLosses') !== 'application' ||
-        form.getValues('feePayer') !== 'application')
-    ) {
-      form.setValue('paymentLosses', 'application');
-      form.setValue('feePayer', 'application');
+    } else if (form.getValues('stripeDashboardType') === 'express') {
+      // Only invalid combo for express: application losses + account fee payer
+      if (
+        form.getValues('paymentLosses') === 'application' &&
+        form.getValues('feePayer') === 'account'
+      ) {
+        form.setValue('feePayer', 'application');
+      }
     } else {
       if (
         form.getValues('paymentLosses') === 'application' &&
@@ -334,11 +335,10 @@ export default function BusinessDetailsForm({email}: {email: string}) {
 
   const formValues = form.getValues();
   const validPaymentLosses = paymentLosses.filter((option) => {
-    if (option === 'application') {
-      return formValues.stripeDashboardType !== 'full';
-    } else if (option === 'stripe') {
-      return formValues.stripeDashboardType !== 'express';
-    }
+    // Full dashboard accounts require Stripe to own negative balance liability.
+    return (
+      option !== 'application' || formValues.stripeDashboardType !== 'full'
+    );
   });
   const validFeePayers = feePayers.filter((option) => {
     if (option === 'application') {
@@ -346,7 +346,8 @@ export default function BusinessDetailsForm({email}: {email: string}) {
     } else if (option === 'account') {
       return (
         formValues.stripeDashboardType === 'full' ||
-        (formValues.stripeDashboardType === 'none' &&
+        ((formValues.stripeDashboardType === 'none' ||
+          formValues.stripeDashboardType === 'express') &&
           formValues.paymentLosses === 'stripe')
       );
     }
