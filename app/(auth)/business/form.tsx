@@ -454,14 +454,14 @@ export default function BusinessDetailsForm({email}: {email: string}) {
 
           <Collapsible open={showMoreOptions}>
             <p className="text-secondary">
-              These options allow you to configure your connected account&apos;s
-              controller properties.{' '}
+              Choose who pays Stripe fees, who covers negative balances, and
+              what Dashboard access this connected account has.{' '}
               <a
                 className="font-medium text-accent hover:underline"
                 target="blank"
                 href="https://docs.stripe.com/connect/design-an-integration"
               >
-                Learn more
+                View docs
               </a>
             </p>
             <div>
