@@ -7,7 +7,10 @@ import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContai
 export default function BalanceReport() {
   return (
     <Container>
-      <EmbeddedComponentContainer componentName="BalanceReport" isPreviewComponent>
+      <EmbeddedComponentContainer
+        componentName="BalanceReport"
+        isPreviewComponent
+      >
         <ConnectBalanceReport />
       </EmbeddedComponentContainer>
     </Container>
