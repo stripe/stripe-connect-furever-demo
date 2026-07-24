@@ -1207,15 +1207,15 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
 
-"@stripe/connect-js@3.3.42-preview-1":
-  version "3.3.42-preview-1"
-  resolved "https://registry.npmjs.org/@stripe/connect-js/-/connect-js-3.3.42-preview-1.tgz"
-  integrity sha512-7nOVoV/BCV1OFeG099qGSFdDHwlMynZhSFiBylA6swkfMQS20puyKkEvct1TpVz7/cvzg45uSQntrHIlL4nq1g==
+"@stripe/connect-js@3.4.4-preview-1":
+  version "3.4.4-preview-1"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.4.4-preview-1.tgz#21e92d2a9665a3eb196fe98be0c3ec45a0463287"
+  integrity sha512-LGrc5HlAHUx8Ggz0JvNgzGdHv4IxeSujQmnpjYh3fpL8LPEHzgXV+a9X+5h/o9zW7dA7umgrTv6AwhcbPWEVMg==
 
-"@stripe/react-connect-js@3.3.41-preview-1":
-  version "3.3.41-preview-1"
-  resolved "https://registry.npmjs.org/@stripe/react-connect-js/-/react-connect-js-3.3.41-preview-1.tgz"
-  integrity sha512-+TsBSa+HYkJi1lNjFB0W3EgFAMpjAQ1kdEVuMfHzwWauX50qlaSQPpqgdobsjNqPF6AwJnoni80pEfW6WSaREQ==
+"@stripe/react-connect-js@3.4.3-preview-1":
+  version "3.4.3-preview-1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.4.3-preview-1.tgz#ecc83aab7f094541785130d75e73492665bdca56"
+  integrity sha512-S66GoIIIhE1CXrO2BRplJdOr5pgkZDoAErDrC4MmwPCHq0Ux1fKT4Zlk88bBZpllcqUG7vYgI+I4h23pHYE2xg==
 
 "@swc/helpers@0.5.2":
   version "0.5.2"

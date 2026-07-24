@@ -13,6 +13,7 @@ import {
   Settings as SettingsIcon,
   Sparkles as SparklesIcon,
   Menu as MenuIcon,
+  BarChart2 as ReportsIcon,
 } from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import FureverLogo from '@/public/furever_logo.png';
@@ -50,6 +51,13 @@ const navigationMenuItems = [
     href: '/payouts',
     icon: CoinsIcon,
     paths: [],
+  },
+  {
+    label: 'Reports',
+    href: '/reports',
+    icon: ReportsIcon,
+    paths: ['/reports/reconciliation'],
+    shouldDisplayFilter: () => arePreviewComponentsEnabled,
   },
   {
     label: 'Finances',
