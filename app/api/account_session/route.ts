@@ -100,6 +100,12 @@ export async function POST(req: NextRequest) {
               disable_stripe_user_authentication: isCustom,
             },
           },
+          balance_report: {
+            enabled: true,
+          },
+          payout_reconciliation_report: {
+            enabled: true,
+          },
           // Connect
           account_management: {
             enabled: true,

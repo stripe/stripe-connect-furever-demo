@@ -56,8 +56,7 @@ const navigationMenuItems = [
     label: 'Reports',
     href: '/reports',
     icon: ReportsIcon,
-    paths: ['/reports/reconciliation'],
-    shouldDisplayFilter: () => arePreviewComponentsEnabled,
+    paths: [],
   },
   {
     label: 'Finances',

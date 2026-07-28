@@ -20,8 +20,10 @@ The user will then onboard with Stripe via embedded onboarding. Thereafter, Conn
 FurEver makes use of the following [Connect embedded components](https://docs.stripe.com/connect/supported-embedded-components):
 
 - `<ConnectOnboarding />` enables an embedded onboarding experience without redirecting users to Stripe hosted onboarding.
+- `<ConnectBalanceReport />` provides a downloadable financial report of balance activity.
 - `<ConnectPayments />` provides a list to display Stripe payments, refunds, and disputes. This also includes handling list filtering, pagination, and CSV exports.
 - `<ConnectPayouts />` provides a list to display Stripe payouts and balance. This also includes handling list filtering, pagination, and CSV exports.
+- `<ConnectPayoutReconciliationReport />` provides a downloadable report for reconciling payouts.
 - `<ConnectAccountManagement />` allows users to edit their Stripe account settings without navigating to the Stripe dashboard.
 - `<ConnectNotificationBanner />` displays a list of current and future risk requirements an account needs to resolve.
 - `<ConnectDocuments />` displays a list of tax invoice documents.
