@@ -16,17 +16,35 @@ export default function Reports() {
       </header>
       <Tabs defaultValue="balance">
         <TabsList>
-          <TabsTrigger value="balance" className="data-[state=active]:text-primary">Balance summary</TabsTrigger>
-          <TabsTrigger value="payouts" className="data-[state=active]:text-primary">Payout reconciliation</TabsTrigger>
+          <TabsTrigger
+            value="balance"
+            className="data-[state=active]:text-primary"
+          >
+            Balance summary
+          </TabsTrigger>
+          <TabsTrigger
+            value="payouts"
+            className="data-[state=active]:text-primary"
+          >
+            Payout reconciliation
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="balance">
+        <TabsContent
+          value="balance"
+          forceMount
+          className="data-[state=inactive]:hidden"
+        >
           <Container>
             <EmbeddedComponentContainer componentName="BalanceReport">
               <ConnectBalanceReport />
             </EmbeddedComponentContainer>
           </Container>
         </TabsContent>
-        <TabsContent value="payouts">
+        <TabsContent
+          value="payouts"
+          forceMount
+          className="data-[state=inactive]:hidden"
+        >
           <Container>
             <EmbeddedComponentContainer componentName="PayoutReconciliationReport">
               <ConnectPayoutReconciliationReport />
