@@ -6,6 +6,7 @@ import {
 } from '@stripe/react-connect-js';
 import Container from '@/app/components/Container';
 import EmbeddedComponentContainer from '@/app/components/EmbeddedComponentContainer';
+import {Tabs, TabsList, TabsTrigger, TabsContent} from '@/components/ui/tabs';
 
 export default function Reports() {
   return (
@@ -13,18 +14,26 @@ export default function Reports() {
       <header className="flex flex-col justify-between md:flex-row">
         <h1 className="text-3xl font-bold">Reports</h1>
       </header>
-      <Container>
-        <h2 className="text-xl font-bold">Balance summary report</h2>
-        <EmbeddedComponentContainer componentName="BalanceReport">
-          <ConnectBalanceReport />
-        </EmbeddedComponentContainer>
-      </Container>
-      <Container>
-        <h2 className="text-xl font-bold">Payout reconciliation report</h2>
-        <EmbeddedComponentContainer componentName="PayoutReconciliationReport">
-          <ConnectPayoutReconciliationReport />
-        </EmbeddedComponentContainer>
-      </Container>
+      <Tabs defaultValue="balance">
+        <TabsList>
+          <TabsTrigger value="balance" className="data-[state=active]:text-primary">Balance summary</TabsTrigger>
+          <TabsTrigger value="payouts" className="data-[state=active]:text-primary">Payout reconciliation</TabsTrigger>
+        </TabsList>
+        <TabsContent value="balance">
+          <Container>
+            <EmbeddedComponentContainer componentName="BalanceReport">
+              <ConnectBalanceReport />
+            </EmbeddedComponentContainer>
+          </Container>
+        </TabsContent>
+        <TabsContent value="payouts">
+          <Container>
+            <EmbeddedComponentContainer componentName="PayoutReconciliationReport">
+              <ConnectPayoutReconciliationReport />
+            </EmbeddedComponentContainer>
+          </Container>
+        </TabsContent>
+      </Tabs>
     </>
   );
 }
