@@ -23,6 +23,8 @@ const EmbeddedComponentContainer = ({
         'https://docs.stripe.com/connect/supported-embedded-components/account-onboarding',
       Balances:
         'https://docs.stripe.com/connect/supported-embedded-components/balances',
+      BalanceReport:
+        'https://docs.stripe.com/connect/supported-embedded-components/balance-report',
       CapitalFinancingPromotion:
         'https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion',
       CapitalFinancingApplication:
@@ -47,6 +49,8 @@ const EmbeddedComponentContainer = ({
         'https://docs.stripe.com/connect/supported-embedded-components/payments',
       Payouts:
         'https://docs.stripe.com/connect/supported-embedded-components/payouts',
+      PayoutReconciliationReport:
+        'https://docs.stripe.com/connect/supported-embedded-components/payout-reconciliation-report',
       PayoutsList:
         'https://docs.stripe.com/connect/supported-embedded-components/payouts-list',
       PaymentMethodSettings:
