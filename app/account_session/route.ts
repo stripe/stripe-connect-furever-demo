@@ -2,15 +2,7 @@ import {type NextRequest, NextResponse} from 'next/server';
 import {createMobileConnectAccountSession} from '@/lib/mobileConnectDemo';
 
 export async function POST(request: NextRequest) {
-  const account =
-    request.headers.get('account') || process.env.DEFAULT_CONNECTED_ACCOUNT;
-
-  if (!account) {
-    return NextResponse.json(
-      {error: 'An account header or DEFAULT_CONNECTED_ACCOUNT is required.'},
-      {status: 400}
-    );
-  }
+  const account = request.headers.get('account') || 'acct_1N9FIXQ26HdRlxHg';
 
   if (!account.startsWith('acct_')) {
     return NextResponse.json(

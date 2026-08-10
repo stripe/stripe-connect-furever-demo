@@ -73,9 +73,7 @@ export async function GET() {
   try {
     assertTestMode();
 
-    const publishableKey =
-      process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ||
-      process.env.STRIPE_PUBLISHABLE_KEY;
+    const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
 
     if (!publishableKey?.startsWith('pk_test_')) {
       throw new Error(
