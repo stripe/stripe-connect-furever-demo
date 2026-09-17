@@ -111,7 +111,7 @@ const createPaymentIntentForNonCardPayments = async (
           statement_descriptor: 'FurEver',
           confirmation_method: 'manual',
           confirm: true,
-          payment_method_types: ['us_bank_account'],
+          allowed_payment_method_types: ['us_bank_account'],
           mandate_data: {
             customer_acceptance: {
               type: 'offline',
@@ -161,7 +161,7 @@ const createPaymentIntentForNonCardPayments = async (
           statement_descriptor: 'FurEver',
           confirmation_method: 'manual',
           confirm: true,
-          payment_method_types: ['sepa_debit'],
+          allowed_payment_method_types: ['sepa_debit'],
           mandate_data: {
             customer_acceptance: {
               type: 'offline',
@@ -234,7 +234,7 @@ export async function POST(req: NextRequest) {
                 amount: metadata.amount,
                 currency: metadata.currency,
                 payment_method: getPaymentMethod(status),
-                payment_method_types: ['card'],
+                allowed_payment_method_types: ['card'],
                 description,
                 customer: metadata.customerId,
                 statement_descriptor: 'FurEver',
