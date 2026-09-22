@@ -692,20 +692,10 @@ def ensure_financial_account(account):
 
     log.info(f"Checking for financial account for {account.id}")
 
-    financial_accounts = list(
-        stripe.treasury.FinancialAccount.list(
-            stripe_account=account.id
-        ).auto_paging_iter()
+    financial_accounts = stripe.treasury.FinancialAccount.list(
+        stripe_account=account.id
     )
     if financial_accounts:
-        for financial_account in financial_accounts:
-            if not financial_account.display_name:
-                log.info(f"Naming financial account {financial_account.id}")
-                stripe.treasury.FinancialAccount.modify(
-                    financial_account.id,
-                    display_name=DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
-                    stripe_account=account.id,
-                )
         return
 
     log.info(f"Creating financial account for {account.id}")

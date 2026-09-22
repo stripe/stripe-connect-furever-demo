@@ -31,8 +31,7 @@ export async function POST(req: NextRequest) {
         }
       );
 
-      const financialAccount = financialAccounts.data[0];
-      if (!financialAccount) {
+      if (financialAccounts.data.length === 0) {
         await stripe.treasury.financialAccounts.create(
           {
             display_name: DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
@@ -53,12 +52,6 @@ export async function POST(req: NextRequest) {
               },
             },
           },
-          {stripeAccount: accountId}
-        );
-      } else if (!financialAccount.display_name) {
-        await stripe.treasury.financialAccounts.update(
-          financialAccount.id,
-          {display_name: DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME},
           {stripeAccount: accountId}
         );
       }
