@@ -14,6 +14,7 @@ import stripe
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONNECTED_ACCOUNT_COUNT = 84
 DEMO_ONBOARDING_COUNTRIES = ["US", "FR", "SG", "HK"]
+DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME = "FurEver balance"
 
 file_handler = logging.StreamHandler()
 file_handler.addFilter(logging.Filter(name=__name__))
@@ -691,16 +692,27 @@ def ensure_financial_account(account):
 
     log.info(f"Checking for financial account for {account.id}")
 
-    financial_accounts = stripe.treasury.FinancialAccount.list(
-        stripe_account=account.id
+    financial_accounts = list(
+        stripe.treasury.FinancialAccount.list(
+            stripe_account=account.id
+        ).auto_paging_iter()
     )
     if financial_accounts:
+        for financial_account in financial_accounts:
+            if not financial_account.display_name:
+                log.info(f"Naming financial account {financial_account.id}")
+                stripe.treasury.FinancialAccount.modify(
+                    financial_account.id,
+                    display_name=DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
+                    stripe_account=account.id,
+                )
         return
 
     log.info(f"Creating financial account for {account.id}")
 
     # Create a financial account
     stripe.treasury.FinancialAccount.create(
+        display_name=DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
         supported_currencies=["usd"],
         features={
             "card_issuing": {"requested": True},
