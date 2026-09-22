@@ -3,8 +3,6 @@ import {stripe} from '@/lib/stripe';
 import {getServerSession} from 'next-auth';
 import {NextRequest} from 'next/server';
 
-const DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME = 'FurEver balance';
-
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -16,7 +14,7 @@ export async function POST(req: NextRequest) {
   const {capabilities} = json;
 
   try {
-    await stripe.accounts.update(accountId, {
+    const account = await stripe.accounts.update(accountId, {
       capabilities,
     });
 
@@ -32,9 +30,10 @@ export async function POST(req: NextRequest) {
       );
 
       if (financialAccounts.data.length === 0) {
+        const businessName = account.business_profile?.name ?? 'FurEver';
         await stripe.treasury.financialAccounts.create(
           {
-            display_name: DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
+            display_name: `${businessName} financial account`,
             supported_currencies: ['usd'],
             features: {
               card_issuing: {requested: true},

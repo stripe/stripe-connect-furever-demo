@@ -14,7 +14,6 @@ import stripe
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONNECTED_ACCOUNT_COUNT = 84
 DEMO_ONBOARDING_COUNTRIES = ["US", "FR", "SG", "HK"]
-DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME = "FurEver balance"
 
 file_handler = logging.StreamHandler()
 file_handler.addFilter(logging.Filter(name=__name__))
@@ -702,7 +701,7 @@ def ensure_financial_account(account):
 
     # Create a financial account
     stripe.treasury.FinancialAccount.create(
-        display_name=DEMO_FINANCIAL_ACCOUNT_DISPLAY_NAME,
+        display_name=f"{account.business_profile.name or 'FurEver'} financial account",
         supported_currencies=["usd"],
         features={
             "card_issuing": {"requested": True},
