@@ -1207,15 +1207,15 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
 
-"@stripe/connect-js@3.4.9-preview.1":
-  version "3.4.9-preview.1"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.4.9-preview.1.tgz#34f3b588f5e802a2ba2646a4d1ba4ace25aa6880"
-  integrity sha512-JxjSoCSVBgA68Yqod7AxMUMh/lEwAT4LkijkrtKMc8EQ6nhaWMhcV/Nqx6Ld6I84QV10pGWV7TCSKan7DUyu2g==
+"@stripe/connect-js@3.4.6":
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.4.6.tgz#03bf1fbb812226015f8e2c1f103f6082149dc5a8"
+  integrity sha512-fuC/U/ONDBMKwTBxKAnEBQH+m0x+Tze62/bV1ZDLT7oRnsJgddEnRi7FzdwIxz9pmFZhOJpSaikLIBw9g/1o1w==
 
-"@stripe/react-connect-js@3.4.9-preview.1":
-  version "3.4.9-preview.1"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.4.9-preview.1.tgz#9992d82abc578ae489761c7b7507196f18ad2736"
-  integrity sha512-4n9b26vi2ET1IG8PQlwBXfNfOpGDn/nyZG3z+gwYrD+tXLS2TeSUW5Wr2j92hmCxkO3ftaKL2OuRjlsh1Bvniw==
+"@stripe/react-connect-js@3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.4.4.tgz#44dd27d6515db83878fff27c29cf4779663300db"
+  integrity sha512-LUtVcGwnkOU9SO1t6j/kAhc89tMCPpFzXz+LU+fhJkOVSDFy8lnidd+t0vNmkVvVU3o8wNVvWgUMxRHL/d1QhQ==
 
 "@swc/helpers@0.5.2":
   version "0.5.2"
@@ -4608,10 +4608,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@22.7.0-beta.1:
-  version "22.7.0-beta.1"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-22.7.0-beta.1.tgz#862bd0e7f8d2174493642a48018600b289aa327e"
-  integrity sha512-X0vcVi/i0Z2LqZWEa1rVJ3I8YwIkQrOFuMShQOz+nPhEcy0qBk7FjfeJcnw3sfDFBCVSD6RfqihlHnIgy6O3EQ==
+stripe@22.6.2:
+  version "22.6.2"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-22.6.2.tgz#e2acadf999b88a277e2c555d9008ac029b4f91e9"
+  integrity sha512-PwRE2scocvXqDKPiskMa5vRJEAEkq46W69XyUYmAwrNSLr675lQnfqLwnsndAWizwgihOWw/irLmoFRo3ez7ew==
 
 styled-jsx@5.1.1:
   version "5.1.1"
