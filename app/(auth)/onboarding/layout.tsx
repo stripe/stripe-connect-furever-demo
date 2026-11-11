@@ -1,14 +1,14 @@
 import AuthenticatedRoute from '@/app/components/AuthenticatedRoute';
-import {EmbeddedComponentWrapper} from '@/app/hooks/EmbeddedComponentWrapper';
+import OnboardingWithTools from './OnboardingWithTools';
 
-export default function DashboardLayout({
+export default function OnboardingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <AuthenticatedRoute>
-      <EmbeddedComponentWrapper>{children}</EmbeddedComponentWrapper>
+      <OnboardingWithTools>{children}</OnboardingWithTools>
     </AuthenticatedRoute>
   );
 }
