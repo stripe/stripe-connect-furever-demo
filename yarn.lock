@@ -1207,15 +1207,15 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
 
-"@stripe/connect-js@3.4.10-preview.0":
-  version "3.4.10-preview.0"
-  resolved "https://registry.npmjs.org/@stripe/connect-js/-/connect-js-3.4.10-preview.0.tgz#a9afe1a65e0b2c40657159e47f6e1b23a6a2f7b0"
-  integrity sha512-7q+n8RwpDBJcz9YWrTGzXfPvfFvgIDy2vgbK2MW6w3QlU7QB1sznv4/qXYGf70QfSBgNCPa+xSGMpOAEOTC7xw==
+"@stripe/connect-js@3.4.11-preview.0":
+  version "3.4.11-preview.0"
+  resolved "https://registry.npmjs.org/@stripe/connect-js/-/connect-js-3.4.11-preview.0.tgz#2bb2989573707fbdfbf58b12b8532c9971db9a86"
+  integrity sha512-zBjRun6tnbCwbfQqStmRl9C4G1hkjmhJJJEwNGyJYEKJ+9yJ5LWpW0bjizQtv+DmaH4qPJHskMDo+hwpnufxQw==
 
-"@stripe/react-connect-js@3.4.10-preview.0":
-  version "3.4.10-preview.0"
-  resolved "https://registry.npmjs.org/@stripe/react-connect-js/-/react-connect-js-3.4.10-preview.0.tgz#23763a8dfcd4d6cc09afcb175e8cf4ba2b29eb94"
-  integrity sha512-VIxhYTGLZLgraadynYfxVnCEEVWOQJ0dFCf1CPbhRecuQxLoM3iL+gR/Ud8ZcZUy1cblPvEUScvkAdRtbKxfzw==
+"@stripe/react-connect-js@3.4.11-preview.0":
+  version "3.4.11-preview.0"
+  resolved "https://registry.npmjs.org/@stripe/react-connect-js/-/react-connect-js-3.4.11-preview.0.tgz#d09c8eac6990d2c28af1081f519428f1b7e69eae"
+  integrity sha512-DcF1jdt6CPt/0DtskzY6W3Q82w/PwndxNBTCACI9IzzpoX6DnYGnQPscgNLC899VTT6lDcg0rurnpyyGWDTXKA==
 
 "@swc/helpers@0.5.2":
   version "0.5.2"
@@ -4608,10 +4608,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@23.2.0-beta.1:
-  version "23.2.0-beta.1"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-23.2.0-beta.1.tgz#8a6ebbbf0058fa4f62055d11ac1a4115fe9828f0"
-  integrity sha512-fmpQfIL7Eld+bzknbSvJ6BFahCIDd0cRPzD16AZlo4qheQBYJjXLfoFEAWRWQDPTQlvO0PFbpYC3BkzqH0c+aw==
+stripe@23.3.0-beta.1:
+  version "23.3.0-beta.1"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-23.3.0-beta.1.tgz#a5ae119b8ce7080736bcb696393e2f43165b7025"
+  integrity sha512-4zAaMkVr/P4XJAFarPbJB/Qoxbi5Yq0SIqYNcaa4tt2baDcSFD70rTlsA7j3pBhjY4ajv8Sgnb8QxSwY1nkHLA==
 
 styled-jsx@5.1.1:
   version "5.1.1"
